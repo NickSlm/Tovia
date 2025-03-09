@@ -5,38 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="ToDoPlus" Height="450" Width="472">
 
-    <DockPanel Margin="10">
-        <ListBox Name="lbToDoList" HorizontalContentAlignment="Stretch" DockPanel.Dock="Top">
-            <ListBox.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="2,0"/>
-                </Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Margin" Value="2,0"/>
-                </Style>
-                <Style TargetType="CheckBox">
-                    <Setter Property="Margin" Value="2,0"/>
-                </Style>
-            </ListBox.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="64"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ListBox Grid.Row="0" ItemsSource="{Binding ToDoList}" Margin="8" 
+         HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,3">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0"></CheckBox>
-                        <TextBox Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}"/>
-                        <Button Grid.Column="2" Click="ToggleReadOnly" >Edit</Button>
-                        <Button Grid.Column="3" Click="RemoveFromList">Remove</Button>
+
+                        <CheckBox Grid.Column="0" Margin="10" VerticalAlignment="Center"/>
+
+
+                        <ContentControl Grid.Column="1" Margin="8" HorizontalAlignment="Center" Width="256" Content="{Binding}">
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsReadOnly}" Value="False">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Title}" />
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+
+                        <Button Command="{Binding ToggleReadOnlyCommand}" Grid.Column="2" Content="Edit" Margin="8" VerticalAlignment="Center"/>
+                        <Button Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" Grid.Column="3" Content="Delete" Margin="8" VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </DockPanel>
+        <Button Content="➕ Add New Task" Command="{Binding AddItemCommand}" 
+                HorizontalAlignment="Center" Margin="10" Grid.Row="1"/>
+    </Grid>
 
 </Window>

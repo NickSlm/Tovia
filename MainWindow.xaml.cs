@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,51 +21,12 @@ namespace ToDoListPlus;
 /// 
 
 
-public partial class MainWindow : INotifyPropertyChanged
+public partial class MainWindow
 {
-    private ObservableCollection<ToDoItem> _toDoList = new ObservableCollection<ToDoItem>();
-
-    public ObservableCollection<ToDoItem> ToDoList
-    {
-        get => _toDoList;
-        set
-        {
-            _toDoList = value;
-            OnPropertyChanged();
-        }
-    }
-
     public MainWindow()
     {
         InitializeComponent();
-        ToDoList = new ObservableCollection<ToDoItem>
-        {
-            new ToDoItem("Title 1"),
-            new ToDoItem("Title 2"),
-            new ToDoItem("Title 3")
-        };
-
-    }
-
-    private void RemoveFromList(ToDoItem item)
-    {
-        if (item != null)
-        {
-            ToDoList.Remove(item);
-        }
-    }
-
-    private void ToggleReadOnly(ToDoItem item)
-    {
-        if (item != null)
-        {
-            item.IsReadOnly = !item.IsReadOnly;
-        }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        var todolist = new ToDoListViewModel();
+        DataContext = todolist;
     }
 }
