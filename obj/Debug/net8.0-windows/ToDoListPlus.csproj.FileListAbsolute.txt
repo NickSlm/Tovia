@@ -18,3 +18,4 @@ D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\refint\ToDoListPlus.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.pdb
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.genruntimeconfig.cache
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ref\ToDoListPlus.dll
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.sourcelink.json
