@@ -8,9 +8,7 @@ public class ToDoItemViewModel: INotifyPropertyChanged
 
 
 	public event PropertyChangedEventHandler? PropertyChanged;
-
 	public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
-
 	private DelegateCommand _toggleReadOnlyCommand;
 
 	private bool _isReadOnly;
@@ -24,6 +22,18 @@ public class ToDoItemViewModel: INotifyPropertyChanged
 		}
 	}
 
+	private bool _isComplete;
+
+	public bool IsComplete
+	{
+		get => _isComplete;
+		set
+		{
+			_isComplete = value;
+			OnPropertyChanged(nameof(IsComplete));
+		}
+	}
+
 	private string? _title;
 	public string Title {
 		get => _title;
@@ -34,20 +44,15 @@ public class ToDoItemViewModel: INotifyPropertyChanged
 		}
 	}
 
-	public ToDoItemViewModel()
-	{
-		_title = "New Task";
-		_isReadOnly = true;
-
-		_toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, canToggle);
-
-	}
 
 	public ToDoItemViewModel(string title)
 	{
 		Title = title;
+        _isReadOnly = true;
+        _isComplete = false;
+        _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, canToggle);
 
-	}
+    }
 
 	private void ToggleReadOnly(object commandParameter)
 	{

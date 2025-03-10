@@ -9,25 +9,31 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="64"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" ItemsSource="{Binding ToDoList}" Margin="8" 
-         HorizontalContentAlignment="Stretch">
+        <Grid Margin="16">
+            <ProgressBar Minimum="0" Maximum="100" Value="{Binding CompletedTasks}" Name="pbStatus" />
+            <TextBlock Text="{Binding CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        </Grid>
+        <ListBox Grid.Row="1" ItemsSource="{Binding ToDoList}" Margin="16" 
+         HorizontalContentAlignment="Stretch" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.1*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.1*"/>
+                            <ColumnDefinition Width="0.1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <CheckBox Grid.Column="0" Margin="10" VerticalAlignment="Center"/>
+                        <CheckBox IsChecked="{Binding IsComplete}" Grid.Column="0" Margin="10" />
 
 
-                        <ContentControl Grid.Column="1" Margin="8" HorizontalAlignment="Center" Width="256" Content="{Binding}">
+                        <ContentControl Grid.Column="1" Margin="8" Content="{Binding}">
                             <ContentControl.Style>
                                 <Style TargetType="ContentControl">
                                     <Style.Triggers>
@@ -61,8 +67,15 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="➕ Add New Task" Command="{Binding AddItemCommand}" 
-                HorizontalAlignment="Center" Margin="10" Grid.Row="1"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*" />
+                <ColumnDefinition Width="0.3*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Text="{Binding ItemText}"  Grid.Column="0" Margin="16" FontSize="22"/>
+            <Button Grid.Column="1" Content="➕ Add New Task" Command="{Binding AddItemCommand}" Margin="16"/>
+        </Grid>
     </Grid>
 
 </Window>
