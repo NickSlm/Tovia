@@ -44,7 +44,6 @@ public class ToDoItemViewModel: INotifyPropertyChanged
 		}
 	}
 
-
 	public ToDoItemViewModel(string title)
 	{
 		Title = title;
