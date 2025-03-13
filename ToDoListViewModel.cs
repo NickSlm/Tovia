@@ -9,9 +9,12 @@ public class ToDoListViewModel: INotifyPropertyChanged
 {
     public ICommand AddItemCommand => _addItemCommand;
     public ICommand RemoveItemCommand => _removeItemCommand;
+    public ICommand CleanItemsCommand => _cleanItemsCommand;
+
 
     private readonly DelegateCommand _addItemCommand;
     private readonly DelegateCommand _removeItemCommand;
+    private readonly DelegateCommand _cleanItemsCommand;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -25,6 +28,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
         { 
             _itemText = value;
             OnPropertyChanged(nameof(ItemText));
+            _addItemCommand.InvokeCanExecuteChanged();
         }
     }
 
@@ -36,7 +40,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
         {
             _totalTasks = value;
             OnPropertyChanged(nameof(TotalTasks));
-
         }
     }
 
@@ -48,18 +51,19 @@ public class ToDoListViewModel: INotifyPropertyChanged
         {
             _completedTasks = value;
             OnPropertyChanged(nameof(CompletedTasks));
-
         }
     }
 
     public ToDoListViewModel()
 	{
-        ToDoList = new ObservableCollection<ToDoItemViewModel>();
+        ToDoList = new ObservableCollection<ToDoItemViewModel>();s
 
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
+
         _addItemCommand = new DelegateCommand(AddItem, CanAddItem);
         _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
+        _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanCleanCompletedItems);
 
         UpdateCompletedTasks();
     }
@@ -91,7 +95,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
                 newItem.PropertyChanged += Item_PropertyChanged;
             }
         }
-
         if (e.Action == NotifyCollectionChangedAction.Remove)
         {
             foreach (ToDoItemViewModel newItem in e.OldItems)
@@ -111,7 +114,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private bool CanAddItem(object commandParameter)
     {
-        return true;
+        return !string.IsNullOrWhiteSpace(ItemText);
     }
 
     private void RemoveItem(object commandParameter)
@@ -123,6 +126,25 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private bool CanRemoveItem(object commandParameter)
     {
         return commandParameter is ToDoItemViewModel item && ToDoList.Contains(item);
+    }
+
+    private void CleanCompletedItems(object commandParameter)
+    {
+        if (commandParameter is ObservableCollection<ToDoItemViewModel> ToDoList)
+        {
+            for (int i = ToDoList.Count() - 1; i >= 0; i--)
+            {
+                if (ToDoList[i].IsComplete)
+                {
+                    ToDoList.RemoveAt(i);
+                }
+            }
+        }
+    }
+
+    private bool CanCleanCompletedItems(object commandParameter)
+    {
+        return true;
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
