@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 public class ToDoListViewModel: INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
     public ICommand AddItemCommand => _addItemCommand;
     public ICommand RemoveItemCommand => _removeItemCommand;
     public ICommand CleanItemsCommand => _cleanItemsCommand;
@@ -16,11 +17,12 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private readonly DelegateCommand _removeItemCommand;
     private readonly DelegateCommand _cleanItemsCommand;
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public ObservableCollection<ToDoItem> ToDoList { get; set; }
 
     private string _itemText;
+    private int _totalTasks;
+    private int _completedTasks;
+
+    public ObservableCollection<ToDoItem> ToDoList { get; set; }
     public string ItemText
     {
         get => _itemText;
@@ -31,8 +33,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
             _addItemCommand.InvokeCanExecuteChanged();
         }
     }
-
-    private int _totalTasks;
     public int TotalTasks
     {
         get => _totalTasks;
@@ -42,8 +42,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
             OnPropertyChanged(nameof(TotalTasks));
         }
     }
-
-    private int _completedTasks;
     public int CompletedTasks
     {
         get => _completedTasks;
@@ -148,6 +146,5 @@ public class ToDoListViewModel: INotifyPropertyChanged
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
 
 }
