@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus"
         mc:Ignorable="d"
-        Title="ToDoPlus" Height="450" Width="472">
+        Title="ToDoPlus" Height="608" Width="504">
 
     <Window.Resources>
         <Style x:Key="IconButtonStyle" TargetType="Button">
@@ -20,92 +20,133 @@
     </Window.Resources>
     
     <Grid>
+        
         <Grid.RowDefinitions>
-            <RowDefinition Height="64"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="64"></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <!--Header Section Login-->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
-            <ProgressBar Grid.Column="0" Maximum="100" Value="{Binding CompletedTasks}" Name="pbStatus" Margin="16"/>
-            <TextBlock Grid.Column="0" Text="{Binding CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-
-            <Button Command="{Binding CleanItemsCommand}" CommandParameter="{Binding ToDoList}" Grid.Column="1" Margin="16" Content="Clean"/>
+            <Label VerticalContentAlignment="Center" Grid.Column="0" Margin="8,8">Username: solomonovnick@gmail.com</Label>
+            <Button Grid.Column="1" BorderThickness="1" Margin="8,8" Width="64" Height="32">
+                LOG IN
+            </Button>
         </Grid>
-        <ListBox Grid.Row="1" ItemsSource="{Binding ToDoList}" Margin="16" HorizontalContentAlignment="Stretch" >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
+
+        <!--Main Body Section-->
+        <Grid Grid.Row="1" Background="Aqua">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <!--Main Body Top Section Show Tasks-->
+                <Grid Grid.Row="0" Margin="8">
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.1*"/>
-                            <ColumnDefinition Width="0.8*"/>
-                            <ColumnDefinition Width="0.1*"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        
+                        <!--Show Tasks Progress Bar-->
+                        <Grid Grid.Row="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.8*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <ProgressBar Grid.Column="0" Maximum="100" Value="{Binding CompletedTasks}" Name="pbStatus" Margin="8,0"/>
+                            <TextBlock Grid.Column="0" Text="{Binding CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Command="{Binding CleanItemsCommand}" CommandParameter="{Binding ToDoList}" Grid.Column="1"  Content="Clean" Margin="8,0"/>
+                        </Grid>
+                        
+                        <!--Show Tasks ListBox Tasks-->
+                        <Grid Grid.Row="1" Margin="8">
+                            <ListBox ItemsSource="{Binding ToDoList}" HorizontalContentAlignment="Stretch" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.1*"/>
+                                                <ColumnDefinition Width="0.8*"/>
+                                                <ColumnDefinition Width="0.1*"/>
+                                            </Grid.ColumnDefinitions>
 
-                        <CheckBox IsChecked="{Binding IsComplete}" Grid.Column="0" Margin="10" />
+                                            <CheckBox IsChecked="{Binding IsComplete}" Grid.Column="0" Margin="10"/>
 
-                        <ContentControl Grid.Column="1" Margin="8" Content="{Binding}">
-                            <ContentControl.Style>
-                                <Style TargetType="ContentControl">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsReadOnly}" Value="False">
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Title}">
-                                                            <TextBlock.Style>
-                                                                <Style TargetType="TextBlock">
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                                                            <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </TextBlock.Style>
-                                                        </TextBlock>
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>
-                        </ContentControl>
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="8,0">
-                            <Button Command="{Binding ToggleReadOnlyCommand}" Style="{StaticResource IconButtonStyle}">
-                                <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\editIcon.png"/>
-                            </Button>
-                            <Button  Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" Style="{StaticResource IconButtonStyle}">
-                                <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\removeIcon.png"/>
-                            </Button>
-                        </StackPanel>
-                       
+                                            <ContentControl Grid.Column="1" Content="{Binding}" Margin="8">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsReadOnly}" Value="False">
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <TextBlock Text="{Binding Title}">
+                                                                                <TextBlock.Style>
+                                                                                    <Style TargetType="TextBlock">
+                                                                                        <Style.Triggers>
+                                                                                            <DataTrigger Binding="{Binding IsComplete}" Value="True">
+                                                                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                                                            </DataTrigger>
+                                                                                        </Style.Triggers>
+                                                                                    </Style>
+                                                                                </TextBlock.Style>
+                                                                            </TextBlock>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="8,0">
+                                                <Button Command="{Binding ToggleReadOnlyCommand}" Style="{StaticResource IconButtonStyle}">
+                                                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\editIcon.png"/>
+                                                </Button>
+                                                <Button  Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" Style="{StaticResource IconButtonStyle}">
+                                                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\removeIcon.png"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
                     </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*" />
-                <ColumnDefinition Width="0.3*" />
-            </Grid.ColumnDefinitions>
+                </Grid>
+                
+                <!--Main Body Bottom Section Add New Task-->
+                <Grid Grid.Row="1" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.7*" />
+                        <ColumnDefinition Width="0.3*" />
+                    </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding ItemText,UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Margin="16" FontSize="22"/>
-            <Button Grid.Column="1" Content="➕ Add New Task" Command="{Binding AddItemCommand}" Margin="16"/>
+                    <TextBox Text="{Binding ItemText,UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" FontSize="22" Margin="8,0"/>
+                    <Button Grid.Column="1" Content="➕ Add New Task" Command="{Binding AddItemCommand}" Margin="8,0" />
+                </Grid>
+                
+            </Grid>
+                
         </Grid>
+        
     </Grid>
 
 </Window>

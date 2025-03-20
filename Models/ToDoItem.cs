@@ -1,17 +1,19 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 public class ToDoItem: INotifyPropertyChanged
 {
-
-
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 	public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
 	private DelegateCommand _toggleReadOnlyCommand;
 
 	private bool _isReadOnly;
+	private bool _isComplete;
+	private string? _title;
+
 	public bool IsReadOnly
 	{
 		get => _isReadOnly;
@@ -21,9 +23,6 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(IsReadOnly));
 		}
 	}
-
-	private bool _isComplete;
-
 	public bool IsComplete
 	{
 		get => _isComplete;
@@ -33,8 +32,6 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(IsComplete));
 		}
 	}
-
-	private string? _title;
 	public string Title {
 		get => _title;
 		set
@@ -58,7 +55,7 @@ public class ToDoItem: INotifyPropertyChanged
 		IsReadOnly = !IsReadOnly;
 	}
 
-	private bool canToggle(object commmandParameter)
+    private bool canToggle(object commmandParameter)
 	{
 		return true;
 	}

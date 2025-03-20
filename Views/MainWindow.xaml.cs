@@ -25,7 +25,6 @@ public partial class MainWindow
 {
     public MainWindow()
     {
-        InitializeComponent();
         var todolist = new ToDoListViewModel();
         DataContext = todolist;
     }
