@@ -19,6 +19,10 @@ D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.genruntimeconfig.
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ref\ToDoListPlus.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\MainWindow.baml
-D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\PopupDialogView.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\PopupDialogView.baml
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.csproj.AssemblyReference.cache
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Identity.Client.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoList.11F7BDD3.Up2Date
