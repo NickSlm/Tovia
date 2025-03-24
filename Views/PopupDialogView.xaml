@@ -5,24 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus.Views"
         mc:Ignorable="d"
-        Title="Add Task" Height="250" Width="400">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Task:"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TaskTitle}"/>
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Due Date (optional):"/>
-        <DatePicker Grid.Row="1" Grid.Column="1"/>
-        
-        <Button Grid.Row="2" Grid.Column="0" Content="Save" Command="{Binding SaveCommand}" Width="80"/>
-        <Button Grid.Row="2" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand}" Width="80"/>
+        WindowStyle="None"
+        Background="Aqua"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Add Task" Height="300" Width="300">
 
-    </Grid>
+    <Window.Resources>
+        
+    </Window.Resources>
+        
+    <StackPanel Margin="16">
+        <TextBlock Text="Title:"/>
+        <TextBox/>
+        <TextBlock Text="Description:"/>
+        <Grid Height="96">
+            <ScrollViewer>
+                <TextBox Height="Auto" TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Grid>
+       <TextBlock Text="Select DueTime"/>
+        <DatePicker SelectedDate="2000-12-31" SelectedDateFormat="Long"></DatePicker>
+        <StackPanel Orientation="Horizontal" Margin="16" HorizontalAlignment="Center">
+            <Button Grid.Row="3" Grid.Column="0" Content="Save" Command="{Binding SaveCommand}" Width="80" Margin="6"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand}" Width="80" Margin="6"/>
+        </StackPanel>
+    </StackPanel>
+
 </Window>

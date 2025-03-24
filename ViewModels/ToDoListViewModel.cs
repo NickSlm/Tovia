@@ -137,7 +137,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void CleanCompletedItems(object commandParameter)
     {
-        MessageBox.Show("Tasks Cleaned");
+        MessageBox.Show("button");
         if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
         {
             for (int i = ToDoList.Count() - 1; i >= 0; i--)

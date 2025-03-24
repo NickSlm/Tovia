@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToDoListPlus.Services.oauth2;
 using ToDoListPlus.ViewModels;
 
 namespace ToDoListPlus;
@@ -26,6 +27,9 @@ public partial class MainWindow
 {
     public MainWindow()
     {
-        DataContext = new MainViewModel();
+        InitializeComponent();
+
+        DataContext = new MainViewModel(this);
     }
+
 }

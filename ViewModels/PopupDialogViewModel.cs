@@ -24,6 +24,7 @@ namespace ToDoListPlus.ViewModels
 
 
         public string TaskTitle { get; set; }
+        public string TaskDescription { get; set; }
         public DateTime? DueDate { get; set; }
 
         public event Action<bool>? RequestClose;
