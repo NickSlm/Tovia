@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 D:\Projects\ToDoListPlus\App.xaml
-1-1644662438
+2-1462738309
 
-71268697803
+121286880844
 198-344842731
-Views\MainWindow.xaml;
+Views\MainWindow.xaml;Views\PopupDialogView.xaml;
 
 False
 

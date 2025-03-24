@@ -3,7 +3,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using ToDoListPlus.Services;
+using ToDoListPlus.ViewModels;
 
 public class ToDoListViewModel: INotifyPropertyChanged
 {
@@ -11,12 +14,14 @@ public class ToDoListViewModel: INotifyPropertyChanged
     public ICommand AddItemCommand => _addItemCommand;
     public ICommand RemoveItemCommand => _removeItemCommand;
     public ICommand CleanItemsCommand => _cleanItemsCommand;
+    public ICommand OpenPopupCommand => _openPopupCommand;
 
 
     private readonly DelegateCommand _addItemCommand;
     private readonly DelegateCommand _removeItemCommand;
     private readonly DelegateCommand _cleanItemsCommand;
-
+    private readonly DelegateCommand _openPopupCommand;
+    private readonly IDialogService _dialogService;
 
     private string _itemText;
     private int _totalTasks;
@@ -52,16 +57,19 @@ public class ToDoListViewModel: INotifyPropertyChanged
         }
     }
 
-    public ToDoListViewModel()
+
+    public ToDoListViewModel(IDialogService dialogService)
 	{
         ToDoList = new ObservableCollection<ToDoItem>();
 
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
 
-        _addItemCommand = new DelegateCommand(AddItem, CanAddItem);
+        _dialogService = dialogService;
+        _addItemCommand = new DelegateCommand(AddItem, CanExecute);
         _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
-        _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanCleanCompletedItems);
+        _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
+        _openPopupCommand = new DelegateCommand(OpenPopup, CanExecute);
 
         UpdateCompletedTasks();
     }
@@ -110,9 +118,10 @@ public class ToDoListViewModel: INotifyPropertyChanged
         _addItemCommand.InvokeCanExecuteChanged();
     }
 
-    private bool CanAddItem(object commandParameter)
+    private bool CanExecute(object commandParameter)
     {
-        return !string.IsNullOrWhiteSpace(ItemText);
+        //return !string.IsNullOrWhiteSpace(ItemText);
+        return true;
     }
 
     private void RemoveItem(object commandParameter)
@@ -128,6 +137,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void CleanCompletedItems(object commandParameter)
     {
+        MessageBox.Show("Tasks Cleaned");
         if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
         {
             for (int i = ToDoList.Count() - 1; i >= 0; i--)
@@ -140,9 +150,14 @@ public class ToDoListViewModel: INotifyPropertyChanged
         }
     }
 
-    private bool CanCleanCompletedItems(object commandParameter)
+    private void OpenPopup(object commandParameter)
     {
-        return true;
+        var dialogViewModel = new PopupDialogViewModel();
+        var result = _dialogService.ShowDialog(dialogViewModel);
+        if (result == true)
+        {
+            ToDoList.Add(new ToDoItem(dialogViewModel.TaskTitle));
+        }
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

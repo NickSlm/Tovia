@@ -19,3 +19,6 @@ D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.genruntimeconfig.
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ref\ToDoListPlus.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\MainWindow.baml
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\PopupDialogView.g.cs
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\PopupDialogView.baml

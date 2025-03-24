@@ -16,7 +16,10 @@
             <Setter Property="Margin" Value="2,0"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
-        
+        <Style x:Key="MicrosoftButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="8"/>
+        </Style>
     </Window.Resources>
     
     <Grid>
@@ -27,19 +30,22 @@
         </Grid.RowDefinitions>
         
         <!--Header Section Login-->
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Background="#F0F0F0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label VerticalContentAlignment="Center" Grid.Column="0" Margin="8,8">Username: solomonovnick@gmail.com</Label>
-            <Button Grid.Column="1" BorderThickness="1" Margin="8,8" Width="64" Height="32">
-                LOG IN
+            <Label VerticalContentAlignment="Center" Grid.Column="0" Margin="8,8" Content="{}"/>
+            <Button Style="{StaticResource MicrosoftButtonStyle}" Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                    <TextBlock Margin="5">Sign in with Microsoft</TextBlock>
+                </StackPanel>
             </Button>
         </Grid>
 
         <!--Main Body Section-->
-        <Grid Grid.Row="1" Background="Aqua">
+        <Grid Grid.Row="1" Background="#FFFFFF">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -61,17 +67,17 @@
                                 <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="0.2*"/>
                             </Grid.ColumnDefinitions>
-                            <ProgressBar Grid.Column="0" Maximum="100" Value="{Binding CompletedTasks}" Name="pbStatus" Margin="8,0"/>
-                            <TextBlock Grid.Column="0" Text="{Binding CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Command="{Binding CleanItemsCommand}" CommandParameter="{Binding ToDoList}" Grid.Column="1"  Content="Clean" Margin="8,0"/>
+                            <ProgressBar Grid.Column="0" Maximum="100" Value="{Binding ToDoListVM.CompletedTasks}" Name="pbStatus" Margin="8,0"/>
+                            <TextBlock Grid.Column="0" Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Button Command="{Binding ToDoListVM.CleanItemsCommand}" BorderThickness="0" CommandParameter="{Binding ToDoList}" Grid.Column="1"  Content="Clean" Margin="8,0"/>
                         </Grid>
                         
                         <!--Show Tasks ListBox Tasks-->
                         <Grid Grid.Row="1" Margin="8">
-                            <ListBox ItemsSource="{Binding ToDoList}" HorizontalContentAlignment="Stretch" >
+                            <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid>
+                                        <Grid >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="0.1*"/>
                                                 <ColumnDefinition Width="0.8*"/>
@@ -120,8 +126,9 @@
                                                 <Button Command="{Binding ToggleReadOnlyCommand}" Style="{StaticResource IconButtonStyle}">
                                                     <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\editIcon.png"/>
                                                 </Button>
-                                                <Button  Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}" Style="{StaticResource IconButtonStyle}">
-                                                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\removeIcon.png"/>
+                                                <Button  Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, 
+                  RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Style="{StaticResource IconButtonStyle}">
+                                                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\removeIcon.png" />
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -133,14 +140,8 @@
                 </Grid>
                 
                 <!--Main Body Bottom Section Add New Task-->
-                <Grid Grid.Row="1" Margin="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.7*" />
-                        <ColumnDefinition Width="0.3*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBox Text="{Binding ItemText,UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" FontSize="22" Margin="8,0"/>
-                    <Button Grid.Column="1" Content="➕ Add New Task" Command="{Binding AddItemCommand}" Margin="8,0" />
+                <Grid Grid.Row="1" Margin="16">
+                    <Button Content="➕ Add New Task" Height="32" BorderThickness="0" Command="{Binding ToDoListVM.OpenPopupCommand}"/>
                 </Grid>
                 
             </Grid>
