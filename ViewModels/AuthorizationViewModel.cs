@@ -19,6 +19,7 @@ namespace ToDoListPlus.ViewModels
         public ICommand AuthorizationCommand => _authorizationCommand;
 
         private readonly DelegateCommand _authorizationCommand;
+        private readonly AuthService _authService;
 
         private string _accessToken;
         private Window _parentWindow;
@@ -34,21 +35,29 @@ namespace ToDoListPlus.ViewModels
 
         string[] scopes = new string[] { "user.read", "Calendars.ReadWrite" };
 
-        public AuthorizationViewModel(Window parentWindow)
+        public AuthorizationViewModel(AuthService authService)
+        {
+            _authService = authService;
+            _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
+        }
+
+        public void SetParentWindow(Window parentWindow)
         {
             _parentWindow = parentWindow;
-            _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
+        }
 
+        public void CloseParentWindow()
+        {
+            _parentWindow?.Close();
         }
 
         private async void AuthorizationButtonClick(object commandParameter)
         {
 
-
             AuthenticationResult authResult = null;
             var app = AuthService.ClientApp;
-
             IAccount firstAccount = (await app.GetAccountsAsync()).FirstOrDefault();
+
 
             if (firstAccount == null)
             {

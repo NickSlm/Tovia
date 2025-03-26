@@ -14,12 +14,10 @@ namespace ToDoListPlus.ViewModels
         public ToDoListViewModel? ToDoListVM { get;  }
         public AuthorizationViewModel? AuthorizationVM { get; }
 
-        public MainViewModel(Window parentWindow)
+        public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
         {
-
-            var dialogService = new DialogService();
-            ToDoListVM = new ToDoListViewModel(dialogService);
-            AuthorizationVM = new AuthorizationViewModel(parentWindow);
+            ToDoListVM = toDoListVM;
+            AuthorizationVM = authorizationVM;
         }
     }
 }
