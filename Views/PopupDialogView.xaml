@@ -18,7 +18,7 @@
         
     <StackPanel Margin="16">
         <TextBlock Text="Title:"/>
-        <TextBox/>
+        <TextBox Text="{Binding TaskTitle}"/>
         <TextBlock Text="Description:"/>
         <Grid Height="96">
             <ScrollViewer>
