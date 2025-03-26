@@ -21,15 +21,16 @@ namespace ToDoListPlus;
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 /// 
-
+    
 
 public partial class MainWindow
 {
-    public MainWindow()
+    public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
 
-        DataContext = new MainViewModel(this);
+        DataContext = viewModel;
+        viewModel.AuthorizationVM?.SetParentWindow(this);
     }
 
 }

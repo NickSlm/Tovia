@@ -26,3 +26,11 @@ D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Identity.Client.dll
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.IdentityModel.Abstractions.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoList.11F7BDD3.Up2Date
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\CommunityToolkit.Mvvm.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
