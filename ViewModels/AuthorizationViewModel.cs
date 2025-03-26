@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows;
 using ToDoListPlus.Services;
-using ToDoListPlus.Services.oauth2;
 
 namespace ToDoListPlus.ViewModels
 {
@@ -37,7 +36,6 @@ namespace ToDoListPlus.ViewModels
 
         public AuthorizationViewModel(Window parentWindow)
         {
-            AccessToken = "asdf";
             _parentWindow = parentWindow;
             _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
 

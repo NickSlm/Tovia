@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ToDoListPlus.Services.oauth2;
+using ToDoListPlus.Services;
 using ToDoListPlus.ViewModels;
 
 namespace ToDoListPlus;

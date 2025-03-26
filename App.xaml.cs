@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
-using ToDoListPlus.Services.oauth2;
+using ToDoListPlus.Services;
 
 namespace ToDoListPlus;
 

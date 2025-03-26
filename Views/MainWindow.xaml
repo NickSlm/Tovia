@@ -36,7 +36,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label VerticalContentAlignment="Center" Grid.Column="0" Margin="8,8" Content="{}"/>
+            <Label VerticalContentAlignment="Center" Grid.Column="0" Margin="8,8" Content="{Binding AuthorizationVM.AccessToken}"/>
             <Button Command="{Binding AuthorizationVM.AuthorizationCommand}" Style="{StaticResource MicrosoftButtonStyle}" Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
