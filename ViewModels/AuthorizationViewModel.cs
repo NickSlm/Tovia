@@ -17,28 +17,54 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public ICommand AuthorizationCommand => _authorizationCommand;
+        public ICommand SignOutCommand => _signOutCommand;
 
         private readonly DelegateCommand _authorizationCommand;
+        private readonly DelegateCommand _signOutCommand;
         private readonly AuthService _authService;
 
-        private string _accessToken;
+        private string _accountUsername;
+        private Visibility _signinIsVisible;
+        private Visibility _signoutIsVisible;
         private Window _parentWindow;
-        public string AccessToken
+
+        public Visibility SignoutIsVisible
         {
-            get => _accessToken;
+            get => _signoutIsVisible;
             set
             {
-                _accessToken = value;
-                OnPropertyChanged(nameof(AccessToken));
+                _signoutIsVisible = value;
+                OnPropertyChanged(nameof(SignoutIsVisible));
             }
         }
 
-        string[] scopes = new string[] { "user.read", "Calendars.ReadWrite" };
+        public Visibility SigninIsVisible
+        {
+            get => _signinIsVisible;
+            set
+            {
+                _signinIsVisible = value;
+                OnPropertyChanged(nameof(SigninIsVisible));
+            }
+        }
+        public string AccountUsername
+        {
+            get => _accountUsername;
+            set
+            {
+                _accountUsername = value;
+                OnPropertyChanged(nameof(AccountUsername));
+            }
+        }
 
         public AuthorizationViewModel(AuthService authService)
         {
             _authService = authService;
+            _signOutCommand = new DelegateCommand(SignOutButtonClick, CanExecute);
             _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
+
+            SigninIsVisible = Visibility.Visible;
+            SignoutIsVisible = Visibility.Collapsed;
         }
 
         public void SetParentWindow(Window parentWindow)
@@ -53,47 +79,20 @@ namespace ToDoListPlus.ViewModels
 
         private async void AuthorizationButtonClick(object commandParameter)
         {
+            AccountUsername = await _authService.GetAccessTokenAsync(_parentWindow);
+            if (!string.IsNullOrEmpty(AccountUsername))
+            {
+                SigninIsVisible = Visibility.Collapsed;
+                SignoutIsVisible = Visibility.Visible;
+            }
+        }
 
-            AuthenticationResult authResult = null;
-            var app = AuthService.ClientApp;
-            IAccount firstAccount = (await app.GetAccountsAsync()).FirstOrDefault();
-
-
-            if (firstAccount == null)
-            {
-                firstAccount = PublicClientApplication.OperatingSystemAccount;
-            }
-            try
-            {
-                authResult = await app.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync();
-            }
-            catch (MsalUiRequiredException ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
-                try
-                {
-                    authResult = await app.AcquireTokenInteractive(scopes)
-                        .WithAccount(firstAccount)
-                        .WithParentActivityOrWindow(new WindowInteropHelper(_parentWindow).Handle)
-                        .WithPrompt(Prompt.SelectAccount)
-                        .ExecuteAsync();
-                }
-                catch (MsalException msalex)
-                {
-                    AccessToken = $"Error: {msalex.Message}";
-                }
-            }
-            catch (Exception ex)
-            {
-                AccessToken = $"Error: {ex.Message}";
-                return;
-            }
-
-            if (authResult != null)
-            {
-                AccessToken = authResult.AccessToken;
-            }
-            
+        private async void SignOutButtonClick(object commandParamater)
+        {
+            await _authService.SignOutAsync();
+            AccountUsername = string.Empty;
+            SigninIsVisible = Visibility.Visible;
+            SignoutIsVisible = Visibility.Collapsed;
         }
 
         private bool CanExecute(object commandParameter)

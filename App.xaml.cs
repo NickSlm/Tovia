@@ -5,6 +5,7 @@ using ToDoListPlus.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoListPlus.ViewModels;
 using ToDoListPlus.Views;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToDoListPlus;
 
@@ -23,12 +24,20 @@ public partial class App : Application
 
         ConfigureServices(serviceCollection);
         _serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var dbInitializer = _serviceProvider.GetRequiredService<IDatabaseInitializer>();
+        dbInitializer.Initialize();
+
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         mainWindow.Show();
     }
 
     private void ConfigureServices(IServiceCollection services)
     {
+
+        services.AddDbContext<ToDoContext>(options => options.UseSqlite("Data Source=ToDoList.db"));
+
+        services.AddSingleton<IDatabaseInitializer, DatabaseInitializer>();
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<AuthService>();
 

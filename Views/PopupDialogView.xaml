@@ -4,33 +4,81 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus.Views"
-        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         WindowStyle="None"
-        Background="Aqua"
-        AllowsTransparency="True"
-        ResizeMode="NoResize"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Add Task" Height="300" Width="300">
 
     <Window.Resources>
         
     </Window.Resources>
-        
-    <StackPanel Margin="16">
-        <TextBlock Text="Title:"/>
-        <TextBox Text="{Binding TaskTitle}"/>
-        <TextBlock Text="Description:"/>
-        <Grid Height="96">
-            <ScrollViewer>
-                <TextBox Height="Auto" TextWrapping="Wrap" />
-            </ScrollViewer>
-        </Grid>
-       <TextBlock Text="Select DueTime"/>
-        <DatePicker SelectedDate="2000-12-31" SelectedDateFormat="Long"></DatePicker>
-        <StackPanel Orientation="Horizontal" Margin="16" HorizontalAlignment="Center">
-            <Button Grid.Row="3" Grid.Column="0" Content="Save" Command="{Binding SaveCommand}" Width="80" Margin="6"/>
-            <Button Grid.Row="3" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand}" Width="80" Margin="6"/>
-        </StackPanel>
-    </StackPanel>
 
+    <Grid Margin="8" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="8">
+            <TextBox
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Text="{Binding TaskTitle}"
+                materialDesign:HintAssist.FloatingOffset="0, -20"
+                materialDesign:HintAssist.Hint="Title"
+            />    
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="8">
+            <TextBox
+                Height="100"
+                Text="{Binding TaskDescription}"
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Description"
+                MaxLength="256"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+            />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="8">
+            <DatePicker
+              materialDesign:HintAssist.Hint="Pick Date"
+              materialDesign:TextFieldAssist.HasClearButton="True"
+              Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+            />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="3"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Margin="0 4 0 0"
+            >
+            <Button
+                  Content="ACCEPT"
+                  IsDefault="True"
+                  Margin="8 0 8 0"
+                  Style="{StaticResource MaterialDesignFlatButton}"
+                  Command="{Binding SaveCommand}">        
+            </Button>
+            <Button
+                  Content="CANCEL"
+                  Margin="8 0 8 0"
+                  IsCancel="True"
+                  Style="{StaticResource MaterialDesignFlatButton}"
+                  Command="{Binding CancelCommand}">                
+            </Button>
+        </StackPanel>
+    </Grid>
 </Window>

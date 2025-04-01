@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -10,6 +12,8 @@ using ToDoListPlus.ViewModels;
 
 public class ToDoListViewModel: INotifyPropertyChanged
 {
+
+
     public event PropertyChangedEventHandler? PropertyChanged;
     public ICommand AddItemCommand => _addItemCommand;
     public ICommand RemoveItemCommand => _removeItemCommand;
@@ -22,10 +26,13 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private readonly DelegateCommand _cleanItemsCommand;
     private readonly DelegateCommand _openPopupCommand;
     private readonly IDialogService _dialogService;
+    private readonly ToDoContext _dbContext;
 
     private string _itemText;
     private int _totalTasks;
     private int _completedTasks;
+
+
 
     public ObservableCollection<ToDoItem> ToDoList { get; set; }
     public string ItemText
@@ -58,20 +65,30 @@ public class ToDoListViewModel: INotifyPropertyChanged
     }
 
 
-    public ToDoListViewModel(IDialogService dialogService)
+    public ToDoListViewModel(IDialogService dialogService, ToDoContext dbContext)
 	{
+        _dbContext = dbContext;
+
         ToDoList = new ObservableCollection<ToDoItem>();
+
+        LoadToDoItems();
+
 
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
 
         _dialogService = dialogService;
-        _addItemCommand = new DelegateCommand(AddItem, CanExecute);
         _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
         _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
         _openPopupCommand = new DelegateCommand(OpenPopup, CanExecute);
 
         UpdateCompletedTasks();
+    }
+
+    private void LoadToDoItems()
+    {
+        var tasksFromDb = _dbContext.ToDoItems.ToList();
+        ToDoList = new ObservableCollection<ToDoItem>(tasksFromDb);
     }
 
     private void UpdateTotalTasks()
@@ -111,13 +128,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
         UpdateCompletedTasks();
     }
 
-    private void AddItem(object commandParameter)
-    {
-        ToDoList.Add(new ToDoItem(ItemText));
-        ItemText = "";
-        _addItemCommand.InvokeCanExecuteChanged();
-    }
-
     private bool CanExecute(object commandParameter)
     {
         //return !string.IsNullOrWhiteSpace(ItemText);
@@ -126,8 +136,17 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void RemoveItem(object commandParameter)
     {
-        ToDoList.Remove((ToDoItem)commandParameter);
-        _addItemCommand.InvokeCanExecuteChanged();
+        if (commandParameter is ToDoItem item)
+        {
+            var itemToRemove = _dbContext.ToDoItems.FirstOrDefault(i => i.Id == item.Id);
+            if (itemToRemove != null)
+            {
+                _dbContext.ToDoItems.Remove(itemToRemove);
+                _dbContext.SaveChanges();
+            }
+            ToDoList.Remove(item);
+
+        }
     }
 
     private bool CanRemoveItem(object commandParameter)
@@ -137,7 +156,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void CleanCompletedItems(object commandParameter)
     {
-        MessageBox.Show("button");
         if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
         {
             for (int i = ToDoList.Count() - 1; i >= 0; i--)
@@ -154,9 +172,13 @@ public class ToDoListViewModel: INotifyPropertyChanged
     {
         var dialogViewModel = new PopupDialogViewModel();
         var result = _dialogService.ShowDialog(dialogViewModel);
+        var newTask = new ToDoItem(dialogViewModel.TaskTitle, dialogViewModel.TaskDescription);
         if (result == true)
         {
-            ToDoList.Add(new ToDoItem(dialogViewModel.TaskTitle));
+
+            _dbContext.ToDoItems.Add(newTask);
+            _dbContext.SaveChanges();
+            ToDoList.Add(newTask);
         }
     }
 

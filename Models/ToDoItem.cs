@@ -1,18 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Windows;
 using System.Windows.Input;
 
 public class ToDoItem: INotifyPropertyChanged
 {
 
-	public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 	public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	public int Id { get; set; }
+
 	private DelegateCommand _toggleReadOnlyCommand;
 
 	private bool _isReadOnly;
 	private bool _isComplete;
 	private string? _title;
+	private string? _description;
+
 
 	public bool IsReadOnly
 	{
@@ -41,13 +49,25 @@ public class ToDoItem: INotifyPropertyChanged
 		}
 	}
 
-	public ToDoItem(string title)
+	public string Description
+	{
+		get => _description;
+		set
+		{
+			_description = value;
+			OnPropertyChanged(nameof(Description));
+		}
+	}
+
+    public ToDoItem() { }
+
+    public ToDoItem(string title, string description)
 	{
 		Title = title;
+		Description = description;
         _isReadOnly = true;
         _isComplete = false;
         _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, canToggle);
-
     }
 
 	private void ToggleReadOnly(object commandParameter)
