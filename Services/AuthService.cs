@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Diagnostics;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
+using System.Windows.Interop;
 
 
 namespace ToDoListPlus.Services
@@ -15,6 +17,7 @@ namespace ToDoListPlus.Services
         private static string clientId = "9c077a27-edb1-48e8-b0e8-52cbac5e502c";
         private static string Tenant = "consumers";
         private static string Instance = "https://login.microsoftonline.com/";
+        private static string[] scopes = new string[] { "user.read", "Calendars.ReadWrite" };
 
         private static IPublicClientApplication _clientApp;
         public static IPublicClientApplication ClientApp { get { return _clientApp; } }
@@ -42,9 +45,63 @@ namespace ToDoListPlus.Services
 
         }
 
+        public async Task<string> GetAccessTokenAsync(Window parentWindow)
+        {
+            AuthenticationResult authResult = null;
+            IAccount firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
+
+            if (firstAccount == null)
+            {
+                firstAccount = PublicClientApplication.OperatingSystemAccount;
+            }
+            try
+            {
+                authResult = await ClientApp.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync();
+            }
+            catch (MsalUiRequiredException ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
+                try
+                {
+                    authResult = await ClientApp.AcquireTokenInteractive(scopes)
+                        .WithAccount(firstAccount)
+                        .WithParentActivityOrWindow(new WindowInteropHelper(parentWindow).Handle)
+                        .WithPrompt(Prompt.SelectAccount)
+                        .ExecuteAsync();
+                }
+                catch (MsalException msalex)
+                {
+                    return $"Error {msalex.Message}";
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return $"Error {ex.Message}";
+            }
+
+            return authResult.Account.Username;
+        }
+
+        public async Task<string> SignOutAsync()
+        {
+            IAccount firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
+            try
+            {
+                await ClientApp.RemoveAsync(firstAccount);
+                return "Sign-out successful";
+            }
+            catch (MsalException msalex)
+            {
+                return $"Error: {msalex.Message}";
+            }
+        }
+
+        public async void CreateCalendarEvent()
+        {
+            
+        }
 
 
     }
-    
-
 }

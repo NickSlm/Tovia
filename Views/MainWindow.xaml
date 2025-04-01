@@ -6,6 +6,14 @@
         xmlns:local="clr-namespace:ToDoListPlus"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="ToDoPlus" Height="608" Width="504">
 
     <Window.Resources>
@@ -20,6 +28,17 @@
         <Style x:Key="MicrosoftButtonStyle" TargetType="Button">
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Margin" Value="8"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="#2D89EF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Direction="-120" BlurRadius="10" Opacity="0.4" ShadowDepth="1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Cursor" Value="Hand" />
         </Style>
     </Window.Resources>
     
@@ -31,22 +50,42 @@
         </Grid.RowDefinitions>
         
         <!--Header Section Login-->
-        <Grid Grid.Row="0" Background="#F0F0F0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label VerticalContentAlignment="Center" Grid.Column="0" Margin="8,8" Content="{Binding AuthorizationVM.AccessToken}"/>
-            <Button Command="{Binding AuthorizationVM.AuthorizationCommand}" Style="{StaticResource MicrosoftButtonStyle}" Grid.Column="1">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-                    <TextBlock Margin="5">Sign in with Microsoft</TextBlock>
-                </StackPanel>
-            </Button>
-        </Grid>
+        <Border Grid.Row="0" Background="#f6f6f6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding AuthorizationVM.AccountUsername}" Foreground="#4880FF" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Margin="8 0 0 0" />
+                
+                <Button Visibility="{Binding AuthorizationVM.SigninIsVisible}" 
+                        Command="{Binding AuthorizationVM.AuthorizationCommand}" 
+                        Style="{StaticResource MicrosoftButtonStyle}"
+                        Grid.Column="1">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Sign in with Microsoft</TextBlock>
+                    </StackPanel>
+                    
+                </Button>
+                <Button Visibility="{Binding AuthorizationVM.SignoutIsVisible}" 
+                        Command="{Binding AuthorizationVM.SignOutCommand}" 
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Style="{StaticResource MicrosoftButtonStyle}"
+                        Grid.Column="1"
+                        >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Sign out</TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
+            
+        </Border>
 
         <!--Main Body Section-->
-        <Grid Grid.Row="1" Background="#FFFFFF">
+        <Grid Grid.Row="1" Background="#FFFFFF" >
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -68,24 +107,44 @@
                                 <ColumnDefinition Width="0.8*"/>
                                 <ColumnDefinition Width="0.2*"/>
                             </Grid.ColumnDefinitions>
-                            <ProgressBar Grid.Column="0" Maximum="100" Value="{Binding ToDoListVM.CompletedTasks}" Name="pbStatus" Margin="8,0"/>
-                            <TextBlock Grid.Column="0" Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            <Button Command="{Binding ToDoListVM.CleanItemsCommand}" BorderThickness="0" CommandParameter="{Binding ToDoListVM.ToDoList}" Grid.Column="1"  Content="Clean" Margin="8,0"/>
+
+                            <ProgressBar Grid.Column="0" Maximum="100" Height="32" Value="{Binding ToDoListVM.CompletedTasks}" Name="pbStatus" Margin="8,0"/>
+                            <TextBlock Grid.Column="0" Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="AntiqueWhite" FontWeight="SemiBold"
+                                       FontSize="16"/>
+
+                            <Button
+                                Command="{Binding ToDoListVM.CleanItemsCommand}"
+                                CommandParameter="{Binding ToDoListVM.ToDoList}"
+                                Margin="8,0"
+                                Grid.Column="1"
+                                Content="Clear"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignPaperLightButton}"
+                                ToolTip="Resource  name: MaterialDesignPaperLightButton"
+                                >
+                            </Button>
+
                         </Grid>
                         
                         <!--Show Tasks ListBox Tasks-->
-                        <Grid Grid.Row="1" Margin="8">
-                            <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" HorizontalContentAlignment="Stretch">
+                        <Grid Grid.Row="1" Margin="8" >
+                            <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" 
+                                     HorizontalContentAlignment="Stretch"
+                                     materialDesign:ListBoxItemAssist.ShowSelection="False"
+                                     >
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Grid >
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="0.1*"/>
-                                                <ColumnDefinition Width="0.8*"/>
-                                                <ColumnDefinition Width="0.1*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <CheckBox IsChecked="{Binding IsComplete}" Grid.Column="0" Margin="10"/>
+                                            <CheckBox IsChecked="{Binding IsComplete}" 
+                                                      Style="{StaticResource MaterialDesignActionLightCheckBox}"
+                                                      Grid.Column="0" 
+                                                      Margin="4"/>
 
                                             <ContentControl Grid.Column="1" Content="{Binding}" Margin="8">
                                                 <ContentControl.Style>
@@ -104,17 +163,20 @@
                                                                 <Setter Property="ContentTemplate">
                                                                     <Setter.Value>
                                                                         <DataTemplate>
-                                                                            <TextBlock Text="{Binding Title}">
-                                                                                <TextBlock.Style>
-                                                                                    <Style TargetType="TextBlock">
-                                                                                        <Style.Triggers>
-                                                                                            <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                                                                                <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                                                                            </DataTrigger>
-                                                                                        </Style.Triggers>
-                                                                                    </Style>
-                                                                                </TextBlock.Style>
-                                                                            </TextBlock>
+                                                                            <StackPanel>
+                                                                                <TextBlock Text="{Binding Title}"  FontWeight="Bold">
+                                                                                    <TextBlock.Style>
+                                                                                        <Style TargetType="TextBlock">
+                                                                                            <Style.Triggers>
+                                                                                                <DataTrigger Binding="{Binding IsComplete}" Value="True">
+                                                                                                    <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                                                                                </DataTrigger>
+                                                                                            </Style.Triggers>
+                                                                                        </Style>
+                                                                                    </TextBlock.Style>
+                                                                                </TextBlock>
+                                                                                <TextBlock Text="{Binding Description}"/>
+                                                                            </StackPanel>
                                                                         </DataTemplate>
                                                                     </Setter.Value>
                                                                 </Setter>
@@ -123,13 +185,13 @@
                                                     </Style>
                                                 </ContentControl.Style>
                                             </ContentControl>
-                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="8,0">
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
                                                 <Button Command="{Binding ToggleReadOnlyCommand}" Style="{StaticResource IconButtonStyle}">
-                                                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\editIcon.png"/>
+                                                    <materialDesign:PackIcon Kind="Pencil" />
                                                 </Button>
                                                 <Button  Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, 
                   RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Style="{StaticResource IconButtonStyle}">
-                                                    <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\removeIcon.png" />
+                                                    <materialDesign:PackIcon Kind="Delete" />
                                                 </Button>
                                             </StackPanel>
                                         </Grid>
@@ -141,14 +203,17 @@
                 </Grid>
                 
                 <!--Main Body Bottom Section Add New Task-->
-                <Grid Grid.Row="1" Margin="16">
-                    <Button Content="➕ Add New Task" Height="32" BorderThickness="0" Command="{Binding ToDoListVM.OpenPopupCommand}"/>
-                </Grid>
-                
+                <Border Grid.Row="1" Background="LightGray" CornerRadius="0 0 0 0">
+                    <Button Content="➕ Add New Task"
+                            Margin="0 8 0 8"
+                            Command="{Binding ToDoListVM.OpenPopupCommand}"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MaterialDesignPaperLightButton}"
+                            ToolTip="Resource name: MaterialDesignPaperLightButton"
+                            HorizontalAlignment="center"
+                            Padding="8,4" />
+                </Border>
             </Grid>
-                
         </Grid>
-        
     </Grid>
-
 </Window>

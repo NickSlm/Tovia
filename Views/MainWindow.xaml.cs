@@ -25,9 +25,12 @@ namespace ToDoListPlus;
 
 public partial class MainWindow
 {
+
+
     public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
+
 
         DataContext = viewModel;
         viewModel.AuthorizationVM?.SetParentWindow(this);
