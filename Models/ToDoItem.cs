@@ -9,14 +9,13 @@ public class ToDoItem: INotifyPropertyChanged
 {
 
     public event PropertyChangedEventHandler? PropertyChanged;
-	public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public int Id { get; set; }
 
-	private DelegateCommand _toggleReadOnlyCommand;
 
-	private bool _isReadOnly;
+    private bool _isReadOnly;
 	private bool _isComplete;
 	private string? _title;
 	private string? _description;
@@ -48,7 +47,6 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(Title));
 		}
 	}
-
 	public string Description
 	{
 		get => _description;
@@ -67,20 +65,7 @@ public class ToDoItem: INotifyPropertyChanged
 		Description = description;
         _isReadOnly = true;
         _isComplete = false;
-        _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, canToggle);
     }
 
-	private void ToggleReadOnly(object commandParameter)
-	{
-		IsReadOnly = !IsReadOnly;
-	}
-
-    private bool canToggle(object commmandParameter)
-	{
-		return true;
-	}
-
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
 }

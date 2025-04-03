@@ -18,14 +18,15 @@ public class ToDoListViewModel: INotifyPropertyChanged
     public ICommand AddItemCommand => _addItemCommand;
     public ICommand RemoveItemCommand => _removeItemCommand;
     public ICommand CleanItemsCommand => _cleanItemsCommand;
-    public ICommand OpenPopupCommand => _openPopupCommand;
+    public ICommand SaveTaskCommand => _saveTaskCommand;
+    public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
 
 
+    private readonly DelegateCommand _toggleReadOnlyCommand;
     private readonly DelegateCommand _addItemCommand;
     private readonly DelegateCommand _removeItemCommand;
     private readonly DelegateCommand _cleanItemsCommand;
-    private readonly DelegateCommand _openPopupCommand;
-    private readonly IDialogService _dialogService;
+    private readonly DelegateCommand _saveTaskCommand;
     private readonly ToDoContext _dbContext;
 
     private string _itemText;
@@ -65,7 +66,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
     }
 
 
-    public ToDoListViewModel(IDialogService dialogService, ToDoContext dbContext)
+    public ToDoListViewModel(ToDoContext dbContext)
 	{
         _dbContext = dbContext;
 
@@ -77,10 +78,10 @@ public class ToDoListViewModel: INotifyPropertyChanged
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
 
-        _dialogService = dialogService;
         _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
         _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
-        _openPopupCommand = new DelegateCommand(OpenPopup, CanExecute);
+        _saveTaskCommand = new DelegateCommand(SaveTask, CanExecute);
+        _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, CanExecute);
 
         UpdateCompletedTasks();
     }
@@ -88,17 +89,31 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private void LoadToDoItems()
     {
         var tasksFromDb = _dbContext.ToDoItems.ToList();
-        ToDoList = new ObservableCollection<ToDoItem>(tasksFromDb);
+
+
+        ToDoList.Clear();
+
+        foreach (var item in tasksFromDb)
+        {
+            item.PropertyChanged += Item_PropertyChanged;
+            ToDoList.Add(item);
+        }
+
+        UpdateCompletedTasks();
+        UpdateTotalTasks();
+
     }
 
     private void UpdateTotalTasks()
     {
+
         TotalTasks = ToDoList.Count();
     }
 
     private void UpdateCompletedTasks()
     {
         CompletedTasks = (TotalTasks > 0) ? (ToDoList.Count(item => item.IsComplete) * 100) / TotalTasks : 0;
+
     }
 
     private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -111,14 +126,14 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void HandleCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
-        if (e.Action == NotifyCollectionChangedAction.Add)
+        if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
         {
             foreach (ToDoItem newItem in e.NewItems)
             {
                 newItem.PropertyChanged += Item_PropertyChanged;
             }
         }
-        if (e.Action == NotifyCollectionChangedAction.Remove)
+        if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
         {
             foreach (ToDoItem newItem in e.OldItems)
             {
@@ -145,7 +160,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
                 _dbContext.SaveChanges();
             }
             ToDoList.Remove(item);
-
         }
     }
 
@@ -158,7 +172,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
     {
         if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
         {
-            for (int i = ToDoList.Count() - 1; i >= 0; i--)
+            for (int i = ToDoList.Count - 1; i >= 0; i--)
             {
                 if (ToDoList[i].IsComplete)
                 {
@@ -168,18 +182,21 @@ public class ToDoListViewModel: INotifyPropertyChanged
         }
     }
 
-    private void OpenPopup(object commandParameter)
+    private void ToggleReadOnly(object commandParameter)
     {
-        var dialogViewModel = new PopupDialogViewModel();
-        var result = _dialogService.ShowDialog(dialogViewModel);
-        var newTask = new ToDoItem(dialogViewModel.TaskTitle, dialogViewModel.TaskDescription);
-        if (result == true)
+        if (commandParameter is ToDoItem item)
         {
+            item.IsReadOnly = !item.IsReadOnly;
 
-            _dbContext.ToDoItems.Add(newTask);
-            _dbContext.SaveChanges();
-            ToDoList.Add(newTask);
         }
+    }
+
+    private void SaveTask(object commandParameter)
+    {
+        var newTask = new ToDoItem("TaskTitle", "TaskDescription");
+        _dbContext.ToDoItems.Add(newTask);
+        _dbContext.SaveChanges();
+        ToDoList.Add(newTask);
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

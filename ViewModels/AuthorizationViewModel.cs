@@ -28,6 +28,20 @@ namespace ToDoListPlus.ViewModels
         private Visibility _signoutIsVisible;
         private Window _parentWindow;
 
+
+
+        private bool _isEnabled;
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
+
         public Visibility SignoutIsVisible
         {
             get => _signoutIsVisible;
@@ -65,6 +79,7 @@ namespace ToDoListPlus.ViewModels
 
             SigninIsVisible = Visibility.Visible;
             SignoutIsVisible = Visibility.Collapsed;
+            IsEnabled = false;
         }
 
         public void SetParentWindow(Window parentWindow)
@@ -84,15 +99,18 @@ namespace ToDoListPlus.ViewModels
             {
                 SigninIsVisible = Visibility.Collapsed;
                 SignoutIsVisible = Visibility.Visible;
+                IsEnabled = true;
             }
         }
 
         private async void SignOutButtonClick(object commandParamater)
         {
-            await _authService.SignOutAsync();
+            string SignoutRes = await _authService.SignOutAsync();
             AccountUsername = string.Empty;
             SigninIsVisible = Visibility.Visible;
             SignoutIsVisible = Visibility.Collapsed;
+            IsEnabled = false;
+
         }
 
         private bool CanExecute(object commandParameter)

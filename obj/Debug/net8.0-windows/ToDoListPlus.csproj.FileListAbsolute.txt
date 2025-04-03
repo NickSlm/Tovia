@@ -137,13 +137,11 @@ D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\runtimes\win-x86\native\e_sqli
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.csproj.AssemblyReference.cache
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
-D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\PopupDialogView.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\App.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus_MarkupCompile.cache
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus_MarkupCompile.lref
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\App.baml
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\MainWindow.baml
-D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\PopupDialogView.baml
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.g.resources
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.GeneratedMSBuildEditorConfig.editorconfig
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.AssemblyInfoInputs.cache

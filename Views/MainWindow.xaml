@@ -41,179 +41,305 @@
             <Setter Property="Cursor" Value="Hand" />
         </Style>
     </Window.Resources>
-    
-    <Grid>
+
+
+    <materialDesign:DialogHost
+        DialogContentUniformCornerRadius="20"
+        DialogTheme="Inherit">  
+        <Grid>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <!--Header Section Login-->
-        <Border Grid.Row="0" Background="#f6f6f6">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="{Binding AuthorizationVM.AccountUsername}" Foreground="#4880FF" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Margin="8 0 0 0" />
-                
-                <Button Visibility="{Binding AuthorizationVM.SigninIsVisible}" 
-                        Command="{Binding AuthorizationVM.AuthorizationCommand}" 
-                        Style="{StaticResource MicrosoftButtonStyle}"
-                        Grid.Column="1">
-                    
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Sign in with Microsoft</TextBlock>
-                    </StackPanel>
-                    
-                </Button>
-                <Button Visibility="{Binding AuthorizationVM.SignoutIsVisible}" 
-                        Command="{Binding AuthorizationVM.SignOutCommand}" 
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                        Style="{StaticResource MicrosoftButtonStyle}"
-                        Grid.Column="1"
-                        >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Sign out</TextBlock>
-                    </StackPanel>
-                </Button>
-            </Grid>
-            
-        </Border>
+            <!--Header Section Login-->
+            <Border Grid.Row="0" Background="#f6f6f6">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" 
+                               Text="{Binding AuthorizationVM.AccountUsername}" 
+                               Foreground="#4880FF" 
+                               VerticalAlignment="Center" 
+                               FontSize="16" 
+                               FontWeight="SemiBold" 
+                               Margin="8 0 0 0" />
 
-        <!--Main Body Section-->
-        <Grid Grid.Row="1" Background="#FFFFFF" >
+                    <Button Visibility="{Binding AuthorizationVM.SigninIsVisible}" 
+                            Command="{Binding AuthorizationVM.AuthorizationCommand}" 
+                            Style="{StaticResource MicrosoftButtonStyle}"
+                            Grid.Column="1">
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                
-                <!--Main Body Top Section Show Tasks-->
-                <Grid Grid.Row="0" Margin="8">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        
-                        <!--Show Tasks Progress Bar-->
-                        <Grid Grid.Row="0" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.8*"/>
-                                <ColumnDefinition Width="0.2*"/>
-                            </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="2">
+                            <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Text="Sign in with Microsoft"/>
+                        </StackPanel>
 
-                            <ProgressBar Grid.Column="0" Maximum="100" Height="32" Value="{Binding ToDoListVM.CompletedTasks}" Name="pbStatus" Margin="8,0"/>
-                            <TextBlock Grid.Column="0" Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="AntiqueWhite" FontWeight="SemiBold"
-                                       FontSize="16"/>
+                    </Button>
+                    <Button Visibility="{Binding AuthorizationVM.SignoutIsVisible}" 
+                            Command="{Binding AuthorizationVM.SignOutCommand}" 
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Style="{StaticResource MicrosoftButtonStyle}"
+                            Grid.Column="1"
+                            >
+                        <StackPanel Orientation="Horizontal" Margin="2">
+                            <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Text="Sign out"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
 
-                            <Button
-                                Command="{Binding ToDoListVM.CleanItemsCommand}"
-                                CommandParameter="{Binding ToDoListVM.ToDoList}"
-                                Margin="8,0"
-                                Grid.Column="1"
-                                Content="Clear"
-                                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                                Style="{StaticResource MaterialDesignPaperLightButton}"
-                                ToolTip="Resource  name: MaterialDesignPaperLightButton"
-                                >
-                            </Button>
+            </Border>
 
-                        </Grid>
-                        
-                        <!--Show Tasks ListBox Tasks-->
-                        <Grid Grid.Row="1" Margin="8" >
-                            <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" 
-                                     HorizontalContentAlignment="Stretch"
-                                     materialDesign:ListBoxItemAssist.ShowSelection="False"
-                                     >
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid >
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
+            <!--Main Body Section-->
+            <Grid Grid.Row="1" Background="#FFFFFF" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
-                                            <CheckBox IsChecked="{Binding IsComplete}" 
-                                                      Style="{StaticResource MaterialDesignActionLightCheckBox}"
-                                                      Grid.Column="0" 
-                                                      Margin="4"/>
+                    <!--Main Body Top Section Show Tasks-->
+                    <Grid Grid.Row="0" Margin="8">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                                            <ContentControl Grid.Column="1" Content="{Binding}" Margin="8">
-                                                <ContentControl.Style>
-                                                    <Style TargetType="ContentControl">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsReadOnly}" Value="False">
-                                                                <Setter Property="ContentTemplate">
-                                                                    <Setter.Value>
-                                                                        <DataTemplate>
-                                                                            <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                                        </DataTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
-                                                                <Setter Property="ContentTemplate">
-                                                                    <Setter.Value>
-                                                                        <DataTemplate>
-                                                                            <StackPanel>
-                                                                                <TextBlock Text="{Binding Title}"  FontWeight="Bold">
-                                                                                    <TextBlock.Style>
-                                                                                        <Style TargetType="TextBlock">
-                                                                                            <Style.Triggers>
-                                                                                                <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                                                                                    <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                                                                                </DataTrigger>
-                                                                                            </Style.Triggers>
-                                                                                        </Style>
-                                                                                    </TextBlock.Style>
-                                                                                </TextBlock>
-                                                                                <TextBlock Text="{Binding Description}"/>
-                                                                            </StackPanel>
-                                                                        </DataTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </ContentControl.Style>
-                                            </ContentControl>
-                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                                <Button Command="{Binding ToggleReadOnlyCommand}" Style="{StaticResource IconButtonStyle}">
-                                                    <materialDesign:PackIcon Kind="Pencil" />
-                                                </Button>
-                                                <Button  Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, 
-                  RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Style="{StaticResource IconButtonStyle}">
-                                                    <materialDesign:PackIcon Kind="Delete" />
-                                                </Button>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                            <!--Show Tasks Progress Bar-->
+                            <Grid Grid.Row="0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="0.2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ProgressBar Grid.Column="0" 
+                                             Maximum="100" 
+                                             Height="32" 
+                                             Value="{Binding ToDoListVM.CompletedTasks}" 
+                                             Name="pbStatus" 
+                                             Margin="8,0"/>
+
+                                <TextBlock Grid.Column="0" 
+                                           Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"  
+                                           Foreground="AntiqueWhite" 
+                                           FontWeight="SemiBold"
+                                           FontSize="16"/>
+
+                                <Button
+                                    Command="{Binding ToDoListVM.CleanItemsCommand}"
+                                    CommandParameter="{Binding ToDoListVM.ToDoList}"
+                                    Margin="8,0"
+                                    Grid.Column="1"
+                                    Content="Clear"
+                                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                    Style="{StaticResource MaterialDesignPaperLightButton}"
+                                    ToolTip="Resource  name: MaterialDesignPaperLightButton"
+                                    />
+
+                            </Grid>
+
+                            <!--Show Tasks ListBox Tasks-->
+                            <Grid Grid.Row="1" Margin="8" >
+                                <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" 
+                                         HorizontalContentAlignment="Stretch"
+                                         materialDesign:ListBoxItemAssist.ShowSelection="False"
+                                         >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <CheckBox IsChecked="{Binding IsComplete}" 
+                                                          Style="{StaticResource MaterialDesignActionLightCheckBox}"
+                                                          Grid.Column="0" 
+                                                          Margin="4"/>
+
+                                                <ContentControl Grid.Column="1"
+                                                                Content="{Binding}"
+                                                                Margin="8">
+                                                    <ContentControl.Style>
+                                                        <Style TargetType="ContentControl">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsReadOnly}"
+                                                                             Value="False">
+                                                                    <Setter Property="ContentTemplate">
+                                                                        <Setter.Value>
+                                                                            <DataTemplate>
+                                                                                <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                            </DataTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsReadOnly}" 
+                                                                             Value="True">
+                                                                    <Setter Property="ContentTemplate">
+                                                                        <Setter.Value>
+                                                                            <DataTemplate>
+                                                                                <StackPanel>
+                                                                                    <TextBlock Text="{Binding Title}" 
+                                                                                               FontWeight="Bold">
+                                                                                        <TextBlock.Style>
+                                                                                            <Style TargetType="TextBlock">
+                                                                                                <Style.Triggers>
+                                                                                                    <DataTrigger Binding="{Binding IsComplete}" Value="True">
+                                                                                                        <Setter Property="TextDecorations" 
+                                                                                                                Value="Strikethrough"/>
+                                                                                                    </DataTrigger>
+                                                                                                </Style.Triggers>
+                                                                                            </Style>
+                                                                                        </TextBlock.Style>
+                                                                                    </TextBlock>
+                                                                                    <TextBlock Text="{Binding Description}"/>
+                                                                                </StackPanel>
+                                                                            </DataTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContentControl.Style>
+                                                </ContentControl>
+                                                <StackPanel Grid.Column="2" 
+                                                            Orientation="Horizontal">
+                                                    <Button Command="{Binding DataContext.ToDoListVM.ToggleReadOnlyCommand, RelativeSource={RelativeSource AncestorType=Window}}"  
+                                                            CommandParameter="{Binding}" 
+                                                            Style="{StaticResource IconButtonStyle}">
+                                                        <materialDesign:PackIcon Kind="Pencil" />
+                                                    </Button>
+                                                    <Button  Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                                             CommandParameter="{Binding}" 
+                                                             Style="{StaticResource IconButtonStyle}">
+                                                        <materialDesign:PackIcon Kind="Delete" />
+                                                    </Button>
+                                                    <Label Content="{Binding IsComplete}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-                
-                <!--Main Body Bottom Section Add New Task-->
-                <Border Grid.Row="1" Background="LightGray" CornerRadius="0 0 0 0">
-                    <Button Content="➕ Add New Task"
+
+                    <!--Main Body Bottom Section Add New Task-->
+                    <Border Grid.Row="1" Background="LightGray" CornerRadius="0 0 0 0">
+                        <Button 
+                            Content="➕ Add New Task"
                             Margin="0 8 0 8"
-                            Command="{Binding ToDoListVM.OpenPopupCommand}"
+                            Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                             IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                             Style="{StaticResource MaterialDesignPaperLightButton}"
                             ToolTip="Resource name: MaterialDesignPaperLightButton"
                             HorizontalAlignment="center"
                             Padding="8,4" />
-                </Border>
+                    </Border>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+        
+        <!--Popup Dialog Content--> 
+        <materialDesign:DialogHost.DialogContent>
+            <Border Width="300" Height="300" >
+
+                <Grid Margin="8" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox
+                        Grid.Row="0"
+                        Margin="8,8,8,8"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding TaskTitle}"
+                        materialDesign:HintAssist.FloatingOffset="0, -20"
+                        materialDesign:HintAssist.Hint="Title" 
+                     />
+
+                    <StackPanel Grid.Row="1" Margin="8,8,8,8">
+                        <TextBox
+                            Height="100"
+                            Text="{Binding TaskDescription}"
+                            VerticalAlignment="Top"
+                            materialDesign:HintAssist.Hint="Description"
+                            MaxLength="256"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto"
+                          />
+                    </StackPanel>
+
+                    <DatePicker
+                        Grid.Row="2"
+                        Margin="8,8,8,8"
+                        materialDesign:HintAssist.Hint="Pick Due Date"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
+
+                    <Grid 
+                        Grid.Row="3"
+                        Margin="8,8,8,8" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox 
+                            Grid.Column="0" 
+                            IsChecked="false"
+                            IsEnabled="{Binding AuthorizationVM.IsEnabled}"
+                            Content="Calendar Event"/>
+
+                        <TextBlock 
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Foreground="Gray"
+                            Text="(Login required)" />
+                    </Grid>
+
+                    <StackPanel
+                        Grid.Row="4"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Margin="0 4 0 0" 
+                        Grid.Column="1"
+                         >
+                        <Button
+                            Content="ACCEPT"
+                            IsDefault="True"
+                            Margin="8 0 8 0"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding ToDoListVM.SaveTaskCommand}">
+                        </Button>
+                        <Button
+                            Content="CANCEL"
+                            Margin="8 0 8 0"
+                            IsCancel="True"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </materialDesign:DialogHost.DialogContent>
+    </materialDesign:DialogHost>
 </Window>
