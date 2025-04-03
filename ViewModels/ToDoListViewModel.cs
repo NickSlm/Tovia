@@ -29,21 +29,41 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private readonly DelegateCommand _saveTaskCommand;
     private readonly ToDoContext _dbContext;
 
-    private string _itemText;
     private int _totalTasks;
     private int _completedTasks;
-
+    private string _taskTitle;
+    private string _taskDescription;
+    private DateTime _taskDueDate;
 
 
     public ObservableCollection<ToDoItem> ToDoList { get; set; }
-    public string ItemText
+
+    public string TaskTitle
     {
-        get => _itemText;
+        get => _taskTitle;
         set
-        { 
-            _itemText = value;
-            OnPropertyChanged(nameof(ItemText));
-            _addItemCommand.InvokeCanExecuteChanged();
+        {
+            _taskTitle = value;
+            OnPropertyChanged(nameof(TaskTitle));
+        }
+    }
+    public string TaskDescription
+    {
+        get => _taskDescription;
+        set
+        {
+            _taskDescription = value;
+            OnPropertyChanged(nameof(TaskDescription));
+        }
+    }
+
+    public DateTime TaskDueDate
+    {
+        get => _taskDueDate;
+        set
+        {
+            _taskDueDate = value;
+            OnPropertyChanged(nameof(TaskDueDate));
         }
     }
     public int TotalTasks
@@ -157,7 +177,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
             if (itemToRemove != null)
             {
                 _dbContext.ToDoItems.Remove(itemToRemove);
-                _dbContext.SaveChanges();
             }
             ToDoList.Remove(item);
         }
@@ -193,9 +212,9 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void SaveTask(object commandParameter)
     {
-        var newTask = new ToDoItem("TaskTitle", "TaskDescription");
+
+        var newTask = new ToDoItem(TaskTitle, TaskDescription, _taskDueDate);
         _dbContext.ToDoItems.Add(newTask);
-        _dbContext.SaveChanges();
         ToDoList.Add(newTask);
     }
 
