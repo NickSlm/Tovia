@@ -17,6 +17,7 @@ public class ToDoItem: INotifyPropertyChanged
 
     private bool _isReadOnly;
 	private bool _isComplete;
+	private DateTime _dueDate;
 	private string? _title;
 	private string? _description;
 
@@ -39,6 +40,16 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(IsComplete));
 		}
 	}
+
+	public DateTime DueDate
+	{
+		get => _dueDate;
+		set
+		{
+			_dueDate = value;
+			OnPropertyChanged(nameof(DueDate));
+		}
+	}
 	public string Title {
 		get => _title;
 		set
@@ -59,8 +70,9 @@ public class ToDoItem: INotifyPropertyChanged
 
     public ToDoItem() { }
 
-    public ToDoItem(string title, string description)
+    public ToDoItem(string title, string description, DateTime dueDate)
 	{
+		DueDate = dueDate;
 		Title = title;
 		Description = description;
         _isReadOnly = true;

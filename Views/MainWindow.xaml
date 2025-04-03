@@ -269,7 +269,7 @@
                         Grid.Row="0"
                         Margin="8,8,8,8"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Text="{Binding TaskTitle}"
+                        Text="{Binding ToDoListVM.TaskTitle}"
                         materialDesign:HintAssist.FloatingOffset="0, -20"
                         materialDesign:HintAssist.Hint="Title" 
                      />
@@ -277,7 +277,7 @@
                     <StackPanel Grid.Row="1" Margin="8,8,8,8">
                         <TextBox
                             Height="100"
-                            Text="{Binding TaskDescription}"
+                            Text="{Binding ToDoListVM.TaskDescription}"
                             VerticalAlignment="Top"
                             materialDesign:HintAssist.Hint="Description"
                             MaxLength="256"
@@ -290,6 +290,7 @@
                     <DatePicker
                         Grid.Row="2"
                         Margin="8,8,8,8"
+                        SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
                         materialDesign:HintAssist.Hint="Pick Due Date"
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>

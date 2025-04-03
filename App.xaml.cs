@@ -31,6 +31,16 @@ public partial class App : Application
         mainWindow.Show();
     }
 
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        var dbContext = _serviceProvider.GetService<ToDoContext>();
+        if (dbContext != null)
+        {
+            await dbContext.SaveChangesAsync();
+        }
+        base.OnExit(e);
+    }
+
     private void ConfigureServices(IServiceCollection services)
     {
 
