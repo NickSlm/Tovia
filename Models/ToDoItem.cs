@@ -17,9 +17,10 @@ public class ToDoItem: INotifyPropertyChanged
 
     private bool _isReadOnly;
 	private bool _isComplete;
-	private DateTime _dueDate;
-	private string? _title;
+	private string _title;
 	private string? _description;
+	private DateTime? _dueDate;
+	private string? _eventId;
 
 
 	public bool IsReadOnly
@@ -40,16 +41,6 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(IsComplete));
 		}
 	}
-
-	public DateTime DueDate
-	{
-		get => _dueDate;
-		set
-		{
-			_dueDate = value;
-			OnPropertyChanged(nameof(DueDate));
-		}
-	}
 	public string Title {
 		get => _title;
 		set
@@ -58,7 +49,7 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(Title));
 		}
 	}
-	public string Description
+	public string? Description
 	{
 		get => _description;
 		set
@@ -67,14 +58,34 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(Description));
 		}
 	}
+	public DateTime? DueDate
+	{
+		get => _dueDate;
+		set
+		{
+			_dueDate = value;
+			OnPropertyChanged(nameof(DueDate));
+		}
+	}
+	public string? EventId
+	{
+		get => _eventId;
+		set
+		{
+			_eventId = value;
+			OnPropertyChanged(nameof(EventId));
+		}
+	}
+
 
     public ToDoItem() { }
 
-    public ToDoItem(string title, string description, DateTime dueDate)
+    public ToDoItem(string title, string? description, DateTime dueDate, string? eventId)
 	{
-		DueDate = dueDate;
 		Title = title;
 		Description = description;
+		DueDate = dueDate;
+		EventId = eventId;
         _isReadOnly = true;
         _isComplete = false;
     }

@@ -8,6 +8,10 @@ using System.Diagnostics;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Windows.Interop;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using static System.Net.WebRequestMethods;
+using System.Text.Json;
 
 
 namespace ToDoListPlus.Services
@@ -18,6 +22,17 @@ namespace ToDoListPlus.Services
         private static readonly string Tenant = "consumers";
         private static readonly string Instance = "https://login.microsoftonline.com/";
         private static readonly string[] scopes = new string[] { "user.read", "Calendars.ReadWrite" };
+
+        private string _accessToken = string.Empty;
+        private string _accountUsername = string.Empty;
+        public string AccessToken
+        {
+            get { return _accessToken; }
+        }
+        public string AccountUsername
+        {
+            get { return _accountUsername; }
+        }
 
         private static IPublicClientApplication _clientApp;
         public static IPublicClientApplication ClientApp { get { return _clientApp; } }
@@ -39,8 +54,8 @@ namespace ToDoListPlus.Services
         {
             var storageProperties = new StorageCreationPropertiesBuilder(
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".msalcache.bin", MsalCacheHelper.UserRootDirectory).Build();
-
             MsalCacheHelper cacheHelper = await MsalCacheHelper.CreateAsync(storageProperties, new TraceSource("MSAL.CacheTrace")).ConfigureAwait(false);
+
             return cacheHelper;
 
         }
@@ -80,7 +95,9 @@ namespace ToDoListPlus.Services
                 return $"Error {ex.Message}";
             }
 
-            return authResult.Account.Username;
+            _accessToken = authResult.AccessToken;
+            _accountUsername = authResult.Account.Username;
+            return $"Authorization Succeded";
         }
 
         public async Task<string> SignOutAsync()
@@ -92,6 +109,7 @@ namespace ToDoListPlus.Services
                 if (firstAccount != null)
                 {
                     await ClientApp.RemoveAsync(firstAccount);
+                    _accessToken = string.Empty;
                     return "Sign-out successful";
                 }
                 else
@@ -106,5 +124,48 @@ namespace ToDoListPlus.Services
             }
         }
 
+        public async Task<string> PostTaskAsync(string title, string? description, DateTime? date)
+        {
+            var httpClient = new HttpClient();
+            string url = "https://graph.microsoft.com/v1.0/me/events";
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+            var eventData = new
+            {
+                subject = title,
+                body = new
+                {
+                    contentType = "HTML",
+                    content = description
+                },
+                start = new
+                {
+                    dateTime = date,
+                    timeZone = "Pacific Standard Time"
+                },
+                end = new
+                {
+                    dateTime = date,
+                    timeZone = "Pacific Standard Time"
+                }
+            };
+
+            var json = JsonSerializer.Serialize(eventData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseBody);
+                string eventId = doc.RootElement.GetProperty("id").GetString() ?? string.Empty;
+                return eventId;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return $"Failed to create event: {response.StatusCode} - {error}";
+            }
+        }
     }
 }

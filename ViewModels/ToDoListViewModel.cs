@@ -9,21 +9,19 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using ToDoListPlus.Services;
 using ToDoListPlus.ViewModels;
+using Microsoft.Extensions.Logging;
 
 public class ToDoListViewModel: INotifyPropertyChanged
 {
 
 
     public event PropertyChangedEventHandler? PropertyChanged;
-    public ICommand AddItemCommand => _addItemCommand;
     public ICommand RemoveItemCommand => _removeItemCommand;
     public ICommand CleanItemsCommand => _cleanItemsCommand;
     public ICommand SaveTaskCommand => _saveTaskCommand;
     public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
 
-
     private readonly DelegateCommand _toggleReadOnlyCommand;
-    private readonly DelegateCommand _addItemCommand;
     private readonly DelegateCommand _removeItemCommand;
     private readonly DelegateCommand _cleanItemsCommand;
     private readonly DelegateCommand _saveTaskCommand;
@@ -31,41 +29,13 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private int _totalTasks;
     private int _completedTasks;
-    private string _taskTitle;
-    private string _taskDescription;
-    private DateTime _taskDueDate;
+    private string _taskTitle = string.Empty;
+    private string? _taskDescription = string.Empty;
+    private DateTime? _taskDueDate = DateTime.Now;
+    private bool _eventIsChecked;
 
 
     public ObservableCollection<ToDoItem> ToDoList { get; set; }
-
-    public string TaskTitle
-    {
-        get => _taskTitle;
-        set
-        {
-            _taskTitle = value;
-            OnPropertyChanged(nameof(TaskTitle));
-        }
-    }
-    public string TaskDescription
-    {
-        get => _taskDescription;
-        set
-        {
-            _taskDescription = value;
-            OnPropertyChanged(nameof(TaskDescription));
-        }
-    }
-
-    public DateTime TaskDueDate
-    {
-        get => _taskDueDate;
-        set
-        {
-            _taskDueDate = value;
-            OnPropertyChanged(nameof(TaskDueDate));
-        }
-    }
     public int TotalTasks
     {
         get => _totalTasks;
@@ -84,16 +54,53 @@ public class ToDoListViewModel: INotifyPropertyChanged
             OnPropertyChanged(nameof(CompletedTasks));
         }
     }
+    public string TaskTitle
+    {
+        get => _taskTitle;
+        set
+        {
+            _taskTitle = value;
+            OnPropertyChanged(nameof(TaskTitle));
+        }
+    }
+    public string? TaskDescription
+    {
+        get => _taskDescription;
+        set
+        {
+            _taskDescription = value;
+            OnPropertyChanged(nameof(TaskDescription));
+        }
+    }
+    public DateTime? TaskDueDate
+    {
+        get => _taskDueDate;
+        set
+        {
+            _taskDueDate = value;
+            OnPropertyChanged(nameof(TaskDueDate));
+        }
+    }
+    private readonly AuthService _authService;
+    public bool EventIsChecked
+    {
+        get => _eventIsChecked;
+        set
+        {
+            _eventIsChecked = value;
+            OnPropertyChanged(nameof(EventIsChecked));
+        }
+    }
 
-
-    public ToDoListViewModel(ToDoContext dbContext)
+    public ToDoListViewModel(ToDoContext dbContext, AuthService authService)
 	{
         _dbContext = dbContext;
+        _authService = authService;
 
         ToDoList = new ObservableCollection<ToDoItem>();
+        EventIsChecked = false;
 
         LoadToDoItems();
-
 
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
@@ -110,7 +117,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
     {
         var tasksFromDb = _dbContext.ToDoItems.ToList();
 
-
         ToDoList.Clear();
 
         foreach (var item in tasksFromDb)
@@ -126,8 +132,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
 
     private void UpdateTotalTasks()
     {
-
-        TotalTasks = ToDoList.Count();
+        TotalTasks = ToDoList.Count;
     }
 
     private void UpdateCompletedTasks()
@@ -195,6 +200,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
             {
                 if (ToDoList[i].IsComplete)
                 {
+                    _dbContext.ToDoItems.Remove(ToDoList[i]);
                     ToDoList.RemoveAt(i);
                 }
             }
@@ -210,12 +216,45 @@ public class ToDoListViewModel: INotifyPropertyChanged
         }
     }
 
-    private void SaveTask(object commandParameter)
+    private async void SaveTask(object commandParameter)
     {
 
-        var newTask = new ToDoItem(TaskTitle, TaskDescription, _taskDueDate);
+        if (string.IsNullOrWhiteSpace(TaskTitle))
+        {
+            MessageBox.Show("Title Required");
+            return;
+        }
+        if (!TaskDueDate.HasValue)
+        {
+            MessageBox.Show("DueTime Required");
+            return;
+        }
+
+        string eventId = string.Empty;
+
+        if (EventIsChecked)
+        {
+            eventId = await _authService.PostTaskAsync(TaskTitle, TaskDescription, TaskDueDate);
+        }
+
+        var newTask = new ToDoItem
+        {
+            Title = TaskTitle,
+            Description = TaskDescription,
+            DueDate = TaskDueDate,
+            IsComplete = false,
+            IsReadOnly = true,
+            EventId = eventId
+        };
+
         _dbContext.ToDoItems.Add(newTask);
         ToDoList.Add(newTask);
+
+        //Reset Form Fields
+        TaskTitle = string.Empty;
+        TaskDescription = string.Empty;
+        TaskDueDate = DateTime.Now;
+        EventIsChecked = false;
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

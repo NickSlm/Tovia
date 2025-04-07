@@ -15,7 +15,6 @@ namespace ToDoListPlus.ViewModels
     public class AuthorizationViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
         public ICommand AuthorizationCommand => _authorizationCommand;
         public ICommand SignOutCommand => _signOutCommand;
 
@@ -30,18 +29,16 @@ namespace ToDoListPlus.ViewModels
 
 
 
-        private bool _isEnabled;
-
-        public bool IsEnabled
+        private bool _eventIsEnabled;
+        public bool EventIsEnabled
         {
-            get => _isEnabled;
+            get => _eventIsEnabled;
             set
             {
-                _isEnabled = value;
-                OnPropertyChanged(nameof(IsEnabled));
+                _eventIsEnabled = value;
+                OnPropertyChanged(nameof(EventIsEnabled));
             }
         }
-
         public Visibility SignoutIsVisible
         {
             get => _signoutIsVisible;
@@ -51,7 +48,6 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(SignoutIsVisible));
             }
         }
-
         public Visibility SigninIsVisible
         {
             get => _signinIsVisible;
@@ -79,7 +75,7 @@ namespace ToDoListPlus.ViewModels
 
             SigninIsVisible = Visibility.Visible;
             SignoutIsVisible = Visibility.Collapsed;
-            IsEnabled = false;
+            EventIsEnabled = false;
         }
 
         public void SetParentWindow(Window parentWindow)
@@ -94,12 +90,13 @@ namespace ToDoListPlus.ViewModels
 
         private async void AuthorizationButtonClick(object commandParameter)
         {
-            AccountUsername = await _authService.GetAccessTokenAsync(_parentWindow);
-            if (!string.IsNullOrEmpty(AccountUsername))
+            await _authService.GetAccessTokenAsync(_parentWindow);
+            if (!string.IsNullOrEmpty(_authService.AccessToken))
             {
+                AccountUsername = _authService.AccountUsername;
                 SigninIsVisible = Visibility.Collapsed;
                 SignoutIsVisible = Visibility.Visible;
-                IsEnabled = true;
+                EventIsEnabled = true;
             }
         }
 
@@ -109,8 +106,7 @@ namespace ToDoListPlus.ViewModels
             AccountUsername = string.Empty;
             SigninIsVisible = Visibility.Visible;
             SignoutIsVisible = Visibility.Collapsed;
-            IsEnabled = false;
-
+            EventIsEnabled = false;
         }
 
         private bool CanExecute(object commandParameter)
