@@ -153,7 +153,6 @@ namespace ToDoListPlus.Services
             var json = JsonSerializer.Serialize(eventData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(url, content);
-
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -166,6 +165,26 @@ namespace ToDoListPlus.Services
                 var error = await response.Content.ReadAsStringAsync();
                 return $"Failed to create event: {response.StatusCode} - {error}";
             }
+        }
+
+        public async Task<string> DeleteTaskAsync(string eventId)
+        {
+            var httpClient = new HttpClient();
+            string url = $"https://graph.microsoft.com/v1.0/me/events/{eventId}";
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            var response = await httpClient.DeleteAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return "Event deleted successfully";
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return $"Failed to delete event: {response.StatusCode} - {error}";
+            }
+
+            
         }
     }
 }

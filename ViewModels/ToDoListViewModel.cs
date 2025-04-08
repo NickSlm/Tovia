@@ -13,8 +13,6 @@ using Microsoft.Extensions.Logging;
 
 public class ToDoListViewModel: INotifyPropertyChanged
 {
-
-
     public event PropertyChangedEventHandler? PropertyChanged;
     public ICommand RemoveItemCommand => _removeItemCommand;
     public ICommand CleanItemsCommand => _cleanItemsCommand;
@@ -26,6 +24,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private readonly DelegateCommand _cleanItemsCommand;
     private readonly DelegateCommand _saveTaskCommand;
     private readonly ToDoContext _dbContext;
+    private readonly AuthService _authService;
 
     private int _totalTasks;
     private int _completedTasks;
@@ -81,7 +80,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
             OnPropertyChanged(nameof(TaskDueDate));
         }
     }
-    private readonly AuthService _authService;
     public bool EventIsChecked
     {
         get => _eventIsChecked;
@@ -100,7 +98,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
         ToDoList = new ObservableCollection<ToDoItem>();
         EventIsChecked = false;
 
-        LoadToDoItems();
 
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
@@ -110,6 +107,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
         _saveTaskCommand = new DelegateCommand(SaveTask, CanExecute);
         _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, CanExecute);
 
+        LoadToDoItems();
         UpdateCompletedTasks();
     }
 
@@ -174,7 +172,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
         return true;
     }
 
-    private void RemoveItem(object commandParameter)
+    private async void RemoveItem(object commandParameter)
     {
         if (commandParameter is ToDoItem item)
         {
@@ -182,6 +180,10 @@ public class ToDoListViewModel: INotifyPropertyChanged
             if (itemToRemove != null)
             {
                 _dbContext.ToDoItems.Remove(itemToRemove);
+            }
+            if (item.EventId != null)
+            {
+                string result = await _authService.DeleteTaskAsync(item.EventId);
             }
             ToDoList.Remove(item);
         }
@@ -192,7 +194,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
         return commandParameter is ToDoItem item && ToDoList.Contains(item);
     }
 
-    private void CleanCompletedItems(object commandParameter)
+    private async void CleanCompletedItems(object commandParameter)
     {
         if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
         {
@@ -200,6 +202,10 @@ public class ToDoListViewModel: INotifyPropertyChanged
             {
                 if (ToDoList[i].IsComplete)
                 {
+                    if (ToDoList[i].EventId != null)
+                    {
+                        string result = await _authService.DeleteTaskAsync(ToDoList[i].EventId);
+                    }
                     _dbContext.ToDoItems.Remove(ToDoList[i]);
                     ToDoList.RemoveAt(i);
                 }
