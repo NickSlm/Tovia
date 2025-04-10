@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus"
+        xmlns:converters="clr-namespace:ToDoListPlus.Converters"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -37,9 +38,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="Button">
-            <Setter Property="Cursor" Value="Hand" />
-        </Style>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
     </Window.Resources>
 
 
@@ -72,13 +73,11 @@
                                Foreground="#333"
                                Margin="12 0 0 0" />
 
+                    <!-- Sign in/out buttons here -->
                     <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                        <!-- Sign in/out buttons here -->
-                        <Button Visibility="{Binding AuthorizationVM.SigninIsVisible}" 
+                        <Button Visibility="{Binding AuthorizationVM.IsSignedIn, Converter={StaticResource InverseBoolToVis}}" 
                                 Command="{Binding AuthorizationVM.AuthorizationCommand}" 
-                                Style="{StaticResource MicrosoftButtonStyle}"
-                                >
-
+                                Style="{StaticResource MicrosoftButtonStyle}">
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
                                 <TextBlock HorizontalAlignment="Center" 
@@ -88,11 +87,9 @@
                             </StackPanel>
 
                         </Button>
-                        <Button Visibility="{Binding AuthorizationVM.SignoutIsVisible}" 
+                        <Button Visibility="{Binding AuthorizationVM.IsSignedIn, Converter={StaticResource BoolToVis}}"
                                 Command="{Binding AuthorizationVM.SignOutCommand}" 
-                                Style="{StaticResource MicrosoftButtonStyle}"
-                                
-                                >
+                                Style="{StaticResource MicrosoftButtonStyle}">
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
                                 <TextBlock HorizontalAlignment="Center" 
@@ -127,16 +124,15 @@
                                     <ColumnDefinition Width="0.8*"/>
                                     <ColumnDefinition Width="0.2*"/>
                                 </Grid.ColumnDefinitions>
-
                                 <ProgressBar Grid.Column="0" 
                                              Maximum="100" 
                                              Height="32" 
                                              Value="{Binding ToDoListVM.CompletedTasks}" 
-                                            Foreground="#42A5F5"                                           
+                                             Foreground="#66BB6A" 
                                              Background="#E0E0E0"
-                                            BorderBrush="Transparent"
-                                            BorderThickness="0"
-                                            Margin="8,0"/>
+                                             BorderBrush="Transparent"
+                                             BorderThickness="0"
+                                             Margin="8,0"/>
 
                                 <TextBlock Grid.Column="0" 
                                            Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" 
@@ -145,7 +141,6 @@
                                            Foreground="black" 
                                            FontWeight="SemiBold"
                                            FontSize="16"/>
-
                                 <Button
                                     Command="{Binding ToDoListVM.CleanItemsCommand}"
                                     CommandParameter="{Binding ToDoListVM.ToDoList}"
@@ -153,16 +148,13 @@
                                     Grid.Column="1"
                                     Content="Clear"
                                     Style="{StaticResource MaterialDesignPaperLightButton}"
-                                    ToolTip="Resource  name: MaterialDesignPaperLightButton"
-                                    />
-
+                                    ToolTip="Resource  name: MaterialDesignPaperLightButton"/>
                             </Grid>
 
                             <!--Show Tasks ListBox Tasks-->
                             <Grid Grid.Row="1" Margin="8" >
                                 <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" 
-                                         HorizontalContentAlignment="Stretch"
-                                         >
+                                         HorizontalContentAlignment="Stretch">
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                             <Style.Setters>
@@ -172,13 +164,12 @@
                                             
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                                    <Setter Property="Background" Value="#A5D6A7 " />
-                                                    <Setter Property="Foreground" Value="#263238 "/>
+                                                    <Setter Property="Background" Value="#C8E6C9" />
+                                                    <Setter Property="Foreground" Value="#1B5E20 "/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding IsComplete}" Value="False">
-                                                    <Setter Property="Background" Value="#FFAB91 " />
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                    
+                                                    <Setter Property="Background" Value="#BBDEFB" />
+                                                    <Setter Property="Foreground" Value="#0D47A1"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -196,15 +187,11 @@
                                                           IsChecked="{Binding IsComplete}"
                                                           Style="{StaticResource MaterialDesignLightCheckBox}"
                                                           Grid.Column="0"
-                                                          Background="DarkGreen"
-                                                          Foreground="White"
-                                                          Margin="4">
-                                                </CheckBox>
-                                                
+                                                          Margin="4"/>
+
                                                 <ContentControl Grid.Column="1"
                                                                 Content="{Binding}"
-                                                                Margin="4"
-                                                                >
+                                                                Margin="4">
                                                     <ContentControl.Style>
                                                         <Style TargetType="ContentControl">
                                                             <Style.Triggers>
@@ -215,7 +202,6 @@
                                                                             <DataTemplate>
                                                                                 <StackPanel>
                                                                                     <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
                                                                                     <TextBlock 
                                                                                         Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                                                                         TextWrapping="Wrap"
@@ -231,17 +217,15 @@
                                                                         <Setter.Value>
                                                                             <DataTemplate>
                                                                                 <StackPanel>
-
-                                                                                    <TextBlock Text="{Binding DueDate, StringFormat=Time Left: {0}}"
-                                                                                               HorizontalAlignment="Center"/>
-
                                                                                     <TextBlock Text="{Binding Title}" 
                                                                                                FontWeight="Bold">
                                                                                         <TextBlock.Style>
                                                                                             <Style TargetType="TextBlock">
                                                                                                 <Style.Triggers>
                                                                                                     <DataTrigger Binding="{Binding IsComplete}" Value="True">
-
+                                                                                                        <Setter 
+                                                                                                            Property="TextDecorations"     
+                                                                                                            Value="Strikethrough"/>
                                                                                                     </DataTrigger>
                                                                                                 </Style.Triggers>
                                                                                             </Style>
@@ -263,17 +247,49 @@
                                                 <StackPanel Grid.Column="2" 
                                                             Orientation="Horizontal"
                                                             VerticalAlignment="Top"
-                                                            Margin="4"
-                                                            >
+                                                            Margin="4">
+                                                    <materialDesign:PackIcon Kind="CalendarClock" 
+                                                                             ToolTip="{Binding DueDate}" 
+                                                                             Width="24" 
+                                                                             Height="24" 
+                                                                             Margin="4"
+                                                                             ToolTipService.InitialShowDelay="100"
+                                                                             ToolTipService.ShowDuration="10000"
+                                                                             Foreground="Black"/>
+                                                    
+                                                    <!--Edit Task Button-->
                                                     <Button Command="{Binding DataContext.ToDoListVM.ToggleReadOnlyCommand, RelativeSource={RelativeSource AncestorType=Window}}"  
+                                                            Width="24"
+                                                            Height="24"
                                                             CommandParameter="{Binding}" 
+                                                            Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}"
                                                             Style="{StaticResource IconButtonStyle}">
-                                                        <materialDesign:PackIcon Kind="Pencil" />
+                                                        <materialDesign:PackIcon Kind="Pencil" 
+                                                                                 Height="24" 
+                                                                                 Width="24"/>
                                                     </Button>
+                                                    
+                                                    <!--Save Task Button-->
+                                                    <Button Command="{Binding DataContext.ToDoListVM.ToggleReadOnlyCommand, RelativeSource={RelativeSource AncestorType=Window}}"  
+                                                            Width="24"
+                                                            Height="24"
+                                                            CommandParameter="{Binding}" 
+                                                            Visibility="{Binding IsReadOnly, Converter={StaticResource InverseBoolToVis}}"
+                                                            Style="{StaticResource IconButtonStyle}">
+                                                        <materialDesign:PackIcon Kind="ContentSave" 
+                                                                                 Height="24" 
+                                                                                 Width="24"/>
+                                                    </Button>
+                                                    
+                                                    <!--Delete Task Button-->
                                                     <Button  Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
                                                              CommandParameter="{Binding}" 
+                                                             Width="24"
+                                                             Height="24"
                                                              Style="{StaticResource IconButtonStyle}">
-                                                        <materialDesign:PackIcon Kind="Delete" />
+                                                        <materialDesign:PackIcon Kind="Delete" 
+                                                                                 Height="24" 
+                                                                                 Width="24"/>
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>

@@ -14,9 +14,8 @@ public class ToDoItem: INotifyPropertyChanged
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public int Id { get; set; }
 
-
-    private bool _isReadOnly;
-	private bool _isComplete;
+	private bool _isReadOnly = true;
+	private bool _isComplete = false;
 	private string _title;
 	private string? _description;
 	private DateTime? _dueDate;
@@ -78,16 +77,14 @@ public class ToDoItem: INotifyPropertyChanged
 	}
 
 
-    public ToDoItem() { }
+	public ToDoItem() { }
 
-    public ToDoItem(string title, string? description, DateTime dueDate, string? eventId)
+    public ToDoItem(string title, string? description, DateTime? dueDate, string? eventId)
 	{
 		Title = title;
 		Description = description;
 		DueDate = dueDate;
 		EventId = eventId;
-        _isReadOnly = true;
-        _isComplete = false;
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

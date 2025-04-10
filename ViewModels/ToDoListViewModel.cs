@@ -243,15 +243,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
             eventId = await _authService.PostTaskAsync(TaskTitle, TaskDescription, TaskDueDate);
         }
 
-        var newTask = new ToDoItem
-        {
-            Title = TaskTitle,
-            Description = TaskDescription,
-            DueDate = TaskDueDate,
-            IsComplete = false,
-            IsReadOnly = true,
-            EventId = eventId
-        };
+        var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate, eventId);
 
         _dbContext.ToDoItems.Add(newTask);
         ToDoList.Add(newTask);
