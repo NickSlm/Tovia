@@ -13,8 +13,6 @@ namespace ToDoListPlus;
 /// </summary>
 public partial class App : Application
 {
-
-
     private IServiceProvider _serviceProvider;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -33,6 +31,7 @@ public partial class App : Application
 
     protected override async void OnExit(ExitEventArgs e)
     {
+
         var dbContext = _serviceProvider.GetService<ToDoContext>();
         if (dbContext != null)
         {
@@ -43,7 +42,6 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-
         services.AddDbContext<ToDoContext>(options => options.UseSqlite("Data Source=ToDoList.db"));
 
         services.AddSingleton<IDatabaseInitializer, DatabaseInitializer>();
@@ -54,7 +52,6 @@ public partial class App : Application
         services.AddSingleton<MainViewModel>();
 
         services.AddSingleton<MainWindow>();
-
     }
 }
 
