@@ -127,18 +127,15 @@ public class ToDoListViewModel: INotifyPropertyChanged
         UpdateTotalTasks();
 
     }
-
     private void UpdateTotalTasks()
     {
         TotalTasks = ToDoList.Count;
     }
-
     private void UpdateCompletedTasks()
     {
         CompletedTasks = (TotalTasks > 0) ? (ToDoList.Count(item => item.IsComplete) * 100) / TotalTasks : 0;
 
     }
-
     private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ToDoItem.IsComplete))
@@ -146,7 +143,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
             UpdateCompletedTasks();
         }
     }
-
     private void HandleCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
         if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
@@ -165,13 +161,22 @@ public class ToDoListViewModel: INotifyPropertyChanged
         }
         UpdateCompletedTasks();
     }
-
     private bool CanExecute(object commandParameter)
     {
         //return !string.IsNullOrWhiteSpace(ItemText);
         return true;
     }
-
+    private bool CanRemoveItem(object commandParameter)
+    {
+        return commandParameter is ToDoItem item && ToDoList.Contains(item);
+    }
+    private void ToggleReadOnly(object commandParameter)
+    {
+        if (commandParameter is ToDoItem item)
+        {
+            item.IsReadOnly = !item.IsReadOnly;
+        }
+    }
     private async void RemoveItem(object commandParameter)
     {
         if (commandParameter is ToDoItem item)
@@ -188,12 +193,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
             ToDoList.Remove(item);
         }
     }
-
-    private bool CanRemoveItem(object commandParameter)
-    {
-        return commandParameter is ToDoItem item && ToDoList.Contains(item);
-    }
-
     private async void CleanCompletedItems(object commandParameter)
     {
         if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
@@ -212,19 +211,8 @@ public class ToDoListViewModel: INotifyPropertyChanged
             }
         }
     }
-
-    private void ToggleReadOnly(object commandParameter)
-    {
-        if (commandParameter is ToDoItem item)
-        {
-            item.IsReadOnly = !item.IsReadOnly;
-
-        }
-    }
-
     private async void SaveTask(object commandParameter)
     {
-
         if (string.IsNullOrWhiteSpace(TaskTitle))
         {
             MessageBox.Show("Title Required");
@@ -254,7 +242,5 @@ public class ToDoListViewModel: INotifyPropertyChanged
         TaskDueDate = DateTime.Now;
         EventIsChecked = false;
     }
-
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
 }

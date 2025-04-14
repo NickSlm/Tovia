@@ -15,7 +15,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="ToDoPlus" Height="608" Width="504">
+        Title="ToDoPlus" Height="640" Width="640">
 
     <Window.Resources>
         <Style x:Key="IconButtonStyle" TargetType="Button">
@@ -103,7 +103,8 @@
             </Border>
 
             <!--Main Body Section-->
-            <Grid Grid.Row="1" Background="#F5F5F5" >
+            <Grid Grid.Row="1" 
+                  Background="#F5F5F5" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -152,150 +153,113 @@
                             </Grid>
 
                             <!--Show Tasks ListBox Tasks-->
-                            <Grid Grid.Row="1" Margin="8" >
-                                <ListBox ItemsSource="{Binding ToDoListVM.ToDoList}" 
-                                         HorizontalContentAlignment="Stretch">
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                            <Style.Setters>
-                                                <Setter Property="Background" Value="Transparent" />
-                                                <Setter Property="materialDesign:ListBoxItemAssist.ShowSelection" Value="False"/>
-                                            </Style.Setters>
-                                            
+                            <Grid Grid.Row="1" 
+                                  Margin="8" 
+                                  HorizontalAlignment="Stretch" >
+                                <DataGrid ItemsSource="{Binding ToDoListVM.ToDoList}"
+                                            AutoGenerateColumns="False"
+                                            SelectionMode="Single"
+                                            SelectionUnit="FullRow"
+                                            IsReadOnly="True"
+                                            HeadersVisibility="Column"
+                                            GridLinesVisibility="None"
+                                            Focusable="False">
+
+                                    <!-- Clear out Material styles -->
+                                    <DataGrid.Resources>
+                                        <Style TargetType="DataGridRow" />
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Focusable" Value="False"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                                    <Setter Property="Background" Value="#C8E6C9" />
-                                                    <Setter Property="Foreground" Value="#1B5E20 "/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsComplete}" Value="False">
-                                                    <Setter Property="Background" Value="#BBDEFB" />
-                                                    <Setter Property="Foreground" Value="#0D47A1"/>
+                                                <!-- Remove selection highlight -->
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="Black"/>
+                                                </Trigger>
+                                                <!-- Optional: remove hover effect on cell -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.Resources>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="BorderBrush" Value="WhiteSmoke"/>
+                                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                            <Setter Property="Background" Value="LightBlue"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Setter Property="Focusable" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                    <Setter Property="Background" Value="LightGreen"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ListBox.ItemContainerStyle>
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
+                                    </DataGrid.RowStyle>
 
-                                                <CheckBox VerticalAlignment="Top"
-                                                          IsChecked="{Binding IsComplete}"
-                                                          Style="{StaticResource MaterialDesignLightCheckBox}"
-                                                          Grid.Column="0"
-                                                          Margin="4"/>
-
-                                                <ContentControl Grid.Column="1"
-                                                                Content="{Binding}"
-                                                                Margin="4">
-                                                    <ContentControl.Style>
-                                                        <Style TargetType="ContentControl">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding IsReadOnly}"
-                                                                             Value="False">
-                                                                    <Setter Property="ContentTemplate">
-                                                                        <Setter.Value>
-                                                                            <DataTemplate>
-                                                                                <StackPanel>
-                                                                                    <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                                                    <TextBlock 
-                                                                                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                                                                        TextWrapping="Wrap"
-                                                                                        Text="{Binding Description}"/>
-                                                                                </StackPanel>
-                                                                            </DataTemplate>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding IsReadOnly}" 
-                                                                             Value="True">
-                                                                    <Setter Property="ContentTemplate">
-                                                                        <Setter.Value>
-                                                                            <DataTemplate>
-                                                                                <StackPanel>
-                                                                                    <TextBlock Text="{Binding Title}" 
-                                                                                               FontWeight="Bold">
-                                                                                        <TextBlock.Style>
-                                                                                            <Style TargetType="TextBlock">
-                                                                                                <Style.Triggers>
-                                                                                                    <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                                                                                        <Setter 
-                                                                                                            Property="TextDecorations"     
-                                                                                                            Value="Strikethrough"/>
-                                                                                                    </DataTrigger>
-                                                                                                </Style.Triggers>
-                                                                                            </Style>
-                                                                                        </TextBlock.Style>
-                                                                                    </TextBlock>
-                                                                                    <TextBlock 
-                                                                                        Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                                                                        TextWrapping="Wrap"
-                                                                                        Text="{Binding Description}"/>
-                                                                                </StackPanel>
-                                                                            </DataTemplate>
-                                                                        </Setter.Value>
-                                                                    </Setter>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </ContentControl.Style>
-                                                </ContentControl>
-                                                <StackPanel Grid.Column="2" 
-                                                            Orientation="Horizontal"
-                                                            VerticalAlignment="Top"
-                                                            Margin="4">
-                                                    <materialDesign:PackIcon Kind="CalendarClock" 
-                                                                             ToolTip="{Binding DueDate}" 
-                                                                             Width="24" 
-                                                                             Height="24" 
-                                                                             Margin="4"
-                                                                             ToolTipService.InitialShowDelay="100"
-                                                                             ToolTipService.ShowDuration="10000"
-                                                                             Foreground="Black"/>
-                                                    
-                                                    <!--Edit Task Button-->
-                                                    <Button Command="{Binding DataContext.ToDoListVM.ToggleReadOnlyCommand, RelativeSource={RelativeSource AncestorType=Window}}"  
-                                                            Width="24"
-                                                            Height="24"
+                                    <DataGrid.Columns>
+                                        <!--Complete Checkbox-->
+                                        <DataGridTemplateColumn Header="Done" Width="Auto">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                              VerticalAlignment="Center"
+                                                              HorizontalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <!--Task Title,Description-->
+                                        <DataGridTemplateColumn Header="Task"
+                                                                Width="*"
+                                                                >
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Title}"
+                                                                       Grid.Column="0"
+                                                                       TextWrapping="Wrap"
+                                                                       VerticalAlignment="Top"
+                                                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                                                       />
+                                                        <TextBlock Text="{Binding Description}"
+                                                               TextWrapping="Wrap"
+                                                               VerticalAlignment="Top"
+                                                               Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                              />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="Due Date" Width="Auto">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"
+                                                                Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <!--Remove Button-->
+                                        <DataGridTemplateColumn Width="Auto">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                             CommandParameter="{Binding}" 
-                                                            Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}"
-                                                            Style="{StaticResource IconButtonStyle}">
-                                                        <materialDesign:PackIcon Kind="Pencil" 
+                                                            Style="{StaticResource IconButtonStyle}"
+                                                            >
+                                                        <materialDesign:PackIcon Kind="DeleteOutline" 
                                                                                  Height="24" 
                                                                                  Width="24"/>
                                                     </Button>
-                                                    
-                                                    <!--Save Task Button-->
-                                                    <Button Command="{Binding DataContext.ToDoListVM.ToggleReadOnlyCommand, RelativeSource={RelativeSource AncestorType=Window}}"  
-                                                            Width="24"
-                                                            Height="24"
-                                                            CommandParameter="{Binding}" 
-                                                            Visibility="{Binding IsReadOnly, Converter={StaticResource InverseBoolToVis}}"
-                                                            Style="{StaticResource IconButtonStyle}">
-                                                        <materialDesign:PackIcon Kind="ContentSave" 
-                                                                                 Height="24" 
-                                                                                 Width="24"/>
-                                                    </Button>
-                                                    
-                                                    <!--Delete Task Button-->
-                                                    <Button  Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
-                                                             CommandParameter="{Binding}" 
-                                                             Width="24"
-                                                             Height="24"
-                                                             Style="{StaticResource IconButtonStyle}">
-                                                        <materialDesign:PackIcon Kind="Delete" 
-                                                                                 Height="24" 
-                                                                                 Width="24"/>
-                                                    </Button>
-                                                </StackPanel>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </Grid>
                         </Grid>
                     </Grid>

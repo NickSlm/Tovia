@@ -31,7 +31,6 @@ public partial class App : Application
 
     protected override async void OnExit(ExitEventArgs e)
     {
-
         var dbContext = _serviceProvider.GetService<ToDoContext>();
         if (dbContext != null)
         {

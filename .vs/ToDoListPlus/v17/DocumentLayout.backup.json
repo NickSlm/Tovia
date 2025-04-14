@@ -19,16 +19,12 @@
       "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:models\\todoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\converters\\inversebooleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:converters\\inversebooleantovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,33 +34,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 338,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "InverseBooleanToVisibilityConverter.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Converters\\InverseBooleanToVisibilityConverter.cs",
-              "RelativeDocumentMoniker": "Converters\\InverseBooleanToVisibilityConverter.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\Converters\\InverseBooleanToVisibilityConverter.cs",
-              "RelativeToolTip": "Converters\\InverseBooleanToVisibilityConverter.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-10T07:41:54.631Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\App.xaml.cs",
-              "RelativeDocumentMoniker": "App.xaml.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\App.xaml.cs",
-              "RelativeToolTip": "App.xaml.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABwAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-08T11:54:38.316Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -73,22 +44,35 @@
               "RelativeDocumentMoniker": "Models\\ToDoItem.cs",
               "ToolTip": "D:\\Projects\\ToDoListPlus\\Models\\ToDoItem.cs",
               "RelativeToolTip": "Models\\ToDoItem.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T07:51:13.223Z",
+              "WhenOpened": "2025-04-10T12:09:48.301Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Views\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\Views\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Views\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-10T11:36:59.156Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Services\\AuthService.cs",
               "ToolTip": "D:\\Projects\\ToDoListPlus\\Services\\AuthService.cs",
               "RelativeToolTip": "Services\\AuthService.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAuwGUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAiwH4AAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-06T10:18:51.416Z"
+              "WhenOpened": "2025-04-06T10:18:51.416Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -98,7 +82,7 @@
               "RelativeDocumentMoniker": "ViewModels\\AuthorizationViewModel.cs",
               "ToolTip": "D:\\Projects\\ToDoListPlus\\ViewModels\\AuthorizationViewModel.cs",
               "RelativeToolTip": "ViewModels\\AuthorizationViewModel.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAIwD8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAowEoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-06T08:52:04.284Z",
               "EditorCaption": ""
@@ -111,7 +95,7 @@
               "RelativeDocumentMoniker": "ViewModels\\ToDoListViewModel.cs",
               "ToolTip": "D:\\Projects\\ToDoListPlus\\ViewModels\\ToDoListViewModel.cs",
               "RelativeToolTip": "ViewModels\\ToDoListViewModel.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAswN8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowCAAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-03T11:15:18.438Z",
               "EditorCaption": ""
@@ -122,9 +106,9 @@
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Views\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Views\\MainWindow.xaml",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\Views\\MainWindow.xaml",
-              "RelativeToolTip": "Views\\MainWindow.xaml",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEwAAAAfAAAAAAAAAA==",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\Views\\MainWindow.xaml*",
+              "RelativeToolTip": "Views\\MainWindow.xaml*",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAYwO0AAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-04-06T08:06:44.295Z",
               "EditorCaption": ""
