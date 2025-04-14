@@ -20,6 +20,7 @@ public class ToDoItem: INotifyPropertyChanged
 	private string? _description;
 	private DateTime? _dueDate;
 	private string? _eventId;
+	private string _priority;
 
 
 	public bool IsReadOnly
@@ -75,16 +76,25 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(EventId));
 		}
 	}
-
+	public string Priority
+	{
+		get => _priority;
+		set
+		{
+			_priority = value;
+			OnPropertyChanged(nameof(Priority));
+		}
+	}
 
 	public ToDoItem() { }
 
-    public ToDoItem(string title, string? description, DateTime? dueDate, string? eventId)
+    public ToDoItem(string title, string? description, DateTime? dueDate, string? eventId, string priority)
 	{
 		Title = title;
 		Description = description;
 		DueDate = dueDate;
 		EventId = eventId;
+		Priority = priority;
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

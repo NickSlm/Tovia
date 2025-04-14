@@ -31,7 +31,8 @@ public class ToDoListViewModel: INotifyPropertyChanged
     private string _taskTitle = string.Empty;
     private string? _taskDescription = string.Empty;
     private DateTime? _taskDueDate = DateTime.Now;
-    private bool _eventIsChecked;
+    private bool _eventIsChecked = false;
+    private string _taskPriority = string.Empty;
 
 
     public ObservableCollection<ToDoItem> ToDoList { get; set; }
@@ -89,6 +90,18 @@ public class ToDoListViewModel: INotifyPropertyChanged
             OnPropertyChanged(nameof(EventIsChecked));
         }
     }
+    public string TaskPriority
+    {
+        get => _taskPriority;
+        set
+        {
+            if (_taskPriority != null)
+            {
+                _taskPriority = value;
+                OnPropertyChanged(nameof(TaskPriority));
+            }
+        }
+    }
 
     public ToDoListViewModel(ToDoContext dbContext, AuthService authService)
 	{
@@ -96,8 +109,6 @@ public class ToDoListViewModel: INotifyPropertyChanged
         _authService = authService;
 
         ToDoList = new ObservableCollection<ToDoItem>();
-        EventIsChecked = false;
-
 
         ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
         ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
@@ -231,7 +242,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
             eventId = await _authService.PostTaskAsync(TaskTitle, TaskDescription, TaskDueDate);
         }
 
-        var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate, eventId);
+        var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate, eventId, TaskPriority);
 
         _dbContext.ToDoItems.Add(newTask);
         ToDoList.Add(newTask);
@@ -240,6 +251,7 @@ public class ToDoListViewModel: INotifyPropertyChanged
         TaskTitle = string.Empty;
         TaskDescription = string.Empty;
         TaskDueDate = DateTime.Now;
+        TaskPriority = string.Empty;
         EventIsChecked = false;
     }
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
