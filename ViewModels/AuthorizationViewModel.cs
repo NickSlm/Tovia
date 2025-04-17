@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows;
 using ToDoListPlus.Services;
+using ToDoListPlus.Views;
 
 namespace ToDoListPlus.ViewModels
 {
@@ -18,12 +19,14 @@ namespace ToDoListPlus.ViewModels
         public ICommand AuthorizationCommand => _authorizationCommand;
         public ICommand SignOutCommand => _signOutCommand;
 
+
         private readonly DelegateCommand _authorizationCommand;
         private readonly DelegateCommand _signOutCommand;
         private readonly AuthService _authService;
+        private readonly IDialogService _dialogService;
+        private readonly IAppStateResetService _appStateResetService;
 
         private string _accountUsername;
-        private Window _parentWindow;
         private bool _eventIsEnabled = false;
         private bool _isSignedIn = false;
 
@@ -56,41 +59,49 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public AuthorizationViewModel(AuthService authService)
+        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, IAppStateResetService resetService)
         {
+            _appStateResetService = resetService;
+            _dialogService = dialogService;
             _authService = authService;
             _signOutCommand = new DelegateCommand(SignOutButtonClick, CanExecute);
             _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
 
         }
 
-        public void SetParentWindow(Window parentWindow)
-        {
-            _parentWindow = parentWindow;
-        }
-
-        public void CloseParentWindow()
-        {
-            _parentWindow?.Close();
-        }
 
         private async void AuthorizationButtonClick(object commandParameter)
         {
-            await _authService.GetAccessTokenAsync(_parentWindow);
+            await _authService.GetAccessTokenAsync();
             if (!string.IsNullOrEmpty(_authService.AccessToken))
             {
                 AccountUsername = _authService.AccountUsername;
                 IsSignedIn = true;
                 EventIsEnabled = true;
+
+
+                Application.Current.Windows
+                .OfType<AuthorizationWindow>()
+                .FirstOrDefault()!
+                .DialogResult = true;
             }
         }
 
         private async void SignOutButtonClick(object commandParamater)
         {
             string SignoutRes = await _authService.SignOutAsync();
+
+            _appStateResetService.ResetState();
             AccountUsername = string.Empty;
             IsSignedIn = false;
             EventIsEnabled = false;
+
+            var result = _dialogService.ShowLoginDialog();
+            if (!result == true)
+            {
+                Application.Current.Shutdown();
+            }
+
         }
 
         private bool CanExecute(object commandParameter)

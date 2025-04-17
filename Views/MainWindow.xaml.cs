@@ -1,18 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ToDoListPlus.Services;
+﻿using System.Windows;
 using ToDoListPlus.ViewModels;
 
 namespace ToDoListPlus;
@@ -25,15 +11,13 @@ namespace ToDoListPlus;
 
 public partial class MainWindow
 {
-
-
     public MainWindow(MainViewModel viewModel)
     {
         InitializeComponent();
-
-
         DataContext = viewModel;
-        viewModel.AuthorizationVM?.SetParentWindow(this);
     }
-
+    private void MainWindow_Closed(object sender, EventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
 }

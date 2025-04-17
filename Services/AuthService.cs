@@ -60,7 +60,7 @@ namespace ToDoListPlus.Services
 
         }
 
-        public async Task<string> GetAccessTokenAsync(Window parentWindow)
+        public async Task<string> GetAccessTokenAsync()
         {
             AuthenticationResult? authResult = null;
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
@@ -80,7 +80,6 @@ namespace ToDoListPlus.Services
                 {
                     authResult = await ClientApp.AcquireTokenInteractive(scopes)
                         .WithAccount(firstAccount)
-                        .WithParentActivityOrWindow(new WindowInteropHelper(parentWindow).Handle)
                         .WithPrompt(Prompt.SelectAccount)
                         .ExecuteAsync();
                 }
@@ -133,6 +132,8 @@ namespace ToDoListPlus.Services
             var eventData = new
             {
                 subject = title,
+                isReminderOn = true,
+                reminderMinutesBeforeStart = 720,
                 body = new
                 {
                     contentType = "HTML",
@@ -141,12 +142,12 @@ namespace ToDoListPlus.Services
                 start = new
                 {
                     dateTime = date,
-                    timeZone = "Pacific Standard Time"
+                    timeZone = "Israel Standard Time"
                 },
                 end = new
                 {
                     dateTime = date,
-                    timeZone = "Pacific Standard Time"
+                    timeZone = "Israel Standard Time"
                 }
             };
 
@@ -183,8 +184,6 @@ namespace ToDoListPlus.Services
                 var error = await response.Content.ReadAsStringAsync();
                 return $"Failed to delete event: {response.StatusCode} - {error}";
             }
-
-            
         }
     }
 }

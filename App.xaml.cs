@@ -5,6 +5,7 @@ using ToDoListPlus.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoListPlus.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using ToDoListPlus.Views;
 
 namespace ToDoListPlus;
 
@@ -18,6 +19,7 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         var serviceCollection = new ServiceCollection();
+        Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
         ConfigureServices(serviceCollection);
         _serviceProvider = serviceCollection.BuildServiceProvider();
@@ -25,8 +27,31 @@ public partial class App : Application
         var dbInitializer = _serviceProvider.GetRequiredService<IDatabaseInitializer>();
         dbInitializer.Initialize();
 
-        var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-        mainWindow.Show();
+        var authService = _serviceProvider.GetRequiredService<AuthService>();
+
+
+        if (!string.IsNullOrEmpty(authService.AccessToken))
+        {
+            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+            Application.Current.MainWindow = mainWindow;
+            mainWindow.Show();
+        }
+        else
+        {
+            var loginWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
+            bool? loginResult = loginWindow.ShowDialog();
+
+            if (loginResult == true)
+            {
+                var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+                Application.Current.MainWindow = mainWindow;
+                mainWindow.Show();
+            }
+            else
+            {
+                Application.Current.Shutdown();
+            }
+        }
     }
 
     protected override async void OnExit(ExitEventArgs e)
@@ -43,13 +68,17 @@ public partial class App : Application
     {
         services.AddDbContext<ToDoContext>(options => options.UseSqlite("Data Source=ToDoList.db"));
 
+        services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDatabaseInitializer, DatabaseInitializer>();
+        services.AddSingleton<IDialogService, DialogService>();
+
         services.AddSingleton<AuthService>();
 
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<MainViewModel>();
 
+        services.AddTransient<AuthorizationWindow>();
         services.AddSingleton<MainWindow>();
     }
 }
