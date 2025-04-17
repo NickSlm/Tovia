@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 D:\Projects\ToDoListPlus\App.xaml
-1-1644662438
+2-324490113
 
-14-1185282557
+211109503271
 224322065266
-Views\MainWindow.xaml;
+Views\AuthorizationWindow.xaml;Views\MainWindow.xaml;
 
 False
 

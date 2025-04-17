@@ -15,6 +15,7 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        Closed="MainWindow_Closed"
         Title="ToDoPlus" Height="640" Width="640">
 
     <Window.Resources>
@@ -39,8 +40,22 @@
             </Setter>
         </Style>
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
+        <converters:StringToVisibilityHiddenConverter x:Key="StringToVisibilityHiddenConverter"/>
+        <converters:StringToVisibilityCollapsedConverter x:Key="StringToVisibilityCollapsedConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-
+        <Style x:Key="PriorityTextStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Priority}" Value="high">
+                    <Setter Property="Foreground" Value="DarkRed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Priority}" Value="Black">
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Priority}" Value="low">
+                    <Setter Property="Foreground" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
 
@@ -140,16 +155,16 @@
                                            Foreground="black" 
                                            FontWeight="SemiBold"
                                            FontSize="16"/>
-                                <Button
-                                    Command="{Binding ToDoListVM.CleanItemsCommand}"
-                                    CommandParameter="{Binding ToDoListVM.ToDoList}"
-                                    Margin="8,0"
-                                    Grid.Column="1"
-                                    Content="Clear"
-                                    Style="{StaticResource MaterialDesignPaperLightButton}"
-                                    ToolTip="Resource  name: MaterialDesignPaperLightButton"/>
+                                <Button Command="{Binding ToDoListVM.CleanItemsCommand}"
+                                        CommandParameter="{Binding ToDoListVM.ToDoList}"
+                                        Margin="8,0"
+                                        Grid.Column="1"
+                                        Style="{StaticResource MaterialDesignPaperLightButton}"
+                                        ToolTip="Clear all completed tasks"
+                                         Content="Clean Up">
+                                </Button>
                             </Grid>
-                            <!--Show Tasks ListBox Tasks-->
+                            <!--Show DataGrid Tasks-->
                             <Grid Grid.Row="1" 
                                   Margin="8" 
                                   HorizontalAlignment="Stretch" >
@@ -218,19 +233,42 @@
                                                                 >
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel>
-                                                        <TextBlock Text="{Binding Title}"
-                                                                       Grid.Column="0"
-                                                                       TextWrapping="Wrap"
-                                                                       VerticalAlignment="Top"
-                                                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                                                       />
-                                                        <TextBlock Text="{Binding Description}"
-                                                               TextWrapping="Wrap"
-                                                               VerticalAlignment="Top"
-                                                               Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                                              />
+                                                    <StackPanel Margin="4">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <!-- Calendar icon, shown only if it's an event -->
+                                                            <materialDesign:PackIcon 
+                                                                Kind="CalendarCheck"
+                                                                Grid.Column="0"
+                                                                Margin="0,2,4,0"
+                                                                VerticalAlignment="Center"
+                                                                ToolTip="Microsoft Event"
+                                                                Visibility="{Binding EventId, Converter={StaticResource StringToVisibilityHiddenConverter}}" />
+
+                                                            <!-- Task Title -->
+                                                            <TextBlock 
+                                                                Grid.Column="1"
+                                                                Text="{Binding Title}"
+                                                                TextWrapping="Wrap"
+                                                                VerticalAlignment="Center"
+                                                                Margin="0"
+                                                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}" />
+                                                        </Grid>
+
+                                                        <!-- Task Description -->
+                                                        <TextBlock 
+                                                            Text="{Binding Description}"
+                                                            TextWrapping="Wrap"
+                                                            VerticalAlignment="Top"
+                                                            Margin="20,2,0,0" 
+                                                            Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}"
+                                                            Style="{StaticResource MaterialDesignCaptionTextBlock}" />
                                                     </StackPanel>
+
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
@@ -239,9 +277,10 @@
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Priority}"
-                                                                Foreground="Red"
-                                                                HorizontalAlignment="Center"
-                                                                VerticalAlignment="Center"/>
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Style="{StaticResource PriorityTextStyle}">
+                                                    </TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
@@ -276,7 +315,6 @@
                             </Grid>
                         </Grid>
                     </Grid>
-
                     <!--Main Body Bottom Section Add New Task-->
                     <Border Grid.Row="1"
                             Background="#FAFAFA"
@@ -303,7 +341,6 @@
         <!--Popup Dialog Content--> 
         <materialDesign:DialogHost.DialogContent>
             <Border Width="300" Height="300" >
-
                 <Grid Margin="8" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -342,12 +379,10 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-
                         <DatePicker
                             Grid.Column="0"
                             SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
-                            Margin="8"
-                            />
+                            Margin="8"/>
 
                         <ComboBox materialDesign:HintAssist.Hint="Priority"
                                   Grid.Column="1"
@@ -355,11 +390,11 @@
                                   SelectedValue="{Binding ToDoListVM.TaskPriority, Mode=TwoWay}"
                                   SelectedValuePath="Content">
                             <ComboBoxItem
-                                Content="High" />
+                                Content="high"/>
                             <ComboBoxItem
-                                Content="Medium" />
+                                Content="normal"/>
                             <ComboBoxItem
-                                Content="Low" />
+                                Content="low"/>
                         </ComboBox>
                     </Grid>
 

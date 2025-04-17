@@ -155,3 +155,5 @@ D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.pdb
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ToDoListPlus.genruntimeconfig.cache
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\ref\ToDoListPlus.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\AuthorizationWindow.g.cs
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\AuthorizationWindow.baml
