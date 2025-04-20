@@ -24,8 +24,6 @@ public partial class App : Application
         ConfigureServices(serviceCollection);
         _serviceProvider = serviceCollection.BuildServiceProvider();
 
-        var dbInitializer = _serviceProvider.GetRequiredService<IDatabaseInitializer>();
-        dbInitializer.Initialize();
 
         var authService = _serviceProvider.GetRequiredService<AuthService>();
 
@@ -54,25 +52,19 @@ public partial class App : Application
         }
     }
 
-    protected override async void OnExit(ExitEventArgs e)
+    protected override void OnExit(ExitEventArgs e)
     {
-        var dbContext = _serviceProvider.GetService<ToDoContext>();
-        if (dbContext != null)
-        {
-            await dbContext.SaveChangesAsync();
-        }
         base.OnExit(e);
     }
 
     private void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<ToDoContext>(options => options.UseSqlite("Data Source=ToDoList.db"));
 
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
-        services.AddSingleton<IDatabaseInitializer, DatabaseInitializer>();
         services.AddSingleton<IDialogService, DialogService>();
 
         services.AddSingleton<AuthService>();
+        services.AddSingleton<TaskService>();
 
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<AuthorizationViewModel>();

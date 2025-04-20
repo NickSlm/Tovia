@@ -28,8 +28,8 @@ namespace ToDoListPlus.ViewModels
         private readonly DelegateCommand _removeItemCommand;
         private readonly DelegateCommand _cleanItemsCommand;
         private readonly DelegateCommand _saveTaskCommand;
-        private readonly ToDoContext _dbContext;
         private readonly AuthService _authService;
+        private readonly TaskService _taskService;
 
         private int _totalTasks;
         private int _completedTasks;
@@ -109,16 +109,15 @@ namespace ToDoListPlus.ViewModels
         }
 
 
-        public ToDoListViewModel(ToDoContext dbContext, AuthService authService)
+        public ToDoListViewModel(AuthService authService, TaskService taskService)
         {
-            _dbContext = dbContext;
             _authService = authService;
+            _taskService = taskService;
 
             ToDoList = new ObservableCollection<ToDoItem>();
 
             ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
             ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
-
 
             _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
             _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
@@ -131,15 +130,6 @@ namespace ToDoListPlus.ViewModels
 
         private void LoadToDoItems()
         {
-            var tasksFromDb = _dbContext.ToDoItems.ToList();
-
-            ToDoList.Clear();
-
-            foreach (var item in tasksFromDb)
-            {
-                item.PropertyChanged += Item_PropertyChanged;
-                ToDoList.Add(item);
-            }
 
             UpdateCompletedTasks();
             UpdateTotalTasks();
@@ -208,14 +198,9 @@ namespace ToDoListPlus.ViewModels
                     }
                     else
                     {
-                        string result = await _authService.DeleteTaskAsync(item.EventId);
+                        string result = await _taskService.DeleteEventAsync(item.EventId);
                         MessageBox.Show(result);
                     }
-                }
-                var itemToRemove = _dbContext.ToDoItems.FirstOrDefault(i => i.Id == item.Id);
-                if (itemToRemove != null)
-                {
-                    _dbContext.ToDoItems.Remove(itemToRemove);
                 }
                 ToDoList.Remove(item);
             }
@@ -235,10 +220,9 @@ namespace ToDoListPlus.ViewModels
                                 continue;
 
                             }
-                        string result = await _authService.DeleteTaskAsync(ToDoList[i].EventId);
+                        string result = await _taskService.DeleteEventAsync(ToDoList[i].EventId);
 
                         }
-                        _dbContext.ToDoItems.Remove(ToDoList[i]);
                         ToDoList.RemoveAt(i);
                     }
                 }
@@ -266,14 +250,11 @@ namespace ToDoListPlus.ViewModels
 
             if (EventIsChecked)
             {
-                eventId = await _authService.PostTaskAsync(TaskTitle, TaskDescription, TaskDueDate);
+                eventId = await _taskService.PostEventAsync(TaskTitle, TaskDescription, TaskDueDate);
             }
 
             var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate, eventId, TaskPriority);
-
-            _dbContext.ToDoItems.Add(newTask);
             ToDoList.Add(newTask);
-            await _dbContext.SaveChangesAsync();
 
 
             //Reset Form Fields
