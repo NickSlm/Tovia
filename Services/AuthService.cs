@@ -49,7 +49,6 @@ namespace ToDoListPlus.Services
             MsalCacheHelper cacheHelper = CreateCacheHelperAsync().GetAwaiter().GetResult();
             cacheHelper.RegisterCache(_clientApp.UserTokenCache);
         }
-
         private static async Task<MsalCacheHelper> CreateCacheHelperAsync()
         {
             var storageProperties = new StorageCreationPropertiesBuilder(
@@ -59,7 +58,6 @@ namespace ToDoListPlus.Services
             return cacheHelper;
 
         }
-
         public async Task<string> GetAccessTokenAsync()
         {
             AuthenticationResult? authResult = null;
@@ -98,7 +96,6 @@ namespace ToDoListPlus.Services
             _accountUsername = authResult.Account.Username;
             return $"Authorization Succeded";
         }
-
         public async Task<string> SignOutAsync()
         {
             try
@@ -120,69 +117,6 @@ namespace ToDoListPlus.Services
             {
                 //Log The Error msalex
                 return $"An Error occured while signing out. {msalex}";
-            }
-        }
-
-        public async Task<string> PostTaskAsync(string title, string? description, DateTime? date)
-        {
-            var httpClient = new HttpClient();
-            string url = "https://graph.microsoft.com/v1.0/me/events";
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-
-            var eventData = new
-            {
-                subject = title,
-                isReminderOn = true,
-                reminderMinutesBeforeStart = 720,
-                body = new
-                {
-                    contentType = "HTML",
-                    content = description
-                },
-                start = new
-                {
-                    dateTime = date,
-                    timeZone = "Israel Standard Time"
-                },
-                end = new
-                {
-                    dateTime = date,
-                    timeZone = "Israel Standard Time"
-                }
-            };
-
-            var json = JsonSerializer.Serialize(eventData);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(url, content);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(responseBody);
-                string eventId = doc.RootElement.GetProperty("id").GetString() ?? string.Empty;
-                return eventId;
-            }
-            else
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to create event: {response.StatusCode} - {error}";
-            }
-        }
-
-        public async Task<string> DeleteTaskAsync(string eventId)
-        {
-            var httpClient = new HttpClient();
-            string url = $"https://graph.microsoft.com/v1.0/me/events/{eventId}";
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            var response = await httpClient.DeleteAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return "Event deleted successfully";
-            }
-            else
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to delete event: {response.StatusCode} - {error}";
             }
         }
     }

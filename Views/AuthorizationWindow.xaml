@@ -14,17 +14,16 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="ToDoPlus" Height="640" Width="640">
-    <Grid>
-        <Button Command="{Binding AuthorizationCommand}">
-            <StackPanel Orientation="Horizontal" Margin="2">
-                <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-                <TextBlock HorizontalAlignment="Center" 
-                                           Margin="2"
-                                           VerticalAlignment="Center"
-                                           Text="Sign in with Microsoft"
-                           />
-            </StackPanel>
-        </Button>
-    </Grid>
+        Title="ToDoPlus" Height="300" Width="300">
+    
+    <Button Command="{Binding AuthorizationCommand}">
+        <StackPanel Orientation="Horizontal" Margin="2">
+            <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+            <TextBlock HorizontalAlignment="Center" 
+                                        Margin="2"
+                                        VerticalAlignment="Center"
+                                        Text="Sign in with Microsoft"/>
+        </StackPanel>
+    </Button>
+    
 </Window>
