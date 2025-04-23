@@ -11,6 +11,7 @@ using ToDoListPlus.Services;
 using ToDoListPlus.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 
 
@@ -37,7 +38,7 @@ namespace ToDoListPlus.ViewModels
         private string? _taskDescription = string.Empty;
         private DateTime? _taskDueDate = DateTime.Now;
         private bool _eventIsChecked = false;
-        private string _taskPriority = string.Empty;
+        private string _taskImportance = string.Empty;
 
 
         public ObservableCollection<ToDoItem> ToDoList { get; set; }
@@ -95,15 +96,15 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(EventIsChecked));
             }
         }
-        public string TaskPriority
+        public string TaskImportance
         {
-            get => _taskPriority;
+            get => _taskImportance;
             set
             {
-                if (_taskPriority != null)
+                if (_taskImportance != null)
                 {
-                    _taskPriority = value;
-                    OnPropertyChanged(nameof(TaskPriority));
+                    _taskImportance = value;
+                    OnPropertyChanged(nameof(TaskImportance));
                 }
             }
         }
@@ -124,16 +125,22 @@ namespace ToDoListPlus.ViewModels
             _saveTaskCommand = new DelegateCommand(SaveTask, CanExecute);
             _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, CanExecute);
 
-            LoadToDoItems();
             UpdateCompletedTasks();
         }
 
-        private void LoadToDoItems()
+        public async void LoadToDoItems()
         {
+            var tasks = await _taskService.GetTasksAsync();
+
+
+            ToDoList.Clear();  // Clear existing tasks if necessary
+            foreach (var task in tasks)
+            {
+                ToDoList.Add(task);  // Add the tasks to ObservableCollection for UI binding
+            }
 
             UpdateCompletedTasks();
             UpdateTotalTasks();
-
         }
         private void UpdateTotalTasks()
         {
@@ -191,18 +198,13 @@ namespace ToDoListPlus.ViewModels
             {
                 if (!string.IsNullOrEmpty(item.EventId))
                 {
-                    if (string.IsNullOrEmpty(_authService.AccessToken))
-                    {
-                        MessageBox.Show("Sign in to remove tasks from calendar");
-                        return;
-                    }
-                    else
-                    {
-                        string result = await _taskService.DeleteEventAsync(item.EventId);
-                        MessageBox.Show(result);
-                    }
+                    string eventResult = await _taskService.DeleteEventAsync(item.EventId);
+                    MessageBox.Show(eventResult);
                 }
                 ToDoList.Remove(item);
+                string taskResult = await _taskService.DeleteTaskAsync(item.TaskId);
+                MessageBox.Show(taskResult);
+
             }
         }
         private async void CleanCompletedItems(object commandParameter)
@@ -215,14 +217,11 @@ namespace ToDoListPlus.ViewModels
                     {
                         if (!string.IsNullOrEmpty(ToDoList[i].EventId))
                         {
-                            if (string.IsNullOrEmpty(_authService.AccessToken))
-                            {
-                                continue;
 
-                            }
-                        string result = await _taskService.DeleteEventAsync(ToDoList[i].EventId);
+                            await _taskService.DeleteEventAsync(ToDoList[i].EventId);
 
                         }
+                        await _taskService.DeleteTaskAsync(ToDoList[i].TaskId);
                         ToDoList.RemoveAt(i);
                     }
                 }
@@ -240,28 +239,30 @@ namespace ToDoListPlus.ViewModels
                 MessageBox.Show("DueTime Required");
                 return;
             }
-            if (string.IsNullOrEmpty(TaskPriority))
+            if (string.IsNullOrEmpty(TaskImportance))
             {
                 MessageBox.Show("Priority Required");
                 return;
             }
 
-            string eventId = string.Empty;
 
+            string eventId = string.Empty;
             if (EventIsChecked)
             {
-                eventId = await _taskService.PostEventAsync(TaskTitle, TaskDescription, TaskDueDate);
+                eventId = await _taskService.PostEventAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance);
             }
 
-            var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate, eventId, TaskPriority);
-            ToDoList.Add(newTask);
 
+            string taskId = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance);
+
+            var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate , TaskImportance, eventId, taskId);
+            ToDoList.Add(newTask);
 
             //Reset Form Fields
             TaskTitle = string.Empty;
             TaskDescription = string.Empty;
             TaskDueDate = DateTime.Now;
-            TaskPriority = string.Empty;
+            TaskImportance = string.Empty;
             EventIsChecked = false;
         }
         public void Reset()

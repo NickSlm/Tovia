@@ -16,8 +16,8 @@ namespace ToDoListPlus.ViewModels
 
         public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
         {
-            ToDoListVM = toDoListVM;
             AuthorizationVM = authorizationVM;
+            ToDoListVM = toDoListVM;
         }
     }
 }

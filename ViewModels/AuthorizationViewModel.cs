@@ -66,7 +66,6 @@ namespace ToDoListPlus.ViewModels
             _authService = authService;
             _signOutCommand = new DelegateCommand(SignOutButtonClick, CanExecute);
             _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
-
         }
 
 

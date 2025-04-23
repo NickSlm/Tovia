@@ -24,11 +24,10 @@ public partial class App : Application
         ConfigureServices(serviceCollection);
         _serviceProvider = serviceCollection.BuildServiceProvider();
 
+        var loginWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
+        bool? loginResult = loginWindow.ShowDialog();
 
-        var authService = _serviceProvider.GetRequiredService<AuthService>();
-
-
-        if (!string.IsNullOrEmpty(authService.AccessToken))
+        if (loginResult == true)
         {
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             Application.Current.MainWindow = mainWindow;
@@ -36,19 +35,7 @@ public partial class App : Application
         }
         else
         {
-            var loginWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
-            bool? loginResult = loginWindow.ShowDialog();
-
-            if (loginResult == true)
-            {
-                var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-                Application.Current.MainWindow = mainWindow;
-                mainWindow.Show();
-            }
-            else
-            {
-                Application.Current.Shutdown();
-            }
+            Application.Current.Shutdown();
         }
     }
 
@@ -66,12 +53,12 @@ public partial class App : Application
         services.AddSingleton<AuthService>();
         services.AddSingleton<TaskService>();
 
-        services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<AuthorizationViewModel>();
+        services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
 
         services.AddTransient<AuthorizationWindow>();
-        services.AddSingleton<MainWindow>();
+        services.AddTransient<MainWindow>();
     }
 }
 
