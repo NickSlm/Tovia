@@ -245,17 +245,7 @@ namespace ToDoListPlus.ViewModels
                 return;
             }
 
-
-            string eventId = string.Empty;
-            if (EventIsChecked)
-            {
-                eventId = await _taskService.PostEventAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance);
-            }
-
-
-            string taskId = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance);
-
-            var newTask = new ToDoItem(TaskTitle, TaskDescription, TaskDueDate , TaskImportance, eventId, taskId);
+            ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
             ToDoList.Add(newTask);
 
             //Reset Form Fields
