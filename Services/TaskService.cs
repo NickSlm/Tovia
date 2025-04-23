@@ -58,9 +58,9 @@ namespace ToDoListPlus.Services
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(responseBody);
-                string eventId = doc.RootElement.GetProperty("id").GetString();
-                return eventId;
+                //using var doc = JsonDocument.Parse(responseBody);
+                //string eventId = doc.RootElement.GetProperty("id").GetString();
+                return responseBody;
             }
             else
             {
@@ -85,7 +85,7 @@ namespace ToDoListPlus.Services
                 return $"Failed to delete event: {response.StatusCode} - {error}";
             }
         }
-        public async Task<string> CreateTaskAsync(string title, string? description, DateTime? dateTime, string priority)
+        public async Task<ToDoItem> CreateTaskAsync(string title, string? description, DateTime? dateTime, string priority, bool createEvent)
         {
             string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks";
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authService.AccessToken);
@@ -118,12 +118,48 @@ namespace ToDoListPlus.Services
                 string responseBody = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(responseBody);
                 string taskId = doc.RootElement.GetProperty("id").GetString();
-                return taskId;
+
+                string eventId = string.Empty;
+
+                if (createEvent)
+                {
+
+                    string eventResponse = await PostEventAsync(title, description, dateTime, priority);
+                    string linkUrl = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}/linkedResources";
+                    using var eventDoc = JsonDocument.Parse(eventResponse);
+
+                    eventId = eventDoc.RootElement.GetProperty("id").GetString();
+                    string eventWebLink = eventDoc.RootElement.GetProperty("webLink").GetString();
+
+                    var linkData = new
+                    {
+                        webUrl = eventWebLink,
+                        applicationName = "Outlook Calendar",
+                        displayName = title,
+                        externalId = eventId
+                    };
+
+                    var linkJson = JsonSerializer.Serialize(linkData);
+                    var linkContent = new StringContent(linkJson, Encoding.UTF8, "application/json");
+                    var linkResponse = await _httpClient.PostAsync(linkUrl, linkContent);
+                    MessageBox.Show(linkResponse.ToString());
+                }
+
+                var newTask = new ToDoItem
+                {
+                    Title = title,
+                    Description = description,
+                    DueDate = dateTime,
+                    Importance = priority,
+                    EventId = eventId,
+                    TaskId = taskId
+                };
+                MessageBox.Show("Created task+eventlinkresource");
+                return newTask;
             }
             else
             {
-                var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to create Task: {response.StatusCode} - {error}";
+                return null;
             }
         }
         public async Task<string> DeleteTaskAsync(string taskId)
@@ -145,10 +181,9 @@ namespace ToDoListPlus.Services
         }
         public async Task<List<ToDoItem>> GetTasksAsync()
         {
-
             var taskList = new List<ToDoItem>();
 
-            string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks";
+            string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks?$expand=linkedResources";
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authService.AccessToken);
 
             var json = await _httpClient.GetStringAsync(url);
@@ -157,10 +192,17 @@ namespace ToDoListPlus.Services
             var rootElement = jsonDoc.RootElement;
             var value = rootElement.GetProperty("value");
 
+            MessageBox.Show(value.ToString());
+
+
+            //Iterating over tasks 
             foreach (var jsonElement in value.EnumerateArray())
             {
                 var titleJsonElement = jsonElement.GetProperty("title");
                 var title = titleJsonElement.GetString();
+
+                var idJsonElement = jsonElement.GetProperty("id");
+                var id = idJsonElement.GetString();
 
                 var importanceJsonElement = jsonElement.GetProperty("importance");
                 var importance = importanceJsonElement.GetString();
@@ -173,11 +215,20 @@ namespace ToDoListPlus.Services
                     dueDateTime = DateTime.TryParse(dateTimeString, out var parsedDateTime) ? parsedDateTime : (DateTime?)null;
                 }
 
+                string? externalId = string.Empty;
+                if (jsonElement.TryGetProperty("linkedResources", out var linkedResourcesElement) 
+                    && linkedResourcesElement.ValueKind == JsonValueKind.Array && linkedResourcesElement.GetArrayLength() > 0)
+                {
+                    externalId = linkedResourcesElement[0].GetProperty("externalId").GetString();
+                }
+
                 var task = new ToDoItem
                 {
                     Title = title,
                     Importance = importance,
-                    DueDate = dueDateTime
+                    DueDate = dueDateTime,
+                    TaskId = id,
+                    EventId = externalId
                 };
 
                 taskList.Add(task);
