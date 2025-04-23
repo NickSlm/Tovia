@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using static System.Net.WebRequestMethods;
 using System.Text.Json;
+using System.Security.Policy;
 
 
 namespace ToDoListPlus.Services
@@ -21,10 +22,11 @@ namespace ToDoListPlus.Services
         private static readonly string clientId = "9c077a27-edb1-48e8-b0e8-52cbac5e502c";
         private static readonly string Tenant = "consumers";
         private static readonly string Instance = "https://login.microsoftonline.com/";
-        private static readonly string[] scopes = new string[] { "user.read", "Calendars.ReadWrite" };
+        private static readonly string[] scopes = new string[] { "user.read", "Calendars.ReadWrite", "Tasks.ReadWrite" };
 
         private string _accessToken = string.Empty;
         private string _accountUsername = string.Empty;
+        private string _accountTaskListId = string.Empty;
         public string AccessToken
         {
             get { return _accessToken; }
@@ -33,12 +35,17 @@ namespace ToDoListPlus.Services
         {
             get { return _accountUsername; }
         }
+        public string AccountTaskListId
+        {
+            get { return _accountTaskListId; }
+        }
 
         private static IPublicClientApplication _clientApp;
         public static IPublicClientApplication ClientApp { get { return _clientApp; } }
 
         public AuthService()
         {
+
             CreateApplication();
         }
 
@@ -94,7 +101,27 @@ namespace ToDoListPlus.Services
 
             _accessToken = authResult.AccessToken;
             _accountUsername = authResult.Account.Username;
+            _accountTaskListId = await GetDefaultTaskListIdAsync();
+
+
             return $"Authorization Succeded";
+        }
+        public async Task<string> GetDefaultTaskListIdAsync()
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
+
+            var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me/todo/lists");
+            var json = await response.Content.ReadAsStringAsync();
+
+            var doc = JsonDocument.Parse(json);
+            var tasksList = doc.RootElement.GetProperty("value")
+                .EnumerateArray()
+                .FirstOrDefault();
+
+           var taskListId = tasksList.GetProperty("id").ToString();
+
+            return taskListId;
         }
         public async Task<string> SignOutAsync()
         {

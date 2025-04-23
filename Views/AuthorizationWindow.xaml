@@ -5,25 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus.Views"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="ToDoPlus" Height="300" Width="300">
+        Title="Login" Height="350" Width="400"
+        WindowStartupLocation="CenterScreen"
+        Background="#FAFAFA" ResizeMode="NoResize" WindowStyle="None">
     
-    <Button Command="{Binding AuthorizationCommand}">
-        <StackPanel Orientation="Horizontal" Margin="2">
-            <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-            <TextBlock HorizontalAlignment="Center" 
-                                        Margin="2"
-                                        VerticalAlignment="Center"
-                                        Text="Sign in with Microsoft"/>
-        </StackPanel>
-    </Button>
-    
+    <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="10" Margin="20">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- App Logo or Title -->
+            <StackPanel Grid.Row="0" Margin="0,10" HorizontalAlignment="Center">
+                <TextBlock Text="ToDoList Plus"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="#333"/>
+                <TextBlock Text="Welcome! Sign in to continue."
+                           FontSize="14"
+                           Foreground="#777"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <!-- Sign in with Microsoft -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Command="{Binding AuthorizationCommand}" Padding="10,5"
+                        Background="White" BorderBrush="#DDD" BorderThickness="1"
+                        Cursor="Hand">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                        <TextBlock Text="Sign in with Microsoft"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold"
+                                   Foreground="#2F2F2F"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!-- Close Button -->
+            <Button Grid.Row="2" Content="×"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Background="Transparent" BorderBrush="Transparent"
+                    FontSize="16" Foreground="#888"
+                    Command="{Binding CloseCommand}"/>
+        </Grid>
+    </Border>
 </Window>

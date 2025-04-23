@@ -10,17 +10,14 @@ public class ToDoItem: INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-	public int Id { get; set; }
-
 	private bool _isReadOnly = true;
 	private bool _isComplete = false;
 	private string _title;
 	private string? _description;
 	private DateTime? _dueDate;
-	private string? _eventId;
-	private string _priority;
+	private string _eventId;
+	private string _taskId;
+	private string _importance;
 
 
 	public bool IsReadOnly
@@ -67,7 +64,7 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(DueDate));
 		}
 	}
-	public string? EventId
+	public string EventId
 	{
 		get => _eventId;
 		set
@@ -76,25 +73,35 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(EventId));
 		}
 	}
-	public string Priority
+	public string TaskId
 	{
-		get => _priority;
+		get => _taskId;
 		set
 		{
-			_priority = value;
-			OnPropertyChanged(nameof(Priority));
+			_taskId = value;
+			OnPropertyChanged(nameof(TaskId));
+		}
+	}
+	public string Importance
+	{
+		get => _importance;
+		set
+		{
+			_importance = value;
+			OnPropertyChanged(nameof(Importance));
 		}
 	}
 
 	public ToDoItem() { }
 
-    public ToDoItem(string title, string? description, DateTime? dueDate, string? eventId, string priority)
+    public ToDoItem(string title, string? description, DateTime? dueDate ,string importance, string eventId, string taskId)
 	{
 		Title = title;
 		Description = description;
 		DueDate = dueDate;
+		Importance = importance;
 		EventId = eventId;
-		Priority = priority;
+		TaskId = taskId;
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
