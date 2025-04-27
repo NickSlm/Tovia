@@ -58,8 +58,6 @@ namespace ToDoListPlus.Services
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                //using var doc = JsonDocument.Parse(responseBody);
-                //string eventId = doc.RootElement.GetProperty("id").GetString();
                 return responseBody;
             }
             else
@@ -154,7 +152,6 @@ namespace ToDoListPlus.Services
                     EventId = eventId,
                     TaskId = taskId
                 };
-                MessageBox.Show("Created task+eventlinkresource");
                 return newTask;
             }
             else
@@ -179,6 +176,22 @@ namespace ToDoListPlus.Services
             }
 
         }
+        public async Task<string> UpdateTaskAsync(string taskId, bool IsComplete)
+        {
+            string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}";
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authService.AccessToken);
+
+            var taskData = new
+            {
+                status = IsComplete ? "completed" : "notStarted"
+            };
+
+            var json = JsonSerializer.Serialize(taskData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PatchAsync(url, content);
+            return "Update Completed";
+
+        }
         public async Task<List<ToDoItem>> GetTasksAsync()
         {
             var taskList = new List<ToDoItem>();
@@ -192,9 +205,6 @@ namespace ToDoListPlus.Services
             var rootElement = jsonDoc.RootElement;
             var value = rootElement.GetProperty("value");
 
-            MessageBox.Show(value.ToString());
-
-
             //Iterating over tasks 
             foreach (var jsonElement in value.EnumerateArray())
             {
@@ -207,6 +217,15 @@ namespace ToDoListPlus.Services
                 var importanceJsonElement = jsonElement.GetProperty("importance");
                 var importance = importanceJsonElement.GetString();
 
+                var descriptionString = string.Empty;
+
+                if (jsonElement.TryGetProperty("body", out var descriptionJsonElement))
+                {
+                    var description = descriptionJsonElement.GetProperty("content");
+                    descriptionString = description.GetString();
+                }
+
+
                 DateTime? dueDateTime = null;
                 if (jsonElement.TryGetProperty("dueDateTime", out var dueDateTimeJsonElement))
                 {
@@ -215,6 +234,8 @@ namespace ToDoListPlus.Services
                     dueDateTime = DateTime.TryParse(dateTimeString, out var parsedDateTime) ? parsedDateTime : (DateTime?)null;
                 }
 
+
+                //Get externalId from the linkedResource
                 string? externalId = string.Empty;
                 if (jsonElement.TryGetProperty("linkedResources", out var linkedResourcesElement) 
                     && linkedResourcesElement.ValueKind == JsonValueKind.Array && linkedResourcesElement.GetArrayLength() > 0)
@@ -222,10 +243,12 @@ namespace ToDoListPlus.Services
                     externalId = linkedResourcesElement[0].GetProperty("externalId").GetString();
                 }
 
+                //Create a new ToDoItem object
                 var task = new ToDoItem
                 {
                     Title = title,
                     Importance = importance,
+                    Description = descriptionString,
                     DueDate = dueDateTime,
                     TaskId = id,
                     EventId = externalId

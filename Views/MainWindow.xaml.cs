@@ -19,21 +19,12 @@ public partial class MainWindow
         _viewModel = viewModel;
         DataContext = _viewModel;
 
-
-        Loaded += MainWindow_Loaded;
         Closed += MainWindow_Closed;
     }
 
-
-    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-    {
-        _viewModel.ToDoListVM.LoadToDoItems();
-    }
     private void MainWindow_Closed(object sender, EventArgs e)
     {
         Application.Current.Shutdown();
     }
-
-
 
 }

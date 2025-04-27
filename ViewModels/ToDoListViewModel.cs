@@ -31,6 +31,7 @@ namespace ToDoListPlus.ViewModels
         private readonly DelegateCommand _saveTaskCommand;
         private readonly AuthService _authService;
         private readonly TaskService _taskService;
+        private readonly AppStateService _appStateService;
 
         private int _totalTasks;
         private int _completedTasks;
@@ -110,15 +111,18 @@ namespace ToDoListPlus.ViewModels
         }
 
 
-        public ToDoListViewModel(AuthService authService, TaskService taskService)
+        public ToDoListViewModel(AuthService authService, TaskService taskService, AppStateService appStateService)
         {
             _authService = authService;
             _taskService = taskService;
+            _appStateService = appStateService;
 
             ToDoList = new ObservableCollection<ToDoItem>();
 
             ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
             ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
+
+            _appStateService.UserLoggedIn += OnUserLoggedIn;
 
             _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
             _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
@@ -128,19 +132,34 @@ namespace ToDoListPlus.ViewModels
             UpdateCompletedTasks();
         }
 
+        public void OnUserLoggedIn()
+        {
+            LoadToDoItems();
+        }
         public async void LoadToDoItems()
         {
             var tasks = await _taskService.GetTasksAsync();
 
-
-            ToDoList.Clear();  // Clear existing tasks if necessary
+            ToDoList.Clear();
             foreach (var task in tasks)
             {
-                ToDoList.Add(task);  // Add the tasks to ObservableCollection for UI binding
+                task.OnCompletionChanged += async (s, e) => await UpdateTaskAsync((ToDoItem)s);
+                ToDoList.Add(task);
             }
 
             UpdateCompletedTasks();
             UpdateTotalTasks();
+        }
+        private async Task UpdateTaskAsync(ToDoItem task)
+        {
+            try
+            {
+                await _taskService.UpdateTaskAsync(task.TaskId, task.IsComplete);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void UpdateTotalTasks()
         {
