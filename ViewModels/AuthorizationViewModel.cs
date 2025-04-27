@@ -25,11 +25,11 @@ namespace ToDoListPlus.ViewModels
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
         private readonly IAppStateResetService _appStateResetService;
+        private readonly AppStateService _appStateService;
 
         private string _accountUsername;
         private bool _eventIsEnabled = false;
         private bool _isSignedIn = false;
-
 
         public bool IsSignedIn
         {
@@ -59,11 +59,12 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, IAppStateResetService resetService)
+        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, IAppStateResetService resetService, AppStateService appStateService)
         {
             _appStateResetService = resetService;
             _dialogService = dialogService;
             _authService = authService;
+            _appStateService = appStateService;
             _signOutCommand = new DelegateCommand(SignOutButtonClick, CanExecute);
             _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
         }
@@ -78,11 +79,12 @@ namespace ToDoListPlus.ViewModels
                 IsSignedIn = true;
                 EventIsEnabled = true;
 
-
                 Application.Current.Windows
                 .OfType<AuthorizationWindow>()
                 .FirstOrDefault()!
                 .DialogResult = true;
+
+                _appStateService.SignIn();
             }
         }
 
@@ -100,7 +102,6 @@ namespace ToDoListPlus.ViewModels
             {
                 Application.Current.Shutdown();
             }
-
         }
 
         private bool CanExecute(object commandParameter)

@@ -41,6 +41,8 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        //On Exit add update tasks in microsoft
+
         base.OnExit(e);
     }
 
@@ -50,6 +52,7 @@ public partial class App : Application
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
 
+        services.AddSingleton<AppStateService>();
         services.AddSingleton<AuthService>();
         services.AddSingleton<TaskService>();
 

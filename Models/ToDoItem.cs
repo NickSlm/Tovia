@@ -36,6 +36,7 @@ public class ToDoItem: INotifyPropertyChanged
 		{
 			_isComplete = value;
 			OnPropertyChanged(nameof(IsComplete));
+			OnCompletionChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 	public string Title {
@@ -105,4 +106,5 @@ public class ToDoItem: INotifyPropertyChanged
     }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	public EventHandler? OnCompletionChanged;
 }
