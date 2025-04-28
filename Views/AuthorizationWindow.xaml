@@ -15,6 +15,22 @@
         Title="Login" Height="350" Width="400"
         WindowStartupLocation="CenterScreen"
         Background="#FAFAFA" ResizeMode="NoResize" WindowStyle="None">
+
+
+    <Window.Resources>
+        <Style x:Key="MicrosoftButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#DDD"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Direction="-120" BlurRadius="10" Opacity="0.4" ShadowDepth="1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     
     <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="10" Margin="20">
         <Grid Margin="20">
@@ -38,15 +54,14 @@
 
             <!-- Sign in with Microsoft -->
             <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Command="{Binding AuthorizationCommand}" Padding="10,5"
-                        Background="White" BorderBrush="#DDD" BorderThickness="1"
-                        Cursor="Hand">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Command="{Binding AuthorizationCommand}"
+                        Style="{StaticResource MicrosoftButtonStyle}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="2">
                         <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
                         <TextBlock Text="Sign in with Microsoft"
                                    VerticalAlignment="Center"
-                                   FontWeight="SemiBold"
-                                   Foreground="#2F2F2F"/>
+                                   Foreground="#2F2F2F"
+                                   Margin="2"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
