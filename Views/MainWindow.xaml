@@ -28,11 +28,11 @@
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
         <Style x:Key="MicrosoftButtonStyle" TargetType="Button">
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#DDD"/>
             <Setter Property="Margin" Value="8"/>
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Background" Value="#2D89EF"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="White"/>
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect Direction="-120" BlurRadius="10" Opacity="0.4" ShadowDepth="1"/>
@@ -45,14 +45,16 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style x:Key="PriorityTextStyle" TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Priority}" Value="high">
+                <DataTrigger Binding="{Binding Importance}" Value="high">
                     <Setter Property="Foreground" Value="DarkRed"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Priority}" Value="Black">
+                <DataTrigger Binding="{Binding Importance}" Value="normal">
                     <Setter Property="Foreground" Value="Black"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Priority}" Value="low">
+                <DataTrigger Binding="{Binding Importance}" Value="low">
                     <Setter Property="Foreground" Value="Green"/>
+
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -90,27 +92,15 @@
 
                     <!-- Sign in/out buttons here -->
                     <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                        <Button Visibility="{Binding AuthorizationVM.IsSignedIn, Converter={StaticResource InverseBoolToVis}}" 
-                                Command="{Binding AuthorizationVM.AuthorizationCommand}" 
+                        <Button Command="{Binding AuthorizationVM.SignOutCommand}" 
                                 Style="{StaticResource MicrosoftButtonStyle}">
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
                                 <TextBlock HorizontalAlignment="Center" 
                                            Margin="2"
                                            VerticalAlignment="Center"
-                                           Text="Sign in with Microsoft"/>
-                            </StackPanel>
-
-                        </Button>
-                        <Button Visibility="{Binding AuthorizationVM.IsSignedIn, Converter={StaticResource BoolToVis}}"
-                                Command="{Binding AuthorizationVM.SignOutCommand}" 
-                                Style="{StaticResource MicrosoftButtonStyle}">
-                            <StackPanel Orientation="Horizontal" Margin="2">
-                                <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-                                <TextBlock HorizontalAlignment="Center" 
-                                           Margin="2"
-                                           VerticalAlignment="Center"
-                                           Text="Sign out"/>
+                                           Text="Sign out"
+                                           Foreground="Black"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

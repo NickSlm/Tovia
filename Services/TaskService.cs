@@ -92,6 +92,7 @@ namespace ToDoListPlus.Services
             {
                 Title = title,
                 Importance = priority,
+                status = "notStarted",
                 dueDateTime = dateTime.HasValue ? new
                 {
                     dateTime = dateTime.Value.ToString("o"),
@@ -214,6 +215,9 @@ namespace ToDoListPlus.Services
                 var idJsonElement = jsonElement.GetProperty("id");
                 var id = idJsonElement.GetString();
 
+                var statusJsonElement = jsonElement.GetProperty("status");
+                var status = statusJsonElement.GetString();
+
                 var importanceJsonElement = jsonElement.GetProperty("importance");
                 var importance = importanceJsonElement.GetString();
 
@@ -251,7 +255,8 @@ namespace ToDoListPlus.Services
                     Description = descriptionString,
                     DueDate = dueDateTime,
                     TaskId = id,
-                    EventId = externalId
+                    EventId = externalId,
+                    IsComplete = status == "completed" ? true : false
                 };
 
                 taskList.Add(task);
