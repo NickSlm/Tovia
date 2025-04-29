@@ -45,9 +45,9 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style x:Key="PriorityTextStyle" TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Importance}" Value="high">
-                    <Setter Property="Foreground" Value="DarkRed"/>
-                    <Setter Property="FontWeight" Value="SemiBold"/>
+                <DataTrigger Binding="{Binding Importance}" Value="high"> 
+                    <Setter Property="Foreground" Value="Red"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Importance}" Value="normal">
                     <Setter Property="Foreground" Value="Black"/>
@@ -145,6 +145,7 @@
                                            Foreground="black" 
                                            FontWeight="SemiBold"
                                            FontSize="16"/>
+                                
                                 <Button Command="{Binding ToDoListVM.CleanItemsCommand}"
                                         CommandParameter="{Binding ToDoListVM.ToDoList}"
                                         Margin="8,0"
@@ -158,6 +159,7 @@
                             <Grid Grid.Row="1" 
                                   Margin="8" 
                                   HorizontalAlignment="Stretch" >
+
                                 <DataGrid ItemsSource="{Binding ToDoListVM.ToDoList}"
                                             AutoGenerateColumns="False"
                                             SelectionMode="Single"
@@ -171,7 +173,7 @@
                                         <Style TargetType="CheckBox">
                                             <Setter Property="Background" Value="LightCyan"/>
                                         </Style>
-                                        
+
                                         <Style TargetType="DataGridRow" />
                                         <Style TargetType="DataGridCell">
                                             <Setter Property="Background" Value="Transparent"/>
@@ -208,7 +210,7 @@
 
                                     <DataGrid.Columns>
                                         <!--Complete Checkbox-->
-                                        <DataGridTemplateColumn Header="Done" Width="Auto">
+                                        <DataGridTemplateColumn Header="Done" Width="Auto" SortMemberPath="IsComplete">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <CheckBox IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -263,7 +265,7 @@
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Priority-->
-                                        <DataGridTemplateColumn Header="Priority" Width="Auto">
+                                        <DataGridTemplateColumn Header="Priority" Width="Auto" SortMemberPath="prioritySortOrder">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Importance}"
@@ -275,7 +277,7 @@
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Due Date-->
-                                        <DataGridTemplateColumn Header="Due Date" Width="Auto">
+                                        <DataGridTemplateColumn Header="Due Date" Width="Auto" SortMemberPath="DueDate">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"
@@ -302,6 +304,7 @@
                                         </DataGridTemplateColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
+
                             </Grid>
                         </Grid>
                     </Grid>

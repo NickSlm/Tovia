@@ -39,6 +39,7 @@ public class ToDoItem: INotifyPropertyChanged
 			OnCompletionChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
+
 	public string Title {
 		get => _title;
 		set
@@ -92,8 +93,19 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(Importance));
 		}
 	}
-
-	public ToDoItem() { }
+    public int prioritySortOrder
+    {
+        get
+        {
+            return Importance switch
+            {
+                "high" => 1,
+                "normal" => 2,
+                "low" => 3
+            };
+        }
+    }
+    public ToDoItem() { }
 
     public ToDoItem(string title, string? description, DateTime? dueDate ,string importance, string eventId, string taskId)
 	{
