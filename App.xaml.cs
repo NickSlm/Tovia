@@ -1,12 +1,13 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Windows;
 using ToDoListPlus.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoListPlus.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using ToDoListPlus.Views;
-
+using ToDoListPlus.Models;
 namespace ToDoListPlus;
 
 /// <summary>
@@ -15,9 +16,13 @@ namespace ToDoListPlus;
 public partial class App : Application
 {
     private IServiceProvider _serviceProvider;
+    private AuthConfig _authConfig;
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        string path = Path.Combine(AppContext.BaseDirectory, "Config/authsettings.json");
+        _authConfig = ConfigLoader.Load(path);
+
         var serviceCollection = new ServiceCollection();
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
@@ -46,13 +51,13 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
 
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AuthService>();
         services.AddSingleton<TaskService>();
+        services.AddSingleton<AuthConfig>(_authConfig);
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();

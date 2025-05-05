@@ -6,9 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Config\authsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\authsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="Config\" />
 	<Folder Include="Wrappers\" />
   </ItemGroup>
 
