@@ -13,20 +13,28 @@ using System.Net.Http.Headers;
 using static System.Net.WebRequestMethods;
 using System.Text.Json;
 using System.Security.Policy;
+using ToDoListPlus.Models;
 
 
 namespace ToDoListPlus.Services
 {
     public class AuthService
     {
-        private static readonly string clientId = "9c077a27-edb1-48e8-b0e8-52cbac5e502c";
-        private static readonly string Tenant = "consumers";
-        private static readonly string Instance = "https://login.microsoftonline.com/";
-        private static readonly string[] scopes = new string[] { "user.read", "Calendars.ReadWrite", "Tasks.ReadWrite" };
+        private static string _clientId;
+        private static string _tenant;
+        private static string _instance;
+        private static string[] _scopes;
 
         private string _accessToken = string.Empty;
         private string _accountUsername = string.Empty;
         private string _accountTaskListId = string.Empty;
+
+
+
+        public static string ClientId => _clientId;
+        public static string Tenant => _tenant;
+        public static string Instance => _instance;
+        public static string[] Scopes => _scopes;
         public string AccessToken
         {
             get { return _accessToken; }
@@ -43,14 +51,19 @@ namespace ToDoListPlus.Services
         private static IPublicClientApplication _clientApp;
         public static IPublicClientApplication ClientApp { get { return _clientApp; } }
 
-        public AuthService()
+        public AuthService(AuthConfig AuthConfig)
         {
+            _clientId = AuthConfig.ClientId;
+            _tenant = AuthConfig.Tenant;
+            _instance = AuthConfig.Instance;
+            _scopes = AuthConfig.Scopes;
+
             CreateApplication();
         }
 
         public static void CreateApplication()
         {
-            _clientApp = PublicClientApplicationBuilder.Create(clientId).WithAuthority($"{Instance}{Tenant}").WithDefaultRedirectUri().Build();
+            _clientApp = PublicClientApplicationBuilder.Create(ClientId).WithAuthority($"{Instance}{Tenant}").WithDefaultRedirectUri().Build();
 
             MsalCacheHelper cacheHelper = CreateCacheHelperAsync().GetAwaiter().GetResult();
             cacheHelper.RegisterCache(_clientApp.UserTokenCache);
@@ -75,14 +88,14 @@ namespace ToDoListPlus.Services
             }
             try
             {
-                authResult = await ClientApp.AcquireTokenSilent(scopes, firstAccount).ExecuteAsync();
+                authResult = await ClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
             }
             catch (MsalUiRequiredException ex)
             {
                 System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
                 try
                 {
-                    authResult = await ClientApp.AcquireTokenInteractive(scopes)
+                    authResult = await ClientApp.AcquireTokenInteractive(Scopes)
                         .WithAccount(firstAccount)
                         .WithPrompt(Prompt.SelectAccount)
                         .ExecuteAsync();
