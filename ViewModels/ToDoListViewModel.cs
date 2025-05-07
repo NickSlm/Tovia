@@ -236,9 +236,7 @@ namespace ToDoListPlus.ViewModels
                     {
                         if (!string.IsNullOrEmpty(ToDoList[i].EventId))
                         {
-
                             await _taskService.DeleteEventAsync(ToDoList[i].EventId);
-
                         }
                         await _taskService.DeleteTaskAsync(ToDoList[i].TaskId);
                         ToDoList.RemoveAt(i);

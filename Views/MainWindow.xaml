@@ -82,28 +82,43 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Text="{Binding AuthorizationVM.AccountUsername}"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               FontWeight="SemiBold"
-                               Foreground="#333"
-                               Margin="12 0 0 0" />
-
-                    <!-- Sign in/out buttons here -->
-                    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
-                        <Button Command="{Binding AuthorizationVM.SignOutCommand}" 
-                                Style="{StaticResource MicrosoftButtonStyle}">
-                            <StackPanel Orientation="Horizontal" Margin="2">
-                                <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
-                                <TextBlock HorizontalAlignment="Center" 
-                                           Margin="2"
-                                           VerticalAlignment="Center"
-                                           Text="Sign out"
-                                           Foreground="Black"/>
-                            </StackPanel>
-                        </Button>
+                    <StackPanel Orientation="Horizontal" 
+                                VerticalAlignment="Center" 
+                                DockPanel.Dock="Left">
+                        <materialDesign:PackIcon Kind="AccountCircle" 
+                                                 Width="24" 
+                                                 Height="24" 
+                                                 Margin="0,0,8,0" 
+                                                 Foreground="#555"/>
+                        <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="#333"/>
                     </StackPanel>
+
+                    <materialDesign:PopupBox VerticalAlignment="Center"
+                         HorizontalAlignment="Right"
+                         Margin="0,0,12,0"
+                         Padding="8"
+                         PlacementMode="BottomAndAlignRightEdges"
+                         StaysOpen="False"
+                         Content="Account">
+                        <StackPanel>
+                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}" 
+                                    Content="Settings" 
+                                    Command="{Binding OpenSettingsCommand}" />
+
+                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}" 
+                                    Command="{Binding AuthorizationVM.SignOutCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountSwitch" Width="20" Height="20" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Sign out" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+
                 </Grid>
             </Border>
 

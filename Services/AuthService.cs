@@ -29,8 +29,6 @@ namespace ToDoListPlus.Services
         private string _accountUsername = string.Empty;
         private string _accountTaskListId = string.Empty;
 
-
-
         public static string ClientId => _clientId;
         public static string Tenant => _tenant;
         public static string Instance => _instance;
