@@ -18,6 +18,15 @@
           "buildTransitive/CommunityToolkit.Mvvm.targets": {}
         }
       },
+      "GlobalHotKey/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/GlobalHotKey.dll": {}
+        },
+        "runtime": {
+          "lib/GlobalHotKey.dll": {}
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -1306,6 +1315,18 @@
         "lib/netstandard2.1/CommunityToolkit.Mvvm.dll",
         "lib/netstandard2.1/CommunityToolkit.Mvvm.pdb",
         "lib/netstandard2.1/CommunityToolkit.Mvvm.xml"
+      ]
+    },
+    "GlobalHotKey/1.1.0": {
+      "sha512": "KkEHhyM+sSh27kF1d3YlfpXdYlkfu17XCiI3WfYy1cn65y3loR7f+GMkMwHTgf0xSyS3QdXTKCRfVLzb7jgJFQ==",
+      "type": "package",
+      "path": "globalhotkey/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "globalhotkey.1.1.0.nupkg.sha512",
+        "globalhotkey.nuspec",
+        "lib/GlobalHotKey.dll"
       ]
     },
     "Humanizer.Core/2.14.1": {
@@ -3557,6 +3578,7 @@
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
       "CommunityToolkit.Mvvm >= 8.4.0",
+      "GlobalHotKey >= 1.1.0",
       "MaterialDesignColors >= 5.2.1",
       "MaterialDesignThemes >= 5.2.1",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.3",
@@ -3621,6 +3643,10 @@
             "target": "Package",
             "version": "[8.4.0, )"
           },
+          "GlobalHotKey": {
+            "target": "Package",
+            "version": "[1.1.0, )"
+          },
           "MaterialDesignColors": {
             "target": "Package",
             "version": "[5.2.1, )"
@@ -3678,5 +3704,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'GlobalHotKey 1.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "GlobalHotKey",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
 }

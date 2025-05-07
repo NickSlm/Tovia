@@ -8,6 +8,7 @@ using ToDoListPlus.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using ToDoListPlus.Views;
 using ToDoListPlus.Models;
+using System;
 namespace ToDoListPlus;
 
 /// <summary>
@@ -28,6 +29,15 @@ public partial class App : Application
 
         ConfigureServices(serviceCollection);
         _serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var globalHotKeyService = _serviceProvider.GetRequiredService<GlobalHotKeyService>();
+        globalHotKeyService.OnOverlayHotKeyPressed += () =>
+        {
+            var overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();
+            overlayWindow.Show();
+
+        };
+
 
         var loginWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
@@ -58,12 +68,15 @@ public partial class App : Application
         services.AddSingleton<AuthService>();
         services.AddSingleton<TaskService>();
         services.AddSingleton<AuthConfig>(_authConfig);
+        services.AddSingleton<GlobalHotKeyService>();
+
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
 
         services.AddTransient<AuthorizationWindow>();
+        services.AddTransient<OverlayWindow>();
         services.AddTransient<MainWindow>();
     }
 }

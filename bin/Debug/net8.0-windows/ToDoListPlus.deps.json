@@ -9,6 +9,7 @@
       "ToDoListPlus/1.0.0": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.4.0",
+          "GlobalHotKey": "1.1.0",
           "MaterialDesignColors": "5.2.1",
           "MaterialDesignThemes": "5.2.1",
           "Microsoft.EntityFrameworkCore.Design": "9.0.3",
@@ -27,6 +28,14 @@
           "lib/net8.0/CommunityToolkit.Mvvm.dll": {
             "assemblyVersion": "8.4.0.0",
             "fileVersion": "8.4.0.1"
+          }
+        }
+      },
+      "GlobalHotKey/1.1.0": {
+        "runtime": {
+          "lib/GlobalHotKey.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.0.0"
           }
         }
       },
@@ -891,6 +900,13 @@
       "sha512": "sha512-tqVU8yc/ADO9oiTRyTnwhFN68hCwvkliMierptWOudIAvWY1mWCh5VFh+guwHJmpMwfg0J0rY+yyd5Oy7ty9Uw==",
       "path": "communitytoolkit.mvvm/8.4.0",
       "hashPath": "communitytoolkit.mvvm.8.4.0.nupkg.sha512"
+    },
+    "GlobalHotKey/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KkEHhyM+sSh27kF1d3YlfpXdYlkfu17XCiI3WfYy1cn65y3loR7f+GMkMwHTgf0xSyS3QdXTKCRfVLzb7jgJFQ==",
+      "path": "globalhotkey/1.1.0",
+      "hashPath": "globalhotkey.1.1.0.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

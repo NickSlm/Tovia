@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[8.4.0, )"
             },
+            "GlobalHotKey": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
             "MaterialDesignColors": {
               "target": "Package",
               "version": "[5.2.1, )"
