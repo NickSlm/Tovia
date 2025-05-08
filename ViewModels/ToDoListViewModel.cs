@@ -22,25 +22,18 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand RemoveItemCommand => _removeItemCommand;
         public ICommand CleanItemsCommand => _cleanItemsCommand;
-        public ICommand SaveTaskCommand => _saveTaskCommand;
         public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
 
         private readonly DelegateCommand _toggleReadOnlyCommand;
         private readonly DelegateCommand _removeItemCommand;
         private readonly DelegateCommand _cleanItemsCommand;
-        private readonly DelegateCommand _saveTaskCommand;
+
         private readonly AuthService _authService;
         private readonly TaskService _taskService;
         private readonly AppStateService _appStateService;
 
         private int _totalTasks;
         private int _completedTasks;
-        private string _taskTitle = string.Empty;
-        private string? _taskDescription = string.Empty;
-        private DateTime? _taskDueDate = DateTime.Now;
-        private bool _eventIsChecked = false;
-        private string _taskImportance = string.Empty;
-
 
         public ObservableCollection<ToDoItem> ToDoList { get; set; }
         public int TotalTasks
@@ -61,54 +54,6 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(CompletedTasks));
             }
         }
-        public string TaskTitle
-        {
-            get => _taskTitle;
-            set
-            {
-                _taskTitle = value;
-                OnPropertyChanged(nameof(TaskTitle));
-            }
-        }
-        public string? TaskDescription
-        {
-            get => _taskDescription;
-            set
-            {
-                _taskDescription = value;
-                OnPropertyChanged(nameof(TaskDescription));
-            }
-        }
-        public DateTime? TaskDueDate
-        {
-            get => _taskDueDate;
-            set
-            {
-                _taskDueDate = value;
-                OnPropertyChanged(nameof(TaskDueDate));
-            }
-        }
-        public bool EventIsChecked
-        {
-            get => _eventIsChecked;
-            set
-            {
-                _eventIsChecked = value;
-                OnPropertyChanged(nameof(EventIsChecked));
-            }
-        }
-        public string TaskImportance
-        {
-            get => _taskImportance;
-            set
-            {
-                if (_taskImportance != null)
-                {
-                    _taskImportance = value;
-                    OnPropertyChanged(nameof(TaskImportance));
-                }
-            }
-        }
 
 
         public ToDoListViewModel(AuthService authService, TaskService taskService, AppStateService appStateService)
@@ -126,12 +71,11 @@ namespace ToDoListPlus.ViewModels
 
             _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
             _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
-            _saveTaskCommand = new DelegateCommand(SaveTask, CanExecute);
+
             _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, CanExecute);
 
             UpdateCompletedTasks();
         }
-
         public void OnUserLoggedIn()
         {
             LoadToDoItems();
@@ -243,34 +187,6 @@ namespace ToDoListPlus.ViewModels
                     }
                 }
             }
-        }
-        private async void SaveTask(object commandParameter)
-        {
-            if (string.IsNullOrWhiteSpace(TaskTitle))
-            {
-                MessageBox.Show("Title Required");
-                return;
-            }
-            if (!TaskDueDate.HasValue)
-            {
-                MessageBox.Show("DueTime Required");
-                return;
-            }
-            if (string.IsNullOrEmpty(TaskImportance))
-            {
-                MessageBox.Show("Priority Required");
-                return;
-            }
-
-            ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
-            ToDoList.Add(newTask);
-
-            //Reset Form Fields
-            TaskTitle = string.Empty;
-            TaskDescription = string.Empty;
-            TaskDueDate = DateTime.Now;
-            TaskImportance = string.Empty;
-            EventIsChecked = false;
         }
         public void Reset()
         {

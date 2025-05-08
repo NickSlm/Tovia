@@ -16,7 +16,7 @@ namespace ToDoListPlus;
 /// </summary>
 public partial class App : Application
 {
-    private IServiceProvider _serviceProvider;
+    public static IServiceProvider Services { get; private set; }
     private AuthConfig _authConfig;
 
     protected override void OnStartup(StartupEventArgs e)
@@ -28,23 +28,22 @@ public partial class App : Application
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
         ConfigureServices(serviceCollection);
-        _serviceProvider = serviceCollection.BuildServiceProvider();
+        Services = serviceCollection.BuildServiceProvider();
 
-        var globalHotKeyService = _serviceProvider.GetRequiredService<GlobalHotKeyService>();
+        var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         globalHotKeyService.OnOverlayHotKeyPressed += () =>
         {
-            var overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();
+            var overlayWindow = Services.GetRequiredService<OverlayWindow>();
             overlayWindow.Show();
-
         };
 
 
-        var loginWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
+        var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
 
         if (loginResult == true)
         {
-            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+            var mainWindow = Services.GetRequiredService<MainWindow>();
             Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
         }
@@ -70,10 +69,10 @@ public partial class App : Application
         services.AddSingleton<AuthConfig>(_authConfig);
         services.AddSingleton<GlobalHotKeyService>();
 
-
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
+        services.AddSingleton<NewTaskViewModel>();
 
         services.AddTransient<AuthorizationWindow>();
         services.AddTransient<OverlayWindow>();

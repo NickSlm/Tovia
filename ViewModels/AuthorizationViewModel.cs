@@ -28,7 +28,6 @@ namespace ToDoListPlus.ViewModels
         private readonly AppStateService _appStateService;
 
         private string _accountUsername;
-        private bool _eventIsEnabled = false;
         private bool _isSignedIn = false;
 
         public bool IsSignedIn
@@ -40,15 +39,7 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(IsSignedIn));
             }
         }
-        public bool EventIsEnabled
-        {
-            get => _eventIsEnabled;
-            set
-            {
-                _eventIsEnabled = value;
-                OnPropertyChanged(nameof(EventIsEnabled));
-            }
-        }
+
         public string AccountUsername
         {
             get => _accountUsername;
@@ -77,7 +68,6 @@ namespace ToDoListPlus.ViewModels
             {
                 AccountUsername = _authService.AccountUsername;
                 IsSignedIn = true;
-                EventIsEnabled = true;
 
                 Application.Current.Windows
                 .OfType<AuthorizationWindow>()
@@ -95,7 +85,6 @@ namespace ToDoListPlus.ViewModels
             _appStateResetService.ResetState();
             AccountUsername = string.Empty;
             IsSignedIn = false;
-            EventIsEnabled = false;
 
             var result = _dialogService.ShowLoginDialog();
             if (!result == true)
