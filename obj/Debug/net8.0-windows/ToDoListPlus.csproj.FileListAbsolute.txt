@@ -162,3 +162,7 @@ D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Config\authsettings.json
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\GlobalHotKey.dll
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\OverlayWindow.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\OverlayWindow.baml
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\SettingsView.g.cs
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\SettingsView.baml
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\NewTaskView.g.cs
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\NewTaskView.baml

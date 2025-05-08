@@ -62,6 +62,7 @@
 
 
     <materialDesign:DialogHost
+        Identifier="RootDialog"
         DialogContentUniformCornerRadius="20"
         DialogTheme="Inherit">  
         <Grid>
@@ -330,7 +331,7 @@
                             BorderBrush="#DDD"
                             CornerRadius="12,12,0,0"
                             Padding="8 4">
-                        <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        <Button Command="{Binding NewTaskCommand}"
                                 Style="{StaticResource MaterialDesignPaperLightButton}"
                                 Margin="0 8"
                                 Padding="10 6"
@@ -345,115 +346,5 @@
                 </Grid>
             </Grid>
         </Grid>
-        
-        <!--Popup Dialog Content--> 
-        <materialDesign:DialogHost.DialogContent>
-            <Border Width="300" Height="300" >
-                <Grid Margin="8" VerticalAlignment="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-
-                    </Grid.RowDefinitions>
-
-                    <TextBox
-                        Grid.Row="0"
-                        Margin="8 8 8 8"
-                        Text="{Binding ToDoListVM.TaskTitle}"
-                        materialDesign:HintAssist.Hint="Title" 
-                        VerticalAlignment="Bottom"
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     />
-
-                    <TextBox
-                        Grid.Row="1"
-                        Margin="8 8 8 8"
-                        Height="100"
-                        Text="{Binding ToDoListVM.TaskDescription}"
-                        VerticalAlignment="Top"
-                        materialDesign:HintAssist.Hint="Description (optional)"
-                        MaxLength="256"
-                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                        TextWrapping="Wrap"
-                        VerticalScrollBarVisibility="Auto"
-                        />
-
-
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <DatePicker
-                            Grid.Column="0"
-                            SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
-                            Margin="8"/>
-
-                        <ComboBox materialDesign:HintAssist.Hint="Priority"
-                                  Grid.Column="1"
-                                  Margin="8"
-                                  SelectedValue="{Binding ToDoListVM.TaskImportance, Mode=TwoWay}"
-                                  SelectedValuePath="Content">
-                            <ComboBoxItem
-                                Content="high"/>
-                            <ComboBoxItem
-                                Content="normal"/>
-                            <ComboBoxItem
-                                Content="low"/>
-                        </ComboBox>
-                    </Grid>
-
-                    <Grid 
-                        Grid.Row="3"
-                        Margin="8 8 8 8" Grid.ColumnSpan="2">
-                        
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <CheckBox 
-                            Grid.Column="0" 
-                            IsChecked="{Binding ToDoListVM.EventIsChecked}"
-                            IsEnabled="{Binding AuthorizationVM.EventIsEnabled}"
-                            Content="Calendar Event"/>
-
-                        <TextBlock 
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Foreground="Gray"
-                            Text="(Login required)"/>
-                    </Grid>
-
-                    <StackPanel
-                        Grid.Row="4"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Margin="0 4 0 0" 
-                        Grid.Column="1"
-                         >
-                        <Button
-                            Content="ACCEPT"
-                            IsDefault="True"
-                            Margin="8 0 8 0"
-                            Style="{StaticResource MaterialDesignFlatButton}"
-                            Command="{Binding ToDoListVM.SaveTaskCommand}">
-                        </Button>
-                        
-                        <Button
-                            Content="CANCEL"
-                            Margin="8 0 8 0"
-                            IsCancel="True"
-                            Style="{StaticResource MaterialDesignFlatButton}"
-                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                        </Button>
-                    </StackPanel>
-                </Grid>
-            </Border>
-        </materialDesign:DialogHost.DialogContent>
     </materialDesign:DialogHost>
 </Window>
