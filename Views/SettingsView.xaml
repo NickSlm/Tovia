@@ -8,5 +8,51 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Label>DIKCS</Label>
+    <Border Height="300" Width="300">
+        <Grid Margin="8" 
+              VerticalAlignment="Center"
+              >
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            
+            <TextBox x:Name="KeybindTextBox"
+                     PreviewKeyDown="KeyBind_PreviewKeyDown"
+                     Grid.Row="0"
+                     Grid.Column="1"
+                     IsReadOnly="True"
+                     Cursor="Hand"/>    
+
+
+            <StackPanel
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Margin="0 4 0 0" 
+             >
+                <Button
+                Content="ACCEPT"
+                IsDefault="True"
+                Margin="8 0 8 0"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                 >
+                </Button>
+
+                <Button
+                Content="CANCEL"
+                Margin="8 0 8 0"
+                IsCancel="True"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

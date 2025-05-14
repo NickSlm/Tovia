@@ -57,7 +57,6 @@ namespace ToDoListPlus.ViewModels
             var newTaskView = new NewTaskView();
             newTaskView.DataContext = App.Services.GetRequiredService<NewTaskViewModel>();
             var result = await DialogHost.Show(newTaskView, "RootDialog");
-
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
