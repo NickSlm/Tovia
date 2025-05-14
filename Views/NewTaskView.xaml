@@ -28,7 +28,7 @@
             materialDesign:HintAssist.Hint="Title" 
             VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-         />
+            />
 
             <TextBox
             Grid.Row="1"

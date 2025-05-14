@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows;
 using ToDoListPlus.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using ToDoListPlus.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using ToDoListPlus.Views;
@@ -27,7 +29,13 @@ public partial class App : Application
         var serviceCollection = new ServiceCollection();
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-        ConfigureServices(serviceCollection);
+
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("Config/appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+
+        ConfigureServices(serviceCollection, configuration);
         Services = serviceCollection.BuildServiceProvider();
 
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
@@ -58,8 +66,10 @@ public partial class App : Application
         base.OnExit(e);
     }
 
-    private void ConfigureServices(IServiceCollection services)
+    private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<HotkeySettings>(configuration.GetSection("Hotkeys"));
+
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
 
@@ -74,6 +84,7 @@ public partial class App : Application
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<NewTaskViewModel>();
 
+        services.AddSingleton<SettingsView>();
         services.AddTransient<AuthorizationWindow>();
         services.AddTransient<OverlayWindow>();
         services.AddTransient<MainWindow>();

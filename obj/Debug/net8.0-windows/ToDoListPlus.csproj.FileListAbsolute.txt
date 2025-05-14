@@ -166,3 +166,13 @@ D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\SettingsView.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\SettingsView.baml
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\NewTaskView.g.cs
 D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Views\NewTaskView.baml
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Config\appsettings.json
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Binder.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
