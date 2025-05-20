@@ -48,7 +48,7 @@ namespace ToDoListPlus.ViewModels
         public async void OpenSettingsWindow(object commandParameter)
         {
             var settingsView = new SettingsView();
-            settingsView.DataContext = new SettingsViewModel();
+            settingsView.DataContext = App.Services.GetRequiredService<SettingsViewModel>();
             var result = await DialogHost.Show(settingsView, "RootDialog");
         }
 

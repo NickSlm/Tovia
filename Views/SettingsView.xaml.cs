@@ -28,8 +28,6 @@ namespace ToDoListPlus.Views
         public SettingsView()
         {
             InitializeComponent();
-
-
         }
 
         private void KeyBind_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -47,11 +45,13 @@ namespace ToDoListPlus.Views
                 return;
             }
 
-            var globalHotKeyService = App.Services.GetRequiredService<GlobalHotKeyService>();
-            globalHotKeyService.RegisterHotKey(key, modifiers);
-
-            SettingsWriter.UpdateSettings(new HotkeySettings { MainKey = key, 
-                ModifierKey = modifiers });
+            var viewModel = this.DataContext;
+            if (viewModel is SettingsViewModel settingsViewModel)
+            {
+                settingsViewModel.MainKey = key;
+                settingsViewModel.ModifierKey = modifiers;
+                settingsViewModel.KeyStroke = $"{modifiers.ToString()} + {key.ToString()}";
+            }
         }
     }
 }
