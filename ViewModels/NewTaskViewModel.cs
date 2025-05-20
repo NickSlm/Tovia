@@ -14,7 +14,6 @@ namespace ToDoListPlus.ViewModels
     public class NewTaskViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public ICommand SaveTaskCommand => _saveTaskCommand;
 
         private readonly DelegateCommand _saveTaskCommand;
         private readonly TaskService _taskService;
@@ -24,6 +23,7 @@ namespace ToDoListPlus.ViewModels
         private bool _eventIsChecked = false;
         private string _taskImportance = string.Empty;
 
+        public ICommand SaveTaskCommand => _saveTaskCommand;
         public string TaskTitle
         {
             get => _taskTitle;
@@ -81,7 +81,6 @@ namespace ToDoListPlus.ViewModels
 
         private async void SaveTask(object commandParameter)
         {
-            MessageBox.Show("asdf");
             if (string.IsNullOrWhiteSpace(TaskTitle))
             {
                 MessageBox.Show("Title Required");

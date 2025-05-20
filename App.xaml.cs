@@ -39,12 +39,23 @@ public partial class App : Application
         Services = serviceCollection.BuildServiceProvider();
 
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
+
+        var overlayWindow = Services.GetRequiredService<OverlayWindow>();
+        overlayWindow.DataContext = Services.GetRequiredService<OverlayViewModel>();
         globalHotKeyService.OnOverlayHotKeyPressed += () =>
         {
-            var overlayWindow = Services.GetRequiredService<OverlayWindow>();
-            overlayWindow.Show();
-        };
+            if (overlayWindow.IsVisible) { overlayWindow.Hide(); }
+            else
+            {
+                var vm = (OverlayViewModel)overlayWindow.DataContext;
 
+                overlayWindow.Top = vm.TopPos;
+                overlayWindow.Left = vm.LeftPos;
+
+                overlayWindow.Show();
+                overlayWindow.Activate();
+            }
+        };
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
@@ -69,6 +80,7 @@ public partial class App : Application
     private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<HotkeySettings>(configuration.GetSection("Hotkeys"));
+        services.Configure<WindowSettings>(configuration.GetSection("WindowPosition"));
 
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
@@ -83,8 +95,11 @@ public partial class App : Application
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<NewTaskViewModel>();
+        services.AddSingleton<SettingsViewModel>();
+        services.AddSingleton<OverlayViewModel>();
 
-        services.AddSingleton<SettingsView>();
+
+        services.AddTransient<SettingsView>();
         services.AddTransient<AuthorizationWindow>();
         services.AddTransient<OverlayWindow>();
         services.AddTransient<MainWindow>();

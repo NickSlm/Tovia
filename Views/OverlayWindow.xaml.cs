@@ -19,7 +19,6 @@ namespace ToDoListPlus.Views
     /// </summary>
     public partial class OverlayWindow : Window
     {
-        public bool IsOverlayWindowOpen { get; set; } = false;
         public OverlayWindow()
         {
             InitializeComponent();

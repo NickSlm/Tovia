@@ -15,23 +15,36 @@
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
-            
-            <TextBox x:Name="KeybindTextBox"
+
+            <Label Content="Open Overlay:"
+                       Grid.Row="0"
+                       Grid.Column="0"/>
+            <TextBox Text="{Binding KeyStroke}"
                      PreviewKeyDown="KeyBind_PreviewKeyDown"
                      Grid.Row="0"
                      Grid.Column="1"
                      IsReadOnly="True"
-                     Cursor="Hand"/>    
+                     Cursor="Hand"/>
 
+            <Label Content="Overlay Position"
+                   Grid.Row="1"
+                   Grid.Column="0"/>
+            <ComboBox
+                 ItemsSource="{Binding PositionOptions}"
+                SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="150"
+                Margin="10"/>
 
             <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             Orientation="Horizontal"
@@ -41,6 +54,7 @@
                 Content="ACCEPT"
                 IsDefault="True"
                 Margin="8 0 8 0"
+                Command="{Binding SaveSettingsCommand}"
                 Style="{StaticResource MaterialDesignFlatButton}"
                  >
                 </Button>

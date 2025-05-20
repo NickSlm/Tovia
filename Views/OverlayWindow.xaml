@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus.Views"
         mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Topmost="True"
+        WindowStyle="None"
+        WindowStartupLocation="Manual"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="OverlayWindow" Height="450" Width="800">
+
+
+    <Window.Background>
+        <SolidColorBrush Opacity="0.5" Color="White"/>
+    </Window.Background>
     <Grid>
-        
+        <Label>DICKS</Label>
     </Grid>
 </Window>
