@@ -17,13 +17,17 @@
         AllowsTransparency="True"
         ShowInTaskbar="False"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="OverlayWindow" Height="450" Width="800">
+        Title="OverlayWindow" Height="450" Width="400">
 
 
     <Window.Background>
         <SolidColorBrush Opacity="0.5" Color="White"/>
     </Window.Background>
-    <Grid>
-        <Label>DICKS</Label>
-    </Grid>
+
+    <ScrollViewer>
+        
+        q   
+        
+    </ScrollViewer>
+    
 </Window>
