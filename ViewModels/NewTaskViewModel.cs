@@ -97,10 +97,11 @@ namespace ToDoListPlus.ViewModels
                 return;
             }
 
-            ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
-            var toDoListVM = App.Services.GetRequiredService<ToDoListViewModel>();
-            toDoListVM.ToDoList.Add(newTask);
 
+
+            ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
+            _taskService.ToDoList.Add(newTask);
+            
             //Reset Form Fields
             TaskTitle = string.Empty;
             TaskDescription = string.Empty;

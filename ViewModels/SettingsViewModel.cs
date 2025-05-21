@@ -20,11 +20,13 @@ namespace ToDoListPlus.ViewModels
 
         private HotkeySettings _hotkeySettings;
         private readonly DelegateCommand _saveSettingsCommand;
+        private readonly GlobalHotKeyService _globalHotKeyService;
+        private readonly OverlayViewModel _overlayViewModel;
+
         private string _keyStroke { get; set; }
         private Key _mainKey { get; set; }
         private ModifierKeys _modifierKey { get; set; }
         private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
-
 
         public ICommand SaveSettingsCommand => _saveSettingsCommand;
         public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
@@ -65,9 +67,11 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public SettingsViewModel(IOptions<HotkeySettings> options)
+        public SettingsViewModel(IOptions<HotkeySettings> options, GlobalHotKeyService globalHotKeyService, OverlayViewModel overlayViewModel)
         {
             _hotkeySettings = options.Value;
+            _globalHotKeyService = globalHotKeyService;
+            _overlayViewModel = overlayViewModel;
 
             MainKey = _hotkeySettings.MainKey;
             ModifierKey = _hotkeySettings.ModifierKey;
@@ -124,11 +128,9 @@ namespace ToDoListPlus.ViewModels
                 }
             };
 
-            var globalHotKeyService = App.Services.GetRequiredService<GlobalHotKeyService>();
-            var overlayViewModel = App.Services.GetRequiredService<OverlayViewModel>();
+            _globalHotKeyService.RegisterHotKey(MainKey, ModifierKey);
+            _overlayViewModel.UpdatePosition(TopPos, LeftPos);
 
-            globalHotKeyService.RegisterHotKey(_hotkeySettings.MainKey, _hotkeySettings.ModifierKey);
-            overlayViewModel.UpdatePosition(TopPos, LeftPos);
             SettingsWriter.UpdateSettings(userSettings);
         }
 
