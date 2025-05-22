@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using ToDoListPlus.Models;
+using ToDoListPlus.Services;
 
 namespace ToDoListPlus.ViewModels
 {
@@ -15,8 +17,11 @@ namespace ToDoListPlus.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private readonly TaskService _taskService;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
+        public ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
+
 
         public OverlayPosition position { get; set; }
         public double TopPos
@@ -38,8 +43,10 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public OverlayViewModel(IOptions<WindowSettings> options)
+        public OverlayViewModel(IOptions<WindowSettings> options, TaskService taskService)
         {
+            _taskService = taskService;
+
             TopPos = options.Value.TopPos;
             LeftPos = options.Value.LeftPos;
         }
