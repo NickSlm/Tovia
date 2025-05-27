@@ -29,7 +29,6 @@ public partial class App : Application
         var serviceCollection = new ServiceCollection();
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-
         var configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("Config/appsettings.json", optional: true, reloadOnChange: true)
@@ -39,8 +38,8 @@ public partial class App : Application
         Services = serviceCollection.BuildServiceProvider();
 
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
-
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
+
         overlayWindow.DataContext = Services.GetRequiredService<OverlayViewModel>();
         globalHotKeyService.OnOverlayHotKeyPressed += () =>
         {
@@ -55,6 +54,10 @@ public partial class App : Application
                 overlayWindow.Show();
                 overlayWindow.Activate();
             }
+        };
+        globalHotKeyService.OnNewTaskHotKeyPressed += () =>
+        {
+            MessageBox.Show("Open New Task");
         };
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
@@ -79,7 +82,7 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<HotkeySettings>(configuration.GetSection("Hotkeys"));
+        services.Configure<Dictionary<String,HotkeySettings>>(configuration.GetSection("Hotkeys"));
         services.Configure<WindowSettings>(configuration.GetSection("WindowPosition"));
 
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
@@ -95,9 +98,8 @@ public partial class App : Application
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<NewTaskViewModel>();
-        services.AddSingleton<SettingsViewModel>();
         services.AddSingleton<OverlayViewModel>();
-
+        services.AddTransient<SettingsViewModel>();
 
         services.AddTransient<SettingsView>();
         services.AddTransient<AuthorizationWindow>();

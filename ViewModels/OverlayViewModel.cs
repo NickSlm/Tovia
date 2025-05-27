@@ -16,7 +16,6 @@ namespace ToDoListPlus.ViewModels
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
-
         private readonly TaskService _taskService;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
