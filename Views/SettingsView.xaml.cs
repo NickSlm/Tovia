@@ -34,6 +34,7 @@ namespace ToDoListPlus.Views
         {
             e.Handled = true;
 
+
             Key key = e.Key == Key.System ? e.SystemKey : e.Key;
             ModifierKeys modifiers = Keyboard.Modifiers;
 
@@ -46,12 +47,23 @@ namespace ToDoListPlus.Views
             }
 
             var viewModel = this.DataContext;
-            if (viewModel is SettingsViewModel settingsViewModel)
+            if (viewModel is SettingsViewModel settingsViewModel && sender is TextBox textBox)
             {
-                settingsViewModel.MainKey = key;
-                settingsViewModel.ModifierKey = modifiers;
-                settingsViewModel.KeyStroke = $"{modifiers.ToString()} + {key.ToString()}";
+                string name = textBox.Tag as string;
+
+                switch (name)
+                {
+                    case "Overlay":
+                        settingsViewModel._hotkeySettings[name] = (key, modifiers);
+                        settingsViewModel._keyStrokes[name].keyStroke = $"{modifiers.ToString()} + {key.ToString()}";
+                        break;
+                    case "NewTask":
+                        settingsViewModel._hotkeySettings[name] = (key, modifiers);
+                        settingsViewModel._keyStrokes[name].keyStroke = $"{modifiers.ToString()} + {key.ToString()}";
+                        break;
+                }
             }
         }
+
     }
 }

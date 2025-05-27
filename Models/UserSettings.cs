@@ -9,7 +9,7 @@ namespace ToDoListPlus.Models
     public class UserSettings
     {
 
-        public HotkeySettings Hotkeys { get; set; }
+        public Dictionary<string, HotkeySettings> Hotkeys { get; set; } = new();
         public WindowSettings Window { get; set; }
 
     }

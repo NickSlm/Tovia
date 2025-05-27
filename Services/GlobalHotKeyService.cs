@@ -15,35 +15,48 @@ namespace ToDoListPlus.Services
     {
         private readonly HotKeyManager _manager = new();
 
-        public Key _storedKey;
-        public ModifierKeys _storedModifier;
-
-
         public event Action? OnOverlayHotKeyPressed;
+        public event Action? OnNewTaskHotKeyPressed;
+        public Dictionary<string, (Key Key, ModifierKeys ModifierKey)> _storedKeys = new();
 
-        public GlobalHotKeyService(IOptions<HotkeySettings> options) 
+        public GlobalHotKeyService(IOptions<Dictionary<string, HotkeySettings>> hotkeyOptions) 
         {
             _manager.KeyPressed += HotKeyManagerPressed;
-            _storedKey = options.Value.MainKey;
-            _storedModifier = options.Value.ModifierKey;
-            _manager.Register(_storedKey, _storedModifier);
+
+            foreach (var (name, setting) in hotkeyOptions.Value)
+            {
+                _storedKeys[name] = (setting.MainKey, setting.ModifierKey);
+                _manager.Register(setting.MainKey, setting.ModifierKey);
+            }
         }
 
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
-            if (e.HotKey.Key == _storedKey && e.HotKey.Modifiers == _storedModifier)
+
+            foreach (var(name, (key, modifier)) in _storedKeys)
             {
-                OnOverlayHotKeyPressed?.Invoke();
+                if (e.HotKey.Key == key && e.HotKey.Modifiers == modifier)
+                {
+                    HandleHotKey(name);
+                }
             }
         }
-
-        public void RegisterHotKey(Key key, ModifierKeys modifier)
+        private void HandleHotKey(string hotkeyName)
         {
-            _manager.Unregister(_storedKey, _storedModifier);
-
-            _storedKey = key;
-            _storedModifier = modifier;
-
+            switch (hotkeyName)
+            {
+                case "Overlay":
+                    OnOverlayHotKeyPressed?.Invoke();
+                    break;
+                case "NewTask":
+                    OnNewTaskHotKeyPressed?.Invoke();
+                    break;
+            }
+        }
+        public void RegisterHotKey(string name, Key key, ModifierKeys modifier)
+        {
+            _manager.Unregister(_storedKeys[name].Key, _storedKeys[name].ModifierKey);
+            _storedKeys[name] = (key, modifier);
             _manager.Register(key, modifier);
         }
         public void Dispose() 

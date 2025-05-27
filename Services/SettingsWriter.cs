@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,8 +21,12 @@ namespace ToDoListPlus.Services
             var json = File.ReadAllText(path);
             var jObject = JObject.Parse(json);
 
-            jObject["Hotkeys"]["ModifierKey"] = newSettings.Hotkeys.ModifierKey.ToString();
-            jObject["Hotkeys"]["MainKey"] = newSettings.Hotkeys.MainKey.ToString();
+
+            jObject["Hotkeys"]["Overlay"]["MainKey"] = newSettings.Hotkeys["Overlay"].MainKey.ToString();
+            jObject["Hotkeys"]["Overlay"]["ModifierKey"] = newSettings.Hotkeys["Overlay"].ModifierKey.ToString();
+
+            jObject["Hotkeys"]["NewTask"]["MainKey"] = newSettings.Hotkeys["NewTask"].MainKey.ToString();
+            jObject["Hotkeys"]["NewTask"]["ModifierKey"] = newSettings.Hotkeys["NewTask"].ModifierKey.ToString();
 
             jObject["WindowPosition"]["TopPos"] = newSettings.Window.TopPos.ToString();
             jObject["WindowPosition"]["LeftPos"] = newSettings.Window.LeftPos.ToString();

@@ -16,35 +16,54 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
+            <!--Toggle Overlay-->
             <Label Content="Open Overlay:"
                        Grid.Row="0"
                        Grid.Column="0"/>
-            <TextBox Text="{Binding KeyStroke}"
+            <TextBox Text="{Binding _keyStrokes[Overlay].keyStroke}"
                      PreviewKeyDown="KeyBind_PreviewKeyDown"
+                     Tag="Overlay"
                      Grid.Row="0"
                      Grid.Column="1"
                      IsReadOnly="True"
                      Cursor="Hand"/>
-
-            <Label Content="Overlay Position"
+            
+            <!--Create new Task-->
+            <Label Content="Add new task"
                    Grid.Row="1"
+                   Grid.Column="0"/>
+            <TextBox Text="{Binding _keyStrokes[NewTask].keyStroke}"
+                     Tag="NewTask"
+                     PreviewKeyDown="KeyBind_PreviewKeyDown"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     IsReadOnly="True"
+                     Cursor="Hand"/>
+
+            
+            <!--Overlay window position-->
+            <Label Content="Overlay Position"
+                   Grid.Row="2"
                    Grid.Column="0"/>
             <ComboBox
                  ItemsSource="{Binding PositionOptions}"
                 SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="1"
                 Width="150"
                 Margin="10"/>
 
+            
             <StackPanel
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             Orientation="Horizontal"

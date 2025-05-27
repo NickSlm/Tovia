@@ -18,45 +18,17 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private HotkeySettings _hotkeySettings;
+        private HotkeySettings _overlayHotkeySettings;
         private readonly DelegateCommand _saveSettingsCommand;
         private readonly GlobalHotKeyService _globalHotKeyService;
         private readonly OverlayViewModel _overlayViewModel;
 
-        private string _keyStroke { get; set; }
-        private Key _mainKey { get; set; }
-        private ModifierKeys _modifierKey { get; set; }
-        private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
+        public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
+        public Dictionary<string, KeyStroke> _keyStrokes { get; } = new();
 
+        private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
         public ICommand SaveSettingsCommand => _saveSettingsCommand;
         public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
-        public Key MainKey
-        {
-            get => _mainKey;
-            set
-            {
-                _mainKey = value;
-                OnPropertyChanged(nameof(MainKey));
-            }
-        }
-        public ModifierKeys ModifierKey
-        {
-            get => _modifierKey;
-            set
-            {
-                _modifierKey = value;
-                OnPropertyChanged(nameof(ModifierKey));
-            }
-        }
-        public string KeyStroke
-        {
-            get => _keyStroke;
-            set
-            {
-                _keyStroke = value;
-                OnPropertyChanged(nameof(KeyStroke));
-            }
-        }
         public OverlayPosition OverlayPos
         {
             get => _overlayPos;
@@ -67,16 +39,22 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public SettingsViewModel(IOptions<HotkeySettings> options, GlobalHotKeyService globalHotKeyService, OverlayViewModel overlayViewModel)
+        public SettingsViewModel(IOptions<Dictionary<string, HotkeySettings>> hotkeyOptions, GlobalHotKeyService globalHotKeyService, OverlayViewModel overlayViewModel)
         {
-            _hotkeySettings = options.Value;
             _globalHotKeyService = globalHotKeyService;
             _overlayViewModel = overlayViewModel;
 
-            MainKey = _hotkeySettings.MainKey;
-            ModifierKey = _hotkeySettings.ModifierKey;
-            KeyStroke = $"{_hotkeySettings.ModifierKey.ToString()} + {_hotkeySettings.MainKey.ToString()}";
+            foreach (var (name, setting) in hotkeyOptions.Value)
+            {
+                _hotkeySettings[name] = (setting.MainKey, setting.ModifierKey);
 
+                var keystroke = new KeyStroke
+                {
+                    keyStroke = $"{_hotkeySettings[name].modifier.ToString()} + {_hotkeySettings[name].key.ToString()}"
+                };
+                _keyStrokes[name] = keystroke;
+
+            }
             _saveSettingsCommand = new DelegateCommand(saveSettings, canExecute);
         }
 
@@ -116,10 +94,18 @@ namespace ToDoListPlus.ViewModels
 
             UserSettings userSettings = new UserSettings
             {
-                Hotkeys = new HotkeySettings
+                Hotkeys = new Dictionary<string, HotkeySettings>
                 {
-                    MainKey = MainKey,
-                    ModifierKey = ModifierKey
+                    ["Overlay"] = new HotkeySettings
+                    {
+                        MainKey = _hotkeySettings["Overlay"].key,
+                        ModifierKey = _hotkeySettings["Overlay"].modifier
+                    },
+                    ["NewTask"] = new HotkeySettings
+                    {
+                        MainKey = _hotkeySettings["NewTask"].key,
+                        ModifierKey = _hotkeySettings["NewTask"].modifier
+                    }
                 },
                 Window = new WindowSettings
                 {
@@ -128,9 +114,11 @@ namespace ToDoListPlus.ViewModels
                 }
             };
 
-            _globalHotKeyService.RegisterHotKey(MainKey, ModifierKey);
+            foreach (var (name, (key, modifier)) in _hotkeySettings)
+            {
+                _globalHotKeyService.RegisterHotKey(name, key, modifier);
+            }
             _overlayViewModel.UpdatePosition(TopPos, LeftPos);
-
             SettingsWriter.UpdateSettings(userSettings);
         }
 
