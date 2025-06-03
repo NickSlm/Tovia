@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Windows;
 using System.Windows.Input;
+using ToDoListPlus.Models;
 
 public class ToDoItem: INotifyPropertyChanged
 {
@@ -18,8 +19,20 @@ public class ToDoItem: INotifyPropertyChanged
 	private string _eventId;
 	private string _taskId;
 	private string _importance;
+	private double? _timeLeft = 0;
+	private TaskState _status;
 
 
+	public TaskState Status
+	{
+		get => _status;
+		set
+		{
+			_status = value;
+			OnPropertyChanged(nameof(Status));
+			OnPropertyChanged(nameof(IsComplete));
+		}
+	}
 	public bool IsReadOnly
 	{
 		get => _isReadOnly;
@@ -31,15 +44,19 @@ public class ToDoItem: INotifyPropertyChanged
 	}
 	public bool IsComplete
 	{
-		get => _isComplete;
+		get => Status == TaskState.Complete;
 		set
 		{
-			_isComplete = value;
-			OnPropertyChanged(nameof(IsComplete));
+			if (value)
+			{
+				Status = TaskState.Complete;
+			}
+			else if (Status == TaskState.Complete)
+				Status = TaskState.InProgress;
+			//When task status change => update the task in Microsoft using updateTask
 			OnCompletionChanged?.Invoke(this, EventArgs.Empty);
-		}
-	}
-
+        }
+    }
 	public string Title {
 		get => _title;
 		set
@@ -64,6 +81,15 @@ public class ToDoItem: INotifyPropertyChanged
 		{
 			_dueDate = value;
 			OnPropertyChanged(nameof(DueDate));
+		}
+	}
+	public double? TimeLeft
+	{
+		get => _timeLeft;
+		set
+		{
+            _timeLeft = value;
+			OnPropertyChanged(nameof(TimeLeft));
 		}
 	}
 	public string EventId
@@ -105,7 +131,7 @@ public class ToDoItem: INotifyPropertyChanged
             };
         }
     }
-    public ToDoItem() { }
+    public ToDoItem() {}
 
     public ToDoItem(string title, string? description, DateTime? dueDate ,string importance, string eventId, string taskId)
 	{

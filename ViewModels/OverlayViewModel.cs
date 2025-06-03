@@ -19,9 +19,8 @@ namespace ToDoListPlus.ViewModels
         private readonly TaskService _taskService;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
+
         public ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
-
-
         public OverlayPosition position { get; set; }
         public double TopPos
         {

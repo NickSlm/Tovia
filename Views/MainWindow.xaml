@@ -61,10 +61,10 @@
     </Window.Resources>
 
 
-    <materialDesign:DialogHost
-        Identifier="RootDialog"
-        DialogContentUniformCornerRadius="20"
-        DialogTheme="Inherit">  
+        <materialDesign:DialogHost
+            Identifier="RootDialog"
+            DialogContentUniformCornerRadius="20"
+            DialogTheme="Inherit">  
         <Grid>
         
         <Grid.RowDefinitions>
@@ -209,7 +209,6 @@
                                         </Style>
                                     </DataGrid.Resources>
                                     <DataGrid.RowStyle>
-
                                         <Style TargetType="DataGridRow">
                                             <Setter Property="BorderBrush" Value="WhiteSmoke"/>
                                             <Setter Property="BorderThickness" Value="0,0,0,1"/>
@@ -260,7 +259,7 @@
                                                             <!-- Task Title -->
                                                             <TextBlock 
                                                                 Grid.Column="1"
-                                                                Text="{Binding Title}"
+                                                                Text="{Binding Status}"
                                                                 TextWrapping="Wrap"
                                                                 VerticalAlignment="Center"
                                                                 Margin="0"
@@ -293,7 +292,7 @@
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Due Date-->
-                                        <DataGridTemplateColumn Header="Due Date" Width="Auto" SortMemberPath="DueDate">
+                                        <DataGridTemplateColumn Header="Hours left" Width="Auto" SortMemberPath="DueDate">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"

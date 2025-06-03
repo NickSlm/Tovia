@@ -73,6 +73,8 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
+
+
         public NewTaskViewModel(TaskService taskService)
         {
             _taskService = taskService;

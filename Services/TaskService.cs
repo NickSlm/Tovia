@@ -239,7 +239,6 @@ namespace ToDoListPlus.Services
                     descriptionString = description.GetString();
                 }
 
-
                 DateTime? dueDateTime = null;
                 if (jsonElement.TryGetProperty("dueDateTime", out var dueDateTimeJsonElement))
                 {
@@ -247,7 +246,6 @@ namespace ToDoListPlus.Services
                     var dateTimeString = dateTimeJsonElement.GetString();
                     dueDateTime = DateTime.TryParse(dateTimeString, out var parsedDateTime) ? parsedDateTime : (DateTime?)null;
                 }
-
 
                 //Get externalId from the linkedResource
                 string? externalId = string.Empty;
@@ -257,6 +255,13 @@ namespace ToDoListPlus.Services
                     externalId = linkedResourcesElement[0].GetProperty("externalId").GetString();
                 }
 
+
+                var taskOverdue = "InProgress";
+                //Check if task is overdue
+                if (dueDateTime < DateTime.Now)
+                {
+                    taskOverdue = "Overdue";
+                }
                 //Create a new ToDoItem object
                 var task = new ToDoItem
                 {
@@ -266,13 +271,10 @@ namespace ToDoListPlus.Services
                     DueDate = dueDateTime,
                     TaskId = id,
                     EventId = externalId,
-                    IsComplete = status == "completed" ? true : false
+                    IsComplete = status == "completed" ? true : false,
                 };
-
                 taskList.Add(task);
-
             }
-
             return taskList;
         }
 

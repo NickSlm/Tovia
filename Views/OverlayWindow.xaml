@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoListPlus.Views"
+        xmlns:converters="clr-namespace:ToDoListPlus.Converters"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -15,6 +16,7 @@
         WindowStyle="None"
         WindowStartupLocation="Manual"
         AllowsTransparency="True"
+        Background="Transparent"
         ShowInTaskbar="False"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="OverlayWindow" 
@@ -37,10 +39,18 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ColorTest" TargetType="Border">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                    <Setter Property="Background" Value="LightGreen"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                    <Setter Property="Background" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
-    <Window.Background>
-        <SolidColorBrush Opacity="0.1" Color="#CCFFFFFF"/>
-    </Window.Background>
+
 
     <ScrollViewer Padding="8" VerticalScrollBarVisibility="Auto">
         <ItemsControl ItemsSource="{Binding ToDoList}">
@@ -48,10 +58,9 @@
                 <DataTemplate>
                     <Border Margin="4"
                         Padding="10"
-                        Background="White"
-                        CornerRadius="12">
-
+                        Style="{StaticResource ColorTest}">
                         <StackPanel>
+                            
                             <!-- Task title -->
                             <TextBlock Text="{Binding Title}"
                                    FontWeight="SemiBold"
@@ -85,7 +94,7 @@
                                 <TextBlock Text="" 
                                            Grid.Column="1"/>
                                 <!-- Spacer -->
-                                <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"
+                                <TextBlock Text="{Binding TimeLeft}"
                                            Grid.Column="2"
                                            Foreground="DimGray"
                                            FontSize="12"
