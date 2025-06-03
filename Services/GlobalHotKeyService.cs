@@ -32,7 +32,6 @@ namespace ToDoListPlus.Services
 
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
-
             foreach (var(name, (key, modifier)) in _storedKeys)
             {
                 if (e.HotKey.Key == key && e.HotKey.Modifiers == modifier)

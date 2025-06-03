@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using ToDoListPlus.Views;
 using ToDoListPlus.Models;
 using System;
+using MaterialDesignThemes.Wpf;
 namespace ToDoListPlus;
 
 /// <summary>
@@ -40,25 +41,8 @@ public partial class App : Application
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
 
-        overlayWindow.DataContext = Services.GetRequiredService<OverlayViewModel>();
-        globalHotKeyService.OnOverlayHotKeyPressed += () =>
-        {
-            if (overlayWindow.IsVisible) { overlayWindow.Hide(); }
-            else
-            {
-                var vm = (OverlayViewModel)overlayWindow.DataContext;
 
-                overlayWindow.Top = vm.TopPos;
-                overlayWindow.Left = vm.LeftPos;
-
-                overlayWindow.Show();
-                overlayWindow.Activate();
-            }
-        };
-        globalHotKeyService.OnNewTaskHotKeyPressed += () =>
-        {
-            MessageBox.Show("Open New Task");
-        };
+        globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
@@ -74,12 +58,26 @@ public partial class App : Application
             Application.Current.Shutdown();
         }
     }
-
     protected override void OnExit(ExitEventArgs e)
     {
         base.OnExit(e);
     }
+    private void ToggleOverlay(OverlayWindow overlayWindow)
+    {
+        overlayWindow.DataContext = Services.GetRequiredService<OverlayViewModel>();
 
+        if (overlayWindow.IsVisible) { overlayWindow.Hide(); }
+        else
+        {
+            var vm = (OverlayViewModel)overlayWindow.DataContext;
+
+            overlayWindow.Top = vm.TopPos;
+            overlayWindow.Left = vm.LeftPos;
+
+            overlayWindow.Show();
+            overlayWindow.Activate();
+        }
+    }
     private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<Dictionary<String,HotkeySettings>>(configuration.GetSection("Hotkeys"));
@@ -97,12 +95,13 @@ public partial class App : Application
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
-        services.AddSingleton<NewTaskViewModel>();
+        services.AddTransient<NewTaskViewModel>();
         services.AddSingleton<OverlayViewModel>();
         services.AddTransient<SettingsViewModel>();
 
         services.AddTransient<SettingsView>();
         services.AddTransient<AuthorizationWindow>();
+        services.AddSingleton<NewTaskView>();
         services.AddTransient<OverlayWindow>();
         services.AddTransient<MainWindow>();
     }

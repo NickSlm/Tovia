@@ -12,6 +12,7 @@ using ToDoListPlus.ViewModels;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Timers;
 
 
 
@@ -23,8 +24,9 @@ namespace ToDoListPlus.ViewModels
         public ICommand RemoveItemCommand => _removeItemCommand;
         public ICommand CleanItemsCommand => _cleanItemsCommand;
         public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
-        public ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
+        public  ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
 
+        private static System.Timers.Timer aTimer;
         private readonly DelegateCommand _toggleReadOnlyCommand;
         private readonly DelegateCommand _removeItemCommand;
         private readonly DelegateCommand _cleanItemsCommand;
@@ -70,9 +72,22 @@ namespace ToDoListPlus.ViewModels
 
             UpdateCompletedTasks();
         }
+
         public void OnUserLoggedIn()
         {
             LoadToDoItems();
+        }
+
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            for (int i = ToDoList.Count - 1; i >= 0; i--)
+            {
+                var currentTime = DateTime.Now;
+                var dueTime = ToDoList[i].DueDate;
+
+                TimeSpan? timeLeft = dueTime - currentTime;
+                ToDoList[i].TimeLeft = timeLeft?.TotalHours;
+            }
         }
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -102,12 +117,10 @@ namespace ToDoListPlus.ViewModels
         private void UpdateCompletedTasks()
         {
             CompletedTasks = (TotalTasks > 0) ? (ToDoList.Count(item => item.IsComplete) * 100) / TotalTasks : 0;
-
         }
         public async void LoadToDoItems()
         {
             var tasks = await _taskService.GetTasksAsync();
-
 
             ToDoList.Clear();
             foreach (var task in tasks)
@@ -123,7 +136,8 @@ namespace ToDoListPlus.ViewModels
                     {
                         MessageBox.Show(ex.Message);
                     }
-                }; _taskService.ToDoList.Add(task);
+                }; 
+                _taskService.ToDoList.Add(task);
             }
 
             UpdateCompletedTasks();

@@ -1,5 +1,6 @@
 ﻿<UserControl x:Class="ToDoListPlus.Views.NewTaskView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -52,7 +53,9 @@
                 <DatePicker
                 Grid.Column="0"
                 SelectedDate="{Binding TaskDueDate, Mode=TwoWay}"
-                Margin="8"/>
+                DisplayDateStart="{x:Static sys:DateTime.Today}"
+                Margin="8">
+                </DatePicker>
 
                 <ComboBox materialDesign:HintAssist.Hint="Priority"
                       Grid.Column="1"
