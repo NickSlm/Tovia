@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Timers;
+using System.Windows;
+using ToDoListPlus.Models;
+
+
+namespace ToDoListPlus.Services
+{
+    public class AppTimerService
+    {
+
+        private readonly TaskService _taskService;
+        private ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
+
+
+        public System.Timers.Timer aTimer;
+        public AppTimerService(TaskService taskService)
+        {
+            _taskService = taskService;
+            SetTimer();
+        }
+        private void SetTimer()
+        {
+            aTimer = new System.Timers.Timer(1000);
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+        }
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            for (int i = ToDoList.Count - 1; i >= 0; i--)
+            {
+                var item = ToDoList[i];
+
+                item.TimeLeft = item.DueDate - DateTime.Now;
+
+                if (DateTime.Now > item.DueDate && item.Status != TaskState.Complete)
+                {
+                    item.Status = TaskState.Failed;
+                    item.TimeLeft = TimeSpan.Zero;
+                }
+            }
+        }
+    }
+}

@@ -10,18 +10,16 @@ using System.Windows.Interop;
 using System.Windows;
 using ToDoListPlus.Services;
 using ToDoListPlus.Views;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ToDoListPlus.ViewModels
 {
     public class AuthorizationViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public ICommand AuthorizationCommand => _authorizationCommand;
-        public ICommand SignOutCommand => _signOutCommand;
+        public IAsyncRelayCommand SignOutCommand { get; }
+        public IAsyncRelayCommand AuthorizationCommand { get; }
 
-
-        private readonly DelegateCommand _authorizationCommand;
-        private readonly DelegateCommand _signOutCommand;
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
         private readonly IAppStateResetService _appStateResetService;
@@ -56,29 +54,36 @@ namespace ToDoListPlus.ViewModels
             _dialogService = dialogService;
             _authService = authService;
             _appStateService = appStateService;
-            _signOutCommand = new DelegateCommand(SignOutButtonClick, CanExecute);
-            _authorizationCommand = new DelegateCommand(AuthorizationButtonClick, CanExecute);
+
+            AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
+            SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
         }
 
 
-        private async void AuthorizationButtonClick(object commandParameter)
+        private async Task AuthorizationButtonClick()
         {
+
             await _authService.GetAccessTokenAsync();
             if (!string.IsNullOrEmpty(_authService.AccessToken))
             {
                 AccountUsername = _authService.AccountUsername;
                 IsSignedIn = true;
 
-                Application.Current.Windows
-                .OfType<AuthorizationWindow>()
-                .FirstOrDefault()!
-                .DialogResult = true;
+                var authWindow = Application.Current.Windows
+                                    .OfType<AuthorizationWindow>()
+                                    .FirstOrDefault();
+
+
+                if (authWindow != null)
+                {
+                    authWindow.DialogResult = true;
+                }
 
                 _appStateService.SignIn();
             }
         }
 
-        private async void SignOutButtonClick(object commandParamater)
+        private async Task SignOutButtonClick()
         {
             string SignoutRes = await _authService.SignOutAsync();
 
@@ -91,11 +96,6 @@ namespace ToDoListPlus.ViewModels
             {
                 Application.Current.Shutdown();
             }
-        }
-
-        private bool CanExecute(object commandParameter)
-        {
-            return true;
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

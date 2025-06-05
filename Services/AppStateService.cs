@@ -13,6 +13,7 @@ namespace ToDoListPlus.Services
 
         public void SignIn()
         {
+
             UserLoggedIn?.Invoke();
         }
 

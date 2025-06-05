@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,7 @@ namespace ToDoListPlus.ViewModels
         private bool _eventIsChecked = false;
         private string _taskImportance = string.Empty;
 
-        public ICommand SaveTaskCommand => _saveTaskCommand;
+        public IAsyncRelayCommand SaveTaskCommand { get; }
         public string TaskTitle
         {
             get => _taskTitle;
@@ -78,10 +79,11 @@ namespace ToDoListPlus.ViewModels
         public NewTaskViewModel(TaskService taskService)
         {
             _taskService = taskService;
-            _saveTaskCommand = new DelegateCommand(SaveTask, CanExecute);
+            SaveTaskCommand = new AsyncRelayCommand(SaveTask);
+
         }
 
-        private async void SaveTask(object commandParameter)
+        private async Task SaveTask()
         {
             if (string.IsNullOrWhiteSpace(TaskTitle))
             {
@@ -100,7 +102,6 @@ namespace ToDoListPlus.ViewModels
             }
 
 
-
             ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
             _taskService.ToDoList.Add(newTask);
             
@@ -111,10 +112,6 @@ namespace ToDoListPlus.ViewModels
             TaskImportance = string.Empty;
             EventIsChecked = false;
 
-        }
-        private bool CanExecute(object commandParameter)
-        {
-            return true;
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

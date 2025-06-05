@@ -40,7 +40,7 @@ public partial class App : Application
 
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
-
+        var appTimerService = Services.GetRequiredService<AppTimerService>();
 
         globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
 
@@ -90,13 +90,15 @@ public partial class App : Application
         services.AddSingleton<AuthService>();
         services.AddSingleton<TaskService>();
         services.AddSingleton<AuthConfig>(_authConfig);
+        services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
+
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
-        services.AddTransient<NewTaskViewModel>();
         services.AddSingleton<OverlayViewModel>();
+        services.AddTransient<NewTaskViewModel>();
         services.AddTransient<SettingsViewModel>();
 
         services.AddTransient<SettingsView>();

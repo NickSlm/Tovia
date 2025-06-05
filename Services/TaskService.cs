@@ -29,8 +29,6 @@ namespace ToDoListPlus.Services
         {
             _authService = authService;
             _httpClient = new HttpClient();
-
-
         }
 
         public async Task<string> PostEventAsync(string title, string? description, DateTime? dateTime, string priority)
