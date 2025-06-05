@@ -61,7 +61,8 @@
                         <TextBlock Text="Sign in with Microsoft"
                                    VerticalAlignment="Center"
                                    Foreground="#2F2F2F"
-                                   Margin="2"/>
+                                   Margin="2"
+                                   IsEnabled="{Binding IsAuthorizing}"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

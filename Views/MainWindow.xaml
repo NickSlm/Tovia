@@ -45,7 +45,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style x:Key="PriorityTextStyle" TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Importance}" Value="high"> 
+                <DataTrigger Binding="{Binding Importance}" Value="high">
                     <Setter Property="Foreground" Value="Red"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                 </DataTrigger>
@@ -161,14 +161,14 @@
                                            Foreground="black" 
                                            FontWeight="SemiBold"
                                            FontSize="16"/>
-                                
-                                <Button Command="{Binding ToDoListVM.CleanItemsCommand}"
+
+                                <Button Command="{Binding ToDoListVM.CleanUpCommand}"
                                         CommandParameter="{Binding ToDoListVM.ToDoList}"
                                         Margin="8,0"
                                         Grid.Column="1"
                                         Style="{StaticResource MaterialDesignPaperLightButton}"
                                         ToolTip="Clear all completed tasks"
-                                         Content="Clean Up">
+                                        Content="Clean Up">
                                 </Button>
                             </Grid>
                             <!--Show DataGrid Tasks-->
@@ -183,7 +183,8 @@
                                             IsReadOnly="True"
                                             HeadersVisibility="Column"
                                             GridLinesVisibility="None"
-                                            Focusable="False">
+                                            Focusable="False"
+                                          >
                                     <!-- Clear out Material styles -->
                                     <DataGrid.Resources>
                                         <Style TargetType="CheckBox">
@@ -216,8 +217,12 @@
                                             <Setter Property="Foreground" Value="Black"/>
                                             <Setter Property="Focusable" Value="False"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Complete">
                                                     <Setter Property="Background" Value="LightGreen"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Failed">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -230,7 +235,8 @@
                                                 <DataTemplate>
                                                     <CheckBox IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                               VerticalAlignment="Center"
-                                                              HorizontalAlignment="Center"/>
+                                                              HorizontalAlignment="Center"
+                                                              />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
@@ -292,9 +298,10 @@
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Due Date-->
-                                        <DataGridTemplateColumn Header="Hours left" Width="Auto" SortMemberPath="DueDate">
+                                        <DataGridTemplateColumn Header="Due Date" Width="Auto" SortMemberPath="DueDate">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
+                                               
                                                     <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"
                                                                 Style="{StaticResource MaterialDesignCaptionTextBlock}"
                                                                 HorizontalAlignment="Center"
@@ -306,7 +313,7 @@
                                         <DataGridTemplateColumn Width="Auto">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Command="{Binding DataContext.ToDoListVM.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                    <Button Command="{Binding DataContext.ToDoListVM.RemoveTaskCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                             CommandParameter="{Binding}" 
                                                             Style="{StaticResource IconButtonStyle}"
                                                             >

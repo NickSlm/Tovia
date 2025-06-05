@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,14 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private HotkeySettings _overlayHotkeySettings;
-        private readonly DelegateCommand _saveSettingsCommand;
         private readonly GlobalHotKeyService _globalHotKeyService;
         private readonly OverlayViewModel _overlayViewModel;
+        private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
 
         public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
         public Dictionary<string, KeyStroke> _keyStrokes { get; } = new();
 
-        private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
-        public ICommand SaveSettingsCommand => _saveSettingsCommand;
+        public IRelayCommand SaveSettingsCommand { get; }
         public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
         public OverlayPosition OverlayPos
         {
@@ -55,10 +55,10 @@ namespace ToDoListPlus.ViewModels
                 _keyStrokes[name] = keystroke;
 
             }
-            _saveSettingsCommand = new DelegateCommand(saveSettings, canExecute);
+            SaveSettingsCommand = new RelayCommand(saveSettings);
         }
 
-        public void saveSettings(object commandParameter) 
+        public void saveSettings() 
         {
 
             //Update settings in real time
@@ -122,7 +122,6 @@ namespace ToDoListPlus.ViewModels
             SettingsWriter.UpdateSettings(userSettings);
         }
 
-        private bool canExecute(object commandParameter) { return true; }
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

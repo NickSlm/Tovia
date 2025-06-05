@@ -12,17 +12,26 @@ public class ToDoItem: INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
 	private bool _isReadOnly = true;
-	private bool _isComplete = false;
 	private string _title;
 	private string? _description;
 	private DateTime? _dueDate;
 	private string _eventId;
 	private string _taskId;
 	private string _importance;
-	private double? _timeLeft = 0;
-	private TaskState _status;
+	private TimeSpan? _timeLeft;
+
+	private TaskState _status = TaskState.InProgress;
 
 
+	public bool IsReadOnly
+	{
+		get => _isReadOnly;
+		set
+		{
+			_isReadOnly = value;
+			OnPropertyChanged(nameof(IsReadOnly));
+		}
+	}
 	public TaskState Status
 	{
 		get => _status;
@@ -31,15 +40,6 @@ public class ToDoItem: INotifyPropertyChanged
 			_status = value;
 			OnPropertyChanged(nameof(Status));
 			OnPropertyChanged(nameof(IsComplete));
-		}
-	}
-	public bool IsReadOnly
-	{
-		get => _isReadOnly;
-		set
-		{
-			_isReadOnly = value;
-			OnPropertyChanged(nameof(IsReadOnly));
 		}
 	}
 	public bool IsComplete
@@ -83,7 +83,7 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(DueDate));
 		}
 	}
-	public double? TimeLeft
+	public TimeSpan? TimeLeft
 	{
 		get => _timeLeft;
 		set

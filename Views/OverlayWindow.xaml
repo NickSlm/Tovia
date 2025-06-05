@@ -94,7 +94,7 @@
                                 <TextBlock Text="" 
                                            Grid.Column="1"/>
                                 <!-- Spacer -->
-                                <TextBlock Text="{Binding TimeLeft}"
+                                <TextBlock Text="{Binding TimeLeft, StringFormat='d\\:hh\\:mm'}"
                                            Grid.Column="2"
                                            Foreground="DimGray"
                                            FontSize="12"

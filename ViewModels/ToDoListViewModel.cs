@@ -13,7 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Timers;
-
+using ToDoListPlus.Models;
+using CommunityToolkit.Mvvm.Input;
 
 
 namespace ToDoListPlus.ViewModels
@@ -21,15 +22,13 @@ namespace ToDoListPlus.ViewModels
     public class ToDoListViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public ICommand RemoveItemCommand => _removeItemCommand;
-        public ICommand CleanItemsCommand => _cleanItemsCommand;
-        public ICommand ToggleReadOnlyCommand => _toggleReadOnlyCommand;
+
+        public IAsyncRelayCommand<ObservableCollection<ToDoItem>> CleanUpCommand { get; }
+        public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
+        public IRelayCommand<ToDoItem> ToggleReadOnlyCommand { get; }
         public  ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
 
         private static System.Timers.Timer aTimer;
-        private readonly DelegateCommand _toggleReadOnlyCommand;
-        private readonly DelegateCommand _removeItemCommand;
-        private readonly DelegateCommand _cleanItemsCommand;
 
         private readonly AuthService _authService;
         private readonly TaskService _taskService;
@@ -63,9 +62,9 @@ namespace ToDoListPlus.ViewModels
 
             _appStateService.UserLoggedIn += OnUserLoggedIn;
 
-            _removeItemCommand = new DelegateCommand(RemoveItem, CanRemoveItem);
-            _cleanItemsCommand = new DelegateCommand(CleanCompletedItems, CanExecute);
-            _toggleReadOnlyCommand = new DelegateCommand(ToggleReadOnly, CanExecute);
+            CleanUpCommand = new AsyncRelayCommand<ObservableCollection<ToDoItem>>(CleanCompletedItems);
+            RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveItem);
+            ToggleReadOnlyCommand = new RelayCommand<ToDoItem>(ToggleReadOnly);
 
             _taskService.ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
             _taskService.ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
@@ -78,17 +77,6 @@ namespace ToDoListPlus.ViewModels
             LoadToDoItems();
         }
 
-        private void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            for (int i = ToDoList.Count - 1; i >= 0; i--)
-            {
-                var currentTime = DateTime.Now;
-                var dueTime = ToDoList[i].DueDate;
-
-                TimeSpan? timeLeft = dueTime - currentTime;
-                ToDoList[i].TimeLeft = timeLeft?.TotalHours;
-            }
-        }
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ToDoItem.IsComplete))
@@ -147,52 +135,33 @@ namespace ToDoListPlus.ViewModels
         {
             TotalTasks = _taskService.ToDoList.Count;
         }
-        private bool CanExecute(object commandParameter)
+        private async void ToggleReadOnly(ToDoItem item)
         {
-            //return !string.IsNullOrWhiteSpace(ItemText);
-            return true;
+            item.IsReadOnly = !item.IsReadOnly;
         }
-        private bool CanRemoveItem(object commandParameter)
+        private async Task RemoveItem(ToDoItem item)
         {
-            return commandParameter is ToDoItem item && _taskService.ToDoList.Contains(item);
-        }
-        private void ToggleReadOnly(object commandParameter)
-        {
-            if (commandParameter is ToDoItem item)
+            if (!string.IsNullOrEmpty(item.EventId))
             {
-                item.IsReadOnly = !item.IsReadOnly;
+                string eventResult = await _taskService.DeleteEventAsync(item.EventId);
+                MessageBox.Show(eventResult);
             }
+            _taskService.ToDoList.Remove(item);
+            string taskResult = await _taskService.DeleteTaskAsync(item.TaskId);
+            MessageBox.Show(taskResult);
         }
-        private async void RemoveItem(object commandParameter)
+        private async Task CleanCompletedItems(ObservableCollection<ToDoItem> toDoList)
         {
-            if (commandParameter is ToDoItem item)
+            for (int i = ToDoList.Count - 1; i >= 0; i--)
             {
-                if (!string.IsNullOrEmpty(item.EventId))
+                if (ToDoList[i].Status == TaskState.Complete || ToDoList[i].Status == TaskState.Failed)
                 {
-                    string eventResult = await _taskService.DeleteEventAsync(item.EventId);
-                    MessageBox.Show(eventResult);
-                }
-                _taskService.ToDoList.Remove(item);
-                string taskResult = await _taskService.DeleteTaskAsync(item.TaskId);
-                MessageBox.Show(taskResult);
-
-            }
-        }
-        private async void CleanCompletedItems(object commandParameter)
-        {
-            if (commandParameter is ObservableCollection<ToDoItem> ToDoList)
-            {
-                for (int i = ToDoList.Count - 1; i >= 0; i--)
-                {
-                    if (ToDoList[i].IsComplete)
+                    if (!string.IsNullOrEmpty(ToDoList[i].EventId))
                     {
-                        if (!string.IsNullOrEmpty(ToDoList[i].EventId))
-                        {
-                            await _taskService.DeleteEventAsync(ToDoList[i].EventId);
-                        }
-                        await _taskService.DeleteTaskAsync(ToDoList[i].TaskId);
-                        ToDoList.RemoveAt(i);
+                        await _taskService.DeleteEventAsync(ToDoList[i].EventId);
                     }
+                    await _taskService.DeleteTaskAsync(ToDoList[i].TaskId);
+                    ToDoList.RemoveAt(i);
                 }
             }
         }
