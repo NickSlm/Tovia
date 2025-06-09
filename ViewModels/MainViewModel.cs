@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using CommunityToolkit.Mvvm.Input;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,14 @@ namespace ToDoListPlus.ViewModels
     public class MainViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly IServiceProvider _serviceProvider;
 
         //View Models
         public ToDoListViewModel? ToDoListVM { get;  }
         public AuthorizationViewModel? AuthorizationVM { get; }
 
-        public ICommand OpenSettingsCommand => _openSettingsCommand;
-        public ICommand NewTaskCommand => _newTaskCommand;
-
-        private readonly IServiceProvider _serviceProvider;
-        private readonly DelegateCommand _openSettingsCommand;
-        private readonly DelegateCommand _newTaskCommand;
+        public IAsyncRelayCommand OpenSettingsCommand { get; }
+        public IAsyncRelayCommand NewTaskCommand { get; }
 
 
 
@@ -37,27 +35,28 @@ namespace ToDoListPlus.ViewModels
 
             ToDoListVM = toDoListVM;
 
-            _openSettingsCommand = new DelegateCommand(OpenSettingsWindow, CanExecute);
-            _newTaskCommand = new DelegateCommand(OpenNewTaskWindow, CanExecute);
+            OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
+            NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
         }
 
-        private bool CanExecute(object commandParameter)
-        {
-            return true;
-        }
-
-        public async void OpenSettingsWindow(object commandParameter)
+        public async Task OpenSettingsWindow()
         {
             var settingsView = new SettingsView();
             settingsView.DataContext = App.Services.GetRequiredService<SettingsViewModel>();
             var result = await DialogHost.Show(settingsView, "RootDialog");
         }
 
-        public async void OpenNewTaskWindow(object commandParameter)
+        public async Task OpenNewTaskWindow()
         {
             var newTaskView = new NewTaskView();
-            newTaskView.DataContext = App.Services.GetRequiredService<NewTaskViewModel>();
-            var result = await DialogHost.Show(newTaskView, "RootDialog");
+            var newTaskViewModel = App.Services.GetRequiredService<NewTaskViewModel>();
+            newTaskView.DataContext = newTaskViewModel;
+            if (!newTaskViewModel.IsOpen)
+            {
+                newTaskViewModel.IsOpen = true;
+                var result = await DialogHost.Show(newTaskView, "RootDialog");
+                newTaskViewModel.IsOpen = false;
+            }
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
