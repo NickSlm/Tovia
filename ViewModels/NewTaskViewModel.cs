@@ -16,13 +16,13 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private readonly DelegateCommand _saveTaskCommand;
         private readonly TaskService _taskService;
         private string _taskTitle = string.Empty;
         private string _taskDescription = string.Empty;
         private DateTime? _taskDueDate = DateTime.Now;
         private bool _eventIsChecked = false;
         private string _taskImportance = string.Empty;
+        private bool _isOpen = false;
 
         public IAsyncRelayCommand SaveTaskCommand { get; }
         public string TaskTitle
@@ -73,14 +73,20 @@ namespace ToDoListPlus.ViewModels
                 }
             }
         }
-
-
+        public bool IsOpen
+        {
+            get => _isOpen;
+            set
+            {
+                _isOpen = value;
+                OnPropertyChanged(nameof(IsOpen));
+            }
+        }
 
         public NewTaskViewModel(TaskService taskService)
         {
             _taskService = taskService;
             SaveTaskCommand = new AsyncRelayCommand(SaveTask);
-
         }
 
         private async Task SaveTask()

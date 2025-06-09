@@ -41,11 +41,18 @@
         </Style>
         <Style x:Key="ColorTest" TargetType="Border">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Complete">
                     <Setter Property="Background" Value="LightGreen"/>
+                    <Setter Property="Opacity" Value="0.9"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
-                    <Setter Property="Background" Value="White"/>
+                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="InProgress">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Opacity" Value="0.9"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Failed">
+                    <Setter Property="Background" Value="#ed4337"/>
+                    <Setter Property="Opacity" Value="0.9"/>
+                    
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -89,14 +96,14 @@
                                            Grid.Column="0"
                                            FontSize="12"
                                            VerticalAlignment="Center" 
-                                           Style="{StaticResource PriorityTextStyle}"/>
+                                           />
 
                                 <TextBlock Text="" 
                                            Grid.Column="1"/>
                                 <!-- Spacer -->
-                                <TextBlock Text="{Binding TimeLeft, StringFormat='d\\:hh\\:mm'}"
+                                <TextBlock Text="{Binding TimeLeft, StringFormat={}{0:%d}d {0:%h}h {0:%m}m}"
                                            Grid.Column="2"
-                                           Foreground="DimGray"
+                                           Foreground="black"
                                            FontSize="12"
                                            VerticalAlignment="Center" />
                             </Grid>

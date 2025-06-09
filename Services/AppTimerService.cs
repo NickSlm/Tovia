@@ -37,13 +37,18 @@ namespace ToDoListPlus.Services
             {
                 var item = ToDoList[i];
 
-                item.TimeLeft = item.DueDate - DateTime.Now;
-
-                if (DateTime.Now > item.DueDate && item.Status != TaskState.Complete)
+                if (item.Status == TaskState.Complete) 
+                {
+                    item.TimeLeft = TimeSpan.Zero;
+                    continue;
+                }
+                if (DateTime.Now > item.DueDate)
                 {
                     item.Status = TaskState.Failed;
                     item.TimeLeft = TimeSpan.Zero;
+                    continue;
                 }
+                item.TimeLeft = item.DueDate - DateTime.Now;
             }
         }
     }

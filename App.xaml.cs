@@ -43,6 +43,7 @@ public partial class App : Application
         var appTimerService = Services.GetRequiredService<AppTimerService>();
 
         globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
+        globalHotKeyService.OnNewTaskHotKeyPressed += () => ToggleNewTask();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
@@ -78,6 +79,18 @@ public partial class App : Application
             overlayWindow.Activate();
         }
     }
+    private async void ToggleNewTask()
+    {
+        var newTaskView = new NewTaskView();
+        var newTaskViewModel = Services.GetRequiredService<NewTaskViewModel>();
+        newTaskView.DataContext = newTaskViewModel;
+        if (!newTaskViewModel.IsOpen)
+        {
+            newTaskViewModel.IsOpen = true;
+            var result = await DialogHost.Show(newTaskView, "RootDialog");
+            newTaskViewModel.IsOpen = false;
+        }
+    }
     private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<Dictionary<String,HotkeySettings>>(configuration.GetSection("Hotkeys"));
@@ -98,7 +111,7 @@ public partial class App : Application
         services.AddSingleton<ToDoListViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<OverlayViewModel>();
-        services.AddTransient<NewTaskViewModel>();
+        services.AddSingleton<NewTaskViewModel>();
         services.AddTransient<SettingsViewModel>();
 
         services.AddTransient<SettingsView>();

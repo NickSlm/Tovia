@@ -85,13 +85,6 @@
                 IsChecked="{Binding EventIsChecked}"
                 IsEnabled="{Binding AuthorizationVM.EventIsEnabled}"
                 Content="Calendar Event"/>
-
-                <TextBlock 
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Right"
-                Foreground="Gray"
-                Text="(Login required)"/>
             </Grid>
 
             <StackPanel
