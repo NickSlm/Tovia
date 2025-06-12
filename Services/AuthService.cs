@@ -59,14 +59,14 @@ namespace ToDoListPlus.Services
             CreateApplication();
         }
 
-        public static void CreateApplication()
+        private void CreateApplication()
         {
             _clientApp = PublicClientApplicationBuilder.Create(ClientId).WithAuthority($"{Instance}{Tenant}").WithDefaultRedirectUri().Build();
 
             MsalCacheHelper cacheHelper = CreateCacheHelperAsync().GetAwaiter().GetResult();
             cacheHelper.RegisterCache(_clientApp.UserTokenCache);
         }
-        private static async Task<MsalCacheHelper> CreateCacheHelperAsync()
+        private async Task<MsalCacheHelper> CreateCacheHelperAsync()
         {
             var storageProperties = new StorageCreationPropertiesBuilder(
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".msalcache.bin", MsalCacheHelper.UserRootDirectory).Build();

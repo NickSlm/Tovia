@@ -6,86 +6,132 @@
              xmlns:local="clr-namespace:ToDoListPlus.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="300" d:DesignWidth="300">
 
-    <Border Height="300" Width="300">
-        <Grid Margin="8" 
-              VerticalAlignment="Center"
-              >
+
+
+
+    <Border MinHeight="300" MinWidth="320" MaxWidth="480" Padding="16" Background="WhiteSmoke">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
 
-            <!--Toggle Overlay-->
-            <Label Content="Open Overlay:"
-                       Grid.Row="0"
-                       Grid.Column="0"/>
-            <TextBox Text="{Binding _keyStrokes[Overlay].keyStroke}"
-                     PreviewKeyDown="KeyBind_PreviewKeyDown"
-                     Tag="Overlay"
-                     Grid.Row="0"
-                     Grid.Column="1"
-                     IsReadOnly="True"
-                     Cursor="Hand"/>
-            
-            <!--Create new Task-->
-            <Label Content="Add new task"
-                   Grid.Row="1"
-                   Grid.Column="0"/>
-            <TextBox Text="{Binding _keyStrokes[NewTask].keyStroke}"
-                     Tag="NewTask"
-                     PreviewKeyDown="KeyBind_PreviewKeyDown"
-                     Grid.Row="1"
-                     Grid.Column="1"
-                     IsReadOnly="True"
-                     Cursor="Hand"/>
+            <!-- Settings Content -->
+            <StackPanel Grid.Row="0" VerticalAlignment="Top">
 
-            
-            <!--Overlay window position-->
-            <Label Content="Overlay Position"
-                   Grid.Row="2"
-                   Grid.Column="0"/>
-            <ComboBox
-                 ItemsSource="{Binding PositionOptions}"
-                SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
-                Grid.Row="2"
-                Grid.Column="1"
-                Width="150"
-                Margin="10"/>
+                <!-- General Section -->
+                <StackPanel>
+                    <TextBlock Text="General"
+                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           Margin="0,0,0,8"/>
 
-            
-            <StackPanel
-            Grid.Row="3"
-            Grid.ColumnSpan="2"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal"
-            Margin="0 4 0 0" 
-             >
-                <Button
-                Content="ACCEPT"
-                IsDefault="True"
-                Margin="8 0 8 0"
-                Command="{Binding SaveSettingsCommand}"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                 >
-                </Button>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                <Button
-                Content="CANCEL"
-                Margin="8 0 8 0"
-                IsCancel="True"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                </Button>
+                        <Label Content="Theme" 
+                               Grid.Column="0"
+                               Margin="0,0,8,8"
+                               VerticalAlignment="Center"/>
+                      
+                        <ToggleButton Grid.Column="1"
+                                      Margin="0,0,0,8"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      ToolTip="Light/Dark"/>
+                    </Grid>
+                </StackPanel>
+                <Separator Margin="0,8"/>
+
+                <!-- KeyBinds Section -->
+                <StackPanel>
+                    <TextBlock Text="Hotkeys"
+                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           Margin="0,0,0,8"/>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0"
+                           Content="Toggle overlay"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8"/>
+                        <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             Text="{Binding _keyStrokes[Overlay].keyStroke}"
+                             Tag="Overlay"
+                             PreviewKeyDown="KeyBind_PreviewKeyDown"
+                             IsReadOnly="True"
+                             Cursor="Hand"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Margin="0,0,0,8"/>
+
+                        <Label Grid.Row="1"
+                           Content="Create new task"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8"/>
+                        <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             Text="{Binding _keyStrokes[NewTask].keyStroke}"
+                             Tag="NewTask"
+                             PreviewKeyDown="KeyBind_PreviewKeyDown"
+                             IsReadOnly="True"
+                             Cursor="Hand"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Margin="0,0,0,8"/>
+                    </Grid>
+                </StackPanel>
+                <Separator Margin="0,8"/>
+                <StackPanel>
+                    <TextBlock Text="Overlay"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Overlay position" 
+                         Margin="0,0,8,8"
+                         VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1"
+                            Margin="0,0,0,8"
+                        ItemsSource="{Binding PositionOptions}"
+                        SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
+                        Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,16,0,0">
+                <Button Content="ACCEPT"
+                    IsDefault="True"
+                    Margin="8,0"
+                    Command="{Binding SaveSettingsCommand}"
+                    Style="{StaticResource MaterialDesignPaperLightButton}"/>
+                <Button Content="CANCEL"
+                    IsCancel="True"
+                    Margin="8,0"
+                    Style="{StaticResource MaterialDesignPaperLightButton}"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
             </StackPanel>
         </Grid>
     </Border>
+
+
 </UserControl>

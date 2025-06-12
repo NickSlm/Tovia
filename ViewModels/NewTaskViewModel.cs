@@ -22,7 +22,6 @@ namespace ToDoListPlus.ViewModels
         private DateTime? _taskDueDate = DateTime.Now;
         private bool _eventIsChecked = false;
         private string _taskImportance = string.Empty;
-        private bool _isOpen = false;
 
         public IAsyncRelayCommand SaveTaskCommand { get; }
         public string TaskTitle
@@ -73,15 +72,6 @@ namespace ToDoListPlus.ViewModels
                 }
             }
         }
-        public bool IsOpen
-        {
-            get => _isOpen;
-            set
-            {
-                _isOpen = value;
-                OnPropertyChanged(nameof(IsOpen));
-            }
-        }
 
         public NewTaskViewModel(TaskService taskService)
         {
@@ -109,8 +99,10 @@ namespace ToDoListPlus.ViewModels
 
 
             ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
+            MessageBox.Show("Task Created");
             _taskService.ToDoList.Add(newTask);
-            
+            MessageBox.Show("Task added to todolist");
+
             //Reset Form Fields
             TaskTitle = string.Empty;
             TaskDescription = string.Empty;
