@@ -20,19 +20,19 @@ namespace ToDoListPlus.Services
 {
     public class AuthService
     {
-        private static string _clientId;
-        private static string _tenant;
-        private static string _instance;
-        private static string[] _scopes;
+        private string _clientId;
+        private string _tenant;
+        private string _instance;
+        private string[] _scopes;
 
         private string _accessToken = string.Empty;
         private string _accountUsername = string.Empty;
         private string _accountTaskListId = string.Empty;
 
-        public static string ClientId => _clientId;
-        public static string Tenant => _tenant;
-        public static string Instance => _instance;
-        public static string[] Scopes => _scopes;
+        public string ClientId => _clientId;
+        public string Tenant => _tenant;
+        public string Instance => _instance;
+        public string[] Scopes => _scopes;
         public string AccessToken
         {
             get { return _accessToken; }
@@ -46,8 +46,8 @@ namespace ToDoListPlus.Services
             get { return _accountTaskListId; }
         }
 
-        private static IPublicClientApplication _clientApp;
-        public static IPublicClientApplication ClientApp { get { return _clientApp; } }
+        private IPublicClientApplication _clientApp;
+        public IPublicClientApplication ClientApp { get { return _clientApp; } }
 
         public AuthService(AuthConfig AuthConfig)
         {

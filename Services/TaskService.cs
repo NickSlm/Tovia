@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using ToDoListPlus.Models;
 
 namespace ToDoListPlus.Services
 {
@@ -94,9 +95,12 @@ namespace ToDoListPlus.Services
         }
         public async Task<ToDoItem> CreateTaskAsync(string title, string? description, DateTime? dateTime, string priority, bool createEvent)
         {
+            IAccount? firstAccount = (await _authService.ClientApp.GetAccountsAsync()).FirstOrDefault();
+
+            var authResult = await _authService.ClientApp.AcquireTokenSilent(_authService.Scopes, firstAccount).ExecuteAsync();
 
             string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks";
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authService.AccessToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResult.AccessToken);
 
             var taskData = new
             {
@@ -173,8 +177,13 @@ namespace ToDoListPlus.Services
         }
         public async Task<string> DeleteTaskAsync(string taskId)
         {
+
+            IAccount? firstAccount = (await _authService.ClientApp.GetAccountsAsync()).FirstOrDefault();
+
+            var authResult = await _authService.ClientApp.AcquireTokenSilent(_authService.Scopes, firstAccount).ExecuteAsync();
+
             string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}";
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authService.AccessToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResult.AccessToken);
 
             var response = await _httpClient.DeleteAsync(url);
             if (response.IsSuccessStatusCode)
@@ -190,8 +199,13 @@ namespace ToDoListPlus.Services
         }
         public async Task<string> UpdateTaskAsync(string taskId, bool IsComplete)
         {
+            IAccount? firstAccount = (await _authService.ClientApp.GetAccountsAsync()).FirstOrDefault();
+
+            var authResult = await _authService.ClientApp.AcquireTokenSilent(_authService.Scopes, firstAccount).ExecuteAsync();
+
+
             string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}";
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authService.AccessToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authResult.AccessToken);
 
             var taskData = new
             {
