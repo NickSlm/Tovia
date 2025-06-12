@@ -84,11 +84,10 @@ public partial class App : Application
         var newTaskView = new NewTaskView();
         var newTaskViewModel = Services.GetRequiredService<NewTaskViewModel>();
         newTaskView.DataContext = newTaskViewModel;
-        if (!newTaskViewModel.IsOpen)
+        var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
+        if (!isDiagOpen)
         {
-            newTaskViewModel.IsOpen = true;
             var result = await DialogHost.Show(newTaskView, "RootDialog");
-            newTaskViewModel.IsOpen = false;
         }
     }
     private void ConfigureServices(IServiceCollection services, IConfiguration configuration)

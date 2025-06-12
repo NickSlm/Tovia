@@ -51,11 +51,11 @@ namespace ToDoListPlus.ViewModels
             var newTaskView = new NewTaskView();
             var newTaskViewModel = App.Services.GetRequiredService<NewTaskViewModel>();
             newTaskView.DataContext = newTaskViewModel;
-            if (!newTaskViewModel.IsOpen)
+            var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
+
+            if (!isDiagOpen)
             {
-                newTaskViewModel.IsOpen = true;
                 var result = await DialogHost.Show(newTaskView, "RootDialog");
-                newTaskViewModel.IsOpen = false;
             }
         }
 

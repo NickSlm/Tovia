@@ -19,6 +19,8 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         public IAsyncRelayCommand SignOutCommand { get; }
         public IAsyncRelayCommand AuthorizationCommand { get; }
+        public IRelayCommand CloseCommand { get; }
+
 
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
@@ -57,9 +59,17 @@ namespace ToDoListPlus.ViewModels
 
             AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
             SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
+            CloseCommand = new RelayCommand(CloseButtonClick);
         }
 
+        private void CloseButtonClick()
+        {
 
+            var authWindow = Application.Current.Windows
+                                .OfType<AuthorizationWindow>()
+                                .FirstOrDefault();
+            authWindow.DialogResult = false;
+        }
         private async Task AuthorizationButtonClick()
         {
 
@@ -77,9 +87,9 @@ namespace ToDoListPlus.ViewModels
                 if (authWindow != null)
                 {
                     authWindow.DialogResult = true;
+                   _appStateService.SignIn();
                 }
 
-                _appStateService.SignIn();
             }
         }
 
@@ -97,6 +107,8 @@ namespace ToDoListPlus.ViewModels
                 Application.Current.Shutdown();
             }
         }
+
+        
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

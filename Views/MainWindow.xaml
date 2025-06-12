@@ -70,12 +70,12 @@
             DialogContentUniformCornerRadius="20"
             DialogTheme="Inherit">  
         <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
             <!--Header Section Login-->
             <Border Grid.Row="0"
                     Background="#f6f6f6"
