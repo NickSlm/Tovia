@@ -28,17 +28,7 @@ namespace ToDoListPlus.ViewModels
         private readonly AppStateService _appStateService;
 
         private string _accountUsername;
-        private bool _isSignedIn = false;
 
-        public bool IsSignedIn
-        {
-            get => _isSignedIn;
-            set
-            {
-                _isSignedIn = value;
-                OnPropertyChanged(nameof(IsSignedIn));
-            }
-        }
 
         public string AccountUsername
         {
@@ -64,7 +54,6 @@ namespace ToDoListPlus.ViewModels
 
         private void CloseButtonClick()
         {
-
             var authWindow = Application.Current.Windows
                                 .OfType<AuthorizationWindow>()
                                 .FirstOrDefault();
@@ -72,24 +61,15 @@ namespace ToDoListPlus.ViewModels
         }
         private async Task AuthorizationButtonClick()
         {
+            var result = await _authService.Authorize();
+            AccountUsername = _authService.AccountUsername;
 
-            await _authService.GetAccessTokenAsync();
-            if (!string.IsNullOrEmpty(_authService.AccessToken))
+            var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
+
+            if (authWindow != null)
             {
-                AccountUsername = _authService.AccountUsername;
-                IsSignedIn = true;
-
-                var authWindow = Application.Current.Windows
-                                    .OfType<AuthorizationWindow>()
-                                    .FirstOrDefault();
-
-
-                if (authWindow != null)
-                {
-                    authWindow.DialogResult = true;
-                   _appStateService.SignIn();
-                }
-
+                authWindow.DialogResult = true;
+                _appStateService.SignIn();
             }
         }
 
@@ -99,7 +79,6 @@ namespace ToDoListPlus.ViewModels
 
             _appStateResetService.ResetState();
             AccountUsername = string.Empty;
-            IsSignedIn = false;
 
             var result = _dialogService.ShowLoginDialog();
             if (!result == true)

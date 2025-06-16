@@ -99,9 +99,18 @@ namespace ToDoListPlus.ViewModels
 
 
             ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
-            MessageBox.Show("Task Created");
+            newTask.OnCompletionChanged += async (s, e) => {
+                var t = (ToDoItem)s;
+                try
+                {
+                    await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            };
             _taskService.ToDoList.Add(newTask);
-            MessageBox.Show("Task added to todolist");
 
             //Reset Form Fields
             TaskTitle = string.Empty;

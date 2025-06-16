@@ -25,7 +25,6 @@ namespace ToDoListPlus.Services
         private string _instance;
         private string[] _scopes;
 
-        private string _accessToken = string.Empty;
         private string _accountUsername = string.Empty;
         private string _accountTaskListId = string.Empty;
 
@@ -33,10 +32,6 @@ namespace ToDoListPlus.Services
         public string Tenant => _tenant;
         public string Instance => _instance;
         public string[] Scopes => _scopes;
-        public string AccessToken
-        {
-            get { return _accessToken; }
-        }
         public string AccountUsername
         {
             get { return _accountUsername; }
@@ -75,7 +70,7 @@ namespace ToDoListPlus.Services
             return cacheHelper;
 
         }
-        public async Task<string> GetAccessTokenAsync()
+        public async Task<string> Authorize()
         {
             AuthenticationResult? authResult = null;
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
@@ -109,17 +104,21 @@ namespace ToDoListPlus.Services
                 return $"Error {ex.Message}";
             }
 
-            _accessToken = authResult.AccessToken;
             _accountUsername = authResult.Account.Username;
-            _accountTaskListId = await GetDefaultTaskListIdAsync();
-
+            _accountTaskListId = await GetDefaultTaskListIdAsync(authResult.AccessToken);
 
             return $"Authorization Succeded";
         }
-        public async Task<string> GetDefaultTaskListIdAsync()
+        public async Task<string> GetAccessToken()
+        {
+            IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
+            var authResult = await ClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
+            return authResult.AccessToken;
+        }
+        public async Task<string> GetDefaultTaskListIdAsync(string accessToken)
         {
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
             var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me/todo/lists");
             var json = await response.Content.ReadAsStringAsync();
@@ -129,7 +128,7 @@ namespace ToDoListPlus.Services
                 .EnumerateArray()
                 .FirstOrDefault();
 
-           var taskListId = tasksList.GetProperty("id").ToString();
+            var taskListId = tasksList.GetProperty("id").ToString();
 
             return taskListId;
         }
@@ -142,7 +141,6 @@ namespace ToDoListPlus.Services
                 if (firstAccount != null)
                 {
                     await ClientApp.RemoveAsync(firstAccount);
-                    _accessToken = string.Empty;
                     return "Sign-out successful";
                 }
                 else
