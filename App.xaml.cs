@@ -41,9 +41,12 @@ public partial class App : Application
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
         var appTimerService = Services.GetRequiredService<AppTimerService>();
+        var themeService = Services.GetRequiredService<AppThemeService>();
 
         globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
         globalHotKeyService.OnNewTaskHotKeyPressed += () => ToggleNewTask();
+
+        themeService.InitializeTheme();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
@@ -94,6 +97,7 @@ public partial class App : Application
     {
         services.Configure<Dictionary<String,HotkeySettings>>(configuration.GetSection("Hotkeys"));
         services.Configure<WindowSettings>(configuration.GetSection("WindowPosition"));
+        services.Configure<ThemeSettings>(configuration.GetSection("ThemeSettings"));
 
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
@@ -104,6 +108,7 @@ public partial class App : Application
         services.AddSingleton<AuthConfig>(_authConfig);
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
+        services.AddSingleton<AppThemeService>();
 
 
         services.AddSingleton<AuthorizationViewModel>();

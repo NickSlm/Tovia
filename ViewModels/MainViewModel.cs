@@ -24,9 +24,21 @@ namespace ToDoListPlus.ViewModels
         public ToDoListViewModel? ToDoListVM { get;  }
         public AuthorizationViewModel? AuthorizationVM { get; }
 
+        private bool _isLightMode = false;
+
+        public bool IsLightMode
+        {
+            get => _isLightMode;
+            set
+            {
+                _isLightMode = value;
+                OnPropertyChanged(nameof(IsLightMode));
+            }
+        }
+
         public IAsyncRelayCommand OpenSettingsCommand { get; }
         public IAsyncRelayCommand NewTaskCommand { get; }
-
+        public IRelayCommand ToggleThemeCommand { get; }
 
 
         public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
@@ -37,6 +49,7 @@ namespace ToDoListPlus.ViewModels
 
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
             NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
+            ToggleThemeCommand = new RelayCommand(ChangeTheme);
         }
 
         public async Task OpenSettingsWindow()
@@ -45,7 +58,6 @@ namespace ToDoListPlus.ViewModels
             settingsView.DataContext = App.Services.GetRequiredService<SettingsViewModel>();
             var result = await DialogHost.Show(settingsView, "RootDialog");
         }
-
         public async Task OpenNewTaskWindow()
         {
             var newTaskView = new NewTaskView();
@@ -58,7 +70,13 @@ namespace ToDoListPlus.ViewModels
                 var result = await DialogHost.Show(newTaskView, "RootDialog");
             }
         }
-
+        public void ChangeTheme()
+        {
+            PaletteHelper palette = new PaletteHelper();
+            var theme = palette.GetTheme();
+            theme.SetDarkTheme();
+            palette.SetTheme(theme);
+        }
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }
