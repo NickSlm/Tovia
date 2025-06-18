@@ -96,7 +96,7 @@ namespace ToDoListPlus.ViewModels
                 MessageBox.Show("Priority Required");
                 return;
             }
-
+            
 
             ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
             newTask.OnCompletionChanged += async (s, e) => {
@@ -118,7 +118,6 @@ namespace ToDoListPlus.ViewModels
             TaskDueDate = DateTime.Now;
             TaskImportance = string.Empty;
             EventIsChecked = false;
-
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

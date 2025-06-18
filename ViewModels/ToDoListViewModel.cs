@@ -22,7 +22,7 @@ namespace ToDoListPlus.ViewModels
     public class ToDoListViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
+            
         public IAsyncRelayCommand<ObservableCollection<ToDoItem>> CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
         public IRelayCommand<ToDoItem> ToggleReadOnlyCommand { get; }
@@ -76,7 +76,6 @@ namespace ToDoListPlus.ViewModels
         {
             LoadToDoItems();
         }
-
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ToDoItem.IsComplete))
