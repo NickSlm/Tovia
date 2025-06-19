@@ -44,7 +44,8 @@
                                     Orientation="Horizontal">
                             <Label>Light</Label>
                             <ToggleButton Width="48" Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                          ToolTip="Light/Dark"/>
+                                          ToolTip="Light/Dark"
+                                          IsChecked="{Binding BaseTheme}"/>
                             <Label>Dark</Label>
                         </StackPanel>
                     </Grid>
