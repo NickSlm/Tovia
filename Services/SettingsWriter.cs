@@ -31,6 +31,9 @@ namespace ToDoListPlus.Services
             jObject["WindowPosition"]["TopPos"] = newSettings.Window.TopPos.ToString();
             jObject["WindowPosition"]["LeftPos"] = newSettings.Window.LeftPos.ToString();
 
+            jObject["Theme"]["BaseTheme"] = newSettings.Theme.BaseTheme.ToString();
+            jObject["Theme"]["PrimaryColor"] = newSettings.Theme.PrimaryColor.ToString();
+            jObject["Theme"]["SecondaryColor"] = newSettings.Theme.SecondaryColor.ToString();
 
             //Dev Env
             File.WriteAllText("D:/Projects/ToDoListPlus/Config/appsettings.json", jObject.ToString(Formatting.Indented));

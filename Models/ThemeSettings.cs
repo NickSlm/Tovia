@@ -8,6 +8,8 @@ namespace ToDoListPlus.Models
 {
     public class ThemeSettings
     {
-        public string Theme { get; set; } = string.Empty;
+        public string BaseTheme { get; set; } = string.Empty;
+        public string PrimaryColor { get; set; } = string.Empty;
+        public string SecondaryColor { get; set; } = string.Empty;
     }
 }

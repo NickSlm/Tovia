@@ -22,11 +22,22 @@ namespace ToDoListPlus.ViewModels
         private HotkeySettings _overlayHotkeySettings;
         private readonly GlobalHotKeyService _globalHotKeyService;
         private readonly OverlayViewModel _overlayViewModel;
+        private bool _baseTheme { get; set; }
         private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
 
+
+
+        public bool BaseTheme
+        {
+            get => _baseTheme;
+            set
+            {
+                _baseTheme = value;
+                OnPropertyChanged(nameof(BaseTheme));
+            }
+        }
         public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
         public Dictionary<string, KeyStroke> _keyStrokes { get; } = new();
-
         public IRelayCommand SaveSettingsCommand { get; }
         public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
         public OverlayPosition OverlayPos
@@ -39,10 +50,15 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public SettingsViewModel(IOptions<Dictionary<string, HotkeySettings>> hotkeyOptions, GlobalHotKeyService globalHotKeyService, OverlayViewModel overlayViewModel)
+        public SettingsViewModel(IOptions<Dictionary<string, HotkeySettings>> hotkeyOptions, 
+            GlobalHotKeyService globalHotKeyService, 
+            OverlayViewModel overlayViewModel,
+            IOptions<ThemeSettings> themeOptions
+            )
         {
             _globalHotKeyService = globalHotKeyService;
             _overlayViewModel = overlayViewModel;
+            _baseTheme = themeOptions.Value.BaseTheme == "light" ? false : true;
 
             foreach (var (name, setting) in hotkeyOptions.Value)
             {
@@ -111,6 +127,10 @@ namespace ToDoListPlus.ViewModels
                 {
                     TopPos = TopPos,
                     LeftPos = LeftPos
+                },
+                Theme = new ThemeSettings
+                {
+                    BaseTheme = _baseTheme ? "dark" : "light"
                 }
             };
 
