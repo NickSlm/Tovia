@@ -14,16 +14,20 @@ namespace ToDoListPlus.Services
     public class GlobalHotKeyService: IDisposable
     {
         private readonly HotKeyManager _manager = new();
+        private readonly SettingsService _settingsService;
 
         public event Action? OnOverlayHotKeyPressed;
         public event Action? OnNewTaskHotKeyPressed;
         public Dictionary<string, (Key Key, ModifierKeys ModifierKey)> _storedKeys = new();
 
-        public GlobalHotKeyService(IOptions<Dictionary<string, HotkeySettings>> hotkeyOptions) 
+        public GlobalHotKeyService(SettingsService settingsService)
         {
+            _settingsService = settingsService;
             _manager.KeyPressed += HotKeyManagerPressed;
 
-            foreach (var (name, setting) in hotkeyOptions.Value)
+            var settings = _settingsService.Load();
+
+            foreach (var (name, setting) in settings.Hotkeys)
             {
                 _storedKeys[name] = (setting.MainKey, setting.ModifierKey);
                 _manager.Register(setting.MainKey, setting.ModifierKey);

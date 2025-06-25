@@ -30,12 +30,7 @@ public partial class App : Application
         var serviceCollection = new ServiceCollection();
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("Config/appsettings.json", optional: true, reloadOnChange: true)
-            .Build();
-
-        ConfigureServices(serviceCollection, configuration);
+        ConfigureServices(serviceCollection);
         Services = serviceCollection.BuildServiceProvider();
 
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
@@ -93,11 +88,8 @@ public partial class App : Application
             var result = await DialogHost.Show(newTaskView, "RootDialog");
         }
     }
-    private void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+    private void ConfigureServices(IServiceCollection services)
     {
-        services.Configure<Dictionary<String,HotkeySettings>>(configuration.GetSection("Hotkeys"));
-        services.Configure<WindowSettings>(configuration.GetSection("WindowPosition"));
-        services.Configure<ThemeSettings>(configuration.GetSection("Theme"));
 
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
@@ -109,6 +101,7 @@ public partial class App : Application
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
         services.AddSingleton<AppThemeService>();
+        services.AddSingleton<SettingsService>();
 
 
         services.AddSingleton<AuthorizationViewModel>();

@@ -19,21 +19,22 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private HotkeySettings _overlayHotkeySettings;
         private readonly GlobalHotKeyService _globalHotKeyService;
+        private readonly AppThemeService _appThemeService;
         private readonly OverlayViewModel _overlayViewModel;
-        private bool _baseTheme { get; set; }
+        private readonly SettingsService _settingsService;
+
+        private bool _isDarkTheme { get; set; }
         private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
 
-
-
-        public bool BaseTheme
+        public IRelayCommand UpdateThemeCommand { get;}
+        public bool IsDarkTheme
         {
-            get => _baseTheme;
+            get => _isDarkTheme;
             set
             {
-                _baseTheme = value;
-                OnPropertyChanged(nameof(BaseTheme));
+                _isDarkTheme = value;
+                OnPropertyChanged(nameof(IsDarkTheme));
             }
         }
         public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
@@ -50,34 +51,43 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public SettingsViewModel(IOptions<Dictionary<string, HotkeySettings>> hotkeyOptions, 
+        public SettingsViewModel( 
             GlobalHotKeyService globalHotKeyService, 
+            AppThemeService appThemeService,
             OverlayViewModel overlayViewModel,
-            IOptions<ThemeSettings> themeOptions
+            SettingsService settingsService
             )
         {
+
+            MessageBox.Show("initialized SettingVM");
+            _settingsService = settingsService;
             _globalHotKeyService = globalHotKeyService;
+            _appThemeService = appThemeService;
             _overlayViewModel = overlayViewModel;
-            _baseTheme = themeOptions.Value.BaseTheme == "light" ? false : true;
 
-            foreach (var (name, setting) in hotkeyOptions.Value)
+            var settings = _settingsService.Load();
+
+            IsDarkTheme = settings.Theme.BaseTheme == "light" ? false : true;
+
+            UpdateThemeCommand = new RelayCommand(() =>
             {
-                _hotkeySettings[name] = (setting.MainKey, setting.ModifierKey);
+                _appThemeService.ChangeTheme();
+            });
 
+            foreach (var (name, sett) in settings.Hotkeys)
+            {
+                _hotkeySettings[name] = (sett.MainKey, sett.ModifierKey);
                 var keystroke = new KeyStroke
                 {
                     keyStroke = $"{_hotkeySettings[name].modifier.ToString()} + {_hotkeySettings[name].key.ToString()}"
                 };
                 _keyStrokes[name] = keystroke;
-
             }
             SaveSettingsCommand = new RelayCommand(saveSettings);
         }
 
         public void saveSettings() 
         {
-
-            //Update settings in real time
             var overlayWindow = App.Services.GetRequiredService<OverlayWindow>();
             var windowWidth = overlayWindow.Width;
             var windowHeight = overlayWindow.Height;
@@ -130,7 +140,7 @@ namespace ToDoListPlus.ViewModels
                 },
                 Theme = new ThemeSettings
                 {
-                    BaseTheme = _baseTheme ? "dark" : "light"
+                    BaseTheme = _isDarkTheme ? "dark" : "light"
                 }
             };
 
@@ -139,7 +149,8 @@ namespace ToDoListPlus.ViewModels
                 _globalHotKeyService.RegisterHotKey(name, key, modifier);
             }
             _overlayViewModel.UpdatePosition(TopPos, LeftPos);
-            SettingsWriter.UpdateSettings(userSettings);
+            _settingsService.Save(userSettings);
+            
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
