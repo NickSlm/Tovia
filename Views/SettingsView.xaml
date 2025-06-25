@@ -45,7 +45,8 @@
                             <Label>Light</Label>
                             <ToggleButton Width="48" Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                           ToolTip="Light/Dark"
-                                          IsChecked="{Binding BaseTheme}"/>
+                                          Command="{Binding UpdateThemeCommand}"
+                                          IsChecked="{Binding IsDarkTheme}"/>
                             <Label>Dark</Label>
                         </StackPanel>
                     </Grid>

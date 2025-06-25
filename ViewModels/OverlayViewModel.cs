@@ -19,6 +19,7 @@ namespace ToDoListPlus.ViewModels
         private readonly TaskService _taskService;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
+        private readonly SettingsService _settingsService;
 
         public ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
         public OverlayPosition position { get; set; }
@@ -41,12 +42,16 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public OverlayViewModel(IOptions<WindowSettings> options, TaskService taskService)
+        public OverlayViewModel(SettingsService settingsService, TaskService taskService)
         {
+
+            _settingsService = settingsService;
             _taskService = taskService;
 
-            TopPos = options.Value.TopPos;
-            LeftPos = options.Value.LeftPos;
+            var settings = _settingsService.Load();
+
+            TopPos = settings.Window.TopPos;
+            LeftPos = settings.Window.LeftPos;
         }
 
         public void UpdatePosition(double top, double left)
