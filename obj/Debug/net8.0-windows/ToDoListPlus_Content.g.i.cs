@@ -9,6 +9,5 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("config/appsettings.json")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("config/authsettings.json")]
 
 

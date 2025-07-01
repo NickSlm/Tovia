@@ -156,7 +156,6 @@ namespace ToDoListPlus.Services
                     var linkJson = JsonSerializer.Serialize(linkData);
                     var linkContent = new StringContent(linkJson, Encoding.UTF8, "application/json");
                     var linkResponse = await _httpClient.PostAsync(linkUrl, linkContent);
-                    MessageBox.Show(linkResponse.ToString());
                 }
 
                 var newTask = new ToDoItem

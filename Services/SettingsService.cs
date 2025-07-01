@@ -18,11 +18,10 @@ namespace ToDoListPlus.Services
 
         public UserSettings Load()
         {
-           var configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile(SettingsPath, optional: true, reloadOnChange: true)
             .Build();
-
 
             return configuration.Get<UserSettings>();
         }

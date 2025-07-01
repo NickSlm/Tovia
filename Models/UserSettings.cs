@@ -11,5 +11,6 @@ namespace ToDoListPlus.Models
         public Dictionary<string, HotkeySettings> Hotkeys { get; set; } = new();
         public WindowSettings Window { get; set; }
         public ThemeSettings Theme { get; set; }
+        public AzureAd AzureAd { get; set; }
     }
 }
