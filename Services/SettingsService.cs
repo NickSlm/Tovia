@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using ToDoListPlus.Models;
 
 namespace ToDoListPlus.Services
@@ -14,21 +10,23 @@ namespace ToDoListPlus.Services
     public class SettingsService
     {
 
-        private const string SettingsPath = "Config/appsettings.json";
+        private const string AppSettingsPath = "Config/appsettings.json";
+        private const string UserSettingsPath = "Config/usersettings.json";
 
-        public UserSettings Load()
+        public IConfiguration Load()
         {
             var configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile(SettingsPath, optional: true, reloadOnChange: true)
+            .AddJsonFile(AppSettingsPath, optional:true, reloadOnChange:true)
+            .AddJsonFile(UserSettingsPath, optional: true, reloadOnChange: true)
             .Build();
 
-            return configuration.Get<UserSettings>();
+            return configuration;
         }
 
         public void Save(UserSettings userSettings)
         {
-            var path = Path.Combine(AppContext.BaseDirectory, SettingsPath);
+            var path = Path.Combine(AppContext.BaseDirectory, UserSettingsPath);
             var json = File.ReadAllText(path);
             var jObject = JObject.Parse(json);
 
@@ -43,8 +41,6 @@ namespace ToDoListPlus.Services
             jObject["Window"]["LeftPos"] = userSettings.Window.LeftPos.ToString();
 
             jObject["Theme"]["BaseTheme"] = userSettings.Theme.BaseTheme.ToString();
-            jObject["Theme"]["PrimaryColor"] = userSettings.Theme.PrimaryColor.ToString();
-            jObject["Theme"]["SecondaryColor"] = userSettings.Theme.SecondaryColor.ToString();
 
             //Dev Env
             File.WriteAllText(path, jObject.ToString(Formatting.Indented));

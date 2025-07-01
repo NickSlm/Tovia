@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -65,7 +67,8 @@ namespace ToDoListPlus.ViewModels
             _appThemeService = appThemeService;
             _overlayViewModel = overlayViewModel;
 
-            var settings = _settingsService.Load();
+            var conf = _settingsService.Load();
+            var settings = conf.Get<UserSettings>();
 
             IsDarkTheme = settings.Theme.BaseTheme == "light" ? false : true;
 

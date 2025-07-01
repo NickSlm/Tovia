@@ -14,6 +14,7 @@ using static System.Net.WebRequestMethods;
 using System.Text.Json;
 using System.Security.Policy;
 using ToDoListPlus.Models;
+using Microsoft.Extensions.Configuration;
 
 
 namespace ToDoListPlus.Services
@@ -49,7 +50,9 @@ namespace ToDoListPlus.Services
         public AuthService(SettingsService settingsService)
         {
             _settingsService = settingsService;
-            var settings = _settingsService.Load();
+
+            var conf = _settingsService.Load();
+            var settings = conf.Get<AppSettings>();
 
             _clientId = settings.AzureAd.ClientId;
             _tenant = settings.AzureAd.Tenant;

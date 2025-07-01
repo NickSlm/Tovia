@@ -1,4 +1,5 @@
 ﻿using GlobalHotKey;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,9 @@ namespace ToDoListPlus.Services
             _settingsService = settingsService;
             _manager.KeyPressed += HotKeyManagerPressed;
 
-            var settings = _settingsService.Load();
+            var conf = _settingsService.Load();
+
+            var settings = conf.Get<UserSettings>();
 
             foreach (var (name, setting) in settings.Hotkeys)
             {
