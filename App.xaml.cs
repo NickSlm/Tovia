@@ -20,13 +20,9 @@ namespace ToDoListPlus;
 public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
-    private AuthConfig _authConfig;
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        string path = Path.Combine(AppContext.BaseDirectory, "Config/authsettings.json");
-        _authConfig = ConfigLoader.Load(path);
-
         var serviceCollection = new ServiceCollection();
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
@@ -80,8 +76,7 @@ public partial class App : Application
     private async void ToggleNewTask()
     {
         var newTaskView = new NewTaskView();
-        var newTaskViewModel = Services.GetRequiredService<NewTaskViewModel>();
-        newTaskView.DataContext = newTaskViewModel;
+        newTaskView.DataContext = Services.GetRequiredService<NewTaskViewModel>();
         var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
         if (!isDiagOpen)
         {
@@ -97,7 +92,6 @@ public partial class App : Application
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AuthService>();
         services.AddSingleton<TaskService>();
-        services.AddSingleton<AuthConfig>(_authConfig);
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
         services.AddSingleton<AppThemeService>();

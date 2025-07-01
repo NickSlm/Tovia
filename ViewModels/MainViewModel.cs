@@ -38,8 +38,6 @@ namespace ToDoListPlus.ViewModels
 
         public IAsyncRelayCommand OpenSettingsCommand { get; }
         public IAsyncRelayCommand NewTaskCommand { get; }
-        public IRelayCommand ToggleThemeCommand { get; }
-
 
         public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
         {
@@ -49,20 +47,23 @@ namespace ToDoListPlus.ViewModels
 
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
             NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
-            ToggleThemeCommand = new RelayCommand(ChangeTheme);
         }
 
         public async Task OpenSettingsWindow()
         {
             var settingsView = new SettingsView();
             settingsView.DataContext = App.Services.GetRequiredService<SettingsViewModel>();
-            var result = await DialogHost.Show(settingsView, "RootDialog");
+            var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
+            if (!isDiagOpen)
+            {
+                var result = await DialogHost.Show(settingsView, "RootDialog");
+
+            }
         }
         public async Task OpenNewTaskWindow()
         {
             var newTaskView = new NewTaskView();
-            var newTaskViewModel = App.Services.GetRequiredService<NewTaskViewModel>();
-            newTaskView.DataContext = newTaskViewModel;
+            newTaskView.DataContext = App.Services.GetRequiredService<NewTaskViewModel>();
             var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
 
             if (!isDiagOpen)
@@ -70,13 +71,7 @@ namespace ToDoListPlus.ViewModels
                 var result = await DialogHost.Show(newTaskView, "RootDialog");
             }
         }
-        public void ChangeTheme()
-        {
-            PaletteHelper palette = new PaletteHelper();
-            var theme = palette.GetTheme();
-            theme.SetDarkTheme();
-            palette.SetTheme(theme);
-        }
+
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

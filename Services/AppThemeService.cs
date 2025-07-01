@@ -27,19 +27,17 @@ namespace ToDoListPlus.Services
         {
             // Initialize the theme based on the appsettings.json
             Theme theme = IsDarkTheme ?
-                Theme.Create(BaseTheme.Dark, Color.FromRgb(255, 255, 0), Color.FromRgb(20, 20, 20)) :
+                Theme.Create(BaseTheme.Dark, Color.FromRgb(255, 255, 0), Color.FromRgb(20, 20, 20)):
                 Theme.Create(BaseTheme.Light, Color.FromRgb(68, 68, 68), Color.FromRgb(20, 20, 20));
             _paletteHelper.SetTheme(theme);
         }
 
-        public void ChangeTheme()
+        public void ChangeTheme(bool newTheme)
         {
-            MessageBox.Show("Changed theme");
-        }
-        public void UpdateTheme()
-        {
-            // Update the theme in appsettings.json for persistence
-
+            Theme theme = newTheme ?
+               Theme.Create(BaseTheme.Dark, Color.FromRgb(255, 255, 0), Color.FromRgb(20, 20, 20)) :
+               Theme.Create(BaseTheme.Light, Color.FromRgb(68, 68, 68), Color.FromRgb(20, 20, 20));
+            _paletteHelper.SetTheme(theme);
         }
     }
 }

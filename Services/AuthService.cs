@@ -25,6 +25,7 @@ namespace ToDoListPlus.Services
         private string _instance;
         private string[] _scopes;
 
+        private readonly SettingsService _settingsService;
         private string _accountUsername = string.Empty;
         private string _accountTaskListId = string.Empty;
 
@@ -44,12 +45,16 @@ namespace ToDoListPlus.Services
         private IPublicClientApplication _clientApp;
         public IPublicClientApplication ClientApp { get { return _clientApp; } }
 
-        public AuthService(AuthConfig AuthConfig)
+
+        public AuthService(SettingsService settingsService)
         {
-            _clientId = AuthConfig.ClientId;
-            _tenant = AuthConfig.Tenant;
-            _instance = AuthConfig.Instance;
-            _scopes = AuthConfig.Scopes;
+            _settingsService = settingsService;
+            var settings = _settingsService.Load();
+
+            _clientId = settings.AzureAd.ClientId;
+            _tenant = settings.AzureAd.Tenant;
+            _instance = settings.AzureAd.Instance;
+            _scopes = settings.AzureAd.Scopes;
 
             CreateApplication();
         }

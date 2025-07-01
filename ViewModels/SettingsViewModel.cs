@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -59,7 +60,6 @@ namespace ToDoListPlus.ViewModels
             )
         {
 
-            MessageBox.Show("initialized SettingVM");
             _settingsService = settingsService;
             _globalHotKeyService = globalHotKeyService;
             _appThemeService = appThemeService;
@@ -71,7 +71,7 @@ namespace ToDoListPlus.ViewModels
 
             UpdateThemeCommand = new RelayCommand(() =>
             {
-                _appThemeService.ChangeTheme();
+                _appThemeService.ChangeTheme(IsDarkTheme);
             });
 
             foreach (var (name, sett) in settings.Hotkeys)
@@ -148,9 +148,12 @@ namespace ToDoListPlus.ViewModels
             {
                 _globalHotKeyService.RegisterHotKey(name, key, modifier);
             }
+
             _overlayViewModel.UpdatePosition(TopPos, LeftPos);
             _settingsService.Save(userSettings);
-            
+            DialogHost.Close("RootDialog");
+
+
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
