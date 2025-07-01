@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,7 +50,9 @@ namespace ToDoListPlus.ViewModels
             _settingsService = settingsService;
             _taskService = taskService;
 
-            var settings = _settingsService.Load();
+            var conf = _settingsService.Load();
+            var settings = conf.Get<UserSettings>();
+
 
             TopPos = settings.Window.TopPos;
             LeftPos = settings.Window.LeftPos;

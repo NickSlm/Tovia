@@ -9,6 +9,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\config\\usersettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:config\\usersettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\services\\settingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:services\\settingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +34,7 @@
               "RelativeToolTip": "Config\\usersettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-01T10:29:56.768Z",
+              "WhenOpened": "2025-07-01T12:45:17.994Z",
               "EditorCaption": ""
             },
             {
@@ -41,9 +45,22 @@
               "RelativeDocumentMoniker": "Config\\appsettings.json",
               "ToolTip": "D:\\Projects\\ToDoListPlus\\Config\\appsettings.json",
               "RelativeToolTip": "Config\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-01T10:29:55.934Z",
+              "WhenOpened": "2025-07-01T12:45:17.026Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SettingsService.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Services\\SettingsService.cs",
+              "RelativeDocumentMoniker": "Services\\SettingsService.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\Services\\SettingsService.cs",
+              "RelativeToolTip": "Services\\SettingsService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T12:36:31.963Z",
               "EditorCaption": ""
             }
           ]
