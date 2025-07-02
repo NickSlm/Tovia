@@ -28,9 +28,9 @@ namespace ToDoListPlus.Services
 
             var conf = _settingsService.Load();
 
-            var settings = conf.Get<UserSettings>();
+            var userSettings = conf.Get<UserSettings>();
 
-            foreach (var (name, setting) in settings.Hotkeys)
+            foreach (var (name, setting) in userSettings.Hotkeys)
             {
                 _storedKeys[name] = (setting.MainKey, setting.ModifierKey);
                 _manager.Register(setting.MainKey, setting.ModifierKey);

@@ -56,6 +56,19 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="Complete">
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="InProgress">
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="Failed">
+                    <Setter Property="Foreground" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
 
@@ -70,10 +83,10 @@
                             
                             <!-- Task title -->
                             <TextBlock Text="{Binding Title}"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"
-                                   TextWrapping="Wrap"
-                                   FontSize="14"/>
+                                    FontWeight="SemiBold"
+                                    TextWrapping="Wrap"
+                                    FontSize="14"
+                                    Style="{StaticResource TitleTextStyle}"/>
 
                             <!-- Description, if available -->
                             <TextBlock Text="{Binding Description}"
@@ -96,6 +109,7 @@
                                            Grid.Column="0"
                                            FontSize="12"
                                            VerticalAlignment="Center" 
+                                           Style="{StaticResource TitleTextStyle}"
                                            />
 
                                 <TextBlock Text="" 
@@ -105,7 +119,8 @@
                                            Grid.Column="2"
                                            Foreground="black"
                                            FontSize="12"
-                                           VerticalAlignment="Center" />
+                                           VerticalAlignment="Center" 
+                                           Style="{StaticResource TitleTextStyle}"/>
                             </Grid>
                         </StackPanel>
                     </Border>
