@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 using Microsoft.Extensions.Options;
 using System.Windows;
+
 using System.Windows.Media;
 using ToDoListPlus.Models;
 
@@ -15,30 +16,47 @@ namespace ToDoListPlus.Services
         private PaletteHelper _paletteHelper = new PaletteHelper();
         private readonly SettingsService _settingsService;
 
-
         public AppThemeService(SettingsService settingsService)
         {
             _settingsService = settingsService;
 
             var conf = _settingsService.Load();
+            var userSettings = conf.Get<UserSettings>();
 
-            var settings = conf.Get<UserSettings>();
-            IsDarkTheme = settings.Theme.BaseTheme == "light" ? false : true;
+            IsDarkTheme = userSettings.Theme.BaseTheme == "dark" ? true : false;
         }
         public void InitializeTheme()
         {
-            // Initialize the theme based on the appsettings.json
+
+
+            var conf = _settingsService.Load();
+            var appSettings = conf.Get<AppSettings>();
+
             Theme theme = IsDarkTheme ?
-                Theme.Create(BaseTheme.Dark, Color.FromRgb(255, 255, 0), Color.FromRgb(20, 20, 20)):
-                Theme.Create(BaseTheme.Light, Color.FromRgb(68,68,68), Color.FromRgb(20, 20, 20));
+                Theme.Create(BaseTheme.Dark,
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Dark.Primary),
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Dark.Primary)) :
+
+                Theme.Create(BaseTheme.Light,
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Light.Primary),
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Light.Primary));
             _paletteHelper.SetTheme(theme);
         }
 
-        public void ChangeTheme(bool newTheme)
+        public void ChangeTheme(bool isDarkTheme)
         {
-            Theme theme = newTheme ?
-               Theme.Create(BaseTheme.Dark, Color.FromRgb(255, 255, 0), Color.FromRgb(20, 20, 20)) :
-               Theme.Create(BaseTheme.Light, Color.FromRgb(68, 68, 68), Color.FromRgb(20, 20, 20));
+
+            var conf = _settingsService.Load();
+            var appSettings = conf.Get<AppSettings>();
+
+            Theme theme = isDarkTheme ?
+                Theme.Create(BaseTheme.Dark, 
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Dark.Primary),
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Dark.Primary)):
+
+                Theme.Create(BaseTheme.Light,
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Light.Primary),
+                    (Color)ColorConverter.ConvertFromString(appSettings.Palette.Light.Primary));
             _paletteHelper.SetTheme(theme);
         }
     }

@@ -30,7 +30,6 @@ namespace ToDoListPlus.Services
             var json = File.ReadAllText(path);
             var jObject = JObject.Parse(json);
 
-
             jObject["Hotkeys"]["Overlay"]["MainKey"] = userSettings.Hotkeys["Overlay"].MainKey.ToString();
             jObject["Hotkeys"]["Overlay"]["ModifierKey"] = userSettings.Hotkeys["Overlay"].ModifierKey.ToString();
 

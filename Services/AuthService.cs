@@ -52,12 +52,12 @@ namespace ToDoListPlus.Services
             _settingsService = settingsService;
 
             var conf = _settingsService.Load();
-            var settings = conf.Get<AppSettings>();
+            var appSettings = conf.Get<AppSettings>();
 
-            _clientId = settings.AzureAd.ClientId;
-            _tenant = settings.AzureAd.Tenant;
-            _instance = settings.AzureAd.Instance;
-            _scopes = settings.AzureAd.Scopes;
+            _clientId = appSettings.AzureAd.ClientId;
+            _tenant = appSettings.AzureAd.Tenant;
+            _instance = appSettings.AzureAd.Instance;
+            _scopes = appSettings.AzureAd.Scopes;
 
             CreateApplication();
         }
