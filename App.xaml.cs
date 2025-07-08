@@ -1,17 +1,9 @@
-﻿using System.Configuration;
-using System.Data;
-using System.IO;
+﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using ToDoListPlus.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using ToDoListPlus.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using ToDoListPlus.Views;
-using ToDoListPlus.Models;
-using System;
-using MaterialDesignThemes.Wpf;
 namespace ToDoListPlus;
 
 /// <summary>
@@ -85,7 +77,6 @@ public partial class App : Application
     }
     private void ConfigureServices(IServiceCollection services)
     {
-
         services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
 
@@ -96,7 +87,6 @@ public partial class App : Application
         services.AddSingleton<GlobalHotKeyService>();
         services.AddSingleton<AppThemeService>();
         services.AddSingleton<SettingsService>();
-
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();

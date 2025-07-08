@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Diagnostics;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
-using System.Windows.Interop;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using static System.Net.WebRequestMethods;
 using System.Text.Json;
-using System.Security.Policy;
 using ToDoListPlus.Models;
-using Microsoft.Extensions.Configuration;
 
 
 namespace ToDoListPlus.Services
@@ -50,9 +41,9 @@ namespace ToDoListPlus.Services
         public AuthService(SettingsService settingsService)
         {
             _settingsService = settingsService;
+            _settingsService.Load();
 
-            var conf = _settingsService.Load();
-            var appSettings = conf.Get<AppSettings>();
+            var appSettings = _settingsService.appSettings;
 
             _clientId = appSettings.AzureAd.ClientId;
             _tenant = appSettings.AzureAd.Tenant;

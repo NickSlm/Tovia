@@ -1,12 +1,5 @@
 ﻿using GlobalHotKey;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using ToDoListPlus.Models;
 
@@ -24,11 +17,11 @@ namespace ToDoListPlus.Services
         public GlobalHotKeyService(SettingsService settingsService)
         {
             _settingsService = settingsService;
+            _settingsService.Load();
             _manager.KeyPressed += HotKeyManagerPressed;
 
-            var conf = _settingsService.Load();
 
-            var userSettings = conf.Get<UserSettings>();
+            var userSettings = _settingsService.userSettings;
 
             foreach (var (name, setting) in userSettings.Hotkeys)
             {
@@ -47,6 +40,7 @@ namespace ToDoListPlus.Services
                 }
             }
         }
+
         private void HandleHotKey(string hotkeyName)
         {
             switch (hotkeyName)
@@ -59,12 +53,14 @@ namespace ToDoListPlus.Services
                     break;
             }
         }
+
         public void RegisterHotKey(string name, Key key, ModifierKeys modifier)
         {
             _manager.Unregister(_storedKeys[name].Key, _storedKeys[name].ModifierKey);
             _storedKeys[name] = (key, modifier);
             _manager.Register(key, modifier);
         }
+
         public void Dispose() 
         {
             _manager.Dispose();

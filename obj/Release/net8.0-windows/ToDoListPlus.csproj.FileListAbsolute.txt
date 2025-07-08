@@ -1,5 +1,4 @@
 D:\Projects\ToDoListPlus\bin\Release\net8.0-windows\Config\appsettings.json
-D:\Projects\ToDoListPlus\bin\Release\net8.0-windows\Config\authsettings.json
 D:\Projects\ToDoListPlus\bin\Release\net8.0-windows\ToDoListPlus.exe
 D:\Projects\ToDoListPlus\bin\Release\net8.0-windows\ToDoListPlus.deps.json
 D:\Projects\ToDoListPlus\bin\Release\net8.0-windows\ToDoListPlus.runtimeconfig.json
@@ -176,3 +175,4 @@ D:\Projects\ToDoListPlus\obj\Release\net8.0-windows\refint\ToDoListPlus.dll
 D:\Projects\ToDoListPlus\obj\Release\net8.0-windows\ToDoListPlus.pdb
 D:\Projects\ToDoListPlus\obj\Release\net8.0-windows\ToDoListPlus.genruntimeconfig.cache
 D:\Projects\ToDoListPlus\obj\Release\net8.0-windows\ref\ToDoListPlus.dll
+D:\Projects\ToDoListPlus\bin\Release\net8.0-windows\Config\usersettings.json
