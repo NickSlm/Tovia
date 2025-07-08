@@ -1,14 +1,6 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Configuration;
-
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using ToDoListPlus.Models;
 using ToDoListPlus.Services;
 
@@ -49,13 +41,13 @@ namespace ToDoListPlus.ViewModels
 
             _settingsService = settingsService;
             _taskService = taskService;
+            _settingsService.Load();
 
-            var conf = _settingsService.Load();
-            var settings = conf.Get<UserSettings>();
+            var userSettings = _settingsService.userSettings;
 
 
-            TopPos = settings.Window.TopPos;
-            LeftPos = settings.Window.LeftPos;
+            TopPos = userSettings.Window.TopPos;
+            LeftPos = userSettings.Window.LeftPos;
         }
 
         public void UpdatePosition(double top, double left)

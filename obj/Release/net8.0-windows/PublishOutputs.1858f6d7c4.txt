@@ -1,6 +1,6 @@
 C:\Games\test\ToDoListPlus.exe
 C:\Games\test\Config\appsettings.json
-C:\Games\test\Config\authsettings.json
+C:\Games\test\Config\usersettings.json
 C:\Games\test\ToDoListPlus.dll
 C:\Games\test\ToDoListPlus.runtimeconfig.json
 C:\Games\test\ToDoListPlus.pdb

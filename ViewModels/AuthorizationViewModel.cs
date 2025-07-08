@@ -1,16 +1,8 @@
-﻿using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows;
 using ToDoListPlus.Services;
 using ToDoListPlus.Views;
-using CommunityToolkit.Mvvm.Input;
 
 namespace ToDoListPlus.ViewModels
 {
@@ -59,6 +51,7 @@ namespace ToDoListPlus.ViewModels
                                 .FirstOrDefault();
             authWindow.DialogResult = false;
         }
+
         private async Task AuthorizationButtonClick()
         {
             var result = await _authService.Authorize();
@@ -86,8 +79,6 @@ namespace ToDoListPlus.ViewModels
                 Application.Current.Shutdown();
             }
         }
-
-        
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

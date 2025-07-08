@@ -1,20 +1,10 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using ToDoListPlus.Services;
-using ToDoListPlus.ViewModels;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Timers;
 using ToDoListPlus.Models;
-using CommunityToolkit.Mvvm.Input;
+using ToDoListPlus.Services;
 
 
 namespace ToDoListPlus.ViewModels
