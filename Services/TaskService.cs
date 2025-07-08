@@ -1,18 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows;
-using ToDoListPlus.Models;
 
 namespace ToDoListPlus.Services
 {

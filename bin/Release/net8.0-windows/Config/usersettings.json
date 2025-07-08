@@ -1,0 +1,19 @@
+{
+  "Window": {
+    "TopPos": 0,
+    "LeftPos": 0
+  },
+  "Theme": {
+    "BaseTheme": "light"
+  },
+  "Hotkeys": {
+    "Overlay": {
+      "ModifierKey": "Control",
+      "MainKey": "G"
+    },
+    "NewTask": {
+      "ModifierKey": "Shift",
+      "MainKey": "N"
+    }
+  }
+}

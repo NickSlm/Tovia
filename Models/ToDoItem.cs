@@ -1,9 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.ComponentModel;
 using ToDoListPlus.Models;
 
 public class ToDoItem: INotifyPropertyChanged
