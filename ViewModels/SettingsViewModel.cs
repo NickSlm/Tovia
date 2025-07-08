@@ -1,15 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ToDoListPlus.Models;
@@ -31,6 +24,7 @@ namespace ToDoListPlus.ViewModels
         private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
 
         public IRelayCommand UpdateThemeCommand { get;}
+        public IRelayCommand SaveSettingsCommand { get; }
         public bool IsDarkTheme
         {
             get => _isDarkTheme;
@@ -40,10 +34,6 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(IsDarkTheme));
             }
         }
-        public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
-        public Dictionary<string, KeyStroke> _keyStrokes { get; } = new();
-        public IRelayCommand SaveSettingsCommand { get; }
-        public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
         public OverlayPosition OverlayPos
         {
             get => _overlayPos;
@@ -53,6 +43,9 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(OverlayPos));
             }
         }
+        public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
+        public Dictionary<string, KeyStroke> _keyStrokes { get; } = new();
+        public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
 
         public SettingsViewModel( 
             GlobalHotKeyService globalHotKeyService, 
@@ -67,8 +60,8 @@ namespace ToDoListPlus.ViewModels
             _appThemeService = appThemeService;
             _overlayViewModel = overlayViewModel;
 
-            var conf = _settingsService.Load();
-            var settings = conf.Get<UserSettings>();
+            settingsService.Load();
+            var settings = settingsService.userSettings;
 
             IsDarkTheme = settings.Theme.BaseTheme == "light" ? false : true;
 
@@ -155,8 +148,6 @@ namespace ToDoListPlus.ViewModels
             _overlayViewModel.UpdatePosition(TopPos, LeftPos);
             _settingsService.Save(userSettings);
             DialogHost.Close("RootDialog");
-
-
         }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
