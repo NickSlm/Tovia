@@ -10,7 +10,6 @@ namespace ToDoListPlus.ViewModels
     public class MainViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly IServiceProvider _serviceProvider;
 
         //View Models
         public ToDoListViewModel? ToDoListVM { get;  }

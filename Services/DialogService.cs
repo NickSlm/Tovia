@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 using ToDoListPlus.Views;
 
 namespace ToDoListPlus.Services
@@ -17,6 +18,11 @@ namespace ToDoListPlus.Services
         {
             var loginWindow = _serviceProvider.GetRequiredService<AuthorizationWindow>();
             return loginWindow.ShowDialog();
+        }
+
+        public void ShowMessage(string message, string title = "Warning")
+        {
+            MessageBox.Show(message, title);
         }
 
     }

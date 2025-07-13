@@ -10,6 +10,7 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private readonly TaskService _taskService;
+        private readonly IDialogService _dialogService;
         private string _taskTitle = string.Empty;
         private string _taskDescription = string.Empty;
         private DateTime? _taskDueDate = DateTime.Now;
@@ -66,9 +67,10 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public NewTaskViewModel(TaskService taskService)
+        public NewTaskViewModel(TaskService taskService, IDialogService dialogService)
         {
             _taskService = taskService;
+            _dialogService = dialogService;
             SaveTaskCommand = new AsyncRelayCommand(SaveTask);
         }
 
@@ -76,21 +78,19 @@ namespace ToDoListPlus.ViewModels
         {
             if (string.IsNullOrWhiteSpace(TaskTitle))
             {
-                MessageBox.Show("Title Required");
+                _dialogService.ShowMessage("Title Required", "Warning");
                 return;
             }
             if (!TaskDueDate.HasValue)
             {
-                MessageBox.Show("DueTime Required");
+                _dialogService.ShowMessage("Due Date Required", "Warning");
                 return;
             }
             if (string.IsNullOrEmpty(TaskImportance))
             {
-                MessageBox.Show("Priority Required");
+                _dialogService.ShowMessage("Priority Required", "Warning");
                 return;
             }
-            
-
             ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
             newTask.OnCompletionChanged += async (s, e) => {
                 var t = (ToDoItem)s;
@@ -100,7 +100,7 @@ namespace ToDoListPlus.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    _dialogService.ShowMessage($"{ex.Message}", "Error");
                 }
             };
             _taskService.ToDoList.Add(newTask);

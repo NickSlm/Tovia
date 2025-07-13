@@ -258,12 +258,7 @@ namespace ToDoListPlus.Services
                 }
 
 
-                var taskOverdue = "InProgress";
-                //Check if task is overdue
-                if (dueDateTime < DateTime.Now)
-                {
-                    taskOverdue = "Overdue";
-                }
+
                 //Create a new ToDoItem object
                 var task = new ToDoItem
                 {

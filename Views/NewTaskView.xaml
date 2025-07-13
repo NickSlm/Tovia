@@ -98,7 +98,7 @@
                 Content="ACCEPT"
                 IsDefault="True"
                 Margin="8 0 8 0"
-                Style="{StaticResource MaterialDesignPaperLightButton}"
+                Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                 Command="{Binding SaveTaskCommand}">
                 </Button>
 
@@ -106,7 +106,7 @@
                 Content="CANCEL"
                 Margin="8 0 8 0"
                 IsCancel="True"
-                Style="{StaticResource MaterialDesignPaperLightButton}"
+                Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
                 </Button>
             </StackPanel>
