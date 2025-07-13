@@ -15,8 +15,8 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        var serviceCollection = new ServiceCollection();
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        var serviceCollection = new ServiceCollection();
 
         ConfigureServices(serviceCollection);
         Services = serviceCollection.BuildServiceProvider();

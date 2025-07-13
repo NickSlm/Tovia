@@ -18,11 +18,10 @@ namespace ToDoListPlus.ViewModels
         public IRelayCommand<ToDoItem> ToggleReadOnlyCommand { get; }
         public  ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
 
-        private static System.Timers.Timer aTimer;
-
         private readonly AuthService _authService;
         private readonly TaskService _taskService;
         private readonly AppStateService _appStateService;
+        private readonly IDialogService _dialogService;
         private int _completedTasks;
         private int _totalTasks;
 
@@ -44,11 +43,12 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(CompletedTasks));
             }
         }
-        public ToDoListViewModel(AuthService authService, TaskService taskService, AppStateService appStateService)
+        public ToDoListViewModel(AuthService authService, TaskService taskService, AppStateService appStateService, IDialogService dialogService)
         {
             _authService = authService;
             _taskService = taskService;
             _appStateService = appStateService;
+            _dialogService = dialogService;
 
             _appStateService.UserLoggedIn += OnUserLoggedIn;
 
@@ -111,7 +111,7 @@ namespace ToDoListPlus.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        _dialogService.ShowMessage($"{ex.Message}", "Error");
                     }
                 }; 
                 _taskService.ToDoList.Add(task);
@@ -124,7 +124,7 @@ namespace ToDoListPlus.ViewModels
         {
             TotalTasks = _taskService.ToDoList.Count;
         }
-        private async void ToggleReadOnly(ToDoItem item)
+        private void ToggleReadOnly(ToDoItem item)
         {
             item.IsReadOnly = !item.IsReadOnly;
         }
@@ -133,11 +133,11 @@ namespace ToDoListPlus.ViewModels
             if (!string.IsNullOrEmpty(item.EventId))
             {
                 string eventResult = await _taskService.DeleteEventAsync(item.EventId);
-                MessageBox.Show(eventResult);
+                _dialogService.ShowMessage(eventResult, "Info");
             }
             _taskService.ToDoList.Remove(item);
             string taskResult = await _taskService.DeleteTaskAsync(item.TaskId);
-            MessageBox.Show(taskResult);
+            _dialogService.ShowMessage(taskResult, "Info");
         }
         private async Task CleanCompletedItems(ObservableCollection<ToDoItem> toDoList)
         {

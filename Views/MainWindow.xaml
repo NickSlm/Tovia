@@ -95,8 +95,7 @@
                                                  />
                         <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
                                    VerticalAlignment="Center"
-                                   FontSize="16"
-                                   FontWeight="SemiBold"
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}"
                                    />
                     </StackPanel>
 
@@ -108,15 +107,22 @@
                          StaysOpen="False"
                          Content="Account">
                         <StackPanel>
-                            <Button Style="{StaticResource MaterialDesignFlatLightButton}" 
-                                    Content="Settings" 
-                                    Command="{Binding OpenSettingsCommand}" />
-
-                            <Button Style="{StaticResource MaterialDesignFlatLightButton}" 
-                                    Command="{Binding AuthorizationVM.SignOutCommand}">
+                            <Button Command="{Binding OpenSettingsCommand}"
+                                    HorizontalContentAlignment="Left"
+                                    Style="{StaticResource MaterialDesignFlatSecondaryButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Cog" Width="20" Height="20" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Settings" 
+                                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding AuthorizationVM.SignOutCommand}"
+                                    HorizontalContentAlignment="Left"
+                                    Style="{StaticResource MaterialDesignFlatSecondaryButton}">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="AccountSwitch" Width="20" Height="20" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Change Account" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Change Account" 
+                                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -168,7 +174,7 @@
                                         CommandParameter="{Binding ToDoListVM.ToDoList}"
                                         Margin="8,0"
                                         Grid.Column="1"
-                                        Style="{StaticResource MaterialDesignPaperLightButton}"
+                                        Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                                         ToolTip="Clear all completed tasks"
                                         Content="Clean Up">
                                 </Button>
@@ -336,7 +342,7 @@
                             BorderBrush="#DDD"
                             Padding="8 4">
                         <Button Command="{Binding NewTaskCommand}"
-                                Style="{StaticResource MaterialDesignPaperLightButton}"
+                                Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                                 Margin="0 8"
                                 Padding="10 6"
                                 HorizontalAlignment="Center"

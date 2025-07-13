@@ -128,13 +128,15 @@
                     Margin="0,16,0,0">
                 <Button Content="SAVE"
                     IsDefault="True"
-                    Margin="8,0"
-                    Command="{Binding SaveSettingsCommand}"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"/>
+                    Margin="8 0 8 0"
+                    Width="88"
+                    Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
+                    Command="{Binding SaveSettingsCommand}"/>
                 <Button Content="CANCEL"
                     IsCancel="True"
-                    Margin="8,0"
-                    Style="{StaticResource MaterialDesignPaperLightButton}"
+                    Margin="8 0 8 0"
+                    Width="88"
+                    Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
             </StackPanel>
         </Grid>
