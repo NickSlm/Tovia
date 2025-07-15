@@ -16,7 +16,6 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
             
         private readonly TaskManager _taskManager;
-        private readonly AppStateService _appStateService;
 
         public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
@@ -25,10 +24,9 @@ namespace ToDoListPlus.ViewModels
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
 
-        public ToDoListViewModel(TaskManager taskManager, AppStateService appStateService, IDialogService dialogService)
+        public ToDoListViewModel(TaskManager taskManager, IDialogService dialogService)
         {
             _taskManager = taskManager;
-            _appStateService = appStateService;
 
             _taskManager.PropertyChanged += (s, e) =>
             {
@@ -42,23 +40,13 @@ namespace ToDoListPlus.ViewModels
                         break;
                 }
             };
-            // Remove from here ??
-            _appStateService.UserLoggedIn += OnUserLoggedIn;
-            _appStateService.UserLoggedOut += OnUserLogOut;
-
+            
             CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
             ToggleReadOnlyCommand = new RelayCommand<ToDoItem>(ToggleReadOnly);
         }
 
-        public void OnUserLoggedIn()
-        {
-            _taskManager.LoadToDoItems();
-        }
-        public void OnUserLogOut()
-        {
-            _taskManager.ClearTasks();
-        }
+
         private void ToggleReadOnly(ToDoItem item)
         {
             item.IsReadOnly = !item.IsReadOnly;
