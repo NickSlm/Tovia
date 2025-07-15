@@ -33,7 +33,6 @@ namespace ToDoListPlus.ViewModels
         public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
         {
             AuthorizationVM = authorizationVM;
-
             ToDoListVM = toDoListVM;
 
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);

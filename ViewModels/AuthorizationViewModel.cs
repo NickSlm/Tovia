@@ -70,6 +70,7 @@ namespace ToDoListPlus.ViewModels
             string SignoutRes = await _authService.SignOutAsync();
 
             _appStateService.SignOut();
+
             AccountUsername = string.Empty;
 
             var result = _dialogService.ShowLoginDialog();
