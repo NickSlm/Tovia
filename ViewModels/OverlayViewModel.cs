@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using ToDoListPlus.Models;
 using ToDoListPlus.Services;
+using ToDoListPlus.States;
 
 namespace ToDoListPlus.ViewModels
 {
@@ -10,12 +11,13 @@ namespace ToDoListPlus.ViewModels
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly TaskService _taskService;
+        private readonly TaskManager _taskManager;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
         private readonly SettingsService _settingsService;
 
-        public ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
+        public ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
+
         public OverlayPosition position { get; set; }
         public double TopPos
         {
@@ -36,11 +38,11 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public OverlayViewModel(SettingsService settingsService, TaskService taskService)
+        public OverlayViewModel(SettingsService settingsService, TaskManager taskManager)
         {
 
             _settingsService = settingsService;
-            _taskService = taskService;
+            _taskManager = taskManager;
             _settingsService.Load();
 
             var userSettings = _settingsService.userSettings;

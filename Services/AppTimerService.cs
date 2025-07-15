@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Timers;
 using ToDoListPlus.Models;
+using ToDoListPlus.States;
 
 
 namespace ToDoListPlus.Services
@@ -8,14 +9,14 @@ namespace ToDoListPlus.Services
     public class AppTimerService
     {
 
-        private readonly TaskService _taskService;
-        private ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
+        private readonly TaskManager _taskManager;
+        private ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
 
 
         public System.Timers.Timer aTimer;
-        public AppTimerService(TaskService taskService)
+        public AppTimerService(TaskManager taskManager)
         {
-            _taskService = taskService;
+            _taskManager = taskManager;
             SetTimer();
         }
         private void SetTimer()

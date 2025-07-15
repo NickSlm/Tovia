@@ -1,4 +1,7 @@
-﻿namespace ToDoListPlus.Services
+﻿using System.Diagnostics;
+using System.Windows;
+
+namespace ToDoListPlus.Services
 {
     public class AppStateService
     {
@@ -7,7 +10,6 @@
 
         public void SignIn()
         {
-
             UserLoggedIn?.Invoke();
         }
 

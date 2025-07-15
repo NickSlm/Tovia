@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using ToDoListPlus.Services;
 using ToDoListPlus.Views;
@@ -16,7 +17,6 @@ namespace ToDoListPlus.ViewModels
 
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
-        private readonly IAppStateResetService _appStateResetService;
         private readonly AppStateService _appStateService;
 
         private string _accountUsername;
@@ -32,11 +32,10 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, IAppStateResetService resetService, AppStateService appStateService)
+        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, AppStateService appStateService)
         {
-            _appStateResetService = resetService;
-            _dialogService = dialogService;
             _authService = authService;
+            _dialogService = dialogService;
             _appStateService = appStateService;
 
             AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
@@ -70,7 +69,7 @@ namespace ToDoListPlus.ViewModels
         {
             string SignoutRes = await _authService.SignOutAsync();
 
-            _appStateResetService.ResetState();
+            _appStateService.SignOut();
             AccountUsername = string.Empty;
 
             var result = _dialogService.ShowLoginDialog();

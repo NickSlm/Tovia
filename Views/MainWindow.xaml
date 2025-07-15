@@ -155,7 +155,7 @@
                                 <ProgressBar Grid.Column="0" 
                                              Maximum="100" 
                                              Height="32" 
-                                             Value="{Binding ToDoListVM.CompletedTasks}" 
+                                             Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}" 
                                              Foreground="#66BB6A" 
                                              Background="#E0E0E0"
                                              BorderBrush="Transparent"
@@ -163,7 +163,7 @@
                                              Margin="8,0"/>
 
                                 <TextBlock Grid.Column="0" 
-                                           Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}" 
+                                           Text="{Binding ToDoListVM.CompletedTasks, Mode=OneWay,StringFormat={}{0:0}%}" 
                                            HorizontalAlignment="Center" 
                                            VerticalAlignment="Center"  
                                            Foreground="black" 

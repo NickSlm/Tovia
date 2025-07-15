@@ -12,7 +12,6 @@ namespace ToDoListPlus.Services
         public DialogService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-
         }
         public bool? ShowLoginDialog()
         {
