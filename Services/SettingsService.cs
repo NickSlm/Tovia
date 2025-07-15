@@ -16,6 +16,11 @@ namespace ToDoListPlus.Services
         public UserSettings userSettings { get; private set; }
         public AppSettings appSettings { get; private set; }
 
+        public SettingsService()
+        {
+        }
+
+
         public void Load()
         {
             var userPath = Path.Combine(AppContext.BaseDirectory, UserSettingsPath);

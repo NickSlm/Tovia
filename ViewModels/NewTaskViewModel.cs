@@ -1,7 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
+using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using ToDoListPlus.Services;
+using ToDoListPlus.States;
 
 namespace ToDoListPlus.ViewModels
 {
@@ -9,7 +13,8 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private readonly TaskService _taskService;
+        private readonly MicrosoftGraphService _taskService;
+        private readonly TaskManager _taskManager;
         private readonly IDialogService _dialogService;
         private string _taskTitle = string.Empty;
         private string _taskDescription = string.Empty;
@@ -67,9 +72,10 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public NewTaskViewModel(TaskService taskService, IDialogService dialogService)
+        public NewTaskViewModel(MicrosoftGraphService taskService, TaskManager taskManager ,IDialogService dialogService)
         {
             _taskService = taskService;
+            _taskManager = taskManager;
             _dialogService = dialogService;
             SaveTaskCommand = new AsyncRelayCommand(SaveTask);
         }
@@ -91,19 +97,16 @@ namespace ToDoListPlus.ViewModels
                 _dialogService.ShowMessage("Priority Required", "Warning");
                 return;
             }
-            ToDoItem newTask = await _taskService.CreateTaskAsync(TaskTitle, TaskDescription, TaskDueDate, TaskImportance, EventIsChecked);
-            newTask.OnCompletionChanged += async (s, e) => {
-                var t = (ToDoItem)s;
-                try
-                {
-                    await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
-                }
-                catch (Exception ex)
-                {
-                    _dialogService.ShowMessage($"{ex.Message}", "Error");
-                }
+
+            var newTask = new ToDoItem
+            {
+                Title = TaskTitle,
+                Description = TaskDescription,
+                DueDate = TaskDueDate,
+                Importance = TaskImportance
             };
-            _taskService.ToDoList.Add(newTask);
+
+            await _taskManager.SaveTask(newTask, EventIsChecked);
 
             //Reset Form Fields
             TaskTitle = string.Empty;

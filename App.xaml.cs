@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using ToDoListPlus.Services;
+using ToDoListPlus.States;
 using ToDoListPlus.ViewModels;
 using ToDoListPlus.Views;
 namespace ToDoListPlus;
@@ -15,35 +16,35 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        base.OnStartup(e);
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-        var serviceCollection = new ServiceCollection();
 
+        var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
         Services = serviceCollection.BuildServiceProvider();
 
-        var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
-        var overlayWindow = Services.GetRequiredService<OverlayWindow>();
-        var appTimerService = Services.GetRequiredService<AppTimerService>();
         var themeService = Services.GetRequiredService<AppThemeService>();
-
-        globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
-        globalHotKeyService.OnNewTaskHotKeyPressed += () => ToggleNewTask();
-
         themeService.InitializeTheme();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
 
-        if (loginResult == true)
-        {
-            var mainWindow = Services.GetRequiredService<MainWindow>();
-            Application.Current.MainWindow = mainWindow;
-            mainWindow.Show();
-        }
-        else
+        if (loginResult != true)
         {
             Application.Current.Shutdown();
         }
+
+        var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
+        var overlayWindow = Services.GetRequiredService<OverlayWindow>();
+        var appTimerService = Services.GetRequiredService<AppTimerService>();
+        var mainWindow = Services.GetRequiredService<MainWindow>();
+
+        globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
+        globalHotKeyService.OnNewTaskHotKeyPressed += () => ToggleNewTask();
+        
+        Application.Current.MainWindow = mainWindow;
+        mainWindow.Show();
+
     }
     protected override void OnExit(ExitEventArgs e)
     {
@@ -77,16 +78,16 @@ public partial class App : Application
     }
     private void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<IAppStateResetService, AppStateResetService>();
         services.AddSingleton<IDialogService, DialogService>();
 
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AuthService>();
-        services.AddSingleton<TaskService>();
+        services.AddSingleton<MicrosoftGraphService>();
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
         services.AddSingleton<AppThemeService>();
         services.AddSingleton<SettingsService>();
+        services.AddSingleton<TaskManager>();
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();

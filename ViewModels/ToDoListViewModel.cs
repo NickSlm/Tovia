@@ -2,9 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using ToDoListPlus.Models;
 using ToDoListPlus.Services;
+using ToDoListPlus.States;
 
 
 namespace ToDoListPlus.ViewModels
@@ -13,150 +15,61 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
             
-        public IAsyncRelayCommand<ObservableCollection<ToDoItem>> CleanUpCommand { get; }
+        private readonly TaskManager _taskManager;
+        private readonly AppStateService _appStateService;
+
+        public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
         public IRelayCommand<ToDoItem> ToggleReadOnlyCommand { get; }
-        public  ObservableCollection<ToDoItem> ToDoList => _taskService.ToDoList;
+        public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
+        public int TotalTasks => _taskManager.TotalTasks;
+        public int CompletedTasks => _taskManager.CompletedTasks;
 
-        private readonly AuthService _authService;
-        private readonly TaskService _taskService;
-        private readonly AppStateService _appStateService;
-        private readonly IDialogService _dialogService;
-        private int _completedTasks;
-        private int _totalTasks;
-
-        public int TotalTasks
+        public ToDoListViewModel(TaskManager taskManager, AppStateService appStateService, IDialogService dialogService)
         {
-            get => _totalTasks;
-            set
-            {
-                _totalTasks = value;
-                OnPropertyChanged(nameof(TotalTasks));
-            }
-        }
-        public int CompletedTasks
-        {
-            get => _completedTasks;
-            set
-            {
-                _completedTasks = value;
-                OnPropertyChanged(nameof(CompletedTasks));
-            }
-        }
-        public ToDoListViewModel(AuthService authService, TaskService taskService, AppStateService appStateService, IDialogService dialogService)
-        {
-            _authService = authService;
-            _taskService = taskService;
+            _taskManager = taskManager;
             _appStateService = appStateService;
-            _dialogService = dialogService;
 
+            _taskManager.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(TaskManager.TotalTasks):
+                        OnPropertyChanged(nameof(TotalTasks));
+                        break;
+                    case nameof(TaskManager.CompletedTasks):
+                        OnPropertyChanged(nameof(CompletedTasks));
+                        break;
+                }
+            };
+            // Remove from here ??
             _appStateService.UserLoggedIn += OnUserLoggedIn;
+            _appStateService.UserLoggedOut += OnUserLogOut;
 
-            CleanUpCommand = new AsyncRelayCommand<ObservableCollection<ToDoItem>>(CleanCompletedItems);
-            RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveItem);
+            CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
+            RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
             ToggleReadOnlyCommand = new RelayCommand<ToDoItem>(ToggleReadOnly);
-
-            _taskService.ToDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
-            _taskService.ToDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
-
-            UpdateCompletedTasks();
         }
 
         public void OnUserLoggedIn()
         {
-            LoadToDoItems();
+            _taskManager.LoadToDoItems();
         }
-        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        public void OnUserLogOut()
         {
-            if (e.PropertyName == nameof(ToDoItem.IsComplete))
-            {
-                UpdateCompletedTasks();
-            }
-        }
-        private void HandleCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
-            {
-                foreach (ToDoItem newItem in e.NewItems)
-                {
-                    newItem.PropertyChanged += Item_PropertyChanged;
-                }
-            }
-            if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
-            {
-                foreach (ToDoItem newItem in e.OldItems)
-                {
-                    newItem.PropertyChanged -= Item_PropertyChanged;
-                }
-            }
-            UpdateCompletedTasks();
-        }
-        private void UpdateCompletedTasks()
-        {
-            CompletedTasks = (TotalTasks > 0) ? (ToDoList.Count(item => item.IsComplete) * 100) / TotalTasks : 0;
-        }
-        public async void LoadToDoItems()
-        {
-            var tasks = await _taskService.GetTasksAsync();
-
-            ToDoList.Clear();
-            foreach (var task in tasks)
-            {
-                task.OnCompletionChanged += async (s, e) =>
-                {
-                    var t = (ToDoItem)s;
-                    try
-                    {
-                        await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
-                    }
-                    catch (Exception ex)
-                    {
-                        _dialogService.ShowMessage($"{ex.Message}", "Error");
-                    }
-                }; 
-                _taskService.ToDoList.Add(task);
-            }
-
-            UpdateCompletedTasks();
-            UpdateTotalTasks();
-        }
-        private void UpdateTotalTasks()
-        {
-            TotalTasks = _taskService.ToDoList.Count;
+            _taskManager.ClearTasks();
         }
         private void ToggleReadOnly(ToDoItem item)
         {
             item.IsReadOnly = !item.IsReadOnly;
         }
-        private async Task RemoveItem(ToDoItem item)
+        private async Task RemoveTask(ToDoItem item)
         {
-            if (!string.IsNullOrEmpty(item.EventId))
-            {
-                string eventResult = await _taskService.DeleteEventAsync(item.EventId);
-                _dialogService.ShowMessage(eventResult, "Info");
-            }
-            _taskService.ToDoList.Remove(item);
-            string taskResult = await _taskService.DeleteTaskAsync(item.TaskId);
-            _dialogService.ShowMessage(taskResult, "Info");
+            await _taskManager.RemoveTask(item);
         }
-        private async Task CleanCompletedItems(ObservableCollection<ToDoItem> toDoList)
+        private async Task CleanCompletedItems()
         {
-            for (int i = ToDoList.Count - 1; i >= 0; i--)
-            {
-                if (ToDoList[i].Status == TaskState.Complete || ToDoList[i].Status == TaskState.Failed)
-                {
-                    if (!string.IsNullOrEmpty(ToDoList[i].EventId))
-                    {
-                        await _taskService.DeleteEventAsync(ToDoList[i].EventId);
-                    }
-                    await _taskService.DeleteTaskAsync(ToDoList[i].TaskId);
-                    ToDoList.RemoveAt(i);
-                }
-            }
-        }
-        public void Reset()
-        {
-            _taskService.ToDoList.Clear();
+            await _taskManager.RemoveCompleteTask();
         }
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
