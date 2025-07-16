@@ -16,63 +16,70 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Closed="MainWindow_Closed"
-        Title="ToDoPlus" Height="640" Width="640">
+        Title="ToDoPlus"
+        Height="640"
+        Width="640">
 
     <Window.Resources>
-        <Style x:Key="IconButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Margin" Value="0,0,4,0"/>
+
+        <Style x:Key="IconButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Height"
+                    Value="32" />
+            <Setter Property="Width"
+                    Value="32" />
+            <Setter Property="Padding"
+                    Value="0" />
+            <Setter Property="Margin"
+                    Value="0,0,4,0" />
             <Style.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="Opacity" Value="0.5"/>
+                <Trigger Property="IsEnabled"
+                         Value="False">
+                    <Setter Property="Background"
+                            Value="Transparent" />
+                    <Setter Property="Opacity"
+                            Value="0.5" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="MicrosoftButtonStyle" TargetType="Button">
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#DDD"/>
-            <Setter Property="Margin" Value="8"/>
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Direction="-120" BlurRadius="10" Opacity="0.4" ShadowDepth="1"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis"/>
-        <converters:StringToVisibilityHiddenConverter x:Key="StringToVisibilityHiddenConverter"/>
-        <converters:StringToVisibilityCollapsedConverter x:Key="StringToVisibilityCollapsedConverter"/>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis" />
+        <converters:StringToVisibilityHiddenConverter x:Key="StringToVisibilityHiddenConverter" />
+        <converters:StringToVisibilityCollapsedConverter x:Key="StringToVisibilityCollapsedConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Style x:Key="TitleTextStyle"
+               TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}" Value="Complete">
-                    <Setter Property="Foreground" Value="Black"/>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="Complete">
+                    <Setter Property="Foreground"
+                            Value="Black" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="InProgress">
-                    <Setter Property="Foreground" Value="Black"/>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="InProgress">
+                    <Setter Property="Foreground"
+                            Value="Black" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="Failed">
-                    <Setter Property="Foreground" Value="White"/>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="Failed">
+                    <Setter Property="Foreground"
+                            Value="White" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
 
 
-        <materialDesign:DialogHost
-            Identifier="RootDialog"
-            DialogContentUniformCornerRadius="20"
-            DialogTheme="Inherit">  
+    <materialDesign:DialogHost Identifier="RootDialog"
+                               DialogContentUniformCornerRadius="20"
+                               DialogTheme="Inherit">
         <Grid>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <!--Header Section Login-->
@@ -82,47 +89,51 @@
                     BorderThickness="0 0 0 1">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal" 
-                                VerticalAlignment="Center" 
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
                                 DockPanel.Dock="Left">
-                        <materialDesign:PackIcon Kind="AccountCircle" 
-                                                 Width="24" 
-                                                 Height="24" 
-                                                 Margin="0,0,8,0" 
-                                                 />
+                        <materialDesign:PackIcon Kind="AccountCircle"
+                                                 Width="24"
+                                                 Height="24"
+                                                 Margin="0,0,8,0" />
                         <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
                                    VerticalAlignment="Center"
-                                   Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                   />
+                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
                     </StackPanel>
 
                     <materialDesign:PopupBox VerticalAlignment="Center"
-                         HorizontalAlignment="Right"
-                         Margin="0,0,12,0"
-                         Padding="8"
-                         PlacementMode="BottomAndAlignRightEdges"
-                         StaysOpen="False"
-                         Content="Account">
+                                             HorizontalAlignment="Right"
+                                             Margin="0,0,12,0"
+                                             Padding="8"
+                                             PlacementMode="BottomAndAlignRightEdges"
+                                             StaysOpen="False"
+                                             Content="Account">
                         <StackPanel>
                             <Button Command="{Binding OpenSettingsCommand}"
                                     HorizontalContentAlignment="Left"
                                     Style="{StaticResource MaterialDesignFlatSecondaryButton}">
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Cog" Width="20" Height="20" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Settings" 
-                                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                    <materialDesign:PackIcon Kind="Cog"
+                                                             Width="20"
+                                                             Height="20"
+                                                             Margin="0,0,8,0" />
+                                    <TextBlock Text="Settings"
+                                               Style="{StaticResource MaterialDesignBody1TextBlock}" />
                                 </StackPanel>
                             </Button>
                             <Button Command="{Binding AuthorizationVM.SignOutCommand}"
                                     HorizontalContentAlignment="Left"
                                     Style="{StaticResource MaterialDesignFlatSecondaryButton}">
                                 <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="AccountSwitch" Width="20" Height="20" Margin="0,0,8,0"/>
-                                    <TextBlock Text="Change Account" 
-                                               Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                    <materialDesign:PackIcon Kind="AccountSwitch"
+                                                             Width="20"
+                                                             Height="20"
+                                                             Margin="0,0,8,0" />
+                                    <TextBlock Text="Change Account"
+                                               Style="{StaticResource MaterialDesignBody1TextBlock}" />
                                 </StackPanel>
                             </Button>
                         </StackPanel>
@@ -132,200 +143,222 @@
             </Border>
 
             <!--Main Body Section-->
-            <Grid Grid.Row="1" 
-                   >
+            <Grid Grid.Row="1">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <!--Main Body Top Section Show Tasks-->
-                    <Grid Grid.Row="0" Margin="8">
+                    <Grid Grid.Row="0"
+                          Margin="8">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <!--Show Tasks Progress Bar-->
-                            <Grid Grid.Row="0" >
+                            <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.8*"/>
-                                    <ColumnDefinition Width="0.2*"/>
+                                    <ColumnDefinition Width="0.8*" />
+                                    <ColumnDefinition Width="0.2*" />
                                 </Grid.ColumnDefinitions>
-                                <ProgressBar Grid.Column="0" 
-                                             Maximum="100" 
-                                             Height="32" 
-                                             Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}" 
-                                             Foreground="#66BB6A" 
+                                <ProgressBar Grid.Column="0"
+                                             Maximum="100"
+                                             Height="32"
+                                             Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}"
+                                             Foreground="#66BB6A"
                                              Background="#E0E0E0"
                                              BorderBrush="Transparent"
                                              BorderThickness="0"
-                                             Margin="8,0"/>
+                                             Margin="8,0" />
 
-                                <TextBlock Grid.Column="0" 
-                                           Text="{Binding ToDoListVM.CompletedTasks, Mode=OneWay,StringFormat={}{0:0}%}" 
-                                           HorizontalAlignment="Center" 
-                                           VerticalAlignment="Center"  
-                                           Foreground="black" 
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding ToDoListVM.CompletedTasks, Mode=OneWay,StringFormat={}{0:0}%}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="black"
                                            FontWeight="SemiBold"
-                                           FontSize="16"/>
+                                           FontSize="16" />
 
                                 <Button Command="{Binding ToDoListVM.CleanUpCommand}"
                                         CommandParameter="{Binding ToDoListVM.ToDoList}"
                                         Margin="8,0"
                                         Grid.Column="1"
-                                        Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                                         ToolTip="Clear all completed tasks"
+                                        Style="{StaticResource OutlookButtonStyle}"
                                         Content="Clean Up">
                                 </Button>
                             </Grid>
                             <!--Show DataGrid Tasks-->
-                            <Grid Grid.Row="1" 
-                                  Margin="8" 
-                                  HorizontalAlignment="Stretch" >
+                            <Grid Grid.Row="1"
+                                  Margin="8"
+                                  HorizontalAlignment="Stretch">
 
                                 <DataGrid ItemsSource="{Binding ToDoListVM.ToDoList}"
-                                            AutoGenerateColumns="False"
-                                            SelectionMode="Single"
-                                            SelectionUnit="FullRow"
-                                            IsReadOnly="True"
-                                            HeadersVisibility="Column"
-                                            GridLinesVisibility="None"
-                                            Focusable="False"
-                                          >
+                                          AutoGenerateColumns="False"
+                                          SelectionMode="Single"
+                                          SelectionUnit="FullRow"
+                                          IsReadOnly="True"
+                                          HeadersVisibility="Column"
+                                          GridLinesVisibility="None"
+                                          Focusable="False">
                                     <!-- Clear out Material styles -->
                                     <DataGrid.Resources>
                                         <Style TargetType="CheckBox">
-                                            <Setter Property="Background" Value="LightCyan"/>
+                                            <Setter Property="Background"
+                                                    Value="LightCyan" />
                                         </Style>
                                         <Style TargetType="DataGridCell">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="Focusable" Value="False"/>
+                                            <Setter Property="Background"
+                                                    Value="Transparent" />
+                                            <Setter Property="BorderThickness"
+                                                    Value="0" />
+                                            <Setter Property="Focusable"
+                                                    Value="False" />
                                             <Style.Triggers>
                                                 <!-- Remove selection highlight -->
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="Foreground" Value="Black"/>
+                                                <Trigger Property="IsSelected"
+                                                         Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="Transparent" />
+                                                    <Setter Property="Foreground"
+                                                            Value="Black" />
                                                 </Trigger>
                                                 <!-- Remove hover effect on cell -->
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="Transparent"/>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="Background"
+                                                            Value="Transparent" />
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
                                     </DataGrid.Resources>
                                     <DataGrid.RowStyle>
                                         <Style TargetType="DataGridRow">
-                                            <Setter Property="BorderBrush" Value="WhiteSmoke"/>
-                                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                            <Setter Property="Background" Value="LightBlue"/>
-                                            <Setter Property="Focusable" Value="False"/>
+                                            <Setter Property="BorderBrush"
+                                                    Value="WhiteSmoke" />
+                                            <Setter Property="BorderThickness"
+                                                    Value="0,0,0,1" />
+                                            <Setter Property="Background"
+                                                    Value="LightBlue" />
+                                            <Setter Property="Focusable"
+                                                    Value="False" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Complete">
-                                                    <Setter Property="Background" Value="LightGreen"/>
+                                                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                             Value="Complete">
+                                                    <Setter Property="Background"
+                                                            Value="LightGreen" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}" Value="Failed">
-                                                    <Setter Property="IsEnabled" Value="False"/>
-                                                    <Setter Property="Background" Value="#ed4337"/>
-                                                    <Setter Property="Opacity" Value="0.8"/>
-                                               </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}"
+                                                             Value="Failed">
+                                                    <Setter Property="IsEnabled"
+                                                            Value="False" />
+                                                    <Setter Property="Background"
+                                                            Value="#ed4337" />
+                                                    <Setter Property="Opacity"
+                                                            Value="0.8" />
+                                                </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </DataGrid.RowStyle>
 
                                     <DataGrid.Columns>
                                         <!--Complete Checkbox-->
-                                        <DataGridTemplateColumn Header="Done" Width="Auto" SortMemberPath="IsComplete">
+                                        <DataGridTemplateColumn Header="Done"
+                                                                Width="Auto"
+                                                                SortMemberPath="IsComplete">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <CheckBox IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                               VerticalAlignment="Center"
-                                                              HorizontalAlignment="Center"
-                                                              />
+                                                              HorizontalAlignment="Center" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Title,Description-->
                                         <DataGridTemplateColumn Header="Task"
-                                                                Width="*"
-                                                                >
+                                                                Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Margin="4">
                                                         <Grid>
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto" />
                                                                 <ColumnDefinition Width="*" />
                                                             </Grid.ColumnDefinitions>
 
                                                             <!-- Calendar icon, shown only if it's an event -->
-                                                            <materialDesign:PackIcon 
-                                                                Kind="CalendarCheck"
-                                                                Grid.Column="0"
-                                                                Margin="0,2,4,0"
-                                                                VerticalAlignment="Center"
-                                                                ToolTip="Microsoft Event"
-                                                                Visibility="{Binding EventId, Converter={StaticResource StringToVisibilityHiddenConverter}}" />
+                                                            <materialDesign:PackIcon Kind="CalendarCheck"
+                                                                                     Grid.Column="0"
+                                                                                     Margin="0,2,4,0"
+                                                                                     VerticalAlignment="Center"
+                                                                                     ToolTip="Microsoft Event"
+                                                                                     Visibility="{Binding EventId, Converter={StaticResource StringToVisibilityHiddenConverter}}" />
 
                                                             <!-- Task Title -->
-                                                            <TextBlock 
-                                                                Grid.Column="1"
-                                                                Text="{Binding Title}"
-                                                                TextWrapping="Wrap"
-                                                                VerticalAlignment="Center"
-                                                                FontWeight="SemiBold"
-                                                                Margin="0"
-                                                                Style="{StaticResource TitleTextStyle }" />
+                                                            <TextBlock Grid.Column="1"
+                                                                       Text="{Binding Title}"
+                                                                       TextWrapping="Wrap"
+                                                                       VerticalAlignment="Center"
+                                                                       FontWeight="SemiBold"
+                                                                       Margin="0"
+                                                                       Style="{StaticResource TitleTextStyle }" />
                                                         </Grid>
 
                                                         <!-- Task Description -->
-                                                        <TextBlock 
-                                                            Text="{Binding Description}"
-                                                            TextWrapping="Wrap"
-                                                            VerticalAlignment="Top"
-                                                            FontStyle="Italic"
-                                                            Foreground="Gray"
-                                                            Margin="20,2,0,0" 
-                                                            Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}"
-                                                            Style="{StaticResource MaterialDesignCaptionTextBlock}" />
+                                                        <TextBlock Text="{Binding Description}"
+                                                                   TextWrapping="Wrap"
+                                                                   VerticalAlignment="Top"
+                                                                   FontStyle="Italic"
+                                                                   Foreground="Gray"
+                                                                   Margin="20,2,0,0"
+                                                                   Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}"
+                                                                   Style="{StaticResource MaterialDesignCaptionTextBlock}" />
                                                     </StackPanel>
 
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Priority-->
-                                        <DataGridTemplateColumn Header="Priority" Width="Auto" SortMemberPath="prioritySortOrder">
+                                        <DataGridTemplateColumn Header="Priority"
+                                                                Width="Auto"
+                                                                SortMemberPath="prioritySortOrder">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Importance}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               Style="{StaticResource TitleTextStyle }"
-                                                               >
+                                                               Style="{StaticResource TitleTextStyle }">
                                                     </TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Task Due Date-->
-                                        <DataGridTemplateColumn Header="Due Date" Width="Auto" SortMemberPath="DueDate">
+                                        <DataGridTemplateColumn Header="Due Date"
+                                                                Width="Auto"
+                                                                SortMemberPath="DueDate">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"
                                                                Style="{StaticResource TitleTextStyle }"
                                                                HorizontalAlignment="Center"
-                                                               VerticalAlignment="Center"/>
+                                                               VerticalAlignment="Center" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <!--Remove Button-->
-                                        <DataGridTemplateColumn Header="" Width="Auto" MinWidth="36">
+                                        <DataGridTemplateColumn Header=""
+                                                                Width="Auto"
+                                                                MinWidth="36">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Button Command="{Binding DataContext.ToDoListVM.RemoveTaskCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                            CommandParameter="{Binding}" 
+                                                            CommandParameter="{Binding}"
                                                             Style="{StaticResource IconButtonStyle}">
-                                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="24" Height="24" />
+                                                        <materialDesign:PackIcon Kind="DeleteOutline"
+                                                                                 Width="24"
+                                                                                 Height="24" />
                                                     </Button>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -342,14 +375,18 @@
                             BorderBrush="#DDD"
                             Padding="8 4">
                         <Button Command="{Binding NewTaskCommand}"
-                                Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                                 Margin="0 8"
                                 Padding="10 6"
                                 HorizontalAlignment="Center"
+                                Style="{StaticResource OutlookButtonStyle}"
                                 ToolTip="Add new task">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Plus" Width="18" Height="18" Margin="0 0 6 0" />
-                                <TextBlock Text="Add New Task" VerticalAlignment="Center" />
+                                <materialDesign:PackIcon Kind="Plus"
+                                                         Width="18"
+                                                         Height="18"
+                                                         Margin="0 0 6 0" />
+                                <TextBlock Text="Add New Task"
+                                           VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </Border>

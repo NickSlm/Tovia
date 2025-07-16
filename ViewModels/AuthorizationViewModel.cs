@@ -7,7 +7,7 @@ using ToDoListPlus.Views;
 
 namespace ToDoListPlus.ViewModels
 {
-    public class AuthorizationViewModel: INotifyPropertyChanged
+    public class AuthorizationViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public IAsyncRelayCommand SignOutCommand { get; }
@@ -18,8 +18,8 @@ namespace ToDoListPlus.ViewModels
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
         private readonly AppStateService _appStateService;
-
         private string _accountUsername;
+
 
 
         public string AccountUsername
