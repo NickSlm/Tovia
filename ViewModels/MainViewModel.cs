@@ -26,7 +26,6 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(IsLightMode));
             }
         }
-
         public IAsyncRelayCommand OpenSettingsCommand { get; }
         public IAsyncRelayCommand NewTaskCommand { get; }
 

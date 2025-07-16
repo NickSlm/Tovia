@@ -23,69 +23,6 @@ namespace ToDoListPlus.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<string> PostEventAsync(string title, string? description, DateTime? dateTime, string priority)
-        {
-            string url = "https://graph.microsoft.com/v1.0/me/events";
-            string AccessToken = await _authService.GetAccessToken();
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-
-            var eventData = new
-            {
-                subject = title,
-                isReminderOn = true,
-                reminderMinutesBeforeStart = 720,
-                body = new
-                {
-                    contentType = "HTML",
-                    content = description
-                },
-                start = new
-                {
-                    dateTime = dateTime,
-                    timeZone = "Israel Standard Time"
-                },
-                end = new
-                {
-                    dateTime = dateTime,
-                    timeZone = "Israel Standard time"
-                }
-            };
-
-            var json = JsonSerializer.Serialize(eventData);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(url, content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
-            }
-            else
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to create event: {response.StatusCode} - {error}";
-            }
-        }
-        public async Task<string> DeleteEventAsync(string eventId)
-        {
-            string url = $"https://graph.microsoft.com/v1.0/me/events/{eventId}";
-
-            string AccessToken = await _authService.GetAccessToken();
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-
-            var response = await _httpClient.DeleteAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                return "Event deleted successfully";
-            }
-            else
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to delete event: {response.StatusCode} - {error}";
-            }
-        }
         public async Task<ToDoItem> CreateTaskAsync(ToDoItem item, bool createEvent)
         {
             string AccessToken = await _authService.GetAccessToken();
@@ -126,8 +63,6 @@ namespace ToDoListPlus.Services
 
                 if (createEvent)
                 {
-                    MessageBox.Show($"{createEvent}");
-
                     string eventResponse = await PostEventAsync(item.Title, item.Description, item.DueDate, item.Importance);
                     string linkUrl = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}/linkedResources";
                     using var eventDoc = JsonDocument.Parse(eventResponse);
@@ -266,7 +201,69 @@ namespace ToDoListPlus.Services
             }
             return taskList;
         }
+        public async Task<string> PostEventAsync(string title, string? description, DateTime? dateTime, string priority)
+        {
+            string url = "https://graph.microsoft.com/v1.0/me/events";
+            string AccessToken = await _authService.GetAccessToken();
 
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+            var eventData = new
+            {
+                subject = title,
+                isReminderOn = true,
+                reminderMinutesBeforeStart = 720,
+                body = new
+                {
+                    contentType = "HTML",
+                    content = description
+                },
+                start = new
+                {
+                    dateTime = dateTime,
+                    timeZone = "Israel Standard Time"
+                },
+                end = new
+                {
+                    dateTime = dateTime,
+                    timeZone = "Israel Standard time"
+                }
+            };
+
+            var json = JsonSerializer.Serialize(eventData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return $"Failed to create event: {response.StatusCode} - {error}";
+            }
+        }
+        public async Task<string> DeleteEventAsync(string eventId)
+        {
+            string url = $"https://graph.microsoft.com/v1.0/me/events/{eventId}";
+
+            string AccessToken = await _authService.GetAccessToken();
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+            var response = await _httpClient.DeleteAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                return "Event deleted successfully";
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                return $"Failed to delete event: {response.StatusCode} - {error}";
+            }
+        }
 
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 

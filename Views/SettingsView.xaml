@@ -1,143 +1,169 @@
 ﻿<UserControl x:Class="ToDoListPlus.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ToDoListPlus.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
 
 
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily"
+                    Value="Segoe UI" />
+            <Setter Property="FontSize"
+                    Value="13" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Foreground"
+                    Value="{DynamicResource MaterialDesignBody}" />
+        </Style>
+        <Style TargetType="Separator">
+            <Setter Property="Background"
+                    Value="{DynamicResource MaterialDesignDivider}" />
+            <Setter Property="Height"
+                    Value="1" />
+            <Setter Property="Margin"
+                    Value="0,8" />
+        </Style>
+    </UserControl.Resources>
 
-
-    <Border MinHeight="300" MinWidth="320" MaxWidth="480" Padding="16" >
+    <Border MinHeight="300"
+            MinWidth="320"
+            MaxWidth="480"
+            Padding="16">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- Settings Content -->
-            <StackPanel Grid.Row="0" VerticalAlignment="Top">
+            <StackPanel Grid.Row="0"
+                        VerticalAlignment="Top">
 
                 <!-- General Section -->
                 <StackPanel>
                     <TextBlock Text="General"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                           Margin="0,0,0,8"/>
+                               Style="{StaticResource SettingsHeaderTextBlockStyle}"
+                               Margin="0,0,0,8" />
 
                     <Grid Margin="0,0,0,8">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="160" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Theme:" 
+                        <Label Content="Theme:"
                                Grid.Column="0"
                                Margin="0,0,8,8"
-                               VerticalAlignment="Center"/>
+                               VerticalAlignment="Center" />
 
-                        <StackPanel Grid.Column="1" 
+                        <StackPanel Grid.Column="1"
                                     Margin="0,0,0,8"
                                     HorizontalAlignment="Center"
                                     Orientation="Horizontal">
                             <Label>Light</Label>
-                            <ToggleButton Width="48" Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                            <ToggleButton Width="48"
+                                          Style="{StaticResource MaterialDesignSwitchToggleButton}"
                                           ToolTip="Light/Dark"
                                           Command="{Binding UpdateThemeCommand}"
-                                          IsChecked="{Binding IsDarkTheme}"/>
+                                          IsChecked="{Binding IsDarkTheme}" />
                             <Label>Dark</Label>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-                <Separator Margin="0,8"/>
+                <Separator Margin="0,8" />
 
                 <!-- KeyBinds Section -->
                 <StackPanel>
                     <TextBlock Text="Hotkeys"
-                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                           Margin="0,0,0,8"/>
+                               Style="{StaticResource SettingsHeaderTextBlockStyle}"
+                               Margin="0,0,0,8" />
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="160" />
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="0"
-                           Content="Toggle overlay:"
-                           VerticalAlignment="Center"
-                           Margin="0,0,8,8"/>
+                               Content="Toggle overlay:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,8" />
                         <TextBox Grid.Row="0"
-                             Grid.Column="1"
-                             Text="{Binding _keyStrokes[Overlay].keyStroke}"
-                             Tag="Overlay"
-                             PreviewKeyDown="KeyBind_PreviewKeyDown"
-                             IsReadOnly="True"
-                             Cursor="Hand"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             Margin="0,0,0,8"/>
+                                 Grid.Column="1"
+                                 Text="{Binding _keyStrokes[Overlay].keyStroke}"
+                                 Tag="Overlay"
+                                 PreviewKeyDown="KeyBind_PreviewKeyDown"
+                                 IsReadOnly="True"
+                                 Cursor="Hand"
+                                 Style="{StaticResource OutlookTextBoxStyle}"
+                                 Margin="0,0,0,8" />
 
                         <Label Grid.Row="1"
-                           Content="Create new task:"
-                           VerticalAlignment="Center"
-                           Margin="0,0,8,8"/>
+                               Content="Create new task:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,8" />
                         <TextBox Grid.Row="1"
-                             Grid.Column="1"
-                             Text="{Binding _keyStrokes[NewTask].keyStroke}"
-                             Tag="NewTask"
-                             PreviewKeyDown="KeyBind_PreviewKeyDown"
-                             IsReadOnly="True"
-                             Cursor="Hand"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             Margin="0,0,0,8"/>
+                                 Grid.Column="1"
+                                 Text="{Binding _keyStrokes[NewTask].keyStroke}"
+                                 Tag="NewTask"
+                                 PreviewKeyDown="KeyBind_PreviewKeyDown"
+                                 IsReadOnly="True"
+                                 Cursor="Hand"
+                                 Style="{StaticResource OutlookTextBoxStyle}"
+                                 Margin="0,0,0,8" />
                     </Grid>
                 </StackPanel>
-                <Separator Margin="0,8"/>
+                <Separator Margin="0,8" />
                 <StackPanel>
                     <TextBlock Text="Overlay"
-                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                               Margin="0,0,0,8"/>
+                               Style="{StaticResource SettingsHeaderTextBlockStyle}"
+                               Margin="0,0,0,8" />
                     <Grid Margin="0,0,0,8">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="160" />
+
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Overlay position:" 
-                         Margin="0,0,8,8"
-                         VerticalAlignment="Center"/>
+                        <Label Content="Overlay position:"
+                               Margin="0,0,8,8"
+                               VerticalAlignment="Center" />
                         <ComboBox Grid.Column="1"
-                            Margin="0,0,0,8"
-                        ItemsSource="{Binding PositionOptions}"
-                        SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
-                        Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                                  Margin="0,0,0,8"
+                                  ItemsSource="{Binding PositionOptions}"
+                                  SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
+                                  Style="{StaticResource OutlookComboBoxStyle}" />
                     </Grid>
                 </StackPanel>
             </StackPanel>
 
             <!-- Action Buttons -->
             <StackPanel Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Margin="0,16,0,0">
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,16,0,0">
                 <Button Content="SAVE"
-                    IsDefault="True"
-                    Margin="8 0 8 0"
-                    Width="88"
-                    Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
-                    Command="{Binding SaveSettingsCommand}"/>
+                        IsDefault="True"
+                        Margin="8 0 8 0"
+                        Width="88"
+                        Style="{StaticResource OutlookButtonStyle}"
+                        Command="{Binding SaveSettingsCommand}" />
                 <Button Content="CANCEL"
-                    IsCancel="True"
-                    Margin="8 0 8 0"
-                    Width="88"
-                    Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
-                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                        IsCancel="True"
+                        Margin="8 0 8 0"
+                        Width="88"
+                        Style="{StaticResource OutlookButtonStyle}"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
             </StackPanel>
         </Grid>
     </Border>

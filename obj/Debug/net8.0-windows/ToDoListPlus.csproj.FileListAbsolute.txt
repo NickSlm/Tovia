@@ -176,3 +176,4 @@ D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSyste
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
 D:\Projects\ToDoListPlus\bin\Debug\net8.0-windows\Config\usersettings.json
+D:\Projects\ToDoListPlus\obj\Debug\net8.0-windows\Resources\Styles.baml

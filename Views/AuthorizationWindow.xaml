@@ -12,66 +12,92 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Login" Height="350" Width="400"
+        Title="Login"
+        Height="350"
+        Width="400"
         WindowStartupLocation="CenterScreen"
-        Background="#FAFAFA" ResizeMode="NoResize" WindowStyle="None">
+        Background="#FAFAFA"
+        ResizeMode="NoResize"
+        WindowStyle="None">
 
 
     <Window.Resources>
-        <Style x:Key="MicrosoftButtonStyle" TargetType="Button">
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#DDD"/>
-            <Setter Property="Margin" Value="8"/>
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Background" Value="White"/>
+        <Style x:Key="MicrosoftButtonStyle"
+               TargetType="Button">
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="BorderBrush"
+                    Value="#DDD" />
+            <Setter Property="Margin"
+                    Value="8" />
+            <Setter Property="Cursor"
+                    Value="Hand" />
+            <Setter Property="Background"
+                    Value="White" />
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Direction="-120" BlurRadius="10" Opacity="0.4" ShadowDepth="1"/>
+                    <DropShadowEffect Direction="-120"
+                                      BlurRadius="10"
+                                      Opacity="0.4"
+                                      ShadowDepth="1" />
                 </Setter.Value>
             </Setter>
         </Style>
     </Window.Resources>
-    
-    <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="10" Margin="20">
+
+    <Border BorderBrush="#DDD"
+            BorderThickness="1"
+            CornerRadius="10"
+            Margin="20">
         <Grid Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- App Logo or Title -->
-            <StackPanel Grid.Row="0" Margin="0,10" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="0"
+                        Margin="0,10"
+                        HorizontalAlignment="Center">
                 <TextBlock Text="ToDoList Plus"
                            FontSize="24"
                            FontWeight="Bold"
-                           Foreground="#333"/>
+                           Foreground="#333" />
                 <TextBlock Text="Welcome! Sign in to continue."
                            FontSize="14"
                            Foreground="#777"
-                           Margin="0,4,0,0"/>
+                           Margin="0,4,0,0" />
             </StackPanel>
 
             <!-- Sign in with Microsoft -->
-            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
                 <Button Command="{Binding AuthorizationCommand}"
                         Style="{StaticResource MicrosoftButtonStyle}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="2">
-                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png"/>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="2">
+                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png" />
                         <TextBlock Text="Sign in with Microsoft"
                                    VerticalAlignment="Center"
                                    Foreground="#2F2F2F"
-                                   Margin="2"/>
+                                   Margin="2" />
                     </StackPanel>
                 </Button>
             </StackPanel>
 
             <!-- Close Button -->
-            <Button Grid.Row="2" Content="×"
-                    HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Background="Transparent" BorderBrush="Transparent"
-                    FontSize="16" Foreground="#888"
-                    Command="{Binding CloseCommand}"/>
+            <Button Grid.Row="2"
+                    Content="×"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    FontSize="16"
+                    Foreground="#888"
+                    Command="{Binding CloseCommand}" />
         </Grid>
     </Border>
 </Window>

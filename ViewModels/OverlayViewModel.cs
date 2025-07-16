@@ -17,7 +17,6 @@ namespace ToDoListPlus.ViewModels
         private readonly SettingsService _settingsService;
 
         public ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
-
         public OverlayPosition position { get; set; }
         public double TopPos
         {
