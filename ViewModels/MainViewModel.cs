@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
+using System.Windows.Controls;
 using ToDoListPlus.Views;
 
 namespace ToDoListPlus.ViewModels
@@ -42,7 +43,9 @@ namespace ToDoListPlus.ViewModels
         {
             var settingsView = new SettingsView();
             settingsView.DataContext = App.Services.GetRequiredService<SettingsViewModel>();
+
             var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
+
             if (!isDiagOpen)
             {
                 var result = await DialogHost.Show(settingsView, "RootDialog");

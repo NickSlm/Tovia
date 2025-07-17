@@ -19,108 +19,135 @@
         Background="Transparent"
         ShowInTaskbar="False"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="OverlayWindow" 
-        Height="416" 
+        Title="OverlayWindow"
+        Height="416"
         Width="320">
 
     <Window.Resources>
-        <Style x:Key="PriorityTextStyle" TargetType="TextBlock">
+        <Style x:Key="PriorityTextStyle"
+               TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Importance}" Value="high">
-                    <Setter Property="Foreground" Value="Red"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
+                <DataTrigger Binding="{Binding Importance}"
+                             Value="high">
+                    <Setter Property="Foreground"
+                            Value="Red" />
+                    <Setter Property="FontWeight"
+                            Value="Bold" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Importance}" Value="normal">
-                    <Setter Property="Foreground" Value="Black"/>
+                <DataTrigger Binding="{Binding Importance}"
+                             Value="normal">
+                    <Setter Property="Foreground"
+                            Value="Black" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Importance}" Value="low">
-                    <Setter Property="Foreground" Value="Green"/>
+                <DataTrigger Binding="{Binding Importance}"
+                             Value="low">
+                    <Setter Property="Foreground"
+                            Value="Green" />
 
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="ColorTest" TargetType="Border">
+        <Style x:Key="ColorTest"
+               TargetType="Border">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Complete">
-                    <Setter Property="Background" Value="LightGreen"/>
-                    <Setter Property="Opacity" Value="0.9"/>
+                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Value="Complete">
+                    <Setter Property="Background"
+                            Value="{Binding DataContext.CompletedTaskColor, 
+              RelativeSource={RelativeSource AncestorType=Window}}" />
+                    <Setter Property="Opacity"
+                            Value="0.9" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="InProgress">
-                    <Setter Property="Background" Value="LightBlue"/>
-                    <Setter Property="Opacity" Value="0.9"/>
+                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Value="InProgress">
+                    <Setter Property="Background"
+                            Value="{Binding DataContext.InProgressTaskColor, 
+              RelativeSource={RelativeSource AncestorType=Window}}" />
+                    <Setter Property="Opacity"
+                            Value="0.9" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Failed">
-                    <Setter Property="Background" Value="#ed4337"/>
-                    <Setter Property="Opacity" Value="0.9"/>
-                    
+                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Value="Failed">
+                    <Setter Property="Background"
+                            Value="{Binding DataContext.FailedTaskColor, 
+              RelativeSource={RelativeSource AncestorType=Window}}" />
+                    <Setter Property="Opacity"
+                            Value="0.9" />
+
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+        <Style x:Key="TitleTextStyle"
+               TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}" Value="Complete">
-                    <Setter Property="Foreground" Value="Black"/>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="Complete">
+                    <Setter Property="Foreground"
+                            Value="Black" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="InProgress">
-                    <Setter Property="Foreground" Value="Black"/>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="InProgress">
+                    <Setter Property="Foreground"
+                            Value="Black" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status}" Value="Failed">
-                    <Setter Property="Foreground" Value="White"/>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="Failed">
+                    <Setter Property="Foreground"
+                            Value="White" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
 
 
-    <ScrollViewer Padding="8" VerticalScrollBarVisibility="Auto">
+    <ScrollViewer Padding="8"
+                  VerticalScrollBarVisibility="Auto">
         <ItemsControl ItemsSource="{Binding ToDoList}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="4"
-                        Padding="10"
-                        Style="{StaticResource ColorTest}">
+                            Padding="10"
+                            Style="{StaticResource ColorTest}">
                         <StackPanel>
-                            
+
                             <!-- Task title -->
                             <TextBlock Text="{Binding Title}"
-                                    FontWeight="SemiBold"
-                                    TextWrapping="Wrap"
-                                    FontSize="14"
-                                    Style="{StaticResource TitleTextStyle}"/>
+                                       FontWeight="SemiBold"
+                                       TextWrapping="Wrap"
+                                       FontSize="14"
+                                       Style="{StaticResource TitleTextStyle}" />
 
                             <!-- Description, if available -->
                             <TextBlock Text="{Binding Description}"
-                                   FontStyle="Italic"
-                                   Foreground="Gray"
-                                   FontSize="12"
-                                   Margin="0,2,0,0"
-                                   TextWrapping="Wrap"
-                                   />
+                                       FontStyle="Italic"
+                                       Foreground="Gray"
+                                       FontSize="12"
+                                       Margin="0,2,0,0"
+                                       TextWrapping="Wrap" />
 
                             <!-- Importance and due date -->
                             <Grid Margin="0,6,0,0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="{Binding Importance}"
                                            Grid.Column="0"
                                            FontSize="12"
-                                           VerticalAlignment="Center" 
-                                           Style="{StaticResource TitleTextStyle}"
-                                           />
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource TitleTextStyle}" />
 
-                                <TextBlock Text="" 
-                                           Grid.Column="1"/>
+                                <TextBlock Text=""
+                                           Grid.Column="1" />
                                 <!-- Spacer -->
                                 <TextBlock Text="{Binding TimeLeft, StringFormat={}{0:%d}d {0:%h}h {0:%m}m}"
                                            Grid.Column="2"
                                            Foreground="black"
                                            FontSize="12"
-                                           VerticalAlignment="Center" 
-                                           Style="{StaticResource TitleTextStyle}"/>
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource TitleTextStyle}" />
                             </Grid>
                         </StackPanel>
                     </Border>

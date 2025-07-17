@@ -12,9 +12,12 @@ namespace ToDoListPlus.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private readonly TaskManager _taskManager;
+        private readonly SettingsService _settingsService;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
-        private readonly SettingsService _settingsService;
+        private string _inProgressTaskColor { get; set; }
+        private string _failedTaskColor { get; set; }
+        private string _completedTaskColor { get; set; }
 
         public ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public OverlayPosition position { get; set; }
@@ -36,7 +39,33 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(LeftPos));
             }
         }
-
+        public string InProgressTaskColor
+        {
+            get => _inProgressTaskColor;
+            set
+            {
+                _inProgressTaskColor = value;
+                OnPropertyChanged(nameof(InProgressTaskColor));
+            }
+        }
+        public string FailedTaskColor
+        {
+            get => _failedTaskColor;
+            set
+            {
+                _failedTaskColor = value;
+                OnPropertyChanged(nameof(FailedTaskColor));
+            }
+        }
+        public string CompletedTaskColor
+        {
+            get => _completedTaskColor;
+            set
+            {
+                _completedTaskColor = value;
+                OnPropertyChanged(nameof(CompletedTaskColor));
+            }
+        }
         public OverlayViewModel(SettingsService settingsService, TaskManager taskManager)
         {
 
@@ -46,9 +75,12 @@ namespace ToDoListPlus.ViewModels
 
             var userSettings = _settingsService.userSettings;
 
-
             TopPos = userSettings.Window.TopPos;
             LeftPos = userSettings.Window.LeftPos;
+
+            InProgressTaskColor = userSettings.Appearance.InProgressTask;
+            FailedTaskColor = userSettings.Appearance.FailedTask;
+            CompletedTaskColor = userSettings.Appearance.CompleteTask;
         }
 
         public void UpdatePosition(double top, double left)

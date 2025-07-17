@@ -241,21 +241,21 @@
                                             <Setter Property="BorderThickness"
                                                     Value="0,0,0,1" />
                                             <Setter Property="Background"
-                                                    Value="LightBlue" />
+                                                    Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                             <Setter Property="Focusable"
                                                     Value="False" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                              Value="Complete">
                                                     <Setter Property="Background"
-                                                            Value="LightGreen" />
+                                                            Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Status}"
                                                              Value="Failed">
                                                     <Setter Property="IsEnabled"
                                                             Value="False" />
                                                     <Setter Property="Background"
-                                                            Value="#ed4337" />
+                                                            Value="{Binding DataContext.ToDoListVM.FailedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                                     <Setter Property="Opacity"
                                                             Value="0.8" />
                                                 </DataTrigger>

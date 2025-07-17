@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[8.4.0, )"
             },
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[4.7.25104.5739, )"
+            },
             "GlobalHotKey": {
               "target": "Package",
               "version": "[1.1.0, )"

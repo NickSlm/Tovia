@@ -22,7 +22,7 @@ namespace ToDoListPlus.Services
             var userSettings = _settingsService.userSettings;
             _appSettings = _settingsService.appSettings;
 
-            IsDarkTheme = userSettings.Theme.BaseTheme == "dark" ? true : false;
+            IsDarkTheme = userSettings.Appearance.BaseTheme == "dark" ? true : false;
         }
 
         public void InitializeTheme()
