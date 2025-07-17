@@ -120,6 +120,8 @@ namespace ToDoListPlus.States
                 }
             };
             _toDoList.Add(newTask);
+            UpdateTotalTasks();
+            UpdateCompletedTasks();
         }
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {

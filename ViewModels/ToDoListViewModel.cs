@@ -16,6 +16,10 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
             
         private readonly TaskManager _taskManager;
+        private readonly SettingsService _settingsService;
+        private string _inProgressTaskColor { get; set; }
+        private string _failedTaskColor { get; set; }
+        private string _completedTaskColor { get; set; }
 
         public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
@@ -23,10 +27,40 @@ namespace ToDoListPlus.ViewModels
         public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
-
-        public ToDoListViewModel(TaskManager taskManager, IDialogService dialogService)
+        public string InProgressTaskColor
+        {
+            get => _inProgressTaskColor;
+            set
+            {
+                _inProgressTaskColor = value;
+                OnPropertyChanged(nameof(InProgressTaskColor));
+            }
+        }
+        public string FailedTaskColor
+        {
+            get => _failedTaskColor;
+            set
+            {
+                _failedTaskColor = value;
+                OnPropertyChanged(nameof(FailedTaskColor));
+            }
+        }
+        public string CompletedTaskColor
+        {
+            get => _completedTaskColor;
+            set
+            {
+                _completedTaskColor = value;
+                OnPropertyChanged(nameof(CompletedTaskColor));
+            }
+        }
+        public ToDoListViewModel(TaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
         {
             _taskManager = taskManager;
+            _settingsService = settingsService;
+
+            settingsService.Load();
+            var settings = settingsService.userSettings;
 
             _taskManager.PropertyChanged += (s, e) =>
             {
@@ -40,7 +74,11 @@ namespace ToDoListPlus.ViewModels
                         break;
                 }
             };
-            
+
+            InProgressTaskColor = settings.Appearance.InProgressTask;
+            FailedTaskColor = settings.Appearance.FailedTask;
+            CompletedTaskColor = settings.Appearance.CompleteTask;
+
             CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
             ToggleReadOnlyCommand = new RelayCommand<ToDoItem>(ToggleReadOnly);

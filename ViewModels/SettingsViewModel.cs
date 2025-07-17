@@ -21,6 +21,9 @@ namespace ToDoListPlus.ViewModels
         private readonly SettingsService _settingsService;
 
         private bool _isDarkTheme { get; set; }
+        private string _inProgressTaskColor { get; set; }
+        private string _failedTaskColor { get; set; }
+        private string _completedTaskColor { get; set; }
         private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
 
         public IRelayCommand UpdateThemeCommand { get;}
@@ -32,6 +35,33 @@ namespace ToDoListPlus.ViewModels
             {
                 _isDarkTheme = value;
                 OnPropertyChanged(nameof(IsDarkTheme));
+            }
+        }
+        public string InProgressTaskColor
+        {
+            get => _inProgressTaskColor;
+            set
+            {
+                _inProgressTaskColor = value;
+                OnPropertyChanged(nameof(InProgressTaskColor));
+            }
+        }
+        public string FailedTaskColor
+        {
+            get => _failedTaskColor;
+            set
+            {
+                _failedTaskColor = value;
+                OnPropertyChanged(nameof(FailedTaskColor));
+            }
+        }
+        public string CompletedTaskColor
+        {
+            get => _completedTaskColor;
+            set
+            {
+                _completedTaskColor = value;
+                OnPropertyChanged(nameof(CompletedTaskColor));
             }
         }
         public OverlayPosition OverlayPos
@@ -63,7 +93,10 @@ namespace ToDoListPlus.ViewModels
             settingsService.Load();
             var settings = settingsService.userSettings;
 
-            IsDarkTheme = settings.Theme.BaseTheme == "light" ? false : true;
+            IsDarkTheme = settings.Appearance.BaseTheme == "light" ? false : true;
+            InProgressTaskColor = settings.Appearance.InProgressTask;
+            FailedTaskColor = settings.Appearance.FailedTask;
+            CompletedTaskColor = settings.Appearance.CompleteTask;
 
             UpdateThemeCommand = new RelayCommand(() =>
             {
@@ -134,7 +167,7 @@ namespace ToDoListPlus.ViewModels
                     TopPos = TopPos,
                     LeftPos = LeftPos
                 },
-                Theme = new ThemeSettings
+                Appearance = new AppearanceSettings
                 {
                     BaseTheme = _isDarkTheme ? "dark" : "light"
                 }
@@ -149,7 +182,7 @@ namespace ToDoListPlus.ViewModels
             _settingsService.Save(userSettings);
             DialogHost.Close("RootDialog");
         }
-
+        
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }
