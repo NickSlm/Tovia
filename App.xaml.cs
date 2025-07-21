@@ -23,21 +23,23 @@ public partial class App : Application
         ConfigureServices(serviceCollection);
         Services = serviceCollection.BuildServiceProvider();
 
-        var themeService = Services.GetRequiredService<AppThemeService>();
-        themeService.InitializeTheme();
+        _ = Services.GetRequiredService<AppThemeService>();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();
 
-        if (loginResult != true)
+
+        if (loginResult == false)
         {
             Application.Current.Shutdown();
+            return;
         }
+
 
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
-        var appTimerService = Services.GetRequiredService<AppTimerService>();
-        var appCoordinator = Services.GetRequiredService<AppCoordinator>();
+        _ = Services.GetRequiredService<AppTimerService>();
+        _ = Services.GetRequiredService<AppCoordinator>();
         var mainWindow = Services.GetRequiredService<MainWindow>();
 
         globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);
@@ -74,10 +76,10 @@ public partial class App : Application
         var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
         if (!isDiagOpen)
         {
-            var result = await DialogHost.Show(newTaskView, "RootDialog");
+            await DialogHost.Show(newTaskView, "RootDialog");
         }
     }
-    private void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<IDialogService, DialogService>();
 

@@ -59,8 +59,9 @@ namespace ToDoListPlus.ViewModels
             _taskManager = taskManager;
             _settingsService = settingsService;
 
-            settingsService.Load();
-            var settings = settingsService.userSettings;
+            _settingsService.SettingsChanged += (s,e) => ApplySettings();
+
+            ApplySettings();
 
             _taskManager.PropertyChanged += (s, e) =>
             {
@@ -75,16 +76,20 @@ namespace ToDoListPlus.ViewModels
                 }
             };
 
-            InProgressTaskColor = settings.Appearance.InProgressTask;
-            FailedTaskColor = settings.Appearance.FailedTask;
-            CompletedTaskColor = settings.Appearance.CompleteTask;
 
             CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
             ToggleReadOnlyCommand = new RelayCommand<ToDoItem>(ToggleReadOnly);
         }
 
+        private void ApplySettings()
+        {
+            var settings = _settingsService.userSettings;
 
+            InProgressTaskColor = settings.Appearance.InProgressTask;
+            FailedTaskColor = settings.Appearance.FailedTask;
+            CompletedTaskColor = settings.Appearance.CompleteTask;
+        }
         private void ToggleReadOnly(ToDoItem item)
         {
             item.IsReadOnly = !item.IsReadOnly;

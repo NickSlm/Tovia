@@ -46,14 +46,14 @@ namespace ToDoListPlus.ViewModels
         private void CloseButtonClick()
         {
             var authWindow = Application.Current.Windows
-                                .OfType<AuthorizationWindow>()
-                                .FirstOrDefault();
+                                 .OfType<AuthorizationWindow>()
+                                 .FirstOrDefault();
             authWindow.DialogResult = false;
         }
 
         private async Task AuthorizationButtonClick()
         {
-            var result = await _authService.Authorize();
+            await _authService.Authorize();
             AccountUsername = _authService.AccountUsername;
 
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
@@ -67,7 +67,7 @@ namespace ToDoListPlus.ViewModels
 
         private async Task SignOutButtonClick()
         {
-            string SignoutRes = await _authService.SignOutAsync();
+            await _authService.SignOutAsync();
 
             _appStateService.SignOut();
 
