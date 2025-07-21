@@ -1,5 +1,6 @@
 ﻿using GlobalHotKey;
 using Microsoft.Extensions.Configuration;
+using System.Windows;
 using System.Windows.Input;
 using ToDoListPlus.Models;
 
@@ -17,10 +18,15 @@ namespace ToDoListPlus.Services
         public GlobalHotKeyService(SettingsService settingsService)
         {
             _settingsService = settingsService;
-            _settingsService.Load();
+
             _manager.KeyPressed += HotKeyManagerPressed;
 
+            ApplySettings();
 
+        }
+
+        private void ApplySettings()
+        {
             var userSettings = _settingsService.userSettings;
 
             foreach (var (name, setting) in userSettings.Hotkeys)

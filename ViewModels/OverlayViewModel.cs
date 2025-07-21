@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using ToDoListPlus.Models;
 using ToDoListPlus.Services;
 using ToDoListPlus.States;
@@ -71,8 +72,14 @@ namespace ToDoListPlus.ViewModels
 
             _settingsService = settingsService;
             _taskManager = taskManager;
-            _settingsService.Load();
 
+            _settingsService.SettingsChanged += (s, e) => ApplySettings();
+
+            ApplySettings();
+        }
+
+        private void ApplySettings()
+        {
             var userSettings = _settingsService.userSettings;
 
             TopPos = userSettings.Window.TopPos;

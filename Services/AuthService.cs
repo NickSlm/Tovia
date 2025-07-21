@@ -42,16 +42,19 @@ namespace ToDoListPlus.Services
         public AuthService(SettingsService settingsService)
         {
             _settingsService = settingsService;
-            _settingsService.Load();
 
+            ApplySettings();
+            CreateApplication();
+        }
+
+        private void ApplySettings()
+        {
             var appSettings = _settingsService.appSettings;
 
             _clientId = appSettings.AzureAd.ClientId;
             _tenant = appSettings.AzureAd.Tenant;
             _instance = appSettings.AzureAd.Instance;
             _scopes = appSettings.AzureAd.Scopes;
-
-            CreateApplication();
         }
 
         private void CreateApplication()

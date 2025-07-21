@@ -84,24 +84,31 @@ namespace ToDoListPlus.ViewModels
             SettingsService settingsService
             )
         {
-
             _settingsService = settingsService;
             _globalHotKeyService = globalHotKeyService;
             _appThemeService = appThemeService;
             _overlayViewModel = overlayViewModel;
 
-            settingsService.Load();
-            var settings = settingsService.userSettings;
+            _settingsService.SettingsChanged += (s, e) => ApplySettings();
 
-            IsDarkTheme = settings.Appearance.BaseTheme == "light" ? false : true;
-            InProgressTaskColor = settings.Appearance.InProgressTask;
-            FailedTaskColor = settings.Appearance.FailedTask;
-            CompletedTaskColor = settings.Appearance.CompleteTask;
+            ApplySettings();
 
             UpdateThemeCommand = new RelayCommand(() =>
             {
                 _appThemeService.ChangeTheme(IsDarkTheme);
             });
+            SaveSettingsCommand = new RelayCommand(saveSettings);
+        }
+        public void ApplySettings()
+        {
+            var settings = _settingsService.userSettings;
+
+            IsDarkTheme = settings.Appearance.BaseTheme == "light" ? false : true;
+
+            InProgressTaskColor = settings.Appearance.InProgressTask;
+            FailedTaskColor = settings.Appearance.FailedTask;
+            CompletedTaskColor = settings.Appearance.CompleteTask;
+
 
             foreach (var (name, sett) in settings.Hotkeys)
             {
@@ -112,7 +119,6 @@ namespace ToDoListPlus.ViewModels
                 };
                 _keyStrokes[name] = keystroke;
             }
-            SaveSettingsCommand = new RelayCommand(saveSettings);
         }
 
         public void saveSettings() 
@@ -169,7 +175,10 @@ namespace ToDoListPlus.ViewModels
                 },
                 Appearance = new AppearanceSettings
                 {
-                    BaseTheme = _isDarkTheme ? "dark" : "light"
+                    BaseTheme = _isDarkTheme ? "dark" : "light",
+                    FailedTask = FailedTaskColor,
+                    InProgressTask = InProgressTaskColor,
+                    CompleteTask = CompletedTaskColor
                 }
             };
 
@@ -177,9 +186,9 @@ namespace ToDoListPlus.ViewModels
             {
                 _globalHotKeyService.RegisterHotKey(name, key, modifier);
             }
-
-            _overlayViewModel.UpdatePosition(TopPos, LeftPos);
             _settingsService.Save(userSettings);
+            _overlayViewModel.UpdatePosition(TopPos, LeftPos);
+
             DialogHost.Close("RootDialog");
         }
         
