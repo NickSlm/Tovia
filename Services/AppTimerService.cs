@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Timers;
+using System.Windows;
 using ToDoListPlus.Models;
 using ToDoListPlus.States;
 
@@ -25,6 +26,7 @@ namespace ToDoListPlus.Services
             aTimer.Elapsed += OnTimedEvent;
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
+
         }
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
@@ -39,7 +41,6 @@ namespace ToDoListPlus.Services
                 }
                 if (DateTime.Now > item.DueDate)
                 {
-                    item.Status = TaskState.Failed;
                     item.TimeLeft = TimeSpan.Zero;
                     continue;
                 }

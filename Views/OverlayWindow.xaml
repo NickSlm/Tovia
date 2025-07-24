@@ -50,7 +50,7 @@
         <Style x:Key="ColorTest"
                TargetType="Border">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <DataTrigger Binding="{Binding Status, Mode=OneWay}"
                              Value="Complete">
                     <Setter Property="Background"
                             Value="{Binding DataContext.CompletedTaskColor, 
@@ -58,7 +58,7 @@
                     <Setter Property="Opacity"
                             Value="0.9" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <DataTrigger Binding="{Binding Status, Mode=OneWay}"
                              Value="InProgress">
                     <Setter Property="Background"
                             Value="{Binding DataContext.InProgressTaskColor, 
@@ -66,7 +66,7 @@
                     <Setter Property="Opacity"
                             Value="0.9" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <DataTrigger Binding="{Binding Status, Mode=OneWay}"
                              Value="Failed">
                     <Setter Property="Background"
                             Value="{Binding DataContext.FailedTaskColor, 

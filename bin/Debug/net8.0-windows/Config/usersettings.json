@@ -1,12 +1,12 @@
 {
   "Window": {
-    "TopPos": 0,
-    "LeftPos": 0
+    "TopPos": 0.0,
+    "LeftPos": 0.0
   },
   "Appearance": {
     "BaseTheme": "light",
     "FailedTask": "#ed4337",
-    "InProgressTask": "#ADD8E6",
+    "InProgressTask": "#FFADD8E6",
     "CompleteTask": "#90EE90"
   },
   "Hotkeys": {
