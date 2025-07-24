@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+using ToDoListPlus.Models;
 
 namespace ToDoListPlus.Services
 {
@@ -183,8 +184,6 @@ namespace ToDoListPlus.Services
                 {
                     externalId = linkedResourcesElement[0].GetProperty("externalId").GetString();
                 }
-
-
 
                 //Create a new ToDoItem object
                 var task = new ToDoItem

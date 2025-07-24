@@ -55,17 +55,43 @@
                 <DataTrigger Binding="{Binding Status}"
                              Value="Complete">
                     <Setter Property="Foreground"
-                            Value="Black" />
+                            Value="#201F1E" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Status}"
                              Value="InProgress">
                     <Setter Property="Foreground"
-                            Value="Black" />
+                            Value="#201F1E" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Status}"
                              Value="Failed">
                     <Setter Property="Foreground"
                             Value="White" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="DescriptionTextStyle"
+               TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="Complete">
+                    <Setter Property="Foreground"
+                            Value="#605E5C	" />
+                    <Setter Property="FontStyle"
+                            Value="Italic" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="InProgress">
+                    <Setter Property="Foreground"
+                            Value="#605E5C" />
+                    <Setter Property="FontStyle"
+                            Value="Italic" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}"
+                             Value="Failed">
+                    <Setter Property="Foreground"
+                            Value="WhiteSmoke" />
+                    <Setter Property="FontStyle"
+                            Value="Italic" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -167,7 +193,7 @@
                                              Maximum="100"
                                              Height="32"
                                              Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}"
-                                             Foreground="#66BB6A"
+                                             Foreground="#0078D4"
                                              Background="#E0E0E0"
                                              BorderBrush="Transparent"
                                              BorderThickness="0"
@@ -245,12 +271,12 @@
                                             <Setter Property="Focusable"
                                                     Value="False" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                <DataTrigger Binding="{Binding Status, Mode=OneWay}"
                                                              Value="Complete">
                                                     <Setter Property="Background"
                                                             Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Status}"
+                                                <DataTrigger Binding="{Binding Status, Mode=OneWay}"
                                                              Value="Failed">
                                                     <Setter Property="IsEnabled"
                                                             Value="False" />
@@ -310,11 +336,9 @@
                                                         <TextBlock Text="{Binding Description}"
                                                                    TextWrapping="Wrap"
                                                                    VerticalAlignment="Top"
-                                                                   FontStyle="Italic"
-                                                                   Foreground="Gray"
                                                                    Margin="20,2,0,0"
                                                                    Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}"
-                                                                   Style="{StaticResource MaterialDesignCaptionTextBlock}" />
+                                                                   Style="{StaticResource DescriptionTextStyle}" />
                                                     </StackPanel>
 
                                                 </DataTemplate>
@@ -326,10 +350,10 @@
                                                                 SortMemberPath="prioritySortOrder">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Importance}"
+                                                    <TextBlock Text="{Binding Status}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
-                                                               Style="{StaticResource TitleTextStyle }">
+                                                               Style="{StaticResource TitleTextStyle}">
                                                     </TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>

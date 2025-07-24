@@ -36,10 +36,10 @@ public partial class App : Application
         }
 
 
-        var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
-        var overlayWindow = Services.GetRequiredService<OverlayWindow>();
         _ = Services.GetRequiredService<AppTimerService>();
         _ = Services.GetRequiredService<AppCoordinator>();
+        var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
+        var overlayWindow = Services.GetRequiredService<OverlayWindow>();
         var mainWindow = Services.GetRequiredService<MainWindow>();
 
         globalHotKeyService.OnOverlayHotKeyPressed += () => ToggleOverlay(overlayWindow);

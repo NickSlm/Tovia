@@ -12,9 +12,7 @@ public class ToDoItem: INotifyPropertyChanged
 	private DateTime? _dueDate;
 	private string _importance;
 	private TimeSpan? _timeLeft;
-	private TaskState _status = TaskState.InProgress;
-
-
+	private bool _isComplete;
 	private string _eventId;
 	private string _taskId;
 	public bool IsReadOnly
@@ -28,28 +26,25 @@ public class ToDoItem: INotifyPropertyChanged
 	}
 	public TaskState Status
 	{
-		get => _status;
-		set
+		get
 		{
-			_status = value;
-			OnPropertyChanged(nameof(Status));
-			OnPropertyChanged(nameof(IsComplete));
+			if (_isComplete) return TaskState.Complete;
+			if (DueDate.HasValue && DueDate < DateTime.Now) return TaskState.Failed;
+			return TaskState.InProgress;
 		}
 	}
 	public bool IsComplete
 	{
-		get => Status == TaskState.Complete;
+		get => _isComplete;
 		set
 		{
-			if (value)
+			if (_isComplete != value)
 			{
-				Status = TaskState.Complete;
+				_isComplete = value;
 			}
-			else if (Status == TaskState.Complete)
-				Status = TaskState.InProgress;
-			//When task status change => update the task in Microsoft using updateTask
-			OnCompletionChanged?.Invoke(this, EventArgs.Empty);
-        }
+			OnPropertyChanged(nameof(IsComplete));
+			OnPropertyChanged(nameof(Status));
+		}
     }
 	public string Title {
 		get => _title;

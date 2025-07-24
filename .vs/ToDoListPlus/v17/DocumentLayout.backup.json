@@ -3,32 +3,24 @@
   "WorkspaceRootPath": "D:\\Projects\\ToDoListPlus\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\models\\todoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:models\\todoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\services\\microsoftgraphservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:services\\microsoftgraphservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\services\\apptimerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:services\\apptimerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\states\\taskmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:states\\taskmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\viewmodels\\todolistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:viewmodels\\todolistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\config\\usersettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:config\\usersettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\viewmodels\\settingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:viewmodels\\settingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\services\\appthemeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:services\\appthemeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\services\\settingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:services\\settingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\viewmodels\\overlayviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:viewmodels\\overlayviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|d:\\projects\\todolistplus\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EDD46D0A-73F2-47EC-9A98-BD119BB1843D}|ToDoListPlus.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,97 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 221,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\App.xaml.cs",
-              "RelativeDocumentMoniker": "App.xaml.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\App.xaml.cs",
-              "RelativeToolTip": "App.xaml.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T13:04:59.906Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "usersettings.json",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Config\\usersettings.json",
-              "RelativeDocumentMoniker": "Config\\usersettings.json",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\Config\\usersettings.json",
-              "RelativeToolTip": "Config\\usersettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-07-21T13:04:06.242Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ToDoListViewModel.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\ViewModels\\ToDoListViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\ToDoListViewModel.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\ViewModels\\ToDoListViewModel.cs",
-              "RelativeToolTip": "ViewModels\\ToDoListViewModel.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Title": "MicrosoftGraphService.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Services\\MicrosoftGraphService.cs",
+              "RelativeDocumentMoniker": "Services\\MicrosoftGraphService.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\Services\\MicrosoftGraphService.cs",
+              "RelativeToolTip": "Services\\MicrosoftGraphService.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAAAMUAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T12:57:58.049Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "OverlayViewModel.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\ViewModels\\OverlayViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\OverlayViewModel.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\ViewModels\\OverlayViewModel.cs",
-              "RelativeToolTip": "ViewModels\\OverlayViewModel.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAAAFIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T12:55:59.491Z",
+              "WhenOpened": "2025-07-24T12:34:57.655Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "SettingsService.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Services\\SettingsService.cs",
-              "RelativeDocumentMoniker": "Services\\SettingsService.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\Services\\SettingsService.cs",
-              "RelativeToolTip": "Services\\SettingsService.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABgAAAAIAAAAAAAAAA==",
+              "Title": "ToDoListViewModel.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\ViewModels\\ToDoListViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ToDoListViewModel.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\ViewModels\\ToDoListViewModel.cs",
+              "RelativeToolTip": "ViewModels\\ToDoListViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T12:40:43.32Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SettingsViewModel.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\ViewModels\\SettingsViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\SettingsViewModel.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\ViewModels\\SettingsViewModel.cs",
-              "RelativeToolTip": "ViewModels\\SettingsViewModel.cs",
-              "ViewState": "AgIAAKIAAAAAAAAAAAAAAHQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T12:39:09.282Z",
+              "WhenOpened": "2025-07-24T12:28:24.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "AppThemeService.cs",
-              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Services\\AppThemeService.cs",
-              "RelativeDocumentMoniker": "Services\\AppThemeService.cs",
-              "ToolTip": "D:\\Projects\\ToDoListPlus\\Services\\AppThemeService.cs",
-              "RelativeToolTip": "Services\\AppThemeService.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAAAAAAAAAaAAAAAAAAAA==",
+              "Title": "TaskManager.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\States\\TaskManager.cs",
+              "RelativeDocumentMoniker": "States\\TaskManager.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\States\\TaskManager.cs",
+              "RelativeToolTip": "States\\TaskManager.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAAAEwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T12:36:03.408Z",
+              "WhenOpened": "2025-07-24T12:25:57.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppTimerService.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Services\\AppTimerService.cs",
+              "RelativeDocumentMoniker": "Services\\AppTimerService.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\Services\\AppTimerService.cs",
+              "RelativeToolTip": "Services\\AppTimerService.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowCUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T12:25:34.364Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ToDoItem.cs",
+              "DocumentMoniker": "D:\\Projects\\ToDoListPlus\\Models\\ToDoItem.cs",
+              "RelativeDocumentMoniker": "Models\\ToDoItem.cs",
+              "ToolTip": "D:\\Projects\\ToDoListPlus\\Models\\ToDoItem.cs",
+              "RelativeToolTip": "Models\\ToDoItem.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAACgAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T12:25:04.583Z",
               "EditorCaption": ""
             }
           ]
