@@ -79,7 +79,7 @@
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center"
                                 Margin="2">
-                        <Image Source="D:\Projects\ToDoListPlus\Assets\Icons\microsoftIcon.png" />
+                        <Image Source="pack://application:,,,/Assets/Icons/microsoftIcon.png" />
                         <TextBlock Text="Sign in with Microsoft"
                                    VerticalAlignment="Center"
                                    Foreground="#2F2F2F"

@@ -44,6 +44,7 @@ public class ToDoItem: INotifyPropertyChanged
 			}
 			OnPropertyChanged(nameof(IsComplete));
 			OnPropertyChanged(nameof(Status));
+			OnCompletionChanged?.Invoke(this, EventArgs.Empty);
 		}
     }
 	public string Title {
