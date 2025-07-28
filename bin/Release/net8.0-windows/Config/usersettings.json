@@ -12,7 +12,7 @@
   "Hotkeys": {
     "Overlay": {
       "ModifierKey": "Control",
-      "MainKey": "G"
+      "MainKey": "F"
     },
     "NewTask": {
       "ModifierKey": "Shift",

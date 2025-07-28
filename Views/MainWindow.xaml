@@ -350,7 +350,7 @@
                                                                 SortMemberPath="prioritySortOrder">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding Status}"
+                                                    <TextBlock Text="{Binding Importance}"
                                                                HorizontalAlignment="Center"
                                                                VerticalAlignment="Center"
                                                                Style="{StaticResource TitleTextStyle}">

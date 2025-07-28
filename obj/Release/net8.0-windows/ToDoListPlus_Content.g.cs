@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("appicon.ico")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("config/appsettings.json")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("config/usersettings.json")]
 
