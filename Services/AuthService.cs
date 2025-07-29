@@ -73,7 +73,7 @@ namespace ToDoListPlus.Services
             return cacheHelper;
 
         }
-        public async Task<string> Authorize()
+        public async Task Authorize()
         {
             AuthenticationResult? authResult = null;
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
@@ -88,7 +88,7 @@ namespace ToDoListPlus.Services
             }
             catch (MsalUiRequiredException ex)
             {
-                System.Diagnostics.Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
+                Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
                 try
                 {
                     authResult = await ClientApp.AcquireTokenInteractive(Scopes)
@@ -98,19 +98,18 @@ namespace ToDoListPlus.Services
                 }
                 catch (MsalException msalex)
                 {
-                    return $"Error {msalex.Message}";
+                    Debug.WriteLine($"Failed to Acquire Token Error:{msalex.Message}");
                 }
 
             }
             catch(Exception ex)
             {
-                return $"Error {ex.Message}";
+                Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
 
             _accountUsername = authResult.Account.Username;
             _accountTaskListId = await GetDefaultTaskListIdAsync(authResult.AccessToken);
 
-            return $"Authorization Succeded";
         }
         public async Task<string> GetAccessToken()
         {
@@ -135,26 +134,19 @@ namespace ToDoListPlus.Services
 
             return taskListId;
         }
-        public async Task<string> SignOutAsync()
+        public async Task SignOutAsync()
         {
             try
             {
                 IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
-
                 if (firstAccount != null)
                 {
                     await ClientApp.RemoveAsync(firstAccount);
-                    return "Sign-out successful";
-                }
-                else
-                {
-                    return "No user is signed in";
                 }
             }
             catch (MsalException msalex)
             {
-                //Log The Error msalex
-                return $"An Error occured while signing out. {msalex}";
+                Debug.WriteLine($"Error occurred while trying to sign out {msalex}");
             }
         }
     }

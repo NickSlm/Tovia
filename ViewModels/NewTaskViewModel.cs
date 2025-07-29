@@ -105,7 +105,6 @@ namespace ToDoListPlus.ViewModels
                 DueDate = TaskDueDate,
                 Importance = TaskImportance
             };
-            MessageBox.Show(newTask.Status.ToString());
             await _taskManager.SaveTask(newTask, EventIsChecked);
 
             //Reset Form Fields

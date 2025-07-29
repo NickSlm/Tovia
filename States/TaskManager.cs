@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace ToDoListPlus.States
                     }
                     catch (Exception ex)
                     {
-
+                        Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
                     }
                 };
                 _toDoList.Add(task);
@@ -116,7 +117,7 @@ namespace ToDoListPlus.States
                 }
                 catch (Exception ex)
                 {
-
+                    Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
                 }
             };
             _toDoList.Add(newTask);
