@@ -1,0 +1,22 @@
+{
+  "Window": {
+    "TopPos": 0,
+    "LeftPos": 0
+  },
+  "Appearance": {
+    "BaseTheme": "light",
+    "FailedTask": "#ed4337",
+    "InProgressTask": "#ADD8E6",
+    "CompleteTask": "#90EE90"
+  },
+  "Hotkeys": {
+    "Overlay": {
+      "ModifierKey": "Control",
+      "MainKey": "F"
+    },
+    "NewTask": {
+      "ModifierKey": "Shift",
+      "MainKey": "N"
+    }
+  }
+}
