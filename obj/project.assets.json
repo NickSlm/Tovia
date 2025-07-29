@@ -4151,11 +4151,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\ToDoListPlus\\ToDoListPlus.csproj",
+      "projectUniqueName": "D:\\Projects\\SyncTasker\\SyncTasker\\ToDoListPlus.csproj",
       "projectName": "ToDoListPlus",
-      "projectPath": "D:\\Projects\\ToDoListPlus\\ToDoListPlus.csproj",
+      "projectPath": "D:\\Projects\\SyncTasker\\SyncTasker\\ToDoListPlus.csproj",
       "packagesPath": "C:\\Users\\nicks\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\ToDoListPlus\\obj\\",
+      "outputPath": "D:\\Projects\\SyncTasker\\SyncTasker\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

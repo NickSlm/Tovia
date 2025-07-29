@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PpPwpuWEGg0=",
+  "dgSpecHash": "6r+9s0MYb10=",
   "success": true,
-  "projectFilePath": "D:\\Projects\\ToDoListPlus\\ToDoListPlus.csproj",
+  "projectFilePath": "D:\\Projects\\SyncTasker\\SyncTasker\\ToDoListPlus.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nicks\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\extended.wpf.toolkit\\4.7.25104.5739\\extended.wpf.toolkit.4.7.25104.5739.nupkg.sha512",
