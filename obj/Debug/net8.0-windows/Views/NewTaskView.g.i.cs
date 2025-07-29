@@ -56,7 +56,7 @@ namespace ToDoListPlus.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ToDoListPlus;component/views/newtaskview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/ToDoListPlus;V1.0.0.0;component/views/newtaskview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\NewTaskView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
