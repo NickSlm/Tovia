@@ -1,0 +1,52 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\SyncTasker\\src\\ToDoListPlus\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9D83A5E9-2BEF-4F2F-E0AC-414918484D38}|ToDoListPlus.csproj|d:\\projects\\synctasker\\src\\todolistplus\\viewmodels\\newtaskviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9D83A5E9-2BEF-4F2F-E0AC-414918484D38}|ToDoListPlus.csproj|solutionrelative:viewmodels\\newtaskviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22BCE142-7975-7222-2EB8-72EF6DC88E60}|..\\..\\tests\\tests\\ToDoListPlus.Tests\\ToDoListPlus.Tests.csproj|d:\\projects\\synctasker\\tests\\tests\\todolistplus.tests\\servicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 220,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NewTaskViewModel.cs",
+              "DocumentMoniker": "D:\\Projects\\SyncTasker\\src\\ToDoListPlus\\ViewModels\\NewTaskViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\NewTaskViewModel.cs",
+              "ToolTip": "D:\\Projects\\SyncTasker\\src\\ToDoListPlus\\ViewModels\\NewTaskViewModel.cs",
+              "RelativeToolTip": "ViewModels\\NewTaskViewModel.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAAFIAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T11:35:46.911Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServiceTests.cs",
+              "DocumentMoniker": "D:\\Projects\\SyncTasker\\tests\\tests\\ToDoListPlus.Tests\\ServiceTests.cs",
+              "RelativeDocumentMoniker": "..\\..\\tests\\tests\\ToDoListPlus.Tests\\ServiceTests.cs",
+              "ToolTip": "D:\\Projects\\SyncTasker\\tests\\tests\\ToDoListPlus.Tests\\ServiceTests.cs",
+              "RelativeToolTip": "..\\..\\tests\\tests\\ToDoListPlus.Tests\\ServiceTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T11:34:48.879Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
