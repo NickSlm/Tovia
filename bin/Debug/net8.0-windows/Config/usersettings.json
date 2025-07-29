@@ -1,7 +1,7 @@
 {
   "Window": {
-    "TopPos": 0.0,
-    "LeftPos": 0.0
+    "TopPos": 0,
+    "LeftPos": 0
   },
   "Appearance": {
     "BaseTheme": "light",
