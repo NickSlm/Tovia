@@ -14,6 +14,7 @@ namespace ToDoListPlus.States
         int TotalTasks { get; }
         int CompletedTasks { get; }
 
+        Task LoadToDoItems();
         Task RemoveTask(ToDoItem item);
         Task RemoveCompleteTask();
         Task SaveTask(ToDoItem item, bool createEvent);

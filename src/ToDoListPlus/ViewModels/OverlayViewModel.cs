@@ -12,7 +12,7 @@ namespace ToDoListPlus.ViewModels
     {
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly TaskManager _taskManager;
+        private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
         private double _topPos { get; set; }
         private double _leftPos { get; set; }
@@ -67,7 +67,7 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(CompletedTaskColor));
             }
         }
-        public OverlayViewModel(SettingsService settingsService, TaskManager taskManager)
+        public OverlayViewModel(SettingsService settingsService, ITaskManager taskManager)
         {
 
             _settingsService = settingsService;

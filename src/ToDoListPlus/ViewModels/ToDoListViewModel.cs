@@ -15,7 +15,7 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
             
-        private readonly TaskManager _taskManager;
+        private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
         private string _inProgressTaskColor { get; set; }
         private string _failedTaskColor { get; set; }
@@ -54,15 +54,13 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(CompletedTaskColor));
             }
         }
-        public ToDoListViewModel(TaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
+        public ToDoListViewModel(ITaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
         {
             _taskManager = taskManager;
             _settingsService = settingsService;
 
-            _settingsService.SettingsChanged += (s,e) => ApplySettings();
-
             ApplySettings();
-
+            _settingsService.SettingsChanged += (s,e) => ApplySettings();
             _taskManager.PropertyChanged += (s, e) =>
             {
                 switch (e.PropertyName)

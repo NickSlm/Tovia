@@ -11,10 +11,10 @@ namespace ToDoListPlus.Services
     public class AppCoordinator
     {
         private readonly AppStateService _appStateService;
-        private readonly TaskManager _taskManager;
+        private readonly ITaskManager _taskManager;
 
 
-        public AppCoordinator(AppStateService appStateService, TaskManager taskManager)
+        public AppCoordinator(AppStateService appStateService, ITaskManager taskManager)
         {
             _appStateService = appStateService;
             _taskManager = taskManager;
