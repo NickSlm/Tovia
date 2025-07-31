@@ -9,7 +9,7 @@ using ToDoListPlus.Models;
 
 namespace ToDoListPlus.Services
 {
-    public class MicrosoftGraphService: INotifyPropertyChanged
+    public class MicrosoftGraphService: IMicrosoftGraphService
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -264,7 +264,7 @@ namespace ToDoListPlus.Services
             }
         }
 
-        public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }
 }

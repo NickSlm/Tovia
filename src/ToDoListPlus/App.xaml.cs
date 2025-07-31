@@ -82,16 +82,16 @@ public partial class App : Application
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<IDialogService, DialogService>();
+        services.AddSingleton<ITaskManager, TaskManager>();
+        services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
 
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AppCoordinator>();
         services.AddSingleton<AuthService>();
-        services.AddSingleton<MicrosoftGraphService>();
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
         services.AddSingleton<AppThemeService>();
         services.AddSingleton<SettingsService>();
-        services.AddSingleton<TaskManager>();
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();

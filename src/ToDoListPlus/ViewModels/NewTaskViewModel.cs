@@ -13,8 +13,8 @@ namespace ToDoListPlus.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private readonly MicrosoftGraphService _taskService;
-        private readonly TaskManager _taskManager;
+        private readonly IMicrosoftGraphService _taskService;
+        private readonly ITaskManager _taskManager;
         private readonly IDialogService _dialogService;
         private string _taskTitle = string.Empty;
         private string _taskDescription = string.Empty;
@@ -72,7 +72,7 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public NewTaskViewModel(MicrosoftGraphService taskService, TaskManager taskManager ,IDialogService dialogService)
+        public NewTaskViewModel(IMicrosoftGraphService taskService, ITaskManager taskManager ,IDialogService dialogService)
         {
             _taskService = taskService;
             _taskManager = taskManager;
