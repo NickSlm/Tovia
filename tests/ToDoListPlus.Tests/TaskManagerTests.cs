@@ -7,6 +7,7 @@ using ToDoListPlus.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 
 namespace ToDoListPlus.Tests
@@ -21,24 +22,30 @@ namespace ToDoListPlus.Tests
                 Description = "Task1 Description",
                 DueDate = DateTime.Now,
                 Importance = "normal",
-                IsComplete = true}},
+                IsComplete = true},
+                true
+            },
             new object[] {new ToDoItem {
                 Title = "Task2",
                 Description = "Task2 Description",
                 DueDate = DateTime.Now,
                 Importance = "low",
-                IsComplete = false}},
+                IsComplete = false},
+                false
+            },
             new object[] {new ToDoItem {
                 Title = "Task3",
                 Description = "Task3 Description",
                 DueDate = DateTime.Now,
                 Importance = "high",
-                IsComplete = true}},
+                IsComplete = true},
+                true
+            },
             };
 
 
         [Fact]
-        public async Task LoadTasks_WithValidInput_ShouldCallServiceAndReturn()
+        public async Task LoadTasks_WithValidInput()
         {
             var mockGraphService = new Mock<IMicrosoftGraphService>();
 
@@ -92,5 +99,16 @@ namespace ToDoListPlus.Tests
             mockGraphService.Verify(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()), Times.Exactly(returnedItemList.Count));
 
         }
+        [Theory]
+        [MemberData(nameof(ToDoItemData))]
+        public async Task SaveTasks_WithValidInput(ToDoItem item, bool createEvent)
+        {
+            var mockGraphService = new Mock<IMicrosoftGraphService>();
+
+            var returnedTask = item;
+            
+
+        }
+
     }
 }

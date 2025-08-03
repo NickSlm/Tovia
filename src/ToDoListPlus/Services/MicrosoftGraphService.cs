@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -46,53 +47,54 @@ namespace ToDoListPlus.Services
                     ContentType = "text",
                     Content = item.Description
                 }
-
             };
-
 
             var json = JsonSerializer.Serialize(taskData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(url, content);
 
-
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(responseBody);
-                string taskId = doc.RootElement.GetProperty("id").GetString();
-                string eventId = string.Empty;
-
-                if (createEvent)
-                {
-                    string eventResponse = await PostEventAsync(item.Title, item.Description, item.DueDate, item.Importance);
-                    string linkUrl = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}/linkedResources";
-                    using var eventDoc = JsonDocument.Parse(eventResponse);
-
-                    eventId = eventDoc.RootElement.GetProperty("id").GetString();
-                    string eventWebLink = eventDoc.RootElement.GetProperty("webLink").GetString();
-
-                    var linkData = new
-                    {
-                        webUrl = eventWebLink,
-                        applicationName = "Outlook Calendar",
-                        displayName = item.Title,
-                        externalId = eventId
-                    };
-
-                    var linkJson = JsonSerializer.Serialize(linkData);
-                    var linkContent = new StringContent(linkJson, Encoding.UTF8, "application/json");
-                    var linkResponse = await _httpClient.PostAsync(linkUrl, linkContent);
-                }
-
-                item.EventId = eventId;
-                item.TaskId = taskId;
-
-                return item;
-            }
-            else
-            {
+                Debug.WriteLine($"Failed creating task");
                 return null;
             }
+
+            //Get TaskID
+            string responseBody = await response.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(responseBody);
+            string taskId = doc.RootElement.GetProperty("id").GetString();
+
+            item.TaskId = taskId;
+
+            if (createEvent)
+            {
+                //If we want to create a Task Event in Microsoft outlook
+
+                string eventId = string.Empty;
+
+                string eventResponse = await PostEventAsync(item.Title, item.Description, item.DueDate, item.Importance);
+                string linkUrl = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}/linkedResources";
+                using var eventDoc = JsonDocument.Parse(eventResponse);
+
+                eventId = eventDoc.RootElement.GetProperty("id").GetString();
+                string eventWebLink = eventDoc.RootElement.GetProperty("webLink").GetString();
+
+                var linkData = new
+                {
+                    webUrl = eventWebLink,
+                    applicationName = "Outlook Calendar",
+                    displayName = item.Title,
+                    externalId = eventId
+                };
+
+                var linkJson = JsonSerializer.Serialize(linkData);
+                var linkContent = new StringContent(linkJson, Encoding.UTF8, "application/json");
+                var linkResponse = await _httpClient.PostAsync(linkUrl, linkContent);
+
+                item.EventId = eventId;
+            }
+
+            return item;
         }
         public async Task<string> DeleteTaskAsync(string taskId)
         {
@@ -233,16 +235,15 @@ namespace ToDoListPlus.Services
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync(url, content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
-            }
-            else
+            if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
                 return $"Failed to create event: {response.StatusCode} - {error}";
             }
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
+
         }
         public async Task<string> DeleteEventAsync(string eventId)
         {
