@@ -35,17 +35,17 @@ namespace ToDoListPlus.States
                 OnPropertyChanged(nameof(CompletedTasks));
             }
         }
-        public TaskManager(IMicrosoftGraphService taskService)
-        {
-            _taskService = taskService;
-            ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
+            public TaskManager(IMicrosoftGraphService taskService)
+            {
+                _taskService = taskService;
+                ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
 
-            _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
-            _toDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
+                _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
+                _toDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
 
-            LoadToDoItems();
-            UpdateCompletedTasks();
-        }
+                LoadToDoItems();
+                UpdateCompletedTasks();
+            }
 
         public async Task LoadToDoItems()
         {

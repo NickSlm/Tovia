@@ -96,7 +96,7 @@ namespace ToDoListPlus.Services
 
             return item;
         }
-        public async Task<string> DeleteTaskAsync(string taskId)
+        public async Task DeleteTaskAsync(string taskId)
         {
             string AccessToken = await _authService.GetAccessToken();
 
@@ -104,18 +104,14 @@ namespace ToDoListPlus.Services
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
             var response = await _httpClient.DeleteAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                return "Task deleted successfully";
-            }
-            else
+
+            if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to delete task: {response.StatusCode} - {error}";
+                Debug.WriteLine($"Failed to delete Task: {response.StatusCode} - {error}");
             }
-
         }
-        public async Task<string> UpdateTaskAsync(string taskId, bool IsComplete)
+        public async Task UpdateTaskAsync(string taskId, bool IsComplete)
         {
             string AccessToken = await _authService.GetAccessToken();
 
@@ -129,8 +125,7 @@ namespace ToDoListPlus.Services
 
             var json = JsonSerializer.Serialize(taskData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PatchAsync(url, content);
-            return "Update Completed";
+            await _httpClient.PatchAsync(url, content);
 
         }
         public async Task<List<ToDoItem>> GetTasksAsync()
@@ -238,14 +233,14 @@ namespace ToDoListPlus.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to create event: {response.StatusCode} - {error}";
+                Debug.WriteLine($"Failed to create Event: {response.StatusCode} - {error}");
             }
 
             string responseBody = await response.Content.ReadAsStringAsync();
             return responseBody;
 
         }
-        public async Task<string> DeleteEventAsync(string eventId)
+        public async Task DeleteEventAsync(string eventId)
         {
             string url = $"https://graph.microsoft.com/v1.0/me/events/{eventId}";
 
@@ -254,14 +249,11 @@ namespace ToDoListPlus.Services
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
             var response = await _httpClient.DeleteAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                return "Event deleted successfully";
-            }
-            else
+
+            if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                return $"Failed to delete event: {response.StatusCode} - {error}";
+                Debug.WriteLine($"Failed to delete event: {response.StatusCode} - {error}");
             }
         }
 
