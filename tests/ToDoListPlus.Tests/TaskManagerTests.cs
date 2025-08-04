@@ -86,8 +86,7 @@ namespace ToDoListPlus.Tests
             mockGraphService.Setup(s => s.GetTasksAsync())
                 .ReturnsAsync(returnedItemList);
 
-            mockGraphService.Setup(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()))
-                .ReturnsAsync("Mocked update");
+            mockGraphService.Setup(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()));
 
             var taskManager = new TaskManager(mockGraphService.Object);
 
@@ -106,8 +105,19 @@ namespace ToDoListPlus.Tests
             var mockGraphService = new Mock<IMicrosoftGraphService>();
 
             var returnedTask = item;
-            
+            returnedTask.TaskId = "taskID";
+            if (createEvent)
+            {
+                returnedTask.EventId = "eventID";
+            }
+            mockGraphService.Setup(s => s.CreateTaskAsync(item, createEvent)).ReturnsAsync(returnedTask);
+            mockGraphService.Setup(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()));
 
+            var taskManager = new TaskManager(mockGraphService.Object);
+
+            await taskManager.SaveTask(item, createEvent);
+
+            Assert.Single(taskManager.ToDoList);
         }
 
     }
