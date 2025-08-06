@@ -45,7 +45,7 @@ namespace ToDoListPlus.Tests
 
 
         [Fact]
-        public async Task LoadTasks_WithValidInput()
+        public async Task LoadTasks()
         {
             var mockGraphService = new Mock<IMicrosoftGraphService>();
 
@@ -86,8 +86,6 @@ namespace ToDoListPlus.Tests
             mockGraphService.Setup(s => s.GetTasksAsync())
                 .ReturnsAsync(returnedItemList);
 
-            mockGraphService.Setup(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()));
-
             var taskManager = new TaskManager(mockGraphService.Object);
 
             foreach (var task in returnedItemList)
@@ -98,9 +96,10 @@ namespace ToDoListPlus.Tests
             mockGraphService.Verify(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()), Times.Exactly(returnedItemList.Count));
 
         }
+
         [Theory]
         [MemberData(nameof(ToDoItemData))]
-        public async Task SaveTasks_WithValidInput(ToDoItem item, bool createEvent)
+        public async Task SaveTask_WithValidInput(ToDoItem item, bool createEvent)
         {
             var mockGraphService = new Mock<IMicrosoftGraphService>();
 
@@ -111,7 +110,7 @@ namespace ToDoListPlus.Tests
                 returnedTask.EventId = "eventID";
             }
             mockGraphService.Setup(s => s.CreateTaskAsync(item, createEvent)).ReturnsAsync(returnedTask);
-            mockGraphService.Setup(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()));
+            //mockGraphService.Setup(s => s.UpdateTaskAsync(It.IsAny<string>(), It.IsAny<bool>()));
 
             var taskManager = new TaskManager(mockGraphService.Object);
 
@@ -120,5 +119,61 @@ namespace ToDoListPlus.Tests
             Assert.Single(taskManager.ToDoList);
         }
 
+        [Fact]
+        public async Task DeleteTask_WithEventId_DeletesEventAndTask()
+        {
+            ToDoItem item = new ToDoItem
+            {
+                Title = "Task 1",
+                Description = "Task 1 Description",
+                DueDate = DateTime.Now,
+                Importance = "normal",
+                IsComplete = true,
+                EventId = "a",
+                TaskId = "a"
+            };
+            var mockGraphService = new Mock<IMicrosoftGraphService>();
+
+            var taskManager = new TaskManager(mockGraphService.Object);
+
+            taskManager.ToDoListInternal.Add(item);
+
+            await taskManager.RemoveTask(item);
+
+            mockGraphService.Verify(s => s.DeleteTaskAsync("a"), Times.Once);
+            mockGraphService.Verify(s => s.DeleteEventAsync("a"), Times.Once);
+
+            Assert.DoesNotContain(item, taskManager.ToDoListInternal);
+
+        }
+
+        [Fact]
+        public async Task DeleteTask_WithoutEvent_DeleteTask()
+        {
+            ToDoItem item = new ToDoItem
+            {
+                Title = "Task 1",
+                Description = "Task 1 Description",
+                DueDate = DateTime.Now,
+                Importance = "normal",
+                IsComplete = true,
+                TaskId = "a"
+            };
+
+            var mockGraphService = new Mock<IMicrosoftGraphService>();
+
+            var taskManager = new TaskManager(mockGraphService.Object);
+
+            taskManager.ToDoListInternal.Add(item);
+
+            await taskManager.RemoveTask(item);
+
+            mockGraphService.Verify(s => s.DeleteTaskAsync("a"), Times.Once);
+            mockGraphService.Verify(s => s.DeleteEventAsync("a"), Times.Never);
+
+            Assert.DoesNotContain(item, taskManager.ToDoListInternal);
+
+
+        }
     }
 }
