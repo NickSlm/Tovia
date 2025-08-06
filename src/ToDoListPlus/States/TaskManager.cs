@@ -16,6 +16,8 @@ namespace ToDoListPlus.States
         private int _totalTasks;
         private int _completedTasks;
 
+        internal ObservableCollection<ToDoItem> ToDoListInternal => _toDoList;
+
         public ReadOnlyObservableCollection<ToDoItem> ToDoList { get; }
         public int TotalTasks
         {
@@ -35,17 +37,18 @@ namespace ToDoListPlus.States
                 OnPropertyChanged(nameof(CompletedTasks));
             }
         }
-            public TaskManager(IMicrosoftGraphService taskService)
-            {
-                _taskService = taskService;
-                ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
+        public TaskManager(IMicrosoftGraphService taskService)
+        {
+            _taskService = taskService;
+            ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
 
-                _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
-                _toDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
+            _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
+            _toDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
+            _toDoList.CollectionChanged += (s, e) => UpdateCompletedTasks();
 
-                LoadToDoItems();
-                UpdateCompletedTasks();
-            }
+            LoadToDoItems();
+            UpdateCompletedTasks();
+        }
 
         public async Task LoadToDoItems()
         {
@@ -72,9 +75,9 @@ namespace ToDoListPlus.States
         }
         public async Task RemoveTask(ToDoItem item)
         {
-            if (!string.IsNullOrEmpty(item.TaskId))
+            if (!string.IsNullOrEmpty(item.EventId))
             {
-                await _taskService.DeleteEventAsync(item.TaskId);
+                await _taskService.DeleteEventAsync(item.EventId);
             }
             await _taskService.DeleteTaskAsync(item.TaskId);
             _toDoList.Remove(item);
@@ -115,8 +118,6 @@ namespace ToDoListPlus.States
                 }
             };
             _toDoList.Add(newTask);
-            UpdateTotalTasks();
-            UpdateCompletedTasks();
         }
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
