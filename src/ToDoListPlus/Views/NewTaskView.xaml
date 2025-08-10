@@ -12,98 +12,107 @@
 
 
 
-    <Border Width="300"
-            Height="300">
-        <Grid Margin="8"
-              VerticalAlignment="Center">
+    <Border Width="380"
+            Padding="0"
+            Background="White"
+            CornerRadius="6"
+            BorderBrush="#E1E1E1"
+            BorderThickness="1"
+            Effect="{DynamicResource MaterialDesignElevation1}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="0"
-                     Margin="8 8 8 8"
-                     Text="{Binding TaskTitle}"
-                     materialDesign:HintAssist.Hint="Title"
-                     VerticalAlignment="Bottom"
-                     Style="{StaticResource OutlookTextBoxStyle}" />
+            <Border Background="#F3F2F1"
+                    Padding="16"
+                    BorderBrush="#E1E1E1"
+                    BorderThickness="0,0,0,1">
+                <TextBlock Text="New Task"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#323130" />
+            </Border>
 
-            <TextBox Grid.Row="1"
-                     Margin="8 8 8 8"
-                     Height="100"
-                     Text="{Binding TaskDescription}"
-                     VerticalAlignment="Top"
-                     materialDesign:HintAssist.Hint="Description (optional)"
-                     MaxLength="256"
-                     TextWrapping="Wrap"
-                     VerticalScrollBarVisibility="Auto"
-                     Style="{StaticResource OutlookTextBoxStyle}" />
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16">
 
+                    <!-- Title -->
+                    <TextBox Text="{Binding TaskTitle}"
+                             materialDesign:HintAssist.Hint="Title"
+                             Style="{StaticResource OutlookTextBoxStyle}"
+                             Margin="0,0,0,12" />
 
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <DatePicker Grid.Column="0"
-                            SelectedDate="{Binding TaskDueDate, Mode=TwoWay}"
-                            DisplayDateStart="{x:Static sys:DateTime.Today}"
-                            Style="{StaticResource OutlookDatePickerStyle}"
-                            Margin="8">
-                </DatePicker>
+                    <!-- Description -->
+                    <TextBox Text="{Binding TaskDescription}"
+                             materialDesign:HintAssist.Hint="Description (optional)"
+                             MaxLength="256"
+                             Height="100"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Style="{StaticResource OutlookTextBoxStyle}"
+                             Margin="0,0,0,12" />
 
-                <ComboBox materialDesign:HintAssist.Hint="Priority"
-                          Grid.Column="1"
-                          Margin="8"
-                          Style="{StaticResource OutlookComboBoxStyle}"
-                          SelectedValue="{Binding TaskImportance, Mode=TwoWay}"
-                          SelectedValuePath="Content">
-                    <ComboBoxItem Content="high" />
-                    <ComboBoxItem Content="normal" />
-                    <ComboBoxItem Content="low" />
-                </ComboBox>
-            </Grid>
+                    <!-- Due date & Priority -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="3"
-                  Grid.ColumnSpan="2"
-                  Margin="8 8 8 8">
+                        <DatePicker Grid.Column="0"
+                                    SelectedDate="{Binding TaskDueDate, Mode=TwoWay}"
+                                    DisplayDateStart="{x:Static sys:DateTime.Today}"
+                                    Style="{StaticResource OutlookDatePickerStyle}"
+                                    Margin="0,0,8,0" />
 
+                        <ComboBox Grid.Column="1"
+                                  materialDesign:HintAssist.Hint="Priority"
+                                  SelectedValue="{Binding TaskImportance, Mode=TwoWay}"
+                                  SelectedValuePath="Content"
+                                  Style="{StaticResource OutlookComboBoxStyle}">
+                            <ComboBoxItem Content="high" />
+                            <ComboBoxItem Content="normal" />
+                            <ComboBoxItem Content="low" />
+                        </ComboBox>
+                    </Grid>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                    <!-- Calendar Event -->
+                    <Separator Margin="0,0,0,12" />
+                    <CheckBox Content="Add to Calendar"
+                              IsChecked="{Binding EventIsChecked}"
+                              IsEnabled="{Binding AuthorizationVM.EventIsEnabled}"
+                              Style="{StaticResource OutlookCheckBoxStyle}" />
 
-                <CheckBox Grid.Column="0"
-                          IsChecked="{Binding EventIsChecked}"
-                          IsEnabled="{Binding AuthorizationVM.EventIsEnabled}"
-                          Style="{StaticResource OutlookCheckBoxStyle}"
-                          Content="Calendar Event" />
-            </Grid>
+                </StackPanel>
+            </ScrollViewer>
 
-            <StackPanel Grid.Row="4"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Margin="0 4 0 0"
-                        Grid.Column="1">
-                <Button Content="ACCEPT"
-                        IsDefault="True"
-                        Margin="8 0 8 0"
-                        Style="{StaticResource OutlookButtonStyle}"
-                        Command="{Binding SaveTaskCommand}">
-                </Button>
+            <Border Grid.Row="2"
+                    Background="#F3F2F1"
+                    Padding="12"
+                    BorderBrush="#E1E1E1"
+                    BorderThickness="0,1,0,0">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <Button Content="SAVE"
+                            IsDefault="True"
+                            Margin="8 0 8 0"
+                            Style="{StaticResource OutlookButtonStyle}"
+                            Command="{Binding SaveTaskCommand}">
+                    </Button>
 
-                <Button Content="CANCEL"
-                        Margin="8 0 8 0"
-                        IsCancel="True"
-                        Style="{StaticResource OutlookButtonStyle}"
-                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                </Button>
-            </StackPanel>
+                    <Button Content="CANCEL"
+                            Margin="8 0 8 0"
+                            IsCancel="True"
+                            Style="{StaticResource OutlookButtonStyle}"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                    </Button>
+                </StackPanel>
+            </Border>
         </Grid>
     </Border>
 </UserControl>
