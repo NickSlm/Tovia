@@ -33,7 +33,6 @@
 
     <Border Width="384"
             Height="544"
-            Background="White"
             CornerRadius="6">
         <Grid>
             <Grid.RowDefinitions>
@@ -42,15 +41,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Border Background="#F3F3F3"
+            <Border 
                     Padding="16,12"
                     BorderBrush="#E5E5E5"
                     BorderThickness="0,0,0,1">
                 <TextBlock Text="Settings"
                            FontFamily="Segoe UI"
                            FontSize="18"
-                           FontWeight="SemiBold"
-                           Foreground="#333" />
+                           FontWeight="SemiBold"/>
             </Border>
 
             <ScrollViewer Grid.Row="1"
@@ -210,7 +208,6 @@
             </ScrollViewer>
 
             <Border Grid.Row="2"
-                    Background="#F3F3F3"
                     BorderBrush="#E5E5E5"
                     BorderThickness="0,1,0,0"
                     Padding="12">
