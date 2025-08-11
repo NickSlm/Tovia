@@ -14,9 +14,7 @@
 
     <Border Width="380"
             Padding="0"
-            Background="White"
             CornerRadius="6"
-            BorderBrush="#E1E1E1"
             BorderThickness="1"
             Effect="{DynamicResource MaterialDesignElevation1}">
         <Grid>
@@ -26,14 +24,13 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Border Background="#F3F2F1"
+            <Border 
                     Padding="16"
                     BorderBrush="#E1E1E1"
                     BorderThickness="0,0,0,1">
                 <TextBlock Text="New Task"
                            FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="#323130" />
+                           FontWeight="SemiBold"/>
             </Border>
 
             <ScrollViewer Grid.Row="1"
@@ -43,6 +40,7 @@
                     <!-- Title -->
                     <TextBox Text="{Binding TaskTitle}"
                              materialDesign:HintAssist.Hint="Title"
+                             
                              Style="{StaticResource OutlookTextBoxStyle}"
                              Margin="0,0,0,12" />
 
@@ -92,7 +90,6 @@
             </ScrollViewer>
 
             <Border Grid.Row="2"
-                    Background="#F3F2F1"
                     Padding="12"
                     BorderBrush="#E1E1E1"
                     BorderThickness="0,1,0,0">
