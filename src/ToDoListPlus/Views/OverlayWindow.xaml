@@ -71,6 +71,8 @@
                     <Setter Property="Background"
                             Value="{Binding DataContext.FailedTaskColor, 
               RelativeSource={RelativeSource AncestorType=Window}}" />
+                    <Setter Property="IsEnabled"
+                            Value="False" />
                     <Setter Property="Opacity"
                             Value="0.9" />
 
@@ -109,14 +111,21 @@
                             Padding="10"
                             Style="{StaticResource ColorTest}">
                         <StackPanel>
-
                             <!-- Task title -->
-                            <TextBlock Text="{Binding Title}"
+                            <Grid Margin="0,6,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Title}"
+                                           Grid.Column="0"
                                        FontWeight="SemiBold"
                                        TextWrapping="Wrap"
                                        FontSize="14"
                                        Style="{StaticResource TitleTextStyle}" />
-
+                                <CheckBox IsChecked="{Binding IsComplete}" 
+                                          Grid.Column="1" />
+                            </Grid>
                             <!-- Description, if available -->
                             <TextBlock Text="{Binding Description}"
                                        FontStyle="Italic"
@@ -124,7 +133,6 @@
                                        FontSize="12"
                                        Margin="0,2,0,0"
                                        TextWrapping="Wrap" />
-
                             <!-- Importance and due date -->
                             <Grid Margin="0,6,0,0">
                                 <Grid.ColumnDefinitions>

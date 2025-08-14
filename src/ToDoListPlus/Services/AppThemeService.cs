@@ -1,6 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Configuration;
-
+using System.Windows;
 using System.Windows.Media;
 using ToDoListPlus.Models;
 
@@ -11,6 +11,7 @@ namespace ToDoListPlus.Services
 
         public bool IsDarkTheme;
         private PaletteHelper _paletteHelper = new PaletteHelper();
+        private SolidColorBrush _borderBrush;
         private readonly SettingsService _settingsService;
         private readonly AppSettings _appSettings;
 
@@ -37,6 +38,15 @@ namespace ToDoListPlus.Services
                     (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Secondary));
             _paletteHelper.SetTheme(theme);
 
+
+
+            _borderBrush = new SolidColorBrush(IsDarkTheme
+                ? (Color)ColorConverter.ConvertFromString("#3B3B3B")
+                : (Color)ColorConverter.ConvertFromString("#E1E1E1"));
+
+            Application.Current.Resources["CustomBorderBrush"] = _borderBrush;
+
+
         }
 
         public void ChangeTheme(bool newTheme)
@@ -49,6 +59,12 @@ namespace ToDoListPlus.Services
                     (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Primary),
                     (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Secondary));
             _paletteHelper.SetTheme(theme);
+
+            var borderColor = newTheme ? (Color)ColorConverter.ConvertFromString("#3B3B3B") 
+                                       : (Color)ColorConverter.ConvertFromString("#E1E1E1");
+
+            _borderBrush = new SolidColorBrush(borderColor);
+            Application.Current.Resources["CustomBorderBrush"] = _borderBrush;
         }
     }
 }
