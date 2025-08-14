@@ -7,8 +7,8 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignHeight="554"
+             d:DesignWidth="491">
 
     <UserControl.Resources>
         <Style TargetType="Label">
@@ -44,6 +44,7 @@
             <Border 
                     Padding="16,12"
                     BorderBrush="#E5E5E5"
+                    Background="{DynamicResource CustomBorderBrush}"
                     BorderThickness="0,0,0,1">
                 <TextBlock Text="Settings"
                            FontFamily="Segoe UI"
@@ -209,6 +210,7 @@
 
             <Border Grid.Row="2"
                     BorderBrush="#E5E5E5"
+                    Background="{DynamicResource CustomBorderBrush}"
                     BorderThickness="0,1,0,0"
                     Padding="12">
                 <StackPanel Orientation="Horizontal"

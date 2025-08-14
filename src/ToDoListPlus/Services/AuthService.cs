@@ -2,10 +2,14 @@
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Extensions.Msal;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using ToDoListPlus.Converters;
 using ToDoListPlus.Models;
 
 
@@ -19,8 +23,9 @@ namespace ToDoListPlus.Services
         private string[] _scopes;
 
         private readonly SettingsService _settingsService;
-        private string _accountUsername = string.Empty;
-        private string _accountTaskListId = string.Empty;
+        private string _accountUsername;
+        private string _accountTaskListId;
+        private BitmapImage _accountProfilePic;
 
         public string ClientId => _clientId;
         public string Tenant => _tenant;
@@ -33,6 +38,10 @@ namespace ToDoListPlus.Services
         public string AccountTaskListId
         {
             get { return _accountTaskListId; }
+        }
+        public BitmapImage AccountProfilePic
+        {
+            get { return _accountProfilePic; }
         }
 
         private IPublicClientApplication _clientApp;
@@ -106,16 +115,50 @@ namespace ToDoListPlus.Services
             {
                 Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
-
-            _accountUsername = authResult.Account.Username;
             _accountTaskListId = await GetDefaultTaskListIdAsync(authResult.AccessToken);
-
+            _accountUsername = await GetProfileDisplayNameAsync(authResult.AccessToken);
+            _accountProfilePic = await GetProfilePictureAsync(authResult.AccessToken);
         }
         public async Task<string> GetAccessToken()
         {
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
             var authResult = await ClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
             return authResult.AccessToken;
+        }
+        public async Task<BitmapImage> GetProfilePictureAsync(string accessToken)
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+
+            var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me/photo/$value");
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var bmp = new BitmapImage(new Uri("pack://application:,,,/Assets/Icons/ProfilePlaceHolder.png", UriKind.Absolute));
+                return bmp;
+            }
+
+            var result = await response.Content.ReadAsByteArrayAsync();
+            BitmapImage profilePic = ConvertBytesToBitmapImage.ConvertToImage(result);
+            return profilePic;
+        }
+        public async Task<string> GetProfileDisplayNameAsync(string accessToken)
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonDocument.Parse(json);
+            return result.RootElement.GetProperty("displayName").ToString();
         }
         public async Task<string> GetDefaultTaskListIdAsync(string accessToken)
         {

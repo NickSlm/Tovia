@@ -13,13 +13,13 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
+        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Closed="MainWindow_Closed"
         Title="ToDoPlus"
         Height="640"
         Width="640">
-
     <Window.Resources>
 
         <Style x:Key="IconButtonStyle"
@@ -112,24 +112,18 @@
             <Border Grid.Row="0"
                     Padding="8"
                     BorderBrush="#DDD"
+                    Background="{DynamicResource CustomBorderBrush}"
                     BorderThickness="0 0 0 1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Left">
-                        <materialDesign:PackIcon Kind="AccountCircle"
-                                                 Width="24"
-                                                 Height="24"
-                                                 Margin="0,0,8,0" />
-                        <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
-                                   VerticalAlignment="Center"
-                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
-                    </StackPanel>
-
+                    <materialDesign:Chip Content="{Binding AuthorizationVM.AccountUsername}">
+                        <materialDesign:Chip.Icon>
+                            <Image Source="{Binding AuthorizationVM.AccountPhoto}" RenderOptions.BitmapScalingMode="HighQuality" />
+                        </materialDesign:Chip.Icon>
+                    </materialDesign:Chip>
                     <materialDesign:PopupBox VerticalAlignment="Center"
                                              HorizontalAlignment="Right"
                                              Margin="0,0,12,0"
@@ -150,6 +144,9 @@
                                                Style="{StaticResource MaterialDesignBody1TextBlock}" />
                                 </StackPanel>
                             </Button>
+                            <Separator Margin="0,4,0,8"
+                                       Background="#E1E1E1"
+                                       Height="1" />
                             <Button Command="{Binding AuthorizationVM.SignOutCommand}"
                                     HorizontalContentAlignment="Left"
                                     Style="{StaticResource MaterialDesignFlatSecondaryButton}">
@@ -229,37 +226,7 @@
                                           HeadersVisibility="Column"
                                           GridLinesVisibility="None"
                                           Focusable="False">
-                                    <!-- Clear out Material styles -->
-                                    <DataGrid.Resources>
-                                        <Style TargetType="CheckBox">
-                                            <Setter Property="Background"
-                                                    Value="LightCyan" />
-                                        </Style>
-                                        <Style TargetType="DataGridCell">
-                                            <Setter Property="Background"
-                                                    Value="Transparent" />
-                                            <Setter Property="BorderThickness"
-                                                    Value="0" />
-                                            <Setter Property="Focusable"
-                                                    Value="False" />
-                                            <Style.Triggers>
-                                                <!-- Remove selection highlight -->
-                                                <Trigger Property="IsSelected"
-                                                         Value="True">
-                                                    <Setter Property="Background"
-                                                            Value="Transparent" />
-                                                    <Setter Property="Foreground"
-                                                            Value="Black" />
-                                                </Trigger>
-                                                <!-- Remove hover effect on cell -->
-                                                <Trigger Property="IsMouseOver"
-                                                         Value="True">
-                                                    <Setter Property="Background"
-                                                            Value="Transparent" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </DataGrid.Resources>
+                                   
                                     <DataGrid.RowStyle>
                                         <Style TargetType="DataGridRow">
                                             <Setter Property="BorderBrush"
@@ -397,6 +364,7 @@
                     <Border Grid.Row="1"
                             BorderThickness="0 1 0 0"
                             BorderBrush="#DDD"
+                            Background="{DynamicResource CustomBorderBrush}"
                             Padding="8 4">
                         <Button Command="{Binding NewTaskCommand}"
                                 Margin="0 8"

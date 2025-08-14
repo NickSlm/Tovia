@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using ToDoListPlus.Services;
 using ToDoListPlus.Views;
 
@@ -19,7 +20,7 @@ namespace ToDoListPlus.ViewModels
         private readonly IDialogService _dialogService;
         private readonly AppStateService _appStateService;
         private string _accountUsername;
-
+        private BitmapImage _accountPhoto;
 
 
         public string AccountUsername
@@ -31,7 +32,15 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(AccountUsername));
             }
         }
-
+        public BitmapImage AccountPhoto
+        {
+            get => _accountPhoto;
+            set
+            {
+                _accountPhoto = value;
+                OnPropertyChanged(nameof(AccountPhoto));
+            }
+        }
         public AuthorizationViewModel(AuthService authService, IDialogService dialogService, AppStateService appStateService)
         {
             _authService = authService;
@@ -55,6 +64,7 @@ namespace ToDoListPlus.ViewModels
         {
             await _authService.Authorize();
             AccountUsername = _authService.AccountUsername;
+            AccountPhoto = _authService.AccountProfilePic;
 
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
 
@@ -72,6 +82,7 @@ namespace ToDoListPlus.ViewModels
             _appStateService.SignOut();
 
             AccountUsername = string.Empty;
+            AccountPhoto = null;
 
             var result = _dialogService.ShowLoginDialog();
             if (!result == true)
