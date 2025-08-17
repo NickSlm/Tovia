@@ -13,7 +13,6 @@ namespace ToDoListPlus.States
         ReadOnlyObservableCollection<ToDoItem> ToDoList { get; }
         int TotalTasks { get; }
         int CompletedTasks { get; }
-        int RemoveThis { get; }
         Task LoadToDoItems();
         Task RemoveTask(ToDoItem item);
         Task RemoveCompleteTask();
