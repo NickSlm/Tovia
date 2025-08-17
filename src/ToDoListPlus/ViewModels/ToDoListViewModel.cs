@@ -27,7 +27,6 @@ namespace ToDoListPlus.ViewModels
         public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
-        public int RemoveThis => _taskManager.RemoveThis;
         public string InProgressTaskColor
         {
             get => _inProgressTaskColor;

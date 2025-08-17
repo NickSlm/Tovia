@@ -13,29 +13,17 @@ namespace ToDoListPlus.States
 
         private readonly IMicrosoftGraphService _taskService;
         private readonly ObservableCollection<ToDoItem> _toDoList = new();
-        private int _totalTasks;
         private int _completedTasks;
 
         internal ObservableCollection<ToDoItem> ToDoListInternal => _toDoList;
 
         public ReadOnlyObservableCollection<ToDoItem> ToDoList { get; }
+
         public int TotalTasks
         {
-            get => _totalTasks;
-            set
-            {
-                _totalTasks = value;
-                OnPropertyChanged(nameof(TotalTasks));
-            }
+            get => ToDoList.Count;
         }
-        public int RemoveThis
-        {
-            get => ToDoList.Count();
-            set
-            {
-                OnPropertyChanged(nameof(ToDoList));
-            }
-        }
+
         public int CompletedTasks
         {
             get => _completedTasks;
@@ -51,8 +39,11 @@ namespace ToDoListPlus.States
             ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
 
             _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
-            _toDoList.CollectionChanged += (s, e) => UpdateTotalTasks();
             _toDoList.CollectionChanged += (s, e) => UpdateCompletedTasks();
+            _toDoList.CollectionChanged += (s, e) =>
+            {
+                OnPropertyChanged(nameof(TotalTasks));
+            };
 
             LoadToDoItems();
         }
@@ -154,10 +145,6 @@ namespace ToDoListPlus.States
         private void UpdateCompletedTasks()
         {
             CompletedTasks = (TotalTasks > 0) ? (ToDoList.Count(item => item.IsComplete) * 100) / TotalTasks : 0;
-        }
-        private void UpdateTotalTasks()
-        {
-            TotalTasks = ToDoList.Count;
         }
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
