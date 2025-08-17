@@ -27,6 +27,7 @@ namespace ToDoListPlus.ViewModels
         public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
+        public int RemoveThis => _taskManager.RemoveThis;
         public string InProgressTaskColor
         {
             get => _inProgressTaskColor;
@@ -100,7 +101,7 @@ namespace ToDoListPlus.ViewModels
         {
             await _taskManager.RemoveCompleteTask();
         }
-        public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }
 }

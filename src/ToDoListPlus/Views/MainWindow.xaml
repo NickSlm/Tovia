@@ -204,6 +204,8 @@
                                            FontWeight="SemiBold"
                                            FontSize="16" />
 
+                                <!--<TextBlock Grid.Column="0" Text="{Binding ToDoListVM.RemoveThis}" />-->
+
                                 <Button Command="{Binding ToDoListVM.CleanUpCommand}"
                                         CommandParameter="{Binding ToDoListVM.ToDoList}"
                                         Margin="8,0"
