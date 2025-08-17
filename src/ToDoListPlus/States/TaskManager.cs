@@ -28,6 +28,14 @@ namespace ToDoListPlus.States
                 OnPropertyChanged(nameof(TotalTasks));
             }
         }
+        public int RemoveThis
+        {
+            get => ToDoList.Count();
+            set
+            {
+                OnPropertyChanged(nameof(ToDoList));
+            }
+        }
         public int CompletedTasks
         {
             get => _completedTasks;
@@ -47,7 +55,6 @@ namespace ToDoListPlus.States
             _toDoList.CollectionChanged += (s, e) => UpdateCompletedTasks();
 
             LoadToDoItems();
-            UpdateCompletedTasks();
         }
 
         public async Task LoadToDoItems()
@@ -70,8 +77,6 @@ namespace ToDoListPlus.States
                 };
                 _toDoList.Add(task);
             }
-            UpdateCompletedTasks();
-            UpdateTotalTasks();
         }
         public async Task RemoveTask(ToDoItem item)
         {
@@ -121,6 +126,7 @@ namespace ToDoListPlus.States
         }
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+
             if (e.PropertyName == nameof(ToDoItem.IsComplete))
             {
                 UpdateCompletedTasks();
@@ -128,6 +134,8 @@ namespace ToDoListPlus.States
         }
         private void HandleCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
+            //Subscribing the Item_PropertyChanged method to each Task
+            //which updates the CompletedTasks based on the checkbox
             if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
             {
                 foreach (ToDoItem newItem in e.NewItems)
@@ -142,7 +150,6 @@ namespace ToDoListPlus.States
                     newItem.PropertyChanged -= Item_PropertyChanged;
                 }
             }
-            UpdateCompletedTasks();
         }
         private void UpdateCompletedTasks()
         {

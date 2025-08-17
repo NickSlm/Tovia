@@ -192,7 +192,7 @@ namespace ToDoListPlus.ViewModels
             DialogHost.Close("RootDialog");
         }
         
-        public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }
 }
