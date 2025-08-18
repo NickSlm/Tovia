@@ -20,11 +20,11 @@ namespace ToDoListPlus.ViewModels
         private readonly OverlayViewModel _overlayViewModel;
         private readonly SettingsService _settingsService;
 
-        private bool _isDarkTheme { get; set; }
-        private string _inProgressTaskColor { get; set; }
-        private string _failedTaskColor { get; set; }
-        private string _completedTaskColor { get; set; }
-        private OverlayPosition _overlayPos { get; set; } = OverlayPosition.TopLeft;
+        private bool _isDarkTheme;
+        private string _inProgressTaskColor;
+        private string _failedTaskColor;
+        private string _completedTaskColor;
+        private OverlayPosition _overlayPos = OverlayPosition.TopLeft;
 
         public IRelayCommand UpdateThemeCommand { get;}
         public IRelayCommand SaveSettingsCommand { get; }

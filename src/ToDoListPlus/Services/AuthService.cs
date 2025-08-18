@@ -27,25 +27,40 @@ namespace ToDoListPlus.Services
         private string _accountTaskListId;
         private BitmapImage _accountProfilePic;
 
-        public string ClientId => _clientId;
-        public string Tenant => _tenant;
-        public string Instance => _instance;
-        public string[] Scopes => _scopes;
+        public string ClientId 
+        {
+            get => _clientId;
+        } 
+        public string Tenant
+        {
+            get => _tenant;
+        }
+        public string Instance
+        {
+            get => _instance;
+        }
+        public string[] Scopes
+        {
+            get => _scopes;
+        }
         public string AccountUsername
         {
-            get { return _accountUsername; }
+            get => _accountUsername; 
         }
         public string AccountTaskListId
         {
-            get { return _accountTaskListId; }
+            get => _accountTaskListId;
         }
         public BitmapImage AccountProfilePic
         {
-            get { return _accountProfilePic; }
+            get => _accountProfilePic;
         }
 
         private IPublicClientApplication _clientApp;
-        public IPublicClientApplication ClientApp { get { return _clientApp; } }
+        public IPublicClientApplication ClientApp 
+        { 
+            get => _clientApp;
+        }
 
 
         public AuthService(SettingsService settingsService)

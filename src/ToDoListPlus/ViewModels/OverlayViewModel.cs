@@ -14,11 +14,11 @@ namespace ToDoListPlus.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
-        private double _topPos { get; set; }
-        private double _leftPos { get; set; }
-        private string _inProgressTaskColor { get; set; }
-        private string _failedTaskColor { get; set; }
-        private string _completedTaskColor { get; set; }
+        private double _topPos;
+        private double _leftPos;
+        private string _inProgressTaskColor;
+        private string _failedTaskColor;
+        private string _completedTaskColor;
 
         public ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public OverlayPosition position { get; set; }
