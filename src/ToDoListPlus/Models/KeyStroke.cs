@@ -4,9 +4,10 @@ namespace ToDoListPlus.Models
 {
     public class KeyStroke: INotifyPropertyChanged
     {
+        private string _keyStroke;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string _keyStroke;
         public string keyStroke
         {
             get => _keyStroke;

@@ -10,18 +10,24 @@ namespace ToDoListPlus.ViewModels
 {
     public class AuthorizationViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public IAsyncRelayCommand SignOutCommand { get; }
-        public IAsyncRelayCommand AuthorizationCommand { get; }
-        public IRelayCommand CloseCommand { get; }
-
-
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
         private readonly AppStateService _appStateService;
         private string _accountUsername;
         private BitmapImage _accountPhoto;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, AppStateService appStateService)
+        {
+            _authService = authService;
+            _dialogService = dialogService;
+            _appStateService = appStateService;
+
+            AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
+            SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
+            CloseCommand = new RelayCommand(CloseButtonClick);
+        }
 
         public string AccountUsername
         {
@@ -41,16 +47,10 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(AccountPhoto));
             }
         }
-        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, AppStateService appStateService)
-        {
-            _authService = authService;
-            _dialogService = dialogService;
-            _appStateService = appStateService;
 
-            AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
-            SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
-            CloseCommand = new RelayCommand(CloseButtonClick);
-        }
+        public IAsyncRelayCommand SignOutCommand { get; }
+        public IAsyncRelayCommand AuthorizationCommand { get; }
+        public IRelayCommand CloseCommand { get; }
 
         private void CloseButtonClick()
         {
@@ -59,7 +59,6 @@ namespace ToDoListPlus.ViewModels
                                  .FirstOrDefault();
             authWindow.DialogResult = false;
         }
-
         private async Task AuthorizationButtonClick()
         {
             await _authService.Authorize();
@@ -74,7 +73,6 @@ namespace ToDoListPlus.ViewModels
                 _appStateService.SignIn();
             }
         }
-
         private async Task SignOutButtonClick()
         {
             await _authService.SignOutAsync();
@@ -90,7 +88,6 @@ namespace ToDoListPlus.ViewModels
                 Application.Current.Shutdown();
             }
         }
-
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

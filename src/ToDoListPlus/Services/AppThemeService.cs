@@ -48,7 +48,6 @@ namespace ToDoListPlus.Services
 
 
         }
-
         public void ChangeTheme(bool newTheme)
         {
             Theme theme = newTheme ?

@@ -11,8 +11,7 @@ namespace ToDoListPlus.ViewModels
 {
     public class NewTaskViewModel: INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        //Fields
         private readonly IMicrosoftGraphService _taskService;
         private readonly ITaskManager _taskManager;
         private readonly IDialogService _dialogService;
@@ -22,7 +21,19 @@ namespace ToDoListPlus.ViewModels
         private bool _eventIsChecked = false;
         private string _taskImportance = string.Empty;
 
-        public IAsyncRelayCommand SaveTaskCommand { get; }
+        //Events
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        //Constructor
+        public NewTaskViewModel(IMicrosoftGraphService taskService, ITaskManager taskManager ,IDialogService dialogService)
+        {
+            _taskService = taskService;
+            _taskManager = taskManager;
+            _dialogService = dialogService;
+            SaveTaskCommand = new AsyncRelayCommand(SaveTask);
+        }
+
+        //Properties
         public string TaskTitle
         {
             get => _taskTitle;
@@ -72,13 +83,8 @@ namespace ToDoListPlus.ViewModels
             }
         }
 
-        public NewTaskViewModel(IMicrosoftGraphService taskService, ITaskManager taskManager ,IDialogService dialogService)
-        {
-            _taskService = taskService;
-            _taskManager = taskManager;
-            _dialogService = dialogService;
-            SaveTaskCommand = new AsyncRelayCommand(SaveTask);
-        }
+        //Commands
+        public IAsyncRelayCommand SaveTaskCommand { get; }
 
         private async Task SaveTask()
         {
@@ -115,7 +121,6 @@ namespace ToDoListPlus.ViewModels
             TaskImportance = string.Empty;
             EventIsChecked = false;
         }
-
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

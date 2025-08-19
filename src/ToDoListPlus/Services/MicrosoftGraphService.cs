@@ -12,18 +12,18 @@ namespace ToDoListPlus.Services
 {
     public class MicrosoftGraphService: IMicrosoftGraphService
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private readonly AuthService _authService;
         private readonly HttpClient _httpClient;
 
-        public ObservableCollection<ToDoItem> ToDoList { get; set; } = new();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public MicrosoftGraphService(AuthService authService)
         {
             _authService = authService;
             _httpClient = new HttpClient();
         }
+
+        public ObservableCollection<ToDoItem> ToDoList { get; set; } = new();
 
         public async Task<ToDoItem> CreateTaskAsync(ToDoItem item, bool createEvent)
         {
@@ -256,7 +256,6 @@ namespace ToDoListPlus.Services
                 Debug.WriteLine($"Failed to delete event: {response.StatusCode} - {error}");
             }
         }
-
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

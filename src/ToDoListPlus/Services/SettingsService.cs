@@ -14,14 +14,13 @@ namespace ToDoListPlus.Services
         private const string UserSettingsPath = "Config/usersettings.json";
 
         public event EventHandler SettingsChanged;
-        public UserSettings userSettings { get; private set; }
-        public AppSettings appSettings { get; private set; }
 
         public SettingsService()
         {
             Load();
         }
-
+        public UserSettings userSettings { get; private set; }
+        public AppSettings appSettings { get; private set; }
         
         public void Load()
         {
@@ -31,7 +30,6 @@ namespace ToDoListPlus.Services
             userSettings = JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(userPath));
             appSettings = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(appPath));
         }
-
         public void Save(UserSettings newUserSettings)
         {
             var path = Path.Combine(AppContext.BaseDirectory, UserSettingsPath);

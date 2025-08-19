@@ -22,30 +22,10 @@ namespace ToDoListPlus.Services
         private readonly string Instance;
         private readonly string[] Scopes;
         private readonly SettingsService _settingsService;
-
         private string _accountUsername;
         private string _accountTaskListId;
         private BitmapImage _accountProfilePic;
-
-        public string AccountUsername
-        {
-            get => _accountUsername; 
-        }
-        public string AccountTaskListId
-        {
-            get => _accountTaskListId;
-        }
-        public BitmapImage AccountProfilePic
-        {
-            get => _accountProfilePic;
-        }
-
         private IPublicClientApplication _clientApp;
-        public IPublicClientApplication ClientApp 
-        { 
-            get => _clientApp;
-        }
-
 
         public AuthService(SettingsService settingsService)
         {
@@ -60,6 +40,24 @@ namespace ToDoListPlus.Services
 
             CreateApplication();
         }
+
+        public string AccountUsername
+        {
+            get => _accountUsername; 
+        }
+        public string AccountTaskListId
+        {
+            get => _accountTaskListId;
+        }
+        public BitmapImage AccountProfilePic
+        {
+            get => _accountProfilePic;
+        }
+        public IPublicClientApplication ClientApp 
+        { 
+            get => _clientApp;
+        }
+
         private void CreateApplication()
         {
             _clientApp = PublicClientApplicationBuilder.Create(ClientId).WithAuthority($"{Instance}{Tenant}").WithDefaultRedirectUri().Build();
