@@ -17,32 +17,16 @@ namespace ToDoListPlus.Services
 {
     public class AuthService
     {
-        private string _clientId;
-        private string _tenant;
-        private string _instance;
-        private string[] _scopes;
-
+        private readonly string ClientId;
+        private readonly string Tenant;
+        private readonly string Instance;
+        private readonly string[] Scopes;
         private readonly SettingsService _settingsService;
+
         private string _accountUsername;
         private string _accountTaskListId;
         private BitmapImage _accountProfilePic;
 
-        public string ClientId 
-        {
-            get => _clientId;
-        } 
-        public string Tenant
-        {
-            get => _tenant;
-        }
-        public string Instance
-        {
-            get => _instance;
-        }
-        public string[] Scopes
-        {
-            get => _scopes;
-        }
         public string AccountUsername
         {
             get => _accountUsername; 
@@ -67,20 +51,15 @@ namespace ToDoListPlus.Services
         {
             _settingsService = settingsService;
 
-            ApplySettings();
-            CreateApplication();
-        }
-
-        private void ApplySettings()
-        {
             var appSettings = _settingsService.appSettings;
 
-            _clientId = appSettings.AzureAd.ClientId;
-            _tenant = appSettings.AzureAd.Tenant;
-            _instance = appSettings.AzureAd.Instance;
-            _scopes = appSettings.AzureAd.Scopes;
-        }
+            ClientId = appSettings.AzureAd.ClientId;
+            Tenant = appSettings.AzureAd.Tenant;
+            Instance = appSettings.AzureAd.Instance;
+            Scopes = appSettings.AzureAd.Scopes;
 
+            CreateApplication();
+        }
         private void CreateApplication()
         {
             _clientApp = PublicClientApplicationBuilder.Create(ClientId).WithAuthority($"{Instance}{Tenant}").WithDefaultRedirectUri().Build();

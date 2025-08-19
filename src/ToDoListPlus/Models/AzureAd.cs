@@ -2,9 +2,9 @@
 {
     public class AzureAd
     {
-        public string ClientId { get; set; }
-        public string Tenant { get; set; }
-        public string Instance { get; set; }
-        public string[] Scopes { get; set; }
+        public required string ClientId;
+        public required string Tenant;
+        public required string Instance;
+        public required string[] Scopes;
     }
 }

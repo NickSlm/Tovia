@@ -23,7 +23,6 @@ namespace ToDoListPlus.ViewModels
 
         public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
-        public IRelayCommand<ToDoItem> ToggleReadOnlyCommand { get; }
         public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
@@ -77,7 +76,6 @@ namespace ToDoListPlus.ViewModels
 
             CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
-            ToggleReadOnlyCommand = new RelayCommand<ToDoItem>(ToggleReadOnly);
         }
 
         private void ApplySettings()
@@ -87,10 +85,6 @@ namespace ToDoListPlus.ViewModels
             InProgressTaskColor = settings.Appearance.InProgressTask;
             FailedTaskColor = settings.Appearance.FailedTask;
             CompletedTaskColor = settings.Appearance.CompleteTask;
-        }
-        private void ToggleReadOnly(ToDoItem item)
-        {
-            item.IsReadOnly = !item.IsReadOnly;
         }
         private async Task RemoveTask(ToDoItem item)
         {

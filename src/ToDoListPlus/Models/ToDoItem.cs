@@ -6,7 +6,6 @@ public class ToDoItem: INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-	private bool _isReadOnly = true;
 	private string _title;
 	private string? _description;
 	private DateTime? _dueDate;
@@ -15,15 +14,6 @@ public class ToDoItem: INotifyPropertyChanged
 	private bool _isComplete;
 	private string _eventId;
 	private string _taskId;
-	public bool IsReadOnly
-	{
-		get => _isReadOnly;
-		set
-		{
-			_isReadOnly = value;
-			OnPropertyChanged(nameof(IsReadOnly));
-		}
-	}
 	public TaskState Status
 	{
 		get
