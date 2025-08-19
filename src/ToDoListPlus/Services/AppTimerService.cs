@@ -11,17 +11,19 @@ namespace ToDoListPlus.Services
     {
 
         private readonly ITaskManager _taskManager;
-        private ReadOnlyObservableCollection<ToDoItem> ToDoList 
-        {
-            get => _taskManager.ToDoList;
-        } 
-
         public System.Timers.Timer aTimer;
+
         public AppTimerService(ITaskManager taskManager)
         {
             _taskManager = taskManager;
             SetTimer();
         }
+
+        private ReadOnlyObservableCollection<ToDoItem> ToDoList 
+        {
+            get => _taskManager.ToDoList;
+        } 
+
         private void SetTimer()
         {
             aTimer = new System.Timers.Timer(1000);

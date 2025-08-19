@@ -13,19 +13,47 @@ namespace ToDoListPlus.ViewModels
 {
     public class ToDoListViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-            
+
+        //Fields
         private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
-        private string _inProgressTaskColor { get; set; }
-        private string _failedTaskColor { get; set; }
-        private string _completedTaskColor { get; set; }
+        private string _inProgressTaskColor;
+        private string _failedTaskColor;
+        private string _completedTaskColor;
 
-        public IAsyncRelayCommand CleanUpCommand { get; }
-        public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
-        public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
+        //Events
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        //Constructors
+        public ToDoListViewModel(ITaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
+        {
+            _taskManager = taskManager;
+            _settingsService = settingsService;
+
+            ApplySettings();
+            _settingsService.SettingsChanged += (s,e) => ApplySettings();
+            _taskManager.PropertyChanged += (s, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(TaskManager.TotalTasks):
+                        OnPropertyChanged(nameof(TotalTasks));
+                        break;
+                    case nameof(TaskManager.CompletedTasks):
+                        OnPropertyChanged(nameof(CompletedTasks));
+                        break;
+                }
+            };
+
+
+            CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
+            RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
+        }
+
+        //Properties
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
+        public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public string InProgressTaskColor
         {
             get => _inProgressTaskColor;
@@ -53,31 +81,12 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(CompletedTaskColor));
             }
         }
-        public ToDoListViewModel(ITaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
-        {
-            _taskManager = taskManager;
-            _settingsService = settingsService;
 
-            ApplySettings();
-            _settingsService.SettingsChanged += (s,e) => ApplySettings();
-            _taskManager.PropertyChanged += (s, e) =>
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(TaskManager.TotalTasks):
-                        OnPropertyChanged(nameof(TotalTasks));
-                        break;
-                    case nameof(TaskManager.CompletedTasks):
-                        OnPropertyChanged(nameof(CompletedTasks));
-                        break;
-                }
-            };
+        //Commands
+        public IAsyncRelayCommand CleanUpCommand { get; }
+        public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
 
-
-            CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
-            RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
-        }
-
+        //Methods
         private void ApplySettings()
         {
             var settings = _settingsService.userSettings;

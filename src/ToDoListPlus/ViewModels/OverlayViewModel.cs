@@ -10,16 +10,31 @@ namespace ToDoListPlus.ViewModels
 {
     public class OverlayViewModel: INotifyPropertyChanged
     {
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly ITaskManager _taskManager;
+        //Fields
         private readonly SettingsService _settingsService;
+        private readonly ITaskManager _taskManager;
         private double _topPos;
         private double _leftPos;
         private string _inProgressTaskColor;
         private string _failedTaskColor;
         private string _completedTaskColor;
 
+        //Events
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        //Constructor
+        public OverlayViewModel(SettingsService settingsService, ITaskManager taskManager)
+        {
+
+            _settingsService = settingsService;
+            _taskManager = taskManager;
+
+            _settingsService.SettingsChanged += (s, e) => ApplySettings();
+
+            ApplySettings();
+        }
+
+        //Properties
         public ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public OverlayPosition position { get; set; }
         public double TopPos
@@ -67,16 +82,7 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(CompletedTaskColor));
             }
         }
-        public OverlayViewModel(SettingsService settingsService, ITaskManager taskManager)
-        {
 
-            _settingsService = settingsService;
-            _taskManager = taskManager;
-
-            _settingsService.SettingsChanged += (s, e) => ApplySettings();
-
-            ApplySettings();
-        }
 
         private void ApplySettings()
         {
@@ -89,13 +95,11 @@ namespace ToDoListPlus.ViewModels
             FailedTaskColor = userSettings.Appearance.FailedTask;
             CompletedTaskColor = userSettings.Appearance.CompleteTask;
         }
-
         public void UpdatePosition(double top, double left)
         {
             TopPos = top;
             LeftPos = left;
         }
-
         public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

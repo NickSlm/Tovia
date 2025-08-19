@@ -10,10 +10,10 @@ namespace ToDoListPlus.Services
     {
         private readonly HotKeyManager _manager = new();
         private readonly SettingsService _settingsService;
+        public Dictionary<string, (Key Key, ModifierKeys ModifierKey)> _storedKeys = new();
 
         public event Action? OnOverlayHotKeyPressed;
         public event Action? OnNewTaskHotKeyPressed;
-        public Dictionary<string, (Key Key, ModifierKeys ModifierKey)> _storedKeys = new();
 
         public GlobalHotKeyService(SettingsService settingsService)
         {
@@ -35,7 +35,6 @@ namespace ToDoListPlus.Services
                 _manager.Register(setting.MainKey, setting.ModifierKey);
             }
         }
-
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
             foreach (var(name, (key, modifier)) in _storedKeys)
@@ -46,7 +45,6 @@ namespace ToDoListPlus.Services
                 }
             }
         }
-
         private void HandleHotKey(string hotkeyName)
         {
             switch (hotkeyName)
@@ -59,14 +57,12 @@ namespace ToDoListPlus.Services
                     break;
             }
         }
-
         public void RegisterHotKey(string name, Key key, ModifierKeys modifier)
         {
             _manager.Unregister(_storedKeys[name].Key, _storedKeys[name].ModifierKey);
             _storedKeys[name] = (key, modifier);
             _manager.Register(key, modifier);
         }
-
         public void Dispose() 
         {
             _manager.Dispose();

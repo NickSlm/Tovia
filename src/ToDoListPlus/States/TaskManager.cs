@@ -9,30 +9,12 @@ namespace ToDoListPlus.States
 {
     public class TaskManager: ITaskManager
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private readonly IMicrosoftGraphService _taskService;
         private readonly ObservableCollection<ToDoItem> _toDoList = new();
         private int _completedTasks;
 
-        internal ObservableCollection<ToDoItem> ToDoListInternal => _toDoList;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ReadOnlyObservableCollection<ToDoItem> ToDoList { get; }
-
-        public int TotalTasks
-        {
-            get => ToDoList.Count;
-        }
-
-        public int CompletedTasks
-        {
-            get => _completedTasks;
-            set
-            {
-                _completedTasks = value;
-                OnPropertyChanged(nameof(CompletedTasks));
-            }
-        }
         public TaskManager(IMicrosoftGraphService taskService)
         {
             _taskService = taskService;
@@ -46,6 +28,22 @@ namespace ToDoListPlus.States
             };
 
             LoadToDoItems();
+        }
+
+        internal ObservableCollection<ToDoItem> ToDoListInternal => _toDoList;
+        public ReadOnlyObservableCollection<ToDoItem> ToDoList { get; }
+        public int TotalTasks
+        {
+            get => ToDoList.Count;
+        }
+        public int CompletedTasks
+        {
+            get => _completedTasks;
+            set
+            {
+                _completedTasks = value;
+                OnPropertyChanged(nameof(CompletedTasks));
+            }
         }
 
         public async Task LoadToDoItems()

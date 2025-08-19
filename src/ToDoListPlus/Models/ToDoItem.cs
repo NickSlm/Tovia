@@ -3,9 +3,6 @@ using ToDoListPlus.Models;
 
 public class ToDoItem: INotifyPropertyChanged
 {
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
 	private string _title;
 	private string? _description;
 	private DateTime? _dueDate;
@@ -14,6 +11,19 @@ public class ToDoItem: INotifyPropertyChanged
 	private bool _isComplete;
 	private string _eventId;
 	private string _taskId;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+	public EventHandler? OnCompletionChanged;
+    public ToDoItem() {}
+
+    public ToDoItem(string title, string? description, DateTime? dueDate ,string importance)
+	{
+		Title = title;
+		Description = description;
+		DueDate = dueDate;
+		Importance = importance;
+    }
+
 	public TaskState Status
 	{
 		get
@@ -111,16 +121,6 @@ public class ToDoItem: INotifyPropertyChanged
             OnPropertyChanged(nameof(TaskId));
         }
     }
-    public ToDoItem() {}
-
-    public ToDoItem(string title, string? description, DateTime? dueDate ,string importance)
-	{
-		Title = title;
-		Description = description;
-		DueDate = dueDate;
-		Importance = importance;
-    }
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-	public EventHandler? OnCompletionChanged;
 }

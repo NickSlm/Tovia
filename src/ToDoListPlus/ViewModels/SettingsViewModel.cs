@@ -13,19 +13,46 @@ namespace ToDoListPlus.ViewModels
 {
     public class SettingsViewModel: INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        //Fields
         private readonly GlobalHotKeyService _globalHotKeyService;
         private readonly AppThemeService _appThemeService;
         private readonly OverlayViewModel _overlayViewModel;
         private readonly SettingsService _settingsService;
-
         private bool _isDarkTheme;
         private string _inProgressTaskColor;
         private string _failedTaskColor;
         private string _completedTaskColor;
         private OverlayPosition _overlayPos = OverlayPosition.TopLeft;
+        public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
 
+        //Events
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        //Constructors
+        public SettingsViewModel( 
+            GlobalHotKeyService globalHotKeyService, 
+            AppThemeService appThemeService,
+            OverlayViewModel overlayViewModel,
+            SettingsService settingsService
+            )
+        {
+            _settingsService = settingsService;
+            _globalHotKeyService = globalHotKeyService;
+            _appThemeService = appThemeService;
+            _overlayViewModel = overlayViewModel;
+
+            _settingsService.SettingsChanged += (s, e) => ApplySettings();
+
+            ApplySettings();
+
+            UpdateThemeCommand = new RelayCommand(() =>
+            {
+                _appThemeService.ChangeTheme(IsDarkTheme);
+            });
+            SaveSettingsCommand = new RelayCommand(SaveSettings);
+        }
+
+        //Properties
         public IRelayCommand UpdateThemeCommand { get;}
         public IRelayCommand SaveSettingsCommand { get; }
         public bool IsDarkTheme
@@ -73,32 +100,11 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(OverlayPos));
             }
         }
-        public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
         public Dictionary<string, KeyStroke> _keyStrokes { get; } = new();
         public Array PositionOptions => Enum.GetValues(typeof(OverlayPosition));
 
-        public SettingsViewModel( 
-            GlobalHotKeyService globalHotKeyService, 
-            AppThemeService appThemeService,
-            OverlayViewModel overlayViewModel,
-            SettingsService settingsService
-            )
-        {
-            _settingsService = settingsService;
-            _globalHotKeyService = globalHotKeyService;
-            _appThemeService = appThemeService;
-            _overlayViewModel = overlayViewModel;
 
-            _settingsService.SettingsChanged += (s, e) => ApplySettings();
 
-            ApplySettings();
-
-            UpdateThemeCommand = new RelayCommand(() =>
-            {
-                _appThemeService.ChangeTheme(IsDarkTheme);
-            });
-            SaveSettingsCommand = new RelayCommand(saveSettings);
-        }
         public void ApplySettings()
         {
             var settings = _settingsService.userSettings;
@@ -120,8 +126,7 @@ namespace ToDoListPlus.ViewModels
                 _keyStrokes[name] = keystroke;
             }
         }
-
-        public void saveSettings() 
+        public void SaveSettings() 
         {
             var overlayWindow = App.Services.GetRequiredService<OverlayWindow>();
             var windowWidth = overlayWindow.Width;
@@ -191,7 +196,6 @@ namespace ToDoListPlus.ViewModels
 
             DialogHost.Close("RootDialog");
         }
-        
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

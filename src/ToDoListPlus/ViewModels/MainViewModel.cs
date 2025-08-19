@@ -10,14 +10,21 @@ namespace ToDoListPlus.ViewModels
 
     public class MainViewModel: INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        //View Models
-        public ToDoListViewModel? ToDoListVM { get;  }
-        public AuthorizationViewModel? AuthorizationVM { get; }
-
         private bool _isLightMode = false;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
+        {
+            AuthorizationVM = authorizationVM;
+            ToDoListVM = toDoListVM;
+
+            OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
+            NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
+        }
+
+        public ToDoListViewModel? ToDoListVM { get;  }
+        public AuthorizationViewModel? AuthorizationVM { get; }
         public bool IsLightMode
         {
             get => _isLightMode;
@@ -27,17 +34,9 @@ namespace ToDoListPlus.ViewModels
                 OnPropertyChanged(nameof(IsLightMode));
             }
         }
+
         public IAsyncRelayCommand OpenSettingsCommand { get; }
         public IAsyncRelayCommand NewTaskCommand { get; }
-
-        public MainViewModel(ToDoListViewModel toDoListVM, AuthorizationViewModel? authorizationVM)
-        {
-            AuthorizationVM = authorizationVM;
-            ToDoListVM = toDoListVM;
-
-            OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
-            NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
-        }
 
         public async Task OpenSettingsWindow()
         {
@@ -63,7 +62,6 @@ namespace ToDoListPlus.ViewModels
                 var result = await DialogHost.Show(newTaskView, "RootDialog");
             }
         }
-
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

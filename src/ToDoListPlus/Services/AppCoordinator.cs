@@ -13,7 +13,6 @@ namespace ToDoListPlus.Services
         private readonly AppStateService _appStateService;
         private readonly ITaskManager _taskManager;
 
-
         public AppCoordinator(AppStateService appStateService, ITaskManager taskManager)
         {
             _appStateService = appStateService;
