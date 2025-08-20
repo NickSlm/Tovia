@@ -68,14 +68,7 @@
                                 <Setter TargetName="border"
                                         Property="BorderBrush"
                                         Value="#999" />
-                                <Setter TargetName="border"
-                                        Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="10"
-                                                          ShadowDepth="1"
-                                                          Opacity="0.3" />
-                                    </Setter.Value>
-                                </Setter>
+
                             </Trigger>
                             <!-- Pressed effect -->
                             <Trigger Property="IsPressed"
@@ -115,11 +108,9 @@
 
     </Window.Resources>
 
-    <Border CornerRadius="10"
-            BorderBrush="#DDD"
+    <Border BorderBrush="Black"
             BorderThickness="1"
-            Margin="20"
-            Background="White">
+            Background="Transparent">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -129,7 +120,7 @@
             <!-- Top Blue Header -->
             <Grid Background="#0078D4"
                   Height="60">
-                <TextBlock Text="Sign in"
+                <TextBlock Text="Authentication"
                            Foreground="White"
                            FontSize="18"
                            FontWeight="SemiBold"
@@ -157,9 +148,9 @@
                         HorizontalAlignment="Center"
                         Margin="20">
                 <!-- Microsoft Logo -->
-                <Image Source="pack://application:,,,/Assets/Icons/Microsoft_Logo_256px.png"
-                       Width="100"
-                       Height="100"
+                <Image Source="pack://application:,,,/Assets/Icons/PlaceHolder_Logo_2.png"
+                       Width="200"
+                       Height="126"
                        Margin="0,20,0,20" />
 
                 <!-- Welcome Text -->
