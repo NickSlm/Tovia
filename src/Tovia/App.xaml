@@ -44,6 +44,19 @@
                 </Style.Triggers>
             </Style>
 
+            <SolidColorBrush x:Key="OutlookHeaderBackgroundBrush"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="OutlookHeaderForegroundBrush"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="OutlookRowHoverBrush"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="OutlookRowForegroundBrush"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="OutlookPanelBackgroundBrush"
+                             Color="Transparent" />
+            <SolidColorBrush x:Key="OutlookAccentBrush"
+                             Color="Transparent" />
+
         </ResourceDictionary>
     </Application.Resources>
 

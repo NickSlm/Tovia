@@ -15,7 +15,6 @@
     <Border Width="380"
             Padding="0"
             CornerRadius="6"
-            BorderThickness="1"
             Effect="{DynamicResource MaterialDesignElevation1}">
         <Grid>
             <Grid.RowDefinitions>
@@ -26,11 +25,12 @@
 
             <Border 
                     Padding="16"
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                     BorderBrush="#E1E1E1"
-                    Background="{DynamicResource CustomBorderBrush}"
                     BorderThickness="0,0,0,1">
                 <TextBlock Text="New Task"
                            FontSize="16"
+                           Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
                            FontWeight="SemiBold"/>
             </Border>
 
@@ -93,7 +93,7 @@
             <Border Grid.Row="2"
                     Padding="12"
                     BorderBrush="#E1E1E1"
-                    Background="{DynamicResource CustomBorderBrush}"
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                     BorderThickness="0,1,0,0">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
