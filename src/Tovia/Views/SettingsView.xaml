@@ -44,10 +44,11 @@
             <Border 
                     Padding="16,12"
                     BorderBrush="#E5E5E5"
-                    Background="{DynamicResource CustomBorderBrush}"
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                     BorderThickness="0,0,0,1">
                 <TextBlock Text="Settings"
                            FontFamily="Segoe UI"
+                           Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
                            FontSize="18"
                            FontWeight="SemiBold"/>
             </Border>
@@ -210,7 +211,7 @@
 
             <Border Grid.Row="2"
                     BorderBrush="#E5E5E5"
-                    Background="{DynamicResource CustomBorderBrush}"
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                     BorderThickness="0,1,0,0"
                     Padding="12">
                 <StackPanel Orientation="Horizontal"

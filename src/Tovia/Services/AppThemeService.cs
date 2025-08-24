@@ -11,7 +11,6 @@ namespace Tovia.Services
 
         public bool IsDarkTheme;
         private PaletteHelper _paletteHelper = new PaletteHelper();
-        private SolidColorBrush _borderBrush;
         private readonly SettingsService _settingsService;
         private readonly AppSettings _appSettings;
 
@@ -38,13 +37,29 @@ namespace Tovia.Services
                     (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Secondary));
             _paletteHelper.SetTheme(theme);
 
+            if (IsDarkTheme)
+            {
+                Application.Current.Resources["OutlookHeaderBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E1E1E"));
+                Application.Current.Resources["OutlookHeaderForegroundBrush"] = Brushes.White;
+                Application.Current.Resources["OutlookRowHoverBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"));
+                Application.Current.Resources["OutlookRowForegroundBrush"] = Brushes.WhiteSmoke;
+                Application.Current.Resources["OutlookPanelBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#121212"));
+                Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"));
 
+            }
+            else
+            {
+                Application.Current.Resources["OutlookHeaderBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookHeaderForegroundBrush"] = Brushes.White;
+                Application.Current.Resources["OutlookRowHoverBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F3F2F1"));
+                Application.Current.Resources["OutlookRowForegroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#201F1E"));
+                Application.Current.Resources["OutlookPanelBackgroundBrush"] = Brushes.White;
+                Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E0E0E0"));
 
-            _borderBrush = new SolidColorBrush(IsDarkTheme
-                ? (Color)ColorConverter.ConvertFromString("#3B3B3B")
-                : (Color)ColorConverter.ConvertFromString("#E1E1E1"));
+            }
 
-            Application.Current.Resources["CustomBorderBrush"] = _borderBrush;
 
 
         }
@@ -59,11 +74,30 @@ namespace Tovia.Services
                     (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Secondary));
             _paletteHelper.SetTheme(theme);
 
-            var borderColor = newTheme ? (Color)ColorConverter.ConvertFromString("#3B3B3B") 
-                                       : (Color)ColorConverter.ConvertFromString("#E1E1E1");
+            if (newTheme)
+            {
+                Application.Current.Resources["OutlookHeaderBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E1E1E"));
+                Application.Current.Resources["OutlookHeaderForegroundBrush"] = Brushes.White;
+                Application.Current.Resources["OutlookRowHoverBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"));
+                Application.Current.Resources["OutlookRowForegroundBrush"] = Brushes.WhiteSmoke;
+                Application.Current.Resources["OutlookPanelBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#121212"));
+                Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"));
 
-            _borderBrush = new SolidColorBrush(borderColor);
-            Application.Current.Resources["CustomBorderBrush"] = _borderBrush;
+            }
+            else
+            {
+                Application.Current.Resources["OutlookHeaderBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookHeaderForegroundBrush"] = Brushes.White;
+                Application.Current.Resources["OutlookRowHoverBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F3F2F1"));
+                Application.Current.Resources["OutlookRowForegroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#201F1E"));
+                Application.Current.Resources["OutlookPanelBackgroundBrush"] = Brushes.White;
+                Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E0E0E0"));
+
+            }
+
+
         }
     }
 }
