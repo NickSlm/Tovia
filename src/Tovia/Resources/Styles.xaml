@@ -82,6 +82,12 @@
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
         <Setter Property="Margin" Value="0,0,0,8"/>
     </Style>
+    <Style x:Key="TestButton"
+           TargetType="Button"
+           BasedOn="{StaticResource MaterialDesignPaperLightButton}">
+
+
+    </Style>
 
 
 </ResourceDictionary>

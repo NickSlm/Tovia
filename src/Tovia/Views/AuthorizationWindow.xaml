@@ -148,9 +148,10 @@
                         HorizontalAlignment="Center"
                         Margin="20">
                 <!-- Microsoft Logo -->
-                <Image Source="pack://application:,,,/Assets/Icons/PlaceHolder_Logo_2.png"
+                <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
                        Width="200"
                        Height="126"
+                       RenderOptions.BitmapScalingMode="HighQuality"
                        Margin="0,20,0,20" />
 
                 <!-- Welcome Text -->
