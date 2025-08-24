@@ -109,27 +109,48 @@
 
             <!--Header Section Login-->
             <Border Grid.Row="0"
-                    Padding="8"
-                    BorderBrush="#DDD"
-                    Background="{DynamicResource CustomBorderBrush}"
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                     BorderThickness="0 0 0 1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <materialDesign:Chip Content="{Binding AuthorizationVM.AccountUsername}">
-                        <materialDesign:Chip.Icon>
-                            <Image Source="{Binding AuthorizationVM.AccountPhoto}" RenderOptions.BitmapScalingMode="HighQuality" />
-                        </materialDesign:Chip.Icon>
-                    </materialDesign:Chip>
+
+                    <Image Grid.Column="0"
+                           Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
+                           Height="64"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
                     <materialDesign:PopupBox VerticalAlignment="Center"
+                                             materialDesign:RippleAssist.Feedback="Transparent"
                                              HorizontalAlignment="Right"
                                              Margin="0,0,12,0"
+                                             Grid.Column="1"
                                              Padding="8"
+                                             Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
                                              PlacementMode="BottomAndAlignRightEdges"
-                                             StaysOpen="False"
-                                             Content="Account">
+                                             StaysOpen="False">
+                        <materialDesign:PopupBox.ToggleContent>
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                
+                            <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
+                                       Style="{StaticResource MaterialDesignBody1TextBlock}" />
+
+                            <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                  Width="8"
+                                  Height="4"
+                                  Margin="8,0,0,0"
+                                  Fill="{DynamicResource OutlookHeaderForegroundBrush}"
+                                  VerticalAlignment="Center" />
+                            </StackPanel>
+                        </materialDesign:PopupBox.ToggleContent>
+
+
                         <StackPanel>
                             <Button Command="{Binding OpenSettingsCommand}"
                                     HorizontalContentAlignment="Left"
@@ -159,10 +180,7 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-
-
                     </materialDesign:PopupBox>
-
                 </Grid>
             </Border>
 
@@ -191,8 +209,8 @@
                                              Maximum="100"
                                              Height="32"
                                              Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}"
-                                             Foreground="#0078D4"
-                                             Background="#E0E0E0"
+                                             Foreground="{DynamicResource OutlookAccentBrush}"
+                                             Background="{DynamicResource OutlookProgressTrackBrush}"
                                              BorderBrush="Transparent"
                                              BorderThickness="0"
                                              Margin="8,0" />
@@ -201,7 +219,7 @@
                                            Text="{Binding ToDoListVM.CompletedTasks, Mode=OneWay,StringFormat={}{0:0}%}"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="black"
+                                           Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
                                            FontWeight="SemiBold"
                                            FontSize="16" />
 
@@ -257,7 +275,7 @@
                                             </Style.Triggers>
                                         </Style>
                                     </DataGrid.RowStyle>
-
+                                  
                                     <DataGrid.Columns>
                                         <!--Complete Checkbox-->
                                         <DataGridTemplateColumn Header="Done"
@@ -365,14 +383,13 @@
                     <!--Main Body Bottom Section Add New Task-->
                     <Border Grid.Row="1"
                             BorderThickness="0 1 0 0"
-                            BorderBrush="#DDD"
-                            Background="{DynamicResource CustomBorderBrush}"
+                            Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                             Padding="8 4">
                         <Button Command="{Binding NewTaskCommand}"
                                 Margin="0 8"
                                 Padding="10 6"
                                 HorizontalAlignment="Center"
-                                Style="{StaticResource OutlookButtonStyle}"
+                                Style="{StaticResource MaterialDesignPaperLightButton}"
                                 ToolTip="Add new task">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="Plus"
