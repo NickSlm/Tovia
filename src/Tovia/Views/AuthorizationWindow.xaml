@@ -148,7 +148,7 @@
                         HorizontalAlignment="Center"
                         Margin="20">
                 <!-- Microsoft Logo -->
-                <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
+                <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo.png"
                        Width="200"
                        Height="126"
                        RenderOptions.BitmapScalingMode="HighQuality"
