@@ -33,7 +33,10 @@
 
     <Border Width="384"
             Height="544"
-            CornerRadius="6">
+            BorderThickness="1"
+            BorderBrush="White"
+            CornerRadius="0"
+            SnapsToDevicePixels="True">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -220,13 +223,13 @@
                             IsDefault="True"
                             Margin="8,0"
                             Width="88"
-                            Style="{StaticResource OutlookButtonStyle}"
+                            Style="{DynamicResource OutlookSecondaryButtonStyle}"
                             Command="{Binding SaveSettingsCommand}" />
                     <Button Content="CANCEL"
                             IsCancel="True"
                             Margin="8,0"
                             Width="88"
-                            Style="{StaticResource OutlookButtonStyle}"
+                            Style="{DynamicResource OutlookSecondaryButtonStyle}"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
                 </StackPanel>
             </Border>
