@@ -13,9 +13,11 @@
 
 
     <Border Width="380"
-            Padding="0"
-            CornerRadius="6"
-            Effect="{DynamicResource MaterialDesignElevation1}">
+            BorderThickness="1"
+            BorderBrush="White"
+            CornerRadius="0"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -99,15 +101,17 @@
                             HorizontalAlignment="Center">
                     <Button Content="SAVE"
                             IsDefault="True"
+                            Width="88"
                             Margin="8 0 8 0"
-                            Style="{StaticResource OutlookButtonStyle}"
+                            Style="{DynamicResource OutlookSecondaryButtonStyle}"
                             Command="{Binding SaveTaskCommand}">
                     </Button>
 
                     <Button Content="CANCEL"
                             Margin="8 0 8 0"
+                            Width="88"
                             IsCancel="True"
-                            Style="{StaticResource OutlookButtonStyle}"
+                            Style="{DynamicResource OutlookSecondaryButtonStyle}"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
                     </Button>
                 </StackPanel>
