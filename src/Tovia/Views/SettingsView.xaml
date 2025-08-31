@@ -46,9 +46,7 @@
 
             <Border 
                     Padding="16,12"
-                    BorderBrush="#E5E5E5"
-                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
-                    BorderThickness="0,0,0,1">
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}">
                 <TextBlock Text="Settings"
                            FontFamily="Segoe UI"
                            Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
@@ -213,9 +211,7 @@
             </ScrollViewer>
 
             <Border Grid.Row="2"
-                    BorderBrush="#E5E5E5"
                     Background="{DynamicResource OutlookHeaderBackgroundBrush}"
-                    BorderThickness="0,1,0,0"
                     Padding="12">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
