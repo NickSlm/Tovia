@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-
     <Style x:Key="OutlookSecondaryButtonStyle"
            TargetType="Button"
            BasedOn="{StaticResource MaterialDesignFlatButton}">
@@ -10,19 +9,14 @@
                 Value="#0078D4" />
         <Setter Property="Background"
                 Value="White" />
-        <Setter Property="FontWeight"
-                Value="SemiBold" />
-        <Setter Property="Margin"
-                Value="4" />
-        <Setter Property="BorderBrush"
-                Value="#0078D4" />
         <Setter Property="BorderThickness"
                 Value="1" />
-
+        <Setter Property="BorderBrush"
+                Value="Gray" />
+        <Setter Property="Margin"
+                Value="4" />
         <Setter Property="Padding"
                 Value="10,5" />
-
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -34,20 +28,17 @@
                                           Margin="{TemplateBinding Padding}"
                                           RecognizesAccessKey="True" />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <!-- Hover -->
+                    <ControlTemplate.Triggers> 
                         <Trigger Property="IsMouseOver"
                                  Value="True">
                             <Setter Property="Background"
-                                    Value="#F3F9FF" />
+                                    Value="#F5F5F5" />
                         </Trigger>
-                        <!-- Pressed -->
                         <Trigger Property="IsPressed"
                                  Value="True">
                             <Setter Property="Background"
                                     Value="#E6F2FB" />
                         </Trigger>
-                        <!-- Disabled -->
                         <Trigger Property="IsEnabled"
                                  Value="False">
                             <Setter Property="Background"
@@ -62,7 +53,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <Style x:Key="OutlookTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="13"/>
@@ -101,7 +91,138 @@
         <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
         <Setter Property="Margin" Value="0,0,0,8"/>
     </Style>
-    
+    <Style x:Key="TitleTextStyle"
+           TargetType="TextBlock">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Complete">
+                <Setter Property="Foreground"
+                        Value="#201F1E" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="InProgress">
+                <Setter Property="Foreground"
+                        Value="#201F1E" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Failed">
+                <Setter Property="Foreground"
+                        Value="White" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DescriptionTextStyle"
+           TargetType="TextBlock">
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Complete">
+                <Setter Property="Foreground"
+                        Value="#605E5C	" />
+                <Setter Property="FontStyle"
+                        Value="Italic" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="InProgress">
+                <Setter Property="Foreground"
+                        Value="#605E5C" />
+                <Setter Property="FontStyle"
+                        Value="Italic" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Failed">
+                <Setter Property="Foreground"
+                        Value="WhiteSmoke" />
+                <Setter Property="FontStyle"
+                        Value="Italic" />
+            </DataTrigger>
+        </Style.Triggers>
 
 
+    </Style>
+    <Style x:Key="TaskBackground"
+           TargetType="DataGridRow">
+        <Setter Property="BorderBrush"
+                Value="{DynamicResource MaterialDesignPaper}" />
+        <Setter Property="BorderThickness"
+                Value="0,0,0,1" />
+        <Setter Property="Background"
+                Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+        <Setter Property="Focusable"
+                Value="False" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="Complete">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="InProgress">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="Failed">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.ToDoListVM.FailedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                <Setter Property="Opacity"
+                        Value="0.8" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="TaskBackgroundOverlay"
+           TargetType="Border">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="Complete">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.CompletedTaskColor, 
+   RelativeSource={RelativeSource AncestorType=Window}}" />
+                <Setter Property="Opacity"
+                        Value="0.9" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="InProgress">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.InProgressTaskColor, 
+   RelativeSource={RelativeSource AncestorType=Window}}" />
+                <Setter Property="Opacity"
+                        Value="0.9" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="Failed">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.FailedTaskColor, 
+   RelativeSource={RelativeSource AncestorType=Window}}" />
+                <Setter Property="IsEnabled"
+                        Value="False" />
+                <Setter Property="Opacity"
+                        Value="0.9" />
+
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="IconButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Height"
+                Value="24" />
+        <Setter Property="Width"
+                Value="24" />
+        <Setter Property="Padding"
+                Value="0" />
+        <Setter Property="Margin"
+                Value="0 0 0 0" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Background"
+                        Value="Transparent" />
+                <Setter Property="Opacity"
+                        Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

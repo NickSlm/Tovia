@@ -22,7 +22,6 @@
                           Offset="1" />
         </LinearGradientBrush>
     </Window.Background>
-
     <Window.Resources>
         <!-- Outlook style sign-in button -->
         <Style x:Key="MicrosoftButtonStyle"
@@ -117,7 +116,6 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Top Blue Header -->
             <Grid Background="#0078D4"
                   Height="60">
                 <TextBlock Text="Authentication"
@@ -142,26 +140,22 @@
                         Command="{Binding CloseCommand}" />
             </Grid>
 
-            <!-- Content -->
             <StackPanel Grid.Row="1"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Margin="20">
-                <!-- Microsoft Logo -->
                 <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo.png"
                        Width="200"
                        Height="126"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        Margin="0,20,0,20" />
 
-                <!-- Welcome Text -->
                 <TextBlock Text="Welcome! Sign in with your Microsoft account."
                            FontSize="14"
                            Foreground="#555"
                            TextAlignment="Center"
                            Margin="0,0,0,20" />
 
-                <!-- Sign in Button -->
                 <Button Command="{Binding AuthorizationCommand}"
                         Style="{StaticResource MicrosoftButtonStyle}">
                     <StackPanel Orientation="Horizontal"
