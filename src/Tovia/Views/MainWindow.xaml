@@ -13,88 +13,19 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Closed="MainWindow_Closed"
         Title="Tovia"
         Height="640"
         Width="640">
     <Window.Resources>
-        <Style x:Key="IconButtonStyle"
-               TargetType="Button"
-               BasedOn="{StaticResource MaterialDesignFlatButton}">
-            <Setter Property="Background"
-                    Value="Transparent" />
-            <Setter Property="Height"
-                    Value="32" />
-            <Setter Property="Width"
-                    Value="32" />
-            <Setter Property="Padding"
-                    Value="0" />
-            <Setter Property="Margin"
-                    Value="0,0,4,0" />
-            <Style.Triggers>
-                <Trigger Property="IsEnabled"
-                         Value="False">
-                    <Setter Property="Background"
-                            Value="Transparent" />
-                    <Setter Property="Opacity"
-                            Value="0.5" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBoolToVis" />
         <converters:StringToVisibilityHiddenConverter x:Key="StringToVisibilityHiddenConverter" />
         <converters:StringToVisibilityCollapsedConverter x:Key="StringToVisibilityCollapsedConverter" />
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <Style x:Key="TitleTextStyle"
-               TargetType="TextBlock">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}"
-                             Value="Complete">
-                    <Setter Property="Foreground"
-                            Value="#201F1E" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}"
-                             Value="InProgress">
-                    <Setter Property="Foreground"
-                            Value="#201F1E" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}"
-                             Value="Failed">
-                    <Setter Property="Foreground"
-                            Value="White" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="DescriptionTextStyle"
-               TargetType="TextBlock">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Status}"
-                             Value="Complete">
-                    <Setter Property="Foreground"
-                            Value="#605E5C	" />
-                    <Setter Property="FontStyle"
-                            Value="Italic" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}"
-                             Value="InProgress">
-                    <Setter Property="Foreground"
-                            Value="#605E5C" />
-                    <Setter Property="FontStyle"
-                            Value="Italic" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Status}"
-                             Value="Failed">
-                    <Setter Property="Foreground"
-                            Value="WhiteSmoke" />
-                    <Setter Property="FontStyle"
-                            Value="Italic" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </Window.Resources>
 
+    
 
     <Border BorderBrush="WhiteSmoke"
             BorderThickness="1"
@@ -242,7 +173,7 @@
                                             CommandParameter="{Binding ToDoListVM.ToDoList}"
                                             Margin="8,0"
                                             Grid.Column="1"
-                                            ToolTip="Clear all completed tasks"
+                                            ToolTip="Clear all completed/failed tasks"
                                             Style="{DynamicResource OutlookSecondaryButtonStyle}"
                                             Content="Clean Up">
                                     </Button>
@@ -261,35 +192,6 @@
                                               GridLinesVisibility="None"
                                               Focusable="False">
 
-                                        <DataGrid.RowStyle>
-                                            <Style TargetType="DataGridRow">
-                                                <Setter Property="BorderBrush"
-                                                        Value="WhiteSmoke" />
-                                                <Setter Property="BorderThickness"
-                                                        Value="0,0,0,1" />
-                                                <Setter Property="Background"
-                                                        Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                                <Setter Property="Focusable"
-                                                        Value="False" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                                                                 Value="Complete">
-                                                        <Setter Property="Background"
-                                                                Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                                                                 Value="Failed">
-                                                        <Setter Property="IsEnabled"
-                                                                Value="False" />
-                                                        <Setter Property="Background"
-                                                                Value="{Binding DataContext.ToDoListVM.FailedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                                                        <Setter Property="Opacity"
-                                                                Value="0.8" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </DataGrid.RowStyle>
-
                                         <DataGrid.Columns>
                                             <!--Complete Checkbox-->
                                             <DataGridTemplateColumn Header="Done"
@@ -299,7 +201,19 @@
                                                     <DataTemplate>
                                                         <CheckBox IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                   VerticalAlignment="Center"
-                                                                  HorizontalAlignment="Center" />
+                                                                  HorizontalAlignment="Center">
+                                                            <CheckBox.Style>
+                                                                <Style TargetType="CheckBox">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Status}"
+                                                                                     Value="Failed">
+                                                                            <Setter Property="IsEnabled"
+                                                                                    Value="False" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </CheckBox.Style>
+                                                        </CheckBox>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
@@ -315,7 +229,7 @@
                                                                     <ColumnDefinition Width="*" />
                                                                 </Grid.ColumnDefinitions>
 
-                                                                <!-- Calendar icon, shown only if it's an event -->
+                                                                <!-- Calendar icon, shown only if its an event -->
                                                                 <materialDesign:PackIcon Kind="CalendarCheck"
                                                                                          Grid.Column="0"
                                                                                          Margin="0,2,4,0"
@@ -372,6 +286,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
+                                            
                                             <!--Remove Button-->
                                             <DataGridTemplateColumn Header=""
                                                                     Width="Auto"
@@ -381,9 +296,9 @@
                                                         <Button Command="{Binding DataContext.ToDoListVM.RemoveTaskCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                                 CommandParameter="{Binding}"
                                                                 Style="{StaticResource IconButtonStyle}">
-                                                            <materialDesign:PackIcon Kind="DeleteOutline"
-                                                                                     Width="24"
-                                                                                     Height="24" />
+                                                            <Image Source="pack://application:,,,/Assets/Icons/RemoveTask.png" 
+                                                                   RenderOptions.BitmapScalingMode="HighQuality" />
+
                                                         </Button>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>

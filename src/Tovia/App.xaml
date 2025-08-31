@@ -7,13 +7,13 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <!--<materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />-->
 
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
                 <ResourceDictionary Source="/Resources/Styles.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
-
 
             <Style TargetType="CheckBox"
                    BasedOn="{x:Null}" />
@@ -43,20 +43,8 @@
 
                 </Style.Triggers>
             </Style>
-
-            <SolidColorBrush x:Key="OutlookHeaderBackgroundBrush"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="OutlookHeaderForegroundBrush"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="OutlookRowHoverBrush"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="OutlookRowForegroundBrush"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="OutlookPanelBackgroundBrush"
-                             Color="Transparent" />
-            <SolidColorBrush x:Key="OutlookAccentBrush"
-                             Color="Transparent" />
-
+            <Style TargetType="DataGridRow"
+                   BasedOn="{StaticResource TaskBackground}" />
         </ResourceDictionary>
     </Application.Resources>
 

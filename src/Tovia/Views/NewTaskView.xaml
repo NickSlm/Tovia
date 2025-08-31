@@ -27,9 +27,7 @@
 
             <Border 
                     Padding="16"
-                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
-                    BorderBrush="#E1E1E1"
-                    BorderThickness="0,0,0,1">
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}">
                 <TextBlock Text="New Task"
                            FontSize="16"
                            Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
@@ -94,9 +92,7 @@
 
             <Border Grid.Row="2"
                     Padding="12"
-                    BorderBrush="#E1E1E1"
-                    Background="{DynamicResource OutlookHeaderBackgroundBrush}"
-                    BorderThickness="0,1,0,0">
+                    Background="{DynamicResource OutlookHeaderBackgroundBrush}">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
                     <Button Content="SAVE"
