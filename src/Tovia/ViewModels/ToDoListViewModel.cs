@@ -100,6 +100,7 @@ namespace Tovia.ViewModels
         private async Task CleanCompletedItems()
         {
             await _taskManager.RemoveCompleteTask();
+
         }
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
