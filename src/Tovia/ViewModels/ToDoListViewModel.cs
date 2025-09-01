@@ -13,18 +13,14 @@ namespace Tovia.ViewModels
 {
     public class ToDoListViewModel : INotifyPropertyChanged
     {
-
-        //Fields
         private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
         private string _inProgressTaskColor;
         private string _failedTaskColor;
         private string _completedTaskColor;
 
-        //Events
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        //Constructors
         public ToDoListViewModel(ITaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
         {
             _taskManager = taskManager;
@@ -48,7 +44,6 @@ namespace Tovia.ViewModels
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
         }
 
-        //Properties
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
         public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
@@ -80,11 +75,9 @@ namespace Tovia.ViewModels
             }
         }
 
-        //Commands
         public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
 
-        //Methods
         private void ApplySettings()
         {
             var settings = _settingsService.userSettings;
