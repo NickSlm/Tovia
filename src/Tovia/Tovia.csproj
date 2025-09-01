@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Assets\Icons\AppIcon.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Icons\AppIconTest.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Config\appsettings.json" />
@@ -15,7 +15,6 @@
 		<Resource Include="Assets\Icons\**\*.*" />
 	</ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Icons\AppIcon.ico" />
     <Content Include="Config\appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -22,6 +22,7 @@ namespace Tovia.ViewModels
 
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
             NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
+
         }
 
         public ToDoListViewModel? ToDoListVM { get;  }
@@ -63,6 +64,7 @@ namespace Tovia.ViewModels
                 var result = await DialogHost.Show(newTaskView, "RootDialog");
             }
         }
+
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

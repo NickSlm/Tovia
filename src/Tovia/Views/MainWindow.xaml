@@ -14,8 +14,11 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
         Closed="MainWindow_Closed"
-        Title="Tovia"
         Height="640"
         Width="640">
     <Window.Resources>
@@ -31,9 +34,49 @@
             BorderThickness="1"
             CornerRadius="0"
             Background="{DynamicResource MaterialDesignPaper}">
-        <materialDesign:DialogHost Identifier="RootDialog"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0"
+                       Background="{DynamicResource OutlookHeaderBackgroundBrush}"
+                       MouseLeftButtonDown="TitleBar_MouseDown">
+                <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
+                       Height="48"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
+                <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                    <Button Width="40"
+                            Height="32"
+                            Click="Minimize_Click"
+                            FontFamily="Segoe MDL2 Assets"
+                            Content="&#xE921;"
+                            Style="{StaticResource IconButtonStyle}"/>
+
+                    <Button Width="40"
+                            Height="32"
+                            Click="Maximize_Click"
+                            FontFamily="Segoe MDL2 Assets"
+                            Content="&#xE922;"
+                            Style="{StaticResource IconButtonStyle}"/>
+
+                    <Button Width="40"
+                            Height="32"
+                            Click="Close_Click"
+                            FontFamily="Segoe MDL2 Assets"
+                            Content="&#xE8BB;"
+                            Style="{StaticResource IconButtonStyle}"/>
+
+
+                </StackPanel>
+            </DockPanel>
+            <materialDesign:DialogHost Identifier="RootDialog"
                                    DialogContentUniformCornerRadius="0"
-                                   DialogTheme="Inherit">
+                                   DialogTheme="Inherit"
+                                       Grid.Row="1">
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -51,12 +94,12 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <Image Grid.Column="0"
+                        <!--<Image Grid.Column="0"
                                Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
                                Height="64"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               RenderOptions.BitmapScalingMode="HighQuality" />
+                               RenderOptions.BitmapScalingMode="HighQuality" />-->
                         <materialDesign:PopupBox VerticalAlignment="Center"
                                                  Grid.Column="1"
                                                  materialDesign:RippleAssist.Feedback="Transparent"
@@ -335,5 +378,6 @@
                 </Grid>
             </Grid>
         </materialDesign:DialogHost>
+        </Grid>
     </Border>
 </Window>
