@@ -10,7 +10,6 @@ namespace Tovia.ViewModels
 {
     public class OverlayViewModel: INotifyPropertyChanged
     {
-        //Fields
         private readonly SettingsService _settingsService;
         private readonly ITaskManager _taskManager;
         private double _topPos;
@@ -19,10 +18,8 @@ namespace Tovia.ViewModels
         private string _failedTaskColor;
         private string _completedTaskColor;
 
-        //Events
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        //Constructor
         public OverlayViewModel(SettingsService settingsService, ITaskManager taskManager)
         {
 
@@ -34,7 +31,6 @@ namespace Tovia.ViewModels
             ApplySettings();
         }
 
-        //Properties
         public ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
         public OverlayPosition position { get; set; }
         public double TopPos

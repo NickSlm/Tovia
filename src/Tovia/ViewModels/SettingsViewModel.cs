@@ -14,7 +14,6 @@ namespace Tovia.ViewModels
 {
     public class SettingsViewModel: INotifyPropertyChanged
     {
-        //Fields
         private readonly GlobalHotKeyService _globalHotKeyService;
         private readonly AppThemeService _appThemeService;
         private readonly OverlayViewModel _overlayViewModel;
@@ -26,10 +25,8 @@ namespace Tovia.ViewModels
         private OverlayPosition _overlayPos = OverlayPosition.TopLeft;
         public Dictionary<string, (Key key, ModifierKeys modifier)> _hotkeySettings = new();
 
-        //Events
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        //Constructors
         public SettingsViewModel( 
             GlobalHotKeyService globalHotKeyService, 
             AppThemeService appThemeService,
@@ -53,7 +50,6 @@ namespace Tovia.ViewModels
             SaveSettingsCommand = new RelayCommand(SaveSettings);
         }
 
-        //Properties
         public IRelayCommand UpdateThemeCommand { get;}
         public IRelayCommand SaveSettingsCommand { get; }
         public bool IsDarkTheme
