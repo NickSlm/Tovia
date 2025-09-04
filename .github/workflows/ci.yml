@@ -25,4 +25,4 @@ jobs:
 
       - name: Build WPF projects only
         run: |
-          dotnet build Tovia/Tovia.csproj --configuration Release
+          dotnet build src/Tovia/Tovia.csproj --configuration Release
