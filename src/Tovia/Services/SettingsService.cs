@@ -10,34 +10,54 @@ namespace Tovia.Services
     public class SettingsService
     {
 
-        private const string AppSettingsPath = "Config/appsettings.json";
-        private const string UserSettingsPath = "Config/usersettings.json";
+        private readonly string appSettingsPath;
+        private readonly string userSettingsPath;
+        private readonly string packagedUserSettings;
 
         public event EventHandler SettingsChanged;
 
         public SettingsService()
         {
+            var localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var appFolder = Path.Combine(localFolder, "Tovia");
+            Directory.CreateDirectory(appFolder);
+
+            userSettingsPath = Path.Combine(appFolder, "userSettings.json");
+
+            var baseDir = AppContext.BaseDirectory;
+            packagedUserSettings = Path.Combine(baseDir, "Config","usersettings.json");
+            appSettingsPath = Path.Combine(baseDir, "Config", "appsettings.json");
+
             Load();
         }
-        public UserSettings userSettings { get; private set; }
+
+        public UserSettings userSettings {get; private set;}
         public AppSettings appSettings { get; private set; }
         
         public void Load()
         {
-            var userPath = Path.Combine(AppContext.BaseDirectory, UserSettingsPath);
-            var appPath = Path.Combine(AppContext.BaseDirectory, AppSettingsPath);
 
-            userSettings = JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(userPath));
-            appSettings = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(appPath));
+            appSettings = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(appSettingsPath));
+
+            if (!File.Exists(userSettingsPath))
+            {
+                if (File.Exists(packagedUserSettings))
+                {
+                    File.Copy(packagedUserSettings, userSettingsPath, overwrite:false);
+                }
+                else
+                {
+                    File.WriteAllText(userSettingsPath, JsonConvert.SerializeObject(new UserSettings(), Formatting.Indented));
+                }
+            }
+
+            userSettings = JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(userSettingsPath));
         }
         public void Save(UserSettings newUserSettings)
         {
-            var path = Path.Combine(AppContext.BaseDirectory, UserSettingsPath);
             var json = JsonConvert.SerializeObject(newUserSettings, Formatting.Indented);
-
+            File.WriteAllText(userSettingsPath, json);
             userSettings = newUserSettings;
-            File.WriteAllText(path, json);
-
             SettingsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
