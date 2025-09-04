@@ -21,7 +21,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
-        run: dotnet restore Tovia/Tovia.sln
+        run: dotnet restore Tovia.sln
 
       - name: Build WPF projects only
         run: |
