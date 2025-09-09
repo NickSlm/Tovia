@@ -9,10 +9,10 @@
   <Identity
     Name="7807a0c8-2915-4402-aef5-1377b61a3e65"
     Publisher="CN=nicks"
-    Version="1.0.0.0" />
+    Version="1.0.1.0" />
 
   <Properties>
-    <DisplayName>ToviaMSIX</DisplayName>
+    <DisplayName>ToviaPackage</DisplayName>
     <PublisherDisplayName>Nick So</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
