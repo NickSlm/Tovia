@@ -94,12 +94,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!--<Image Grid.Column="0"
-                               Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
-                               Height="64"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               RenderOptions.BitmapScalingMode="HighQuality" />-->
+
                         <materialDesign:PopupBox VerticalAlignment="Center"
                                                  Grid.Column="1"
                                                  materialDesign:RippleAssist.Feedback="Transparent"
