@@ -45,8 +45,14 @@ namespace Tovia.Services
                 Application.Current.Resources["OutlookPanelBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#121212"));
                 Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#005A9E"));
                 Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"));
-
-
+                Application.Current.Resources["OutlookButtonBackground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2B2B2B"));
+                Application.Current.Resources["OutlookButtonForeground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0A84FF"));
+                Application.Current.Resources["OutlookButtonBorder"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#555555"));
+                Application.Current.Resources["OutlookButtonHover"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A3A3A"));
+                Application.Current.Resources["OutlookButtonEnabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E3A5F"));
+                Application.Current.Resources["OutlookButtonBackgroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1F1F1F"));
+                Application.Current.Resources["OutlookButtonForegroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6B6B6B"));
+                Application.Current.Resources["OutlookButtonBorderDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
             }
             else
             {
@@ -57,6 +63,14 @@ namespace Tovia.Services
                 Application.Current.Resources["OutlookPanelBackgroundBrush"] = Brushes.White;
                 Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#005A9E"));
                 Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E0E0E0"));
+                Application.Current.Resources["OutlookButtonBackground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
+                Application.Current.Resources["OutlookButtonForeground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookButtonBorder"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C7C7C7"));
+                Application.Current.Resources["OutlookButtonHover"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+                Application.Current.Resources["OutlookButtonEnabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E6F2FB"));
+                Application.Current.Resources["OutlookButtonBackgroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F2F2F2"));
+                Application.Current.Resources["OutlookButtonForegroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A6A6A6"));
+                Application.Current.Resources["OutlookButtonBorderDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D0D0D0"));
             }
         }
 
@@ -81,6 +95,14 @@ namespace Tovia.Services
                 Application.Current.Resources["OutlookPanelBackgroundBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#121212"));
                 Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#005A9E"));
                 Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"));
+                Application.Current.Resources["OutlookButtonBackground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2B2B2B"));
+                Application.Current.Resources["OutlookButtonForeground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0A84FF"));
+                Application.Current.Resources["OutlookButtonBorder"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#555555"));
+                Application.Current.Resources["OutlookButtonHover"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A3A3A"));
+                Application.Current.Resources["OutlookButtonEnabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E3A5F"));
+                Application.Current.Resources["OutlookButtonBackgroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1F1F1F"));
+                Application.Current.Resources["OutlookButtonForegroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6B6B6B"));
+                Application.Current.Resources["OutlookButtonBorderDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#444444"));
             }
             else
             {
@@ -91,6 +113,14 @@ namespace Tovia.Services
                 Application.Current.Resources["OutlookPanelBackgroundBrush"] = Brushes.White;
                 Application.Current.Resources["OutlookAccentBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#005A9E"));
                 Application.Current.Resources["OutlookProgressTrackBrush"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E0E0E0"));
+                Application.Current.Resources["OutlookButtonBackground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"));
+                Application.Current.Resources["OutlookButtonForeground"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"));
+                Application.Current.Resources["OutlookButtonBorder"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C7C7C7"));
+                Application.Current.Resources["OutlookButtonHover"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5F5F5"));
+                Application.Current.Resources["OutlookButtonEnabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E6F2FB"));
+                Application.Current.Resources["OutlookButtonBackgroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F2F2F2"));
+                Application.Current.Resources["OutlookButtonForegroundDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#A6A6A6"));
+                Application.Current.Resources["OutlookButtonBorderDisabled"] = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D0D0D0"));
             }
         }
     }
