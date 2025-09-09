@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="3f9c8430-fb36-44f4-b430-f1510e703d1a"
-    Publisher="CN=Nick So"
-    Version="1.0.1.0" />
+    Name="7807a0c8-2915-4402-aef5-1377b61a3e65"
+    Publisher="CN=nicks"
+    Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>Tovia</DisplayName>
+    <DisplayName>ToviaMSIX</DisplayName>
     <PublisherDisplayName>Nick So</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -31,20 +31,13 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Tovia app"
-        Description="Tovia app"
+        DisplayName="Tovia"
+        Description="Tovia task manager"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png" ShortName="Tovia">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square150x150Logo"/>
-            <uap:ShowOn Tile="wide310x150Logo"/>
-            <uap:ShowOn Tile="square310x310Logo"/>
-          </uap:ShowNameOnTiles>
-        </uap:DefaultTile >
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>
         <uap:SplashScreen Image="Images\SplashScreen.png" />
-        <uap:LockScreen BadgeLogo="Images\BadgeLogo.png" Notification="badgeAndTileText"/>
       </uap:VisualElements>
     </Application>
   </Applications>

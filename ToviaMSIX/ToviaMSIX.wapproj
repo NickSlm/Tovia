@@ -50,34 +50,32 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>55134b6a-3ed9-4f2f-b09f-8477ce3d11e8</ProjectGuid>
+    <ProjectGuid>5ccf7c49-8bfd-481a-b1ac-6611ae6c9c27</ProjectGuid>
     <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <NoWarn>$(NoWarn);NU1702</NoWarn>
     <EntryPointProjectUniqueName>..\src\Tovia\Tovia.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>7F917D62E5FD0E65D5BD8E16A7BA1D4737D7CBAC</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <PackageCertificateThumbprint>CF94ED236A8FF0E9F391A35F4F9F1E8ABB7E33BE</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxPackageDir>D:\TDP\Builds\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <AppxBundle>Always</AppxBundle>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <AppxBundle>Always</AppxBundle>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -86,13 +84,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+    <AppxBundle>Always</AppxBundle>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <AppxBundle>Always</AppxBundle>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
@@ -101,11 +102,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\BadgeLogo.scale-100.png" />
-    <Content Include="Images\BadgeLogo.scale-125.png" />
-    <Content Include="Images\BadgeLogo.scale-150.png" />
-    <Content Include="Images\BadgeLogo.scale-200.png" />
-    <Content Include="Images\BadgeLogo.scale-400.png" />
     <Content Include="Images\LargeTile.scale-100.png" />
     <Content Include="Images\LargeTile.scale-125.png" />
     <Content Include="Images\LargeTile.scale-150.png" />
@@ -157,7 +153,7 @@
     <Content Include="Images\Wide310x150Logo.scale-150.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
     <Content Include="Images\Wide310x150Logo.scale-400.png" />
-    <None Include="Tovia.Packaging_TemporaryKey.pfx" />
+    <None Include="ToviaMSIX_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
