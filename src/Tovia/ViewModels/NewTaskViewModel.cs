@@ -11,7 +11,6 @@ namespace Tovia.ViewModels
 {
     public class NewTaskViewModel: INotifyPropertyChanged
     {
-        //Fields
         private readonly IMicrosoftGraphService _taskService;
         private readonly ITaskManager _taskManager;
         private readonly IDialogService _dialogService;
@@ -21,10 +20,8 @@ namespace Tovia.ViewModels
         private bool _eventIsChecked = false;
         private string _taskImportance = string.Empty;
 
-        //Events
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        //Constructor
         public NewTaskViewModel(IMicrosoftGraphService taskService, ITaskManager taskManager ,IDialogService dialogService)
         {
             _taskService = taskService;
@@ -33,7 +30,6 @@ namespace Tovia.ViewModels
             SaveTaskCommand = new AsyncRelayCommand(SaveTask);
         }
 
-        //Properties
         public string TaskTitle
         {
             get => _taskTitle;
@@ -83,7 +79,6 @@ namespace Tovia.ViewModels
             }
         }
 
-        //Commands
         public IAsyncRelayCommand SaveTaskCommand { get; }
 
         private async Task SaveTask()
