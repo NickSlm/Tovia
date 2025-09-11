@@ -1,6 +1,6 @@
-ToDoListPlus is a Windows desktop application that integrates directly with your Microsoft account, allowing you to manage tasks in one place while keeping them in sync with your Outlook Tasks and optionally your Outlook Calendar.
+Tovia is a Windows desktop application that integrates directly with your Microsoft account, allowing you to manage tasks in one place while keeping them in sync with your Outlook Tasks and optionally your Outlook Calendar.
 
-With ToDoListPlus, you can:
+With Tovia, you can:
 
 Create tasks locally that automatically sync to your Outlook Tasks.
 
