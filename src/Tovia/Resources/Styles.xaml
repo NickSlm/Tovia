@@ -13,8 +13,6 @@
                 Value="1" />
         <Setter Property="BorderBrush"
                 Value="{DynamicResource OutlookButtonBorder}" />
-        <Setter Property="Margin"
-                Value="4" />
         <Setter Property="Padding"
                 Value="10,5" />
         <Setter Property="Template">
@@ -93,6 +91,8 @@
     </Style>
     <Style x:Key="TitleTextStyle"
            TargetType="TextBlock">
+        <Setter Property="FontWeight"
+                Value="SemiBold" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding Status}"
                          Value="Complete">
@@ -107,7 +107,7 @@
             <DataTrigger Binding="{Binding Status}"
                          Value="Failed">
                 <Setter Property="Foreground"
-                        Value="White" />
+                        Value="LightGray" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -132,13 +132,37 @@
             <DataTrigger Binding="{Binding Status}"
                          Value="Failed">
                 <Setter Property="Foreground"
-                        Value="WhiteSmoke" />
+                        Value="LightGray" />
                 <Setter Property="FontStyle"
                         Value="Italic" />
             </DataTrigger>
         </Style.Triggers>
 
 
+    </Style>
+    <Style x:Key="TaskPriorityStyle"
+           TargetType="TextBlock">
+        <Setter Property="FontWeight"
+                Value="SemiBold" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="Failed">
+                <Setter Property="Foreground"
+                        Value="LightGray" />
+
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="InProgress">
+                <Setter Property="Foreground"
+                        Value="Black" />
+
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Complete">
+                <Setter Property="Foreground"
+                        Value="Black" />
+
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="TaskBackground"
            TargetType="DataGridRow">
@@ -202,6 +226,26 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="TaskPriorityColor"
+           TargetType="Ellipse">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="high">
+                <Setter Property="Fill"
+                        Value="Red" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="normal">
+                <Setter Property="Fill"
+                        Value="orange" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="low">
+                <Setter Property="Fill"
+                        Value="green" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     <Style x:Key="IconButtonStyle"
            TargetType="Button"
            BasedOn="{StaticResource MaterialDesignFlatButton}">
@@ -225,6 +269,82 @@
                 <Setter Property="Opacity"
                         Value="0.5" />
             </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="OutlookBorderStyle"
+           TargetType="Border">
+        <Setter Property="RenderTransformOrigin"
+                Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1.0"
+                                ScaleY="1.0" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!--On Enter-->
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard Name="MouseEnterStoryboard">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                         To="1.02"
+                                         Duration="0:0:0.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                         To="1.02"
+                                         Duration="0:0:0.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+
+            <!-- On leave -->
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard Name="MouseLeaveStoryboard">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
+                                         To="1.0"
+                                         Duration="0:0:0.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
+                                         To="1.0"
+                                         Duration="0:0:0.15">
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+
+            
+            <!--Task Background Color-->
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="Complete">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=Border}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="InProgress">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=Border}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
+                         Value="Failed">
+                <Setter Property="Background"
+                        Value="{Binding DataContext.ToDoListVM.FailedTaskColor, RelativeSource={RelativeSource AncestorType=Border}}" />
+                <Setter Property="Opacity"
+                        Value="0.8" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 </ResourceDictionary>
