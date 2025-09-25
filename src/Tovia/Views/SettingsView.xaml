@@ -67,71 +67,71 @@
                                        Background="#E1E1E1"
                                        Height="1" />
 
-                        <StackPanel Margin="8">
-                            <!-- Theme Toggle -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="160" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Theme:"
-                                       Grid.Column="0"
-                                       VerticalAlignment="Center" />
-                                <StackPanel Grid.Column="1"
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="Center">
-                                    <materialDesign:PackIcon Kind="WeatherSunny"
-                                                             Width="20"
-                                                             Height="20"
-                                                             Margin="0,0,8,0" />
-                                    <ToggleButton Width="50"
-                                                  Height="24"
-                                                  ToolTip="Light/Dark"
-                                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                                  Command="{Binding UpdateThemeCommand}"
-                                                  IsChecked="{Binding IsDarkTheme}" />
-                                    <materialDesign:PackIcon Kind="WeatherNight"
-                                                             Width="20"
-                                                             Height="20"
-                                                             Margin="8,0,0,0" />
-                                </StackPanel>
-                            </Grid>
+                            <StackPanel Margin="8">
+                                <!-- Theme Toggle -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="160" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Theme:"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                        <materialDesign:PackIcon Kind="WeatherSunny"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 Margin="0,0,8,0" />
+                                        <ToggleButton Width="50"
+                                                      Height="24"
+                                                      ToolTip="Light/Dark"
+                                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                                      Command="{Binding UpdateThemeCommand}"
+                                                      IsChecked="{Binding IsDarkTheme}" />
+                                        <materialDesign:PackIcon Kind="WeatherNight"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 Margin="8,0,0,0" />
+                                    </StackPanel>
+                                </Grid>
 
-                            <!-- Task Colors -->
-                            <Grid Margin="0,8,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Task In Progress"
-                                       Grid.Column="0" />
-                                <xctk:ColorPicker Grid.Column="1"
-                                                  DisplayColorAndName="True"
-                                                  SelectedColor="{Binding InProgressTaskColor}" />
-                            </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Task Failed"
-                                       Grid.Column="0" />
-                                <xctk:ColorPicker Grid.Column="1"
-                                                  DisplayColorAndName="True"
-                                                  SelectedColor="{Binding FailedTaskColor}" />
-                            </Grid>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Task Complete"
-                                       Grid.Column="0" />
-                                <xctk:ColorPicker Grid.Column="1"
-                                                  DisplayColorAndName="True"
-                                                  SelectedColor="{Binding CompletedTaskColor}" />
-                            </Grid>
-                        </StackPanel>
+                                <!-- Task Colors -->
+                                <Grid Margin="0,8,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Task In Progress"
+                                           Grid.Column="0" />
+                                    <xctk:ColorPicker Grid.Column="1"
+                                                      DisplayColorAndName="True"
+                                                      SelectedColor="{Binding InProgressTaskColor}" />
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Task Failed"
+                                           Grid.Column="0" />
+                                    <xctk:ColorPicker Grid.Column="1"
+                                                      DisplayColorAndName="True"
+                                                      SelectedColor="{Binding FailedTaskColor}" />
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Task Complete"
+                                           Grid.Column="0" />
+                                    <xctk:ColorPicker Grid.Column="1"
+                                                      DisplayColorAndName="True"
+                                                      SelectedColor="{Binding CompletedTaskColor}" />
+                                </Grid>
+                            </StackPanel>
                         </StackPanel>
                     </Expander>
 

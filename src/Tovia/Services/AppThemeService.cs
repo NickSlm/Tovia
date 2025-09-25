@@ -15,6 +15,7 @@ namespace Tovia.Services
 
         private static readonly Dictionary<string, Brush> DarkPalette = new()
         {
+            {"MainWindowBorderBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FFFFFF"))},
             {"OutlookHeaderBackgroundBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1E1E1E"))},
             {"OutlookHeaderForegroundBrush", Brushes.White },
             {"OutlookRowHoverBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#2D2D2D"))},
@@ -33,6 +34,7 @@ namespace Tovia.Services
         };
         private static readonly Dictionary<string, Brush> LightPalette = new()
         {
+            {"MainWindowBorderBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1F000000"))},
             {"OutlookHeaderBackgroundBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0078D4"))},
             {"OutlookHeaderForegroundBrush", Brushes.White },
             {"OutlookRowHoverBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F3F2F1"))},

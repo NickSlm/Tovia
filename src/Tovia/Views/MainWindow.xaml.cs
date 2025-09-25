@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Tovia.ViewModels;
 
 namespace Tovia;
@@ -18,6 +19,7 @@ public partial class MainWindow
     {
         InitializeComponent();
         _viewModel = viewModel;
+
         DataContext = _viewModel;
 
         Closed += MainWindow_Closed;
