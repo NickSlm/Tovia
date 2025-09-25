@@ -45,6 +45,7 @@
             </Style>
             <Style TargetType="DataGridRow"
                    BasedOn="{StaticResource TaskBackground}" />
+            
         </ResourceDictionary>
     </Application.Resources>
 

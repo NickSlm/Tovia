@@ -28,8 +28,9 @@
         <ItemsControl ItemsSource="{Binding ToDoList}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="0 0 1 1"
+                    <Border Margin="2 0 2 2"
                             Padding="10"
+                            CornerRadius="12"
                             Style="{StaticResource TaskBackgroundOverlay}">
                         <StackPanel>
                             <!-- Task title -->
