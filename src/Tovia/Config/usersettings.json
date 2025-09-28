@@ -13,10 +13,6 @@
     "Overlay": {
       "ModifierKey": "Control",
       "MainKey": "F"
-    },
-    "NewTask": {
-      "ModifierKey": "Shift",
-      "MainKey": "N"
     }
   }
 }
