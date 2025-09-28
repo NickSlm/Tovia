@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media;
 using Tovia.Models;
 using Tovia.Services;
 using Tovia.States;
@@ -15,6 +16,14 @@ namespace Tovia.ViewModels
     {
         private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
+        private readonly IDialogService _dialogService;
+
+        private string _taskTitle = string.Empty;
+        private string? _taskDescription = string.Empty;
+        private DateTime? _taskDueDate = DateTime.Now;
+        private string _taskPriority = string.Empty;
+        private bool _taskEvent = false;
+
         private string _inProgressTaskColor;
         private string _failedTaskColor;
         private string _completedTaskColor;
@@ -25,6 +34,7 @@ namespace Tovia.ViewModels
         {
             _taskManager = taskManager;
             _settingsService = settingsService;
+            _dialogService = dialogService;
 
             ApplySettings();
             _settingsService.SettingsChanged += (s,e) => ApplySettings();
@@ -42,11 +52,20 @@ namespace Tovia.ViewModels
             };
             CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
+            CreateTaskCommand = new AsyncRelayCommand(CreateTask);
         }
 
         public int TotalTasks => _taskManager.TotalTasks;
         public int CompletedTasks => _taskManager.CompletedTasks;
+
         public  ReadOnlyObservableCollection<ToDoItem> ToDoList => _taskManager.ToDoList;
+        public ObservableCollection<PriorityItem> Priorities { get; } = new()
+        {
+            new PriorityItem { Name = "high", Color = Brushes.Red },
+            new PriorityItem { Name = "normal", Color = Brushes.Orange },
+            new PriorityItem { Name = "low", Color = Brushes.Green },
+        };
+
         public string InProgressTaskColor
         {
             get => _inProgressTaskColor;
@@ -75,8 +94,56 @@ namespace Tovia.ViewModels
             }
         }
 
+        public string TaskTitle
+        {
+            get => _taskTitle;
+            set
+            {
+                _taskTitle = value;
+                OnPropertyChanged(nameof(TaskTitle));
+            }
+        }
+        public string? TaskDescription
+        {
+            get => _taskDescription;
+            set
+            {
+                _taskDescription = value;
+                OnPropertyChanged(nameof(TaskDescription));
+            }
+        }
+        public DateTime? TaskDueDate
+        {
+            get => _taskDueDate;
+            set
+            {
+                _taskDueDate = value;
+                OnPropertyChanged(nameof(TaskDueDate));
+            }
+        }
+        public string TaskPriority
+        {
+            get => _taskPriority;
+            set
+            {
+                _taskPriority = value;
+                OnPropertyChanged(nameof(TaskPriority));
+            }
+        }
+        public bool TaskEvent
+        {
+            get => _taskEvent;
+            set
+            {
+                _taskEvent = value;
+                OnPropertyChanged(nameof(TaskEvent));
+            }
+        }
+
+
         public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
+        public IAsyncRelayCommand CreateTaskCommand { get; }
 
         private void ApplySettings()
         {
@@ -85,6 +152,41 @@ namespace Tovia.ViewModels
             InProgressTaskColor = settings.Appearance.InProgressTask;
             FailedTaskColor = settings.Appearance.FailedTask;
             CompletedTaskColor = settings.Appearance.CompleteTask;
+        }
+        private async Task CreateTask()
+        {
+            if (string.IsNullOrWhiteSpace(TaskTitle))
+            {
+                _dialogService.ShowMessage("Title Required", "Warning");
+                return;
+            }
+            if (!TaskDueDate.HasValue)
+            {
+                _dialogService.ShowMessage("Due Date Required", "Warning");
+                return;
+            }
+            if (string.IsNullOrEmpty(TaskPriority))
+            {
+                _dialogService.ShowMessage("Priority Required", "Warning");
+                return;
+            }
+
+            var newTask = new ToDoItem
+            {
+                Title = TaskTitle,
+                Description = TaskDescription,
+                DueDate = TaskDueDate,
+                Importance = TaskPriority,
+            };
+
+
+
+            await _taskManager.SaveTask(newTask, TaskEvent);
+
+            TaskTitle = string.Empty;
+            TaskDescription = string.Empty;
+            TaskDueDate = DateTime.Now;
+            TaskPriority = string.Empty;
         }
         private async Task RemoveTask(ToDoItem item)
         {
