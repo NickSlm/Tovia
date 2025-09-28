@@ -21,8 +21,6 @@ namespace Tovia.ViewModels
             ToDoListVM = toDoListVM;
 
             OpenSettingsCommand = new AsyncRelayCommand(OpenSettingsWindow);
-            NewTaskCommand = new AsyncRelayCommand(OpenNewTaskWindow);
-
         }
 
         public ToDoListViewModel? ToDoListVM { get;  }
@@ -51,17 +49,6 @@ namespace Tovia.ViewModels
             {
                 var result = await DialogHost.Show(settingsView, "RootDialog");
 
-            }
-        }
-        public async Task OpenNewTaskWindow()
-        {
-            var newTaskView = new NewTaskView();
-            newTaskView.DataContext = App.Services.GetRequiredService<NewTaskViewModel>();
-            var isDiagOpen = DialogHost.IsDialogOpen("RootDialog");
-
-            if (!isDiagOpen)
-            {
-                var result = await DialogHost.Show(newTaskView, "RootDialog");
             }
         }
 

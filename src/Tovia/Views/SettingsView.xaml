@@ -161,23 +161,6 @@
                                          Cursor="Hand"
                                          Style="{StaticResource OutlookTextBoxStyle}" />
                             </Grid>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="160" />
-                                </Grid.ColumnDefinitions>
-                                <Label Content="Create new task:"
-                                       Grid.Column="0"
-                                       VerticalAlignment="Center" />
-                                <TextBox Grid.Column="1"
-                                         Text="{Binding _keyStrokes[NewTask].keyStroke}"
-                                         Tag="NewTask"
-                                         PreviewKeyDown="KeyBind_PreviewKeyDown"
-                                         IsReadOnly="True"
-                                         Cursor="Hand"
-                                         Style="{StaticResource OutlookTextBoxStyle}" />
-                            </Grid>
                         </StackPanel>
                         </StackPanel>
                     </Expander>
