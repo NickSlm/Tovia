@@ -41,10 +41,6 @@ namespace Tovia.Views
                         settingsViewModel._hotkeySettings[name] = (key, modifiers);
                         settingsViewModel._keyStrokes[name].keyStroke = $"{modifiers.ToString()} + {key.ToString()}";
                         break;
-                    case "NewTask":
-                        settingsViewModel._hotkeySettings[name] = (key, modifiers);
-                        settingsViewModel._keyStrokes[name].keyStroke = $"{modifiers.ToString()} + {key.ToString()}";
-                        break;
                 }
             }
         }

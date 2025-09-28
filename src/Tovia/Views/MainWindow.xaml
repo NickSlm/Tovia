@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Tovia.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tovia"
@@ -205,6 +206,8 @@
                                              BorderBrush="Transparent"
                                              BorderThickness="0" />
 
+                                
+
                                 <TextBlock Grid.Column="0"
                                            Text="{Binding ToDoListVM.CompletedTasks, Mode=OneWay,StringFormat={}{0:0}%}"
                                            HorizontalAlignment="Center"
@@ -330,10 +333,8 @@
                             <Border 
                                     Grid.Row="2"
                                     Background="Transparent"
-
                                     Margin="8 4 8 4"
                                     Padding="6">
-
                                 <Grid>
                                         
                                     <Grid.ColumnDefinitions>
@@ -348,6 +349,7 @@
                                     <TextBox Background="Transparent"
                                              Grid.Column="0"
                                              Grid.Row="0"
+                                             Text="{Binding ToDoListVM.TaskTitle}"
                                              FontWeight="SemiBold"
                                              materialDesign:HintAssist.Hint="What needs to be done?"
                                              VerticalAlignment="Center"
@@ -358,10 +360,12 @@
                                             Width="24"
                                             Height="24"
                                             Padding="0"
+                                            Command="{Binding ToDoListVM.CreateTaskCommand}"
                                             Style="{StaticResource MaterialDesignOutlinedButton}">
                                         <materialDesign:PackIcon Kind="Plus" />
                                     </Button>
                                     <TextBox Grid.Row="1"
+                                             Text="{Binding ToDoListVM.TaskDescription}"
                                              Margin="0 6 0 0"
                                              Background="Transparent"
                                              FontWeight="SemiBold"
@@ -369,47 +373,36 @@
                                              MaxLength="144"
                                              materialDesign:HintAssist.Hint="Description (Optional)"
                                              VerticalAlignment="Center"
-                                             Style="{DynamicResource OutlookTextBoxStyle}"></TextBox>
+                                             Style="{DynamicResource OutlookTextBoxStyle}" />
 
                                     <StackPanel Grid.Column="0" 
                                                 Grid.Row="2" 
                                                 Orientation="Horizontal" 
                                                 Margin="0 6 0 0">
                                         <ComboBox materialDesign:HintAssist.Hint="Priority"
+                                                  ItemsSource="{Binding ToDoListVM.Priorities}"
+                                                  SelectedValue="{Binding ToDoListVM.TaskPriority, Mode=TwoWay}"
+                                                  SelectedValuePath="Name"
                                                   BorderThickness="0">
-                                            <ComboBoxItem>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Ellipse Width="10"
-                                                             Height="10"
-                                                             Fill="Red"
-                                                             Margin="0,0,6,0" />
-                                                    <TextBlock Text="High" />
-                                                </StackPanel>
-                                            </ComboBoxItem>
-                                            <ComboBoxItem>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Ellipse Width="10"
-                                                             Height="10"
-                                                             Fill="Orange"
-                                                             Margin="0,0,6,0" />
-                                                    <TextBlock Text="Normal" />
-                                                </StackPanel>
-                                            </ComboBoxItem>
-                                            <ComboBoxItem>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Ellipse Width="10"
-                                                             Height="10"
-                                                             Fill="Green"
-                                                             Margin="0,0,6,0" />
-                                                    <TextBlock Text="Low" />
-                                                </StackPanel>
-                                            </ComboBoxItem>
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Ellipse Width="10"
+                                                                 Height="10"
+                                                                 Fill="{Binding Color}"
+                                                                 Margin="0,0,6,0" />
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
                                         </ComboBox>
                                         <DatePicker materialDesign:HintAssist.Hint="Due Date"
                                                     Margin="12 0 0 0"
+                                                    SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
+                                                    DisplayDateStart="{x:Static sys:DateTime.Today}"
                                                     BorderThickness="0"/>
                                         <CheckBox Content="Calendar Event"
-                                                  IsChecked="True"
+                                                  IsChecked="{Binding TaskEvent}"
                                                   Margin="12 0 0 0"
                                                   Style="{StaticResource MaterialDesignLightCheckBox}" />
                                     </StackPanel>

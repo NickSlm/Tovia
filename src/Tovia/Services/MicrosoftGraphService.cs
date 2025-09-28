@@ -32,6 +32,8 @@ namespace Tovia.Services
             string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks";
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
+            MessageBox.Show(item.Title,item.Importance);
+
             var taskData = new
             {
                 item.Title,
@@ -93,7 +95,6 @@ namespace Tovia.Services
 
                 item.EventId = eventId;
             }
-
             return item;
         }
         public async Task DeleteTaskAsync(string taskId)
