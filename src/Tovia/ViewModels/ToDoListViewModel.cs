@@ -180,13 +180,13 @@ namespace Tovia.ViewModels
             };
 
 
-
             await _taskManager.SaveTask(newTask, TaskEvent);
 
             TaskTitle = string.Empty;
             TaskDescription = string.Empty;
             TaskDueDate = DateTime.Now;
             TaskPriority = string.Empty;
+            TaskEvent = false;
         }
         private async Task RemoveTask(ToDoItem item)
         {

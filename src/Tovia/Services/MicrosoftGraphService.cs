@@ -27,6 +27,7 @@ namespace Tovia.Services
 
         public async Task<ToDoItem> CreateTaskAsync(ToDoItem item, bool createEvent)
         {
+
             string AccessToken = await _authService.GetAccessToken();
 
             string url = $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks";
