@@ -235,7 +235,6 @@
                                 <ItemsControl ItemsSource="{Binding ToDoListVM.ToDoList}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <!-- This panel enables item-by-item scrolling -->
                                             <VirtualizingStackPanel IsItemsHost="True" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
