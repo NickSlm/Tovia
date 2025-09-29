@@ -36,24 +36,29 @@
                             <!-- Task title -->
                             <Grid Margin="0 1 0 0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Title}"
-                                           Grid.Column="0"
-                                       FontWeight="SemiBold"
-                                       TextWrapping="Wrap"
-                                       FontSize="14"
-                                       Style="{StaticResource TitleTextStyle}" />
-                                <CheckBox IsChecked="{Binding IsComplete}" 
+                                <Expander Header="{Binding Title}"
+                                          Grid.Column="0"
+                                          Padding="0"
+                                          Margin="0 0 0 0"
+                                          Background="Transparent"
+                                          FontWeight="SemiBold"
+                                          Foreground="Black"
+                                          HorizontalAlignment="Left"
+                                          Style="{x:Null}">
+                                    <TextBlock Text="{Binding Description}"
+                                               x:Name="OverlayTaskDescription"
+                                               FontSize="12"
+                                               Margin="0 2 0 0"
+                                               TextWrapping="Wrap"
+                                               Visibility="Visible"
+                                               Style="{StaticResource DescriptionTextStyle}" />
+                                </Expander>
+                                <CheckBox IsChecked="{Binding IsComplete}"
                                           Grid.Column="1" />
                             </Grid>
-                            <!-- Description, if available -->
-                            <TextBlock Text="{Binding Description}"
-                                       FontSize="12"
-                                       Margin="0 2 0 0"
-                                       TextWrapping="Wrap"
-                                       Style="{StaticResource DescriptionTextStyle}"/>
                             <!-- Importance and due date -->
                             <Grid Margin="0 6 0 0">
                                 <Grid.ColumnDefinitions>

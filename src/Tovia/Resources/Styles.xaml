@@ -347,4 +347,11 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Name="TaskDesciprion"
+           TargetType="TextBlock">
+        
+        
+        
+    </Style>
 </ResourceDictionary>

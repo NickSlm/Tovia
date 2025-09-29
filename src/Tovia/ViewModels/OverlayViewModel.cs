@@ -27,7 +27,6 @@ namespace Tovia.ViewModels
             _taskManager = taskManager;
 
             _settingsService.SettingsChanged += (s, e) => ApplySettings();
-
             ApplySettings();
         }
 
