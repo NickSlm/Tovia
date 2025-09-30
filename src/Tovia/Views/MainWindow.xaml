@@ -102,78 +102,51 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Column="0"
+                                        Margin="8 0 0 0"
+                                        VerticalAlignment="Center">
+                                <Image Source="{Binding AuthorizationVM.AccountPhoto}"
+                                       Width="32"
+                                       Height="32"
+                                       Stretch="UniformToFill"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       Margin="4">
+                                    <Image.Clip>
+                                        <EllipseGeometry Center="16,16"
+                                                         RadiusX="16"
+                                                         RadiusY="16" />
+                                    </Image.Clip>
+                                </Image>
 
-
-                            <materialDesign:PopupBox VerticalAlignment="Center"
-                                                     Grid.Column="1"
-                                                     materialDesign:RippleAssist.Feedback="Transparent"
-                                                     HorizontalAlignment="Right"
-                                                     Margin="0,0,12,0"
-                                                     Padding="8"
-                                                     Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
-                                                     PlacementMode="BottomAndAlignRightEdges"
-                                                     StaysOpen="False">
-                                <materialDesign:PopupBox.ToggleContent>
-                                    <StackPanel Orientation="Horizontal"
-                                                VerticalAlignment="Center">
-                                        <Image Source="{Binding AuthorizationVM.AccountPhoto}"
-                                               Width="32"
-                                               Height="32"
-                                               Stretch="UniformToFill"
-                                               RenderOptions.BitmapScalingMode="HighQuality"
-                                               Margin="4">
-                                            <Image.Clip>
-                                                <EllipseGeometry Center="16,16"
-                                                                 RadiusX="16"
-                                                                 RadiusY="16" />
-                                            </Image.Clip>
-                                        </Image>
-
-                                        <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
-                                                   Style="{StaticResource MaterialDesignBody1TextBlock}" />
-
-                                        <Path Data="M 0 0 L 4 4 L 8 0 Z"
-                                              Width="8"
-                                              Height="4"
-                                              Margin="8,0,0,0"
-                                              Fill="{DynamicResource OutlookHeaderForegroundBrush}"
-                                              VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </materialDesign:PopupBox.ToggleContent>
-
-
-                                <StackPanel>
-                                    <Button Command="{Binding OpenSettingsCommand}"
-                                            HorizontalContentAlignment="Left"
-                                            Style="{StaticResource MaterialDesignFlatSecondaryButton}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="Cog"
-                                                                     Width="20"
-                                                                     Height="20"
-                                                                     Margin="0,0,8,0" />
-                                            <TextBlock Text="Settings"
-                                                       Style="{StaticResource MaterialDesignBody1TextBlock}" />
-                                        </StackPanel>
-                                    </Button>
-                                    <Separator Margin="0,4,0,8"
-                                               Background="#E1E1E1"
-                                               Height="1" />
-                                    <Button Command="{Binding AuthorizationVM.SignOutCommand}"
-                                            HorizontalContentAlignment="Left"
-                                            Style="{StaticResource MaterialDesignFlatSecondaryButton}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="AccountSwitch"
-                                                                     Width="20"
-                                                                     Height="20"
-                                                                     Margin="0,0,8,0" />
-                                            <TextBlock Text="Change Account"
-                                                       Style="{StaticResource MaterialDesignBody1TextBlock}" />
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                            </materialDesign:PopupBox>
+                                <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
+                                           Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" 
+                                        Grid.Column="1" 
+                                        VerticalAlignment="Center" 
+                                        Margin="0 0 8 0">
+                                <Button Style="{DynamicResource IconButtonStyle}" 
+                                        Margin="0 0 8 0"
+                                        ToolTip="Settings"
+                                        Command="{Binding OpenSettingsCommand}">
+                                    <materialDesign:PackIcon Kind="Cog"
+                                                             Width="24"
+                                                             Height="24"
+                                                              />
+                                </Button>
+                                <Button Style="{DynamicResource IconButtonStyle}"
+                                        ToolTip="Change Account"
+                                        Command="{Binding AuthorizationVM.SignOutCommand}"
+                                        >
+                                    <materialDesign:PackIcon Kind="AccountSwitch"
+                                                             Width="24"
+                                                             Height="24"
+                                                             />
+                                </Button>
+                            </StackPanel>
                         </Grid>
                     </Border>
 
@@ -398,7 +371,7 @@
                                                     SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
                                                     DisplayDateStart="{x:Static sys:DateTime.Today}"
                                                     BorderThickness="0"/>
-                                        <CheckBox Content="Calendar Event"
+                                        <CheckBox Content="Calendar Event (Optional)"
                                                   IsChecked="{Binding ToDoListVM.TaskEvent, Mode=TwoWay}"
                                                   Margin="12 0 0 0"
                                                   Style="{StaticResource MaterialDesignLightCheckBox}" />

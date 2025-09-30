@@ -20,6 +20,7 @@
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="12"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
@@ -326,7 +327,7 @@
                 </BeginStoryboard>
             </EventTrigger>
 
-            
+
             <!--Task Background Color-->
             <DataTrigger Binding="{Binding Status, Mode=OneWay}"
                          Value="Complete">
@@ -346,12 +347,5 @@
                         Value="0.8" />
             </DataTrigger>
         </Style.Triggers>
-    </Style>
-
-    <Style x:Name="TaskDesciprion"
-           TargetType="TextBlock">
-        
-        
-        
     </Style>
 </ResourceDictionary>
