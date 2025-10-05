@@ -1,19 +1,50 @@
-Tovia is a Windows desktop application that integrates directly with your Microsoft account, allowing you to manage tasks in one place while keeping them in sync with your Outlook Tasks and optionally your Outlook Calendar.
+# Tovia – WPF Desktop Task Manager with Microsoft Account Integration
 
-With Tovia, you can:
+Manage your tasks and calendar efficiently, directly from your Windows desktop.  
+Tovia keeps your Outlook Tasks in sync and optionally creates calendar events with reminders — all without switching windows.
 
-Create tasks locally that automatically sync to your Outlook Tasks.
+---
+## Screenshots / Demo
+<table>
+  <tr>
+    <td>
+      <!-- Right column: overlay GIF -->
+      <img src="https://github.com/user-attachments/assets/db261900-f8bd-4418-9c9d-4f6fe45395c4" alt="Main Window" width="420" />
+      <p align="center"><i>Creating a task in Tovia</i></p>
+    </td>
+    <td valign="top">
+      <!-- Left column: stacked GIFs -->
+      <img src="https://github.com/user-attachments/assets/ee8c4c0c-65e5-4825-b539-52125e3277a4" alt="Sync Task Creation" width="420" style="display:block; margin-bottom:10px;" />
+      <p align="center"><i>Two-way sync: tasks appear instantly in Outlook Tasks.</i></p>
+      <img src="https://github.com/user-attachments/assets/c11e4a81-0058-4450-9675-c28061b67860" alt="Sync Event Creation" width="420" style="display:block;" />
+      <p align="center"><i>Create Outlook Calendar events directly from Tovia tasks.</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/2624023a-8835-4f6a-baa0-b594a710ef46" alt="Overlay Panel" width="420"/>
+      <p align="center"><i>Overlay Window in sync with Outlook.</i></p>
+    </td>
+  </tr>
+</table>
 
-Optionally create calendar events for your tasks, complete with reminders.
+---
 
-Toggle an overlay view that stays on top of your screen, so you can always see your tasks without switching windows.
+## Features
 
-Features:
+- 🔒 **Microsoft Account Integration** – Securely sign in and connect to your Outlook account.  
+- 🔄 **Two-way Task Sync** – Tasks added in Tovia automatically sync with Outlook Tasks.  
+- 📅 **Calendar Event Creation** – Convert tasks into calendar events with reminders.  
+- 🖥️ **Overlay View** – Keep tasks visible on-screen without interrupting your workflow.  
+- 🧪 **Testing Workflow** – Unit-tested architecture for reliability and maintainability.  
+- 🛠️ **Clean Architecture** – Built with MVVM, Dependency Injection, WPF, XAML, and Material Design for scalable and maintainable code.
 
-Microsoft Account Integration – Sign in securely with your Microsoft account.
+---
 
-Two-way Task Sync – Automatically creates your Outlook tasks when you add a task in the app.
+## Technology Stack
 
-Calendar Event Creation – Turn any task into a calendar event with a built-in reminder.
-
-Overlay View – A small on-screen panel showing your active tasks, which can be toggled on/off anytime.
+- **Language:** C# / .NET 8  
+- **UI Framework:** WPF, XAML, Material Design  
+- **Architecture:** MVVM, Dependency Injection  
+- **API:** Microsoft Graph API (for Outlook integration)  
+- **Version Control:** Git / GitHub
