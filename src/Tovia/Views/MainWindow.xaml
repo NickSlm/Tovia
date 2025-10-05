@@ -261,7 +261,7 @@
                                                                   FontWeight="SemiBold"
                                                                   Style="{x:Null}">
                                                             <TextBlock Text="{Binding Description}"
-                                                                       Style="{DynamicResource DescriptionTextStyle}"
+                                                                       Style="{StaticResource DescriptionTextStyle}"
                                                                        TextWrapping="Wrap"
                                                                        Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}" />
                                                         </Expander>
@@ -273,11 +273,11 @@
                                                         <Ellipse Width="10"
                                                                  Height="10"
                                                                  Margin="0 0 0 0"
-                                                                 Style="{DynamicResource TaskPriorityColor}"/>
+                                                                 Style="{StaticResource TaskPriorityColor}"/>
                                                         <TextBlock 
                                                                    Margin="6 0 0 0"
                                                                    Text="{Binding Importance}"
-                                                                   Style="{DynamicResource TaskPriorityStyle}" />
+                                                                   Style="{StaticResource TaskPriorityStyle}" />
                                                     </StackPanel>
                                                     <TextBlock Grid.Column="3"
                                                                Margin="8 0"
@@ -322,7 +322,7 @@
                                              FontWeight="SemiBold"
                                              materialDesign:HintAssist.Hint="What needs to be done?"
                                              VerticalAlignment="Center"
-                                             Style="{DynamicResource OutlookTextBoxStyle}" />
+                                             Style="{StaticResource OutlookTextBoxStyle}" />
                                     <Button Grid.Column="1"
                                             Grid.Row="0"
                                             Margin="4 0 0 0"
@@ -330,7 +330,7 @@
                                             Height="24"
                                             Padding="0"
                                             Command="{Binding ToDoListVM.CreateTaskCommand}"
-                                            Style="{DynamicResource OutlookSecondaryButtonStyle}">
+                                            Style="{StaticResource OutlookSecondaryButtonStyle}">
                                         <materialDesign:PackIcon Kind="Plus" />
                                     </Button>
                                     <TextBox Grid.Row="1"
@@ -343,7 +343,7 @@
                                              VerticalScrollBarVisibility="Visible"
                                              materialDesign:HintAssist.Hint="Description (Optional)"
                                              VerticalAlignment="Center"
-                                             Style="{DynamicResource OutlookTextBoxStyle}" />
+                                             Style="{StaticResource OutlookTextBoxStyle}" />
 
                                     <StackPanel Grid.Column="0" 
                                                 Grid.Row="2" 
@@ -370,7 +370,16 @@
                                                     Margin="12 0 0 0"
                                                     SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
                                                     DisplayDateStart="{x:Static sys:DateTime.Today}"
-                                                    BorderThickness="0"/>
+                                                    BorderThickness="0">
+                                            <DatePicker.CalendarStyle>
+                                                <Style TargetType="Calendar">
+                                                    <Setter Property="Width"
+                                                            Value="180" />
+                                                    <Setter Property="Height"
+                                                            Value="200" />
+                                                </Style>
+                                            </DatePicker.CalendarStyle>
+                                        </DatePicker>
                                         <CheckBox Content="Calendar Event (Optional)"
                                                   IsChecked="{Binding ToDoListVM.TaskEvent, Mode=TwoWay}"
                                                   Margin="12 0 0 0"
