@@ -205,7 +205,9 @@
                                           HorizontalScrollBarVisibility="Disabled"
                                           MaxHeight="396"
                                           Margin="0">
-                                <ItemsControl ItemsSource="{Binding ToDoListVM.ToDoList}">
+                                <ItemsControl ItemsSource="{Binding ToDoListVM.ToDoList}"
+                                              VirtualizingPanel.IsVirtualizing="True"
+                                              VirtualizingPanel.VirtualizationMode="Recycling">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <VirtualizingStackPanel IsItemsHost="True" />

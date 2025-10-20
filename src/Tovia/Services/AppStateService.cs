@@ -8,11 +8,11 @@ namespace Tovia.Services
         public event Action? UserLoggedIn;
         public event Action? UserLoggedOut;
 
+
         public void SignIn()
         {
             UserLoggedIn?.Invoke();
         }
-
         public void SignOut()
         {
             UserLoggedOut?.Invoke();
