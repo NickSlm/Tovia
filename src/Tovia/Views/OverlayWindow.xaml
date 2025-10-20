@@ -25,7 +25,9 @@
 
     <ScrollViewer Padding="8"
                   VerticalScrollBarVisibility="Auto">
-        <ItemsControl ItemsSource="{Binding ToDoList}">
+        <ItemsControl ItemsSource="{Binding ToDoList}"
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingPanel.VirtualizationMode="Recycling">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Margin="2 0 2 2"

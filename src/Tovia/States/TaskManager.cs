@@ -18,6 +18,7 @@ namespace Tovia.States
 
         public TaskManager(IMicrosoftGraphService taskService)
         {
+
             _taskService = taskService;
             ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
 

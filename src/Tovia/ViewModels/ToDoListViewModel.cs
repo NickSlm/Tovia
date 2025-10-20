@@ -140,7 +140,6 @@ namespace Tovia.ViewModels
             }
         }
 
-
         public IAsyncRelayCommand CleanUpCommand { get; }
         public IAsyncRelayCommand<ToDoItem> RemoveTaskCommand { get; }
         public IAsyncRelayCommand CreateTaskCommand { get; }

@@ -26,6 +26,7 @@ namespace Tovia.Services
         {
             _taskManager.LoadToDoItems();
         }
+
         public void OnUserLogOut()
         {
             _taskManager.ClearTasks();
