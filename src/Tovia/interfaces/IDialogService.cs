@@ -1,4 +1,4 @@
-﻿namespace Tovia.Services
+﻿namespace Tovia.interfaces
 {
     public interface IDialogService
     {

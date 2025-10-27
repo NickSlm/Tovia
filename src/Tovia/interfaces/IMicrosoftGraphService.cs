@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tovia.Services
+namespace Tovia.interfaces
 {
     public interface IMicrosoftGraphService: INotifyPropertyChanged
     {

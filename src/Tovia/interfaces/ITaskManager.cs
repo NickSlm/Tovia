@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tovia.States
+namespace Tovia.interfaces
 {
     public interface ITaskManager: INotifyPropertyChanged
     {
