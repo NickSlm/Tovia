@@ -3,11 +3,11 @@ using Moq;
 using Moq.Protected;
 using Tovia.States;
 using Tovia.Models;
-using Tovia.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using Tovia.interfaces;
 
 
 namespace Tovia.Tests

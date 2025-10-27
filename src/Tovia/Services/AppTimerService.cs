@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Timers;
 using System.Windows;
+using Tovia.interfaces;
 using Tovia.Models;
-using Tovia.States;
 
 
 namespace Tovia.Services

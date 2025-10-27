@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+using Tovia.interfaces;
 using Tovia.Models;
 
 namespace Tovia.Services
@@ -22,7 +23,6 @@ namespace Tovia.Services
             _authService = authService;
             _httpClient = new HttpClient();
         }
-
         public ObservableCollection<ToDoItem> ToDoList { get; set; } = new();
 
         public async Task<ToDoItem> CreateTaskAsync(ToDoItem item, bool createEvent)

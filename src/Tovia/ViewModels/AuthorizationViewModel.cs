@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Tovia.Views;
 using Tovia.Services;
+using Tovia.interfaces;
 
 namespace Tovia.ViewModels
 {

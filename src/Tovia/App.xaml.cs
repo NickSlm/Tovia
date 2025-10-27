@@ -5,6 +5,7 @@ using Tovia.Views;
 using Tovia.Services;
 using Tovia.States;
 using Tovia.ViewModels;
+using Tovia.interfaces;
 namespace Tovia;
 
 /// <summary>
@@ -14,7 +15,7 @@ public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -34,8 +35,8 @@ public partial class App : Application
             Application.Current.Shutdown();
             return;
         }
-
-
+        var dbService = Services.GetRequiredService<ILocalDBService>();
+        await dbService.InitializeAsync();
         _ = Services.GetRequiredService<AppTimerService>();
         _ = Services.GetRequiredService<AppCoordinator>();
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
@@ -72,6 +73,7 @@ public partial class App : Application
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<ITaskManager, TaskManager>();
         services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
+        services.AddSingleton<ILocalDBService, LocalDBService>();
 
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AppCoordinator>();
