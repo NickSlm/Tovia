@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using Tovia.interfaces;
 using Tovia.Models;
 using Tovia.Services;
-using Tovia.States;
 
 namespace Tovia.ViewModels
 {

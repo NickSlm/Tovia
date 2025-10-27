@@ -3,8 +3,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using Tovia.interfaces;
 using Tovia.Models;
-using Tovia.Services;
 
 namespace Tovia.States
 {
@@ -34,6 +34,7 @@ namespace Tovia.States
 
         internal ObservableCollection<ToDoItem> ToDoListInternal => _toDoList;
         public ReadOnlyObservableCollection<ToDoItem> ToDoList { get; }
+
         public int TotalTasks
         {
             get => ToDoList.Count;
