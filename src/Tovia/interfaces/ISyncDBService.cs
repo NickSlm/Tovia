@@ -8,5 +8,6 @@ namespace Tovia.interfaces
 {
     public interface ISyncDBService
     {
+
     }
 }

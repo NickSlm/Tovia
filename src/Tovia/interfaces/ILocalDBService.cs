@@ -10,8 +10,8 @@ namespace Tovia.interfaces
     {
         Task InitializeAsync();
         Task<List<ToDoItem>> GetTasksAsync();
-        Task AddTaskAsync(string title, string? description, DateTime? dateTime, string priority);
-        Task DeleteTaskAsync(string taskId);
-        Task UpdateTaskAsync(string taskId, bool isComplete);
+        Task AddTaskAsync(ToDoItem item);
+        Task DeleteTaskAsync(ToDoItem item);
+        Task UpdateTaskAsync(int id, bool isComplete);
     }
 }
