@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tovia.interfaces;
 
 namespace Tovia.Services
 {
-    public class SyncDBService
+    public class SyncDBService: ISyncDBService
     {
     }
 }
