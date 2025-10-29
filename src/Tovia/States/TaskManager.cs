@@ -11,15 +11,17 @@ namespace Tovia.States
     public class TaskManager: ITaskManager
     {
         private readonly IMicrosoftGraphService _taskService;
+        private readonly ILocalDBService _localDBService;
         private readonly ObservableCollection<ToDoItem> _toDoList = new();
         private int _completedTasks;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public TaskManager(IMicrosoftGraphService taskService)
+        public TaskManager(IMicrosoftGraphService taskService, ILocalDBService localDBService)
         {
 
             _taskService = taskService;
+            _localDBService = localDBService;
             ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
 
             _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
@@ -96,10 +98,13 @@ namespace Tovia.States
         }
         public void ClearTasks()
         {
+            //Removes Tasks on logout
             _toDoList.Clear();
         }
         public async Task SaveTask(ToDoItem item, bool createEvent)
         {
+
+            await _localDBService.AddTaskAsync(item);
             ToDoItem newTask = await _taskService.CreateTaskAsync(item, createEvent);
 
             newTask.OnCompletionChanged += async (s, e) =>

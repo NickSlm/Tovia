@@ -35,8 +35,10 @@ public partial class App : Application
             Application.Current.Shutdown();
             return;
         }
+
         var dbService = Services.GetRequiredService<ILocalDBService>();
         await dbService.InitializeAsync();
+
         _ = Services.GetRequiredService<AppTimerService>();
         _ = Services.GetRequiredService<AppCoordinator>();
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();

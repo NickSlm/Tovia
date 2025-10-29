@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Tovia.Models;
 
 public class ToDoItem: INotifyPropertyChanged
 {
+	public string TaskId;
 	private string _title;
 	private string? _description;
 	private DateTime? _dueDate;
 	private string _importance;
 	private TimeSpan? _timeLeft;
 	private bool _isComplete;
-	private string _eventId;
-	private string _taskId;
+	private string? _eventId;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 	public EventHandler? OnCompletionChanged;
@@ -24,6 +25,7 @@ public class ToDoItem: INotifyPropertyChanged
 		Importance = importance;
     }
 
+	public int Id { get; set; }
 	public TaskState Status
 	{
 		get
@@ -103,7 +105,7 @@ public class ToDoItem: INotifyPropertyChanged
             };
         }
     }
-    public string EventId
+    public string? EventId
     {
         get => _eventId;
         set
@@ -112,15 +114,12 @@ public class ToDoItem: INotifyPropertyChanged
             OnPropertyChanged(nameof(EventId));
         }
     }
-    public string TaskId
-    {
-        get => _taskId;
-        set
-        {
-            _taskId = value;
-            OnPropertyChanged(nameof(TaskId));
-        }
-    }
+	public DateTime LastTimeModified { get; set; }
+	public bool SoftDelete
+	{
+		get;
+		set;
+	} = false;
 
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

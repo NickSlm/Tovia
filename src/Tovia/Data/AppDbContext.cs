@@ -15,6 +15,8 @@ namespace Tovia.Data
         private readonly string _localFolder;
         private readonly string _appFolder;
 
+        public DbSet<ToDoItem> ToDoItems { get; set; }
+
         public AppDbContext()
         {
             _localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

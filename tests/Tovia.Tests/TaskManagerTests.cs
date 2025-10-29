@@ -16,12 +16,14 @@ namespace Tovia.Tests
     {
 
         public readonly Mock<IMicrosoftGraphService> _mockGraphService;
+        public readonly Mock<ILocalDBService> _iLocalDBService;
         public readonly TaskManager _taskManager;
-
+        
         public TaskManagerTests()
         {
             _mockGraphService = new Mock<IMicrosoftGraphService>();
-            _taskManager = new TaskManager(_mockGraphService.Object);
+            _iLocalDBService = new Mock<ILocalDBService>();
+            _taskManager = new TaskManager(_mockGraphService.Object, _iLocalDBService.Object);
         }
 
         public static IEnumerable<object[]> ToDoItemData => new List<object[]>

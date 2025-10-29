@@ -179,7 +179,6 @@ namespace Tovia.ViewModels
                 Importance = TaskPriority,
             };
 
-
             await _taskManager.SaveTask(newTask, TaskEvent);
 
             TaskTitle = string.Empty;

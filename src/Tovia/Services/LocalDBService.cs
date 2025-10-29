@@ -29,19 +29,29 @@ namespace Tovia.Services
         {
             throw new NotImplementedException();
         }
-        public async Task AddTaskAsync(string title, string? description, DateTime? dateTime, string priority)
+        public async Task AddTaskAsync(ToDoItem item)
         {
             using var db = new AppDbContext();
+            await db.ToDoItems.AddAsync(item);
+            await db.SaveChangesAsync();
         }
-        public async Task DeleteTaskAsync(string taskId)
+        public async Task DeleteTaskAsync(ToDoItem item)
         {
             using var db = new AppDbContext();
+            db.ToDoItems.Remove(item);
+            await db.SaveChangesAsync();
         }
-        public async Task UpdateTaskAsync(string taskId, bool IsComplete)
+        public async Task UpdateTaskAsync(int id, bool isComplete)
         {
             using var db = new AppDbContext();
-        }
+            var task = await db.ToDoItems.FindAsync(id);
 
+            if (task != null)
+            {
+                task.IsComplete = isComplete;
+                await db.SaveChangesAsync();
+            }
+        }
 
     }
 }
