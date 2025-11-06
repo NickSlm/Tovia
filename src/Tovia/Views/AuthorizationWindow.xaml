@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Tovia.Views"
         mc:Ignorable="d"
         Height="400"
@@ -21,90 +22,7 @@
                           Offset="1" />
         </LinearGradientBrush>
     </Window.Background>
-    <Window.Resources>
-        <!-- Outlook style sign-in button -->
-        <Style x:Key="MicrosoftButtonStyle"
-               TargetType="Button">
-            <Setter Property="Background"
-                    Value="White" />
-            <Setter Property="BorderBrush"
-                    Value="#CCC" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
-            <Setter Property="Padding"
-                    Value="12,8" />
-            <Setter Property="Cursor"
-                    Value="Hand" />
-            <Setter Property="Margin"
-                    Value="10" />
-            <Setter Property="FontSize"
-                    Value="14" />
-            <Setter Property="FontWeight"
-                    Value="SemiBold" />
-            <Setter Property="Foreground"
-                    Value="#2F2F2F" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="20"
-                                Padding="{TemplateBinding Padding}"
-                                SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <!-- Hover effect -->
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-                                <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="#F5F5F5" />
-                                <Setter TargetName="border"
-                                        Property="BorderBrush"
-                                        Value="#999" />
 
-                            </Trigger>
-                            <!-- Pressed effect -->
-                            <Trigger Property="IsPressed"
-                                     Value="True">
-                                <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="#E5E5E5" />
-                                <Setter TargetName="border"
-                                        Property="BorderBrush"
-                                        Value="#666" />
-                                <Setter TargetName="border"
-                                        Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="4"
-                                                          ShadowDepth="1"
-                                                          Opacity="0.2" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <!-- Disabled state -->
-                            <Trigger Property="IsEnabled"
-                                     Value="False">
-                                <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="#EEE" />
-                                <Setter TargetName="border"
-                                        Property="BorderBrush"
-                                        Value="#DDD" />
-                                <Setter Property="Foreground"
-                                        Value="#AAA" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-    </Window.Resources>
 
     <Border BorderBrush="Black"
             BorderThickness="1"
@@ -147,14 +65,14 @@
                        Width="200"
                        Height="126"
                        RenderOptions.BitmapScalingMode="HighQuality"
-                       Margin="0,20,0,20" />
+                       Margin="0 20 0 20" />
 
                 <TextBlock Text="Welcome! Sign in with your Microsoft account."
                            FontSize="14"
                            Foreground="#555"
                            TextAlignment="Center"
-                           Margin="0,0,0,20" />
-
+                           Margin="0 0 0 20" />
+                
                 <Button Command="{Binding AuthorizationCommand}"
                         Style="{StaticResource MicrosoftButtonStyle}">
                     <StackPanel Orientation="Horizontal"
@@ -166,6 +84,14 @@
                                Margin="0,0,6,0" />
                         <TextBlock Text="Sign in with Microsoft"
                                    VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <Button Command="{Binding SignInOfflineCommand}" Style="{StaticResource MicrosoftButtonStyle}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="CloudOffOutline"  Width="24" Height="24" Margin="0 0 6 0"/>
+                        <TextBlock Text="Offline"  VerticalAlignment="Center"/>
+
                     </StackPanel>
                 </Button>
             </StackPanel>

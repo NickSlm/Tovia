@@ -26,6 +26,10 @@ namespace Tovia.Services
         private string _accountTaskListId;
         private BitmapImage _accountProfilePic;
         private IPublicClientApplication _clientApp;
+        private readonly HttpClient _httpClient = new HttpClient()
+        {
+            BaseAddress = new Uri("https://graph.microsoft.com")
+        };
 
         public AuthService(SettingsService settingsService)
         {
@@ -119,11 +123,11 @@ namespace Tovia.Services
         }
         public async Task<BitmapImage> GetProfilePictureAsync(string accessToken)
         {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
+            var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me/photo/$value");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me/photo/$value");
+            var response = await _httpClient.SendAsync(request);
 
 
             if (!response.IsSuccessStatusCode)
@@ -138,10 +142,11 @@ namespace Tovia.Services
         }
         public async Task<string> GetProfileDisplayNameAsync(string accessToken)
         {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -154,10 +159,11 @@ namespace Tovia.Services
         }
         public async Task<string> GetDefaultTaskListIdAsync(string accessToken)
         {
-            var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me/todo/lists");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await httpClient.GetAsync("https://graph.microsoft.com/v1.0/me/todo/lists");
+            var response = await _httpClient.SendAsync(request);
+
             var json = await response.Content.ReadAsStringAsync();
 
             var doc = JsonDocument.Parse(json);

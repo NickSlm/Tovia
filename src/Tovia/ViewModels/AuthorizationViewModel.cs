@@ -25,9 +25,13 @@ namespace Tovia.ViewModels
             _dialogService = dialogService;
             _appStateService = appStateService;
 
+
+
             AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
             SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
+            SignInOfflineCommand = new RelayCommand(SignInOfflineButtonClick);
             CloseCommand = new RelayCommand(CloseButtonClick);
+
         }
 
         public string AccountUsername
@@ -51,6 +55,7 @@ namespace Tovia.ViewModels
 
         public IAsyncRelayCommand SignOutCommand { get; }
         public IAsyncRelayCommand AuthorizationCommand { get; }
+        public IRelayCommand SignInOfflineCommand { get; }
         public IRelayCommand CloseCommand { get; }
 
         private void CloseButtonClick()
@@ -72,6 +77,17 @@ namespace Tovia.ViewModels
             {
                 authWindow.DialogResult = true;
                 _appStateService.SignIn();
+            }
+        }
+        private void SignInOfflineButtonClick()
+        {
+            AccountUsername = "Offline";
+            AccountPhoto = new BitmapImage(new Uri("pack://application:,,,/Assets/Icons/ProfilePlaceHolder.png", UriKind.Absolute));
+            var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
+
+            if (authWindow != null)
+            {
+                authWindow.DialogResult = true;
             }
         }
         private async Task SignOutButtonClick()
