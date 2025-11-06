@@ -348,4 +348,84 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="MicrosoftButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="White" />
+        <Setter Property="BorderBrush"
+                Value="#CCC" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="Padding"
+                Value="12,8" />
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Setter Property="Margin"
+                Value="2" />
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="FontWeight"
+                Value="SemiBold" />
+        <Setter Property="Foreground"
+                Value="#2F2F2F" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="20"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Hover effect -->
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="#F5F5F5" />
+                            <Setter TargetName="border"
+                                    Property="BorderBrush"
+                                    Value="#999" />
+
+                        </Trigger>
+                        <!-- Pressed effect -->
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="#E5E5E5" />
+                            <Setter TargetName="border"
+                                    Property="BorderBrush"
+                                    Value="#666" />
+                            <Setter TargetName="border"
+                                    Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="4"
+                                                      ShadowDepth="1"
+                                                      Opacity="0.2" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <!-- Disabled state -->
+                        <Trigger Property="IsEnabled"
+                                 Value="False">
+                            <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="#EEE" />
+                            <Setter TargetName="border"
+                                    Property="BorderBrush"
+                                    Value="#DDD" />
+                            <Setter Property="Foreground"
+                                    Value="#AAA" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

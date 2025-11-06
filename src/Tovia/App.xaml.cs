@@ -14,7 +14,6 @@ namespace Tovia;
 public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
-
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -39,8 +38,8 @@ public partial class App : Application
         var dbService = Services.GetRequiredService<ILocalDBService>();
         await dbService.InitializeAsync();
 
-        _ = Services.GetRequiredService<AppTimerService>();
         _ = Services.GetRequiredService<AppCoordinator>();
+        _ = Services.GetRequiredService<AppTimerService>();
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
         var mainWindow = Services.GetRequiredService<MainWindow>();

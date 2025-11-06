@@ -15,10 +15,6 @@ namespace Tovia.Services
     public class LocalDBService:ILocalDBService
     {
 
-        public LocalDBService()
-        {
-            MessageBox.Show("LocalDBService init");
-        }
 
         public async Task InitializeAsync()
         {
