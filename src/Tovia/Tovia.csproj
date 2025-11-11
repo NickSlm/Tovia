@@ -37,6 +37,9 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.9" />
+		  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9">
+    <PrivateAssets>all</PrivateAssets>
+  </PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.77.1" />
 		<PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.77.1" />

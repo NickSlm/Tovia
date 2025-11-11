@@ -14,47 +14,37 @@ namespace Tovia.Services
 {
     public class LocalDBService:ILocalDBService
     {
-        private readonly IDbContextFactory<AppDbContext> _dbFactory;
+        private readonly AppDbContext _dbContext;
 
 
-        public LocalDBService(IDbContextFactory<AppDbContext> dbFactory)
+        public LocalDBService(AppDbContext dbContext)
         {
-            _dbFactory = dbFactory;
+            _dbContext = dbContext;
         }
 
-        public async Task InitializeAsync()
-        {
-            await using var _db = _dbFactory.CreateDbContext();
-            await _db.Database.EnsureCreatedAsync();
-        }
         public async Task<List<ToDoItem>> GetTasksAsync()
         {
             throw new NotImplementedException();
         }
         public async Task AddTaskAsync(ToDoItem item)
         {
-            await using var _db = _dbFactory.CreateDbContext();
 
-            await _db.ToDoItems.AddAsync(item);
-            await _db.SaveChangesAsync();
+            await _dbContext.ToDoItems.AddAsync(item);
+            await _dbContext.SaveChangesAsync();
         }
         public async Task DeleteTaskAsync(ToDoItem item)
         {
-            await using var _db = _dbFactory.CreateDbContext();
-
-            _db.ToDoItems.Remove(item);
-            await _db.SaveChangesAsync();
+            _dbContext.ToDoItems.Remove(item);
+            await _dbContext.SaveChangesAsync();
         }
         public async Task UpdateTaskAsync(int id, bool isComplete)
         {
-            await using var _db = _dbFactory.CreateDbContext();
-
-            var task = await _db.ToDoItems.FindAsync(id);
+            var task = await _dbContext.ToDoItems.FindAsync(id);
 
             if (task != null)
             {
                 task.IsComplete = isComplete;
-                await _db.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
         }
 
