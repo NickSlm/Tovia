@@ -6,6 +6,9 @@ using Tovia.Services;
 using Tovia.States;
 using Tovia.ViewModels;
 using Tovia.interfaces;
+using Tovia.Data;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
 namespace Tovia;
 
 /// <summary>
@@ -14,6 +17,11 @@ namespace Tovia;
 public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
+    private static readonly string AppFolder = Path.Combine(
+    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+    "Tovia");
+    private static readonly string DatabasePath = Path.Combine(AppFolder, "Tovia.db");
+
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -34,6 +42,7 @@ public partial class App : Application
             Application.Current.Shutdown();
             return;
         }
+
 
         var dbService = Services.GetRequiredService<ILocalDBService>();
         await dbService.InitializeAsync();
@@ -71,6 +80,9 @@ public partial class App : Application
     }
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddDbContextFactory<AppDbContext>(options =>
+                     options.UseSqlite($"Data Source={DatabasePath}"));
+
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<ITaskManager, TaskManager>();
         services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
