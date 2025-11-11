@@ -31,6 +31,15 @@ public partial class App : Application
         ConfigureServices(serviceCollection);
         Services = serviceCollection.BuildServiceProvider();
 
+        if (!Directory.Exists(AppFolder))
+            Directory.CreateDirectory(AppFolder);
+
+        using (var scope = Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.EnsureCreated();
+        }
+
         _ = Services.GetRequiredService<AppThemeService>();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
@@ -42,10 +51,6 @@ public partial class App : Application
             Application.Current.Shutdown();
             return;
         }
-
-
-        var dbService = Services.GetRequiredService<ILocalDBService>();
-        await dbService.InitializeAsync();
 
         _ = Services.GetRequiredService<AppCoordinator>();
         _ = Services.GetRequiredService<AppTimerService>();
@@ -80,13 +85,13 @@ public partial class App : Application
     }
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContextFactory<AppDbContext>(options =>
+        services.AddDbContext<AppDbContext>(options =>
                      options.UseSqlite($"Data Source={DatabasePath}"));
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<ITaskManager, TaskManager>();
         services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
-        services.AddSingleton<ILocalDBService, LocalDBService>();
+        services.AddScoped<ILocalDBService, LocalDBService>();
 
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AppCoordinator>();

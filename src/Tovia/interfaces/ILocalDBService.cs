@@ -8,7 +8,6 @@ namespace Tovia.interfaces
 {
     public interface ILocalDBService
     {
-        Task InitializeAsync();
         Task<List<ToDoItem>> GetTasksAsync();
         Task AddTaskAsync(ToDoItem item);
         Task DeleteTaskAsync(ToDoItem item);
