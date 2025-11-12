@@ -36,8 +36,9 @@ public partial class App : Application
 
         using (var scope = Services.CreateScope())
         {
-            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            db.Database.EnsureCreated();
+            var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();
+            var db = factory.CreateDbContext();
+            db.Database.Migrate();
         }
 
         _ = Services.GetRequiredService<AppThemeService>();
@@ -85,7 +86,7 @@ public partial class App : Application
     }
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContextFactory<AppDbContext>(options =>
                      options.UseSqlite($"Data Source={DatabasePath}"));
 
         services.AddSingleton<IDialogService, DialogService>();
