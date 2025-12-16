@@ -103,8 +103,6 @@ namespace Tovia.States
         }
         public async Task SaveTask(ToDoItem item, bool createEvent)
         {
-
-            await _localDBService.AddTaskAsync(item);
             ToDoItem newTask = await _taskService.CreateTaskAsync(item, createEvent);
 
             newTask.OnCompletionChanged += async (s, e) =>
