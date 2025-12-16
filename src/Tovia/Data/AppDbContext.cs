@@ -17,7 +17,16 @@ namespace Tovia.Data
         {
 
         }
-        public DbSet<Item> Tasks { get; set; }
+        public DbSet<Users> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Users>()
+                .HasMany(s => s.Tasks)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
         

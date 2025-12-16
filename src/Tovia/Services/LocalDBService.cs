@@ -26,15 +26,14 @@ namespace Tovia.Services
         {
             throw new NotImplementedException();
         }
-        public async Task AddTaskAsync(Item item)
+        public async Task AddTaskAsync(UsersTasks task)
         {
-
-            await _dbContext.Tasks.AddAsync(item);
+            await _dbContext.UsersTasks.AddAsync(task);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task DeleteTaskAsync(Item item)
+        public async Task DeleteTaskAsync(UsersTasks task)
         {
-            _dbContext.Tasks.Remove(item);
+            _dbContext.UsersTasks.Remove(task);
             await _dbContext.SaveChangesAsync();
         }
     }

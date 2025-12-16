@@ -10,7 +10,7 @@ namespace Tovia.interfaces
     public interface ILocalDBService
     {
         Task<List<ToDoItem>> GetTasksAsync();
-        Task AddTaskAsync(Item item);
-        Task DeleteTaskAsync(Item item);
+        Task AddTaskAsync(UsersTasks task);
+        Task DeleteTaskAsync(UsersTasks task);
     }
 }

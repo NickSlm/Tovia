@@ -22,6 +22,7 @@ namespace Tovia.Services
         private readonly string Instance;
         private readonly string[] Scopes;
         private readonly SettingsService _settingsService;
+        private string _oId;
         private string _accountUsername;
         private string _accountTaskListId;
         private BitmapImage _accountProfilePic;
@@ -111,6 +112,7 @@ namespace Tovia.Services
             {
                 Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
+            _oId = authResult.Account.HomeAccountId.ObjectId;
             _accountTaskListId = await GetDefaultTaskListIdAsync(authResult.AccessToken);
             _accountUsername = await GetProfileDisplayNameAsync(authResult.AccessToken);
             _accountProfilePic = await GetProfilePictureAsync(authResult.AccessToken);
