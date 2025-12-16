@@ -120,6 +120,5 @@ public class ToDoItem: INotifyPropertyChanged
 		get;
 		set;
 	} = false;
-
     public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
