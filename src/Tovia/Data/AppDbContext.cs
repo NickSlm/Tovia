@@ -17,7 +17,7 @@ namespace Tovia.Data
         {
 
         }
-        public DbSet<ToDoItem> ToDoItems { get; set; }
+        public DbSet<Item> Tasks { get; set; }
     }
 }
         
