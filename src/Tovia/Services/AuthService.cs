@@ -50,6 +50,10 @@ namespace Tovia.Services
         {
             get => _accountUsername; 
         }
+        public string OID
+        {
+            get => _oId;
+        }
         public string AccountTaskListId
         {
             get => _accountTaskListId;

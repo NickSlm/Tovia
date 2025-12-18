@@ -11,8 +11,8 @@ namespace Tovia.Data
         public int Id { get; set; }
         public DateTime LastLogin { get; set; }
         public string AccountName { get; set; }
-        public List<UsersTasks> Tasks { get; set; }
         public string MicrosoftOid { get; set; }
+        public ICollection<UsersTasks> Tasks { get; set; } = new List<UsersTasks>();
 
     }
 }
