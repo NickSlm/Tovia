@@ -10,5 +10,6 @@ namespace Tovia.interfaces
     public interface ILocalDBService
     {
         Task SaveTask(UsersTasks task);
+        Task DeleteTask(ToDoItem item);
     }
 }

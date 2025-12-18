@@ -80,6 +80,7 @@ namespace Tovia.States
                 await _taskService.DeleteEventAsync(item.EventId);
             }
             await _taskService.DeleteTaskAsync(item.TaskId);
+            await _localDBService.DeleteTask(item);
             _toDoList.Remove(item);
         }
         public async Task RemoveCompleteTask()

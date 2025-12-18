@@ -44,7 +44,16 @@ namespace Tovia.Services
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteTask(ToDoItem item)
+        {
+            var user = await _dbContext.Users.Include(e => e.Tasks).
+                FirstOrDefaultAsync(u => u.MicrosoftOid == _authService.OID);
 
+            var task = user.Tasks.FirstOrDefault(t => t.TaskId == item.TaskId);
 
+            user.Tasks.Remove(task);
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
