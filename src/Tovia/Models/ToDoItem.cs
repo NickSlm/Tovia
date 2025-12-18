@@ -6,12 +6,12 @@ public class ToDoItem: INotifyPropertyChanged
 {
 	public string TaskId;
 	private string _title;
-	private string? _description;
-	private DateTime? _dueDate;
 	private string _importance;
+	private string? _description;
+	private string? _eventId;
+	private DateTime? _dueDate;
 	private TimeSpan? _timeLeft;
 	private bool _isComplete;
-	private string? _eventId;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 	public EventHandler? OnCompletionChanged;
@@ -57,6 +57,24 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(Title));
 		}
 	}
+	public string Importance
+	{
+		get => _importance;
+		set
+		{
+			_importance = value;
+			OnPropertyChanged(nameof(Importance));
+		}
+	}
+    public string? EventId
+    {
+        get => _eventId;
+        set
+        {
+            _eventId = value;
+            OnPropertyChanged(nameof(EventId));
+        }
+    }
 	public string? Description
 	{
 		get => _description;
@@ -84,15 +102,7 @@ public class ToDoItem: INotifyPropertyChanged
 			OnPropertyChanged(nameof(TimeLeft));
 		}
 	}
-	public string Importance
-	{
-		get => _importance;
-		set
-		{
-			_importance = value;
-			OnPropertyChanged(nameof(Importance));
-		}
-	}
+	public DateTime LastTimeModified { get; set; }
     public int prioritySortOrder
     {
         get
@@ -105,16 +115,6 @@ public class ToDoItem: INotifyPropertyChanged
             };
         }
     }
-    public string? EventId
-    {
-        get => _eventId;
-        set
-        {
-            _eventId = value;
-            OnPropertyChanged(nameof(EventId));
-        }
-    }
-	public DateTime LastTimeModified { get; set; }
 	public bool SoftDelete
 	{
 		get;

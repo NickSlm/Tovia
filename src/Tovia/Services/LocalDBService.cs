@@ -15,26 +15,36 @@ namespace Tovia.Services
     public class LocalDBService:ILocalDBService
     {
         private readonly AppDbContext _dbContext;
+        private readonly AuthService _authService;
 
-
-        public LocalDBService(AppDbContext dbContext)
+        public LocalDBService(AppDbContext dbContext, AuthService authService)
         {
             _dbContext = dbContext;
+            _authService = authService;
         }
 
-        public async Task<List<ToDoItem>> GetTasksAsync()
+        public async Task SaveTask(UsersTasks task)
         {
-            throw new NotImplementedException();
-        }
-        public async Task AddTaskAsync(UsersTasks task)
-        {
-            await _dbContext.UsersTasks.AddAsync(task);
+            var user = await _dbContext.Users.Include(e => e.Tasks)
+                .FirstOrDefaultAsync(u => u.MicrosoftOid == _authService.OID);
+
+            if (user == null)
+            {
+                user = new Users()
+                {
+                    AccountName = _authService.AccountUsername,
+                    MicrosoftOid = _authService.OID,
+                    LastLogin = DateTime.Now,
+                };
+
+                _dbContext.Users.Add(user);
+            }
+            user.Tasks.Add(task);
+
             await _dbContext.SaveChangesAsync();
         }
-        public async Task DeleteTaskAsync(UsersTasks task)
-        {
-            _dbContext.UsersTasks.Remove(task);
-            await _dbContext.SaveChangesAsync();
-        }
+
+
+
     }
 }

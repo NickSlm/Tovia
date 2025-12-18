@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using Tovia.Data;
 using Tovia.interfaces;
 using Tovia.Models;
 
@@ -104,6 +105,20 @@ namespace Tovia.States
         public async Task SaveTask(ToDoItem item, bool createEvent)
         {
             ToDoItem newTask = await _taskService.CreateTaskAsync(item, createEvent);
+
+            UsersTasks task = new UsersTasks()
+            {
+                Title = newTask.Title,
+                Description = newTask.Description,
+                DueDate = newTask.DueDate,
+                TaskId = newTask.TaskId,
+                EventId = newTask.EventId,
+                Priority = newTask.Importance,
+                Status = newTask.Status,
+                SoftDelete = newTask.SoftDelete
+            };
+
+            await _localDBService.SaveTask(task);
 
             newTask.OnCompletionChanged += async (s, e) =>
             {
