@@ -24,6 +24,7 @@ namespace Tovia.ViewModels
         private DateTime? _taskDueDate = DateTime.Now;
         private string _taskPriority = string.Empty;
         private bool _taskEvent = false;
+        private bool _isSyncing;
 
         private string _inProgressTaskColor;
         private string _failedTaskColor;
@@ -138,6 +139,15 @@ namespace Tovia.ViewModels
             {
                 _taskEvent = value;
                 OnPropertyChanged(nameof(TaskEvent));
+            }
+        }
+        public bool IsSyncing
+        {
+            get => _isSyncing;
+            set
+            {
+                _isSyncing = value;
+                OnPropertyChanged(nameof(IsSyncing));
             }
         }
 

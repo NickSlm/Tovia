@@ -14,6 +14,7 @@ namespace Tovia.ViewModels
         private readonly AuthService _authService;
         private readonly IDialogService _dialogService;
         private readonly AppStateService _appStateService;
+        private bool _isSyncing;
         private string _accountUsername;
         private BitmapImage _accountPhoto;
 
@@ -25,11 +26,8 @@ namespace Tovia.ViewModels
             _dialogService = dialogService;
             _appStateService = appStateService;
 
-
-
             AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
             SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
-            SignInOfflineCommand = new RelayCommand(SignInOfflineButtonClick);
             CloseCommand = new RelayCommand(CloseButtonClick);
 
         }
@@ -53,9 +51,18 @@ namespace Tovia.ViewModels
             }
         }
 
+        public bool IsSyncing
+        {
+            get => _isSyncing;
+            set
+            {
+                _isSyncing = value;
+                OnPropertyChanged(nameof(IsSyncing));
+            }
+        }
+
         public IAsyncRelayCommand SignOutCommand { get; }
         public IAsyncRelayCommand AuthorizationCommand { get; }
-        public IRelayCommand SignInOfflineCommand { get; }
         public IRelayCommand CloseCommand { get; }
 
         private void CloseButtonClick()
@@ -71,18 +78,8 @@ namespace Tovia.ViewModels
             AccountUsername = _authService.AccountUsername;
             AccountPhoto = _authService.AccountProfilePic;
 
-            var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
+            _appStateService.SignIn();
 
-            if (authWindow != null)
-            {
-                authWindow.DialogResult = true;
-                _appStateService.SignIn();
-            }
-        }
-        private void SignInOfflineButtonClick()
-        {
-            AccountUsername = "Offline";
-            AccountPhoto = new BitmapImage(new Uri("pack://application:,,,/Assets/Icons/ProfilePlaceHolder.png", UriKind.Absolute));
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
 
             if (authWindow != null)

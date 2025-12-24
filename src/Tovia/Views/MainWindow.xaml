@@ -86,7 +86,18 @@
                 Identifier="RootDialog"
                 DialogContentUniformCornerRadius="0"
                 DialogTheme="Inherit"
+                IsOpen="False"
                 Grid.Row="1">
+                
+                <!--Database Sync Dialoghost-->
+                <materialDesign:DialogHost.DialogContent>
+                    <StackPanel Margin="24">
+                        <ProgressBar IsIndeterminate="True" />
+                        <TextBlock Text="Syncing data..." />
+                    </StackPanel>
+                </materialDesign:DialogHost.DialogContent>
+                
+                
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />

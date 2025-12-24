@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Tovia.Data
 {
-    public class AppDbContextFactory: IDesignTimeDbContextFactory<AppDbContext>
+    public class AppDbContextFactory: IDesignTimeDbContextFactory<LocalDbContext>
     {
         /// <summary>
         /// Design-time factory for EF Core migrations in a WPF application.
@@ -23,7 +23,7 @@ namespace Tovia.Data
         /// This factory provides EF Core with a way to create AppDbContext
         /// independently of the runtime DI container, enabling migrations to work.
         /// </summary>
-        public AppDbContext CreateDbContext(string[] args)
+        public LocalDbContext CreateDbContext(string[] args)
         {
             var appFolder = Path.Combine(
               Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -34,10 +34,10 @@ namespace Tovia.Data
 
             var databasePath = Path.Combine(appFolder, "Tovia.db");
 
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<LocalDbContext>();
             optionsBuilder.UseSqlite($"Data Source={databasePath}");
 
-            return new AppDbContext(optionsBuilder.Options);
+            return new LocalDbContext(optionsBuilder.Options);
         }
 
     }

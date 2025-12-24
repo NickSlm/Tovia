@@ -36,7 +36,7 @@ public partial class App : Application
 
         using (var scope = Services.CreateScope())
         {
-            var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();
+            var factory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<LocalDbContext>>();
             var db = factory.CreateDbContext();
             db.Database.Migrate();
         }
@@ -86,12 +86,13 @@ public partial class App : Application
     }
     private static void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContextFactory<AppDbContext>(options =>
+        services.AddDbContextFactory<LocalDbContext>(options =>
                      options.UseSqlite($"Data Source={DatabasePath}"));
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<ITaskManager, TaskManager>();
         services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
+        services.AddTransient<ISyncDBService, SyncDBService>();
         services.AddScoped<ILocalDBService, LocalDBService>();
 
         services.AddSingleton<AppStateService>();

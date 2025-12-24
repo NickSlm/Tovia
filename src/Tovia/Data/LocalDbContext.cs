@@ -10,10 +10,10 @@ using System.Windows;
 
 namespace Tovia.Data
 {
-    public class AppDbContext: DbContext
+    public class LocalDbContext: DbContext
     {
 
-        public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
+        public LocalDbContext(DbContextOptions<LocalDbContext> options): base(options)
         {
 
         }

@@ -14,10 +14,10 @@ namespace Tovia.Services
 {
     public class LocalDBService:ILocalDBService
     {
-        private readonly AppDbContext _dbContext;
+        private readonly LocalDbContext _dbContext;
         private readonly AuthService _authService;
 
-        public LocalDBService(AppDbContext dbContext, AuthService authService)
+        public LocalDBService(LocalDbContext dbContext, AuthService authService)
         {
             _dbContext = dbContext;
             _authService = authService;

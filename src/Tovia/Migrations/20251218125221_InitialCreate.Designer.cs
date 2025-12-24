@@ -10,7 +10,7 @@ using Tovia.Data;
 
 namespace Tovia.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(LocalDbContext))]
     [Migration("20251218125221_InitialCreate")]
     partial class InitialCreate
     {

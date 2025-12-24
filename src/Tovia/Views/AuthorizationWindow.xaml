@@ -24,6 +24,15 @@
     </Window.Background>
 
 
+    <materialDesign:DialogHost IsOpen="{Binding IsSyncing}"
+                               CloseOnClickAway="False">
+        <materialDesign:DialogHost.DialogContent>
+            <StackPanel Margin="24">
+                <ProgressBar IsIndeterminate="True" />
+                <TextBlock Text="Syncing data..." />
+            </StackPanel>
+        </materialDesign:DialogHost.DialogContent>
+
     <Border BorderBrush="Black"
             BorderThickness="1"
             Background="Transparent">
@@ -86,15 +95,9 @@
                                    VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-
-                <Button Command="{Binding SignInOfflineCommand}" Style="{StaticResource MicrosoftButtonStyle}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="CloudOffOutline"  Width="24" Height="24" Margin="0 0 6 0"/>
-                        <TextBlock Text="Offline"  VerticalAlignment="Center"/>
-
-                    </StackPanel>
-                </Button>
             </StackPanel>
         </Grid>
     </Border>
+    </materialDesign:DialogHost>
+
 </Window>

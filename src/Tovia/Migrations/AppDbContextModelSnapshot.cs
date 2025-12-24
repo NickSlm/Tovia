@@ -9,7 +9,7 @@ using Tovia.Data;
 
 namespace Tovia.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(LocalDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
