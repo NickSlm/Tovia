@@ -18,7 +18,7 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: 'Restore dependencies'
-        run: 'dotnet restore src/Tovia/Tovia.sln'
+        run: dotnet restore Tovia.sln
       - name: 'Create placeholder appsettings.json'
         shell: 'pwsh'
         run: "$configPath = Join-Path $PWD \"src\\Tovia\\Config\"\nNew-Item -ItemType Directory -Force -Path $configPath\n'{}' | Set-Content -Path (Join-Path $configPath \"appsettings.json\") -Encoding UTF8\n"
