@@ -24,9 +24,10 @@ jobs:
       - name: Generate appsettings.json from secrets
         shell: pwsh
         run: |
-New-Item -ItemType Directory -Force -Path Config
+          # Ensure Config folder exists
+          New-Item -ItemType Directory -Force -Path Config
 
-@"
+          $json = @"
 {
   "AzureAd": {
     "ClientId": "${{ secrets.AZURE_ID }}",
@@ -49,7 +50,8 @@ New-Item -ItemType Directory -Force -Path Config
     "Secondary": "Gray"
   }
 }
-"@ | Out-File -Encoding UTF8 Config\appsettings.json
+"@
+          $json | Out-File -Encoding UTF8 Config\appsettings.json
 
       - name: Build WPF project
         run: dotnet build src/Tovia/Tovia.csproj --configuration Release
