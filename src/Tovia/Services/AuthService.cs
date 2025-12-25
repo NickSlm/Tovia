@@ -17,11 +17,12 @@ namespace Tovia.Services
 {
     public class AuthService
     {
+
+        private readonly IConfiguration _config;
         private readonly string ClientId;
         private readonly string Tenant;
         private readonly string Instance;
         private readonly string[] Scopes;
-        private readonly SettingsService _settingsService;
         private string _oId;
         private string _accountUsername;
         private string _accountTaskListId;
@@ -32,16 +33,16 @@ namespace Tovia.Services
             BaseAddress = new Uri("https://graph.microsoft.com")
         };
 
-        public AuthService(SettingsService settingsService)
+        public AuthService(IConfiguration config)
         {
-            _settingsService = settingsService;
+            _config = config;
 
-            var appSettings = _settingsService.appSettings;
+            var azureAd = _config.GetSection("AzureAd").Get<AzureAd>();
 
-            ClientId = appSettings.AzureAd.ClientId;
-            Tenant = appSettings.AzureAd.Tenant;
-            Instance = appSettings.AzureAd.Instance;
-            Scopes = appSettings.AzureAd.Scopes;
+            ClientId = azureAd.ClientId;
+            Tenant = azureAd.Tenant;
+            Instance = azureAd.Instance;
+            Scopes = azureAd.Scopes;
 
             CreateApplication();
         }

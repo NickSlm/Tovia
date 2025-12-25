@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using System.Windows;
 using Tovia.Views;
 using Tovia.Services;
@@ -27,8 +28,14 @@ public partial class App : Application
         base.OnStartup(e);
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("Config/appsettings.json")
+            .Build();
+
         var serviceCollection = new ServiceCollection();
-        ConfigureServices(serviceCollection);
+        serviceCollection.AddSingleton<IConfiguration>(configuration);
+        ConfigureServices(serviceCollection, configuration);
         Services = serviceCollection.BuildServiceProvider();
 
         if (!Directory.Exists(AppFolder))
@@ -84,7 +91,7 @@ public partial class App : Application
             overlayWindow.Activate();
         }
     }
-    private static void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContextFactory<LocalDbContext>(options =>
                      options.UseSqlite($"Data Source={DatabasePath}"));
@@ -100,8 +107,8 @@ public partial class App : Application
         services.AddSingleton<AuthService>();
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
-        services.AddSingleton<AppThemeService>();
         services.AddSingleton<SettingsService>();
+        services.AddSingleton<AppThemeService>();
 
         services.AddSingleton<AuthorizationViewModel>();
         services.AddSingleton<ToDoListViewModel>();

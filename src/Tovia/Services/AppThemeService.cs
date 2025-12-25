@@ -11,8 +11,8 @@ namespace Tovia.Services
         private PaletteHelper _paletteHelper = new PaletteHelper();
         private readonly SettingsService _settingsService;
         private readonly UserSettings _userSettings;
-        private readonly AppSettings _appSettings;
-
+        private readonly IConfiguration _config;
+        private readonly ThemePalette _themePalette;
         private static readonly Dictionary<string, Brush> DarkPalette = new()
         {
             {"MainWindowBorderBrush", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#33FFFFFF"))},
@@ -52,11 +52,12 @@ namespace Tovia.Services
             {"OutlookButtonBorderDisabled", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D0D0D0"))}
         };
 
-        public AppThemeService(SettingsService settingsService)
+        public AppThemeService(SettingsService settingsService, IConfiguration config)
         {
             _settingsService = settingsService;
-            _appSettings = _settingsService.appSettings;
             _userSettings = _settingsService.userSettings;
+            _config = config;
+            _themePalette = _config.GetSection("Palette").Get<ThemePalette>();
 
             var isDark = _userSettings.Appearance.BaseTheme == "dark";
             ChangeTheme(isDark);
@@ -71,11 +72,11 @@ namespace Tovia.Services
         {
             Theme theme = isDark ?
                 Theme.Create(BaseTheme.Dark,
-                    (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Dark.Primary),
-                    (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Dark.Secondary)) :
+                    (Color)ColorConverter.ConvertFromString(_themePalette.Dark.Primary),
+                    (Color)ColorConverter.ConvertFromString(_themePalette.Dark.Secondary)) :
                 Theme.Create(BaseTheme.Light,
-                    (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Primary),
-                    (Color)ColorConverter.ConvertFromString(_appSettings.Palette.Light.Secondary));
+                    (Color)ColorConverter.ConvertFromString(_themePalette.Light.Primary),
+                    (Color)ColorConverter.ConvertFromString(_themePalette.Light.Secondary));
 
             _paletteHelper.SetTheme(theme);
         }

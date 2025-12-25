@@ -10,7 +10,6 @@ namespace Tovia.Services
     public class SettingsService
     {
 
-        private readonly string _appSettingsPath;
         private readonly string _userSettingsPath;
         private readonly string _packagedUserSettings;
 
@@ -26,19 +25,13 @@ namespace Tovia.Services
 
             var baseDir = AppContext.BaseDirectory;
             _packagedUserSettings = Path.Combine(baseDir, "Config","usersettings.json");
-            _appSettingsPath = Path.Combine(baseDir, "Config", "appsettings.json");
 
             Load();
         }
 
         public UserSettings userSettings {get; private set;}
-        public AppSettings appSettings { get; private set; }
-        
         public void Load()
         {
-
-            appSettings = JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(_appSettingsPath));
-
             if (!File.Exists(_userSettingsPath))
             {
                 if (File.Exists(_packagedUserSettings))
@@ -50,7 +43,6 @@ namespace Tovia.Services
                     File.WriteAllText(_userSettingsPath, JsonConvert.SerializeObject(new UserSettings(), Formatting.Indented));
                 }
             }
-
             userSettings = JsonConvert.DeserializeObject<UserSettings>(File.ReadAllText(_userSettingsPath));
         }
         public void Save(UserSettings newUserSettings)

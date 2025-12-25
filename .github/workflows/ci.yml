@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
@@ -13,7 +10,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -23,6 +21,37 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Tovia.sln
 
-      - name: Build WPF projects only
+      - name: Generate appsettings.json from secrets
+        shell: pwsh
         run: |
-          dotnet build src/Tovia/Tovia.csproj --configuration Release
+          # Ensure Config folder exists
+          New-Item -ItemType Directory -Force -Path Config
+
+          # Write appsettings.json
+          @"
+{
+  "AzureAd": {
+    "ClientId": "${{ secrets.AZURE_ID }}",
+    "Tenant": "consumer",
+    "Instance": "https://login.microsoftonline.com/",
+    "Scopes": [ "user.read", "Calendars.ReadWrite", "Tasks.ReadWrite" ]
+  },
+  "GoogleAuth": {
+    "ClientId": "${{ secrets.GOOGLE_ID }}",
+    "ClientSecret": "${{ secrets.GOOGLE_SECRET }}",
+    "Scopes": [
+      "https://www.googleapis.com/auth/tasks",
+      "https://www.googleapis.com/auth/tasks.readonly",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "Palette": {
+    "Primary": "Blue",
+    "Secondary": "Gray"
+  }
+}
+"@ | Out-File -Encoding UTF8 Config\appsettings.json
+
+      - name: Build WPF project
+        run: dotnet build src/Tovia/Tovia.csproj --configuration Release
