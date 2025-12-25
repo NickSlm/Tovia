@@ -18,6 +18,7 @@ namespace Tovia.ViewModels
         private readonly AppThemeService _appThemeService;
         private readonly OverlayViewModel _overlayViewModel;
         private readonly SettingsService _settingsService;
+        private readonly IConfiguration _config;
         private bool _isDarkTheme;
         private string _inProgressTaskColor;
         private string _failedTaskColor;
@@ -31,14 +32,15 @@ namespace Tovia.ViewModels
             GlobalHotKeyService globalHotKeyService, 
             AppThemeService appThemeService,
             OverlayViewModel overlayViewModel,
-            SettingsService settingsService
+            SettingsService settingsService,
+            IConfiguration config
             )
         {
             _settingsService = settingsService;
             _globalHotKeyService = globalHotKeyService;
             _appThemeService = appThemeService;
             _overlayViewModel = overlayViewModel;
-
+            _config = config;
             _settingsService.SettingsChanged += (s, e) => ApplySettings();
 
             ApplySettings();
@@ -103,23 +105,24 @@ namespace Tovia.ViewModels
 
         public void ApplySettings()
         {
-            var settings = _settingsService.userSettings;
+            var appearance = _config.GetSection("Appearance").Get<AppearanceSettings>();
+            var hotkeys = _config.GetSection("Hotkeys").Get<HotkeyCategory>();
 
-            IsDarkTheme = settings.Appearance.BaseTheme == "light" ? false : true;
+            IsDarkTheme = appearance.BaseTheme == "light" ? false : true;
 
-            InProgressTaskColor = settings.Appearance.InProgressTask;
-            FailedTaskColor = settings.Appearance.FailedTask;
-            CompletedTaskColor = settings.Appearance.CompleteTask;
+            InProgressTaskColor = appearance.InProgressTask;
+            FailedTaskColor = appearance.FailedTask;
+            CompletedTaskColor = appearance.CompleteTask;
 
 
-            foreach (var (name, sett) in settings.Hotkeys)
+            foreach (var category in hotkeys)
             {
-                _hotkeySettings[name] = (sett.MainKey, sett.ModifierKey);
+                _hotkeySettings[category.Key] = (category.Value.MainKey, category.Value.ModifierKey);
                 var keystroke = new KeyStroke
                 {
-                    keyStroke = $"{_hotkeySettings[name].modifier.ToString()} + {_hotkeySettings[name].key.ToString()}"
+                    keyStroke = $"{category.Value.ModifierKey} + {category.Value.MainKey}"
                 };
-                _keyStrokes[name] = keystroke;
+                _keyStrokes[category.Key] = keystroke;
             }
         }
         public void SaveSettings() 
@@ -162,11 +165,6 @@ namespace Tovia.ViewModels
                     {
                         MainKey = _hotkeySettings["Overlay"].key,
                         ModifierKey = _hotkeySettings["Overlay"].modifier
-                    },
-                    ["NewTask"] = new HotkeySettings
-                    {
-                        MainKey = _hotkeySettings["NewTask"].key,
-                        ModifierKey = _hotkeySettings["NewTask"].modifier
                     }
                 },
                 Window = new WindowSettings

@@ -9,9 +9,8 @@ namespace Tovia.Services
     public class AppThemeService
     {
         private PaletteHelper _paletteHelper = new PaletteHelper();
-        private readonly SettingsService _settingsService;
-        private readonly UserSettings _userSettings;
         private readonly IConfiguration _config;
+        private readonly AppearanceSettings _appAppearance;
         private readonly ThemePalette _themePalette;
         private static readonly Dictionary<string, Brush> DarkPalette = new()
         {
@@ -52,15 +51,13 @@ namespace Tovia.Services
             {"OutlookButtonBorderDisabled", new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D0D0D0"))}
         };
 
-        public AppThemeService(SettingsService settingsService, IConfiguration config)
+        public AppThemeService(IConfiguration config)
         {
-            _settingsService = settingsService;
-            _userSettings = _settingsService.userSettings;
             _config = config;
             _themePalette = _config.GetSection("Palette").Get<ThemePalette>();
+            _appAppearance = _config.GetSection("Appearance").Get<AppearanceSettings>();
 
-            var isDark = _userSettings.Appearance.BaseTheme == "dark";
-            ChangeTheme(isDark);
+            ChangeTheme(_appAppearance.BaseTheme == "dark");
         }
 
         public void ChangeTheme(bool newTheme)

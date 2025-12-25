@@ -9,16 +9,18 @@ namespace Tovia.Services
     public class GlobalHotKeyService: IDisposable
     {
         private readonly HotKeyManager _manager = new();
-        private readonly SettingsService _settingsService;
+        private readonly IConfiguration _config;
+        private readonly HotkeyCategory _hotkeySettings;
         public Dictionary<string, (Key Key, ModifierKeys ModifierKey)> _storedKeys = new();
 
         public event Action? OnOverlayHotKeyPressed;
         public event Action? OnNewTaskHotKeyPressed;
 
-        public GlobalHotKeyService(SettingsService settingsService)
+        public GlobalHotKeyService(IConfiguration config)
         {
-            _settingsService = settingsService;
-
+            _config = config;
+            _hotkeySettings = config.GetSection("Hotkeys").Get<HotkeyCategory>();
+            
             _manager.KeyPressed += HotKeyManagerPressed;
 
             ApplySettings();
@@ -27,12 +29,11 @@ namespace Tovia.Services
 
         private void ApplySettings()
         {
-            var userSettings = _settingsService.userSettings;
-
-            foreach (var (name, setting) in userSettings.Hotkeys)
+            
+            foreach (var category in _hotkeySettings)
             {
-                _storedKeys[name] = (setting.MainKey, setting.ModifierKey);
-                _manager.Register(setting.MainKey, setting.ModifierKey);
+                _storedKeys[category.Key] = (category.Value.MainKey, category.Value.ModifierKey);
+                _manager.Register(category.Value.MainKey, category.Value.ModifierKey);
             }
         }
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)

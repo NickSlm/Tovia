@@ -11,6 +11,7 @@ namespace Tovia.ViewModels
     public class OverlayViewModel: INotifyPropertyChanged
     {
         private readonly SettingsService _settingsService;
+        private readonly IConfiguration _config;
         private readonly ITaskManager _taskManager;
         private double _topPos;
         private double _leftPos;
@@ -20,11 +21,13 @@ namespace Tovia.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public OverlayViewModel(SettingsService settingsService, ITaskManager taskManager)
+        public OverlayViewModel(SettingsService settingsService, ITaskManager taskManager, IConfiguration config)
         {
 
             _settingsService = settingsService;
+            _config = config;
             _taskManager = taskManager;
+
 
             _settingsService.SettingsChanged += (s, e) => ApplySettings();
             ApplySettings();
@@ -81,14 +84,15 @@ namespace Tovia.ViewModels
 
         private void ApplySettings()
         {
-            var userSettings = _settingsService.userSettings;
+            var window = _config.GetSection("Window").Get<WindowSettings>();
+            var appearance = _config.GetSection("Appearance").Get<AppearanceSettings>();
 
-            TopPos = userSettings.Window.TopPos;
-            LeftPos = userSettings.Window.LeftPos;
+            TopPos = window.TopPos;
+            LeftPos = window.LeftPos;
 
-            InProgressTaskColor = userSettings.Appearance.InProgressTask;
-            FailedTaskColor = userSettings.Appearance.FailedTask;
-            CompletedTaskColor = userSettings.Appearance.CompleteTask;
+            InProgressTaskColor = appearance.InProgressTask;
+            FailedTaskColor = appearance.FailedTask;
+            CompletedTaskColor = appearance.CompleteTask;
         }
         public void UpdatePosition(double top, double left)
         {

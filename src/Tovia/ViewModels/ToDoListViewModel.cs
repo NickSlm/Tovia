@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -17,6 +18,7 @@ namespace Tovia.ViewModels
     {
         private readonly ITaskManager _taskManager;
         private readonly SettingsService _settingsService;
+        private readonly IConfiguration _config;
         private readonly IDialogService _dialogService;
 
         private string _taskTitle = string.Empty;
@@ -32,10 +34,11 @@ namespace Tovia.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ToDoListViewModel(ITaskManager taskManager, IDialogService dialogService, SettingsService settingsService)
+        public ToDoListViewModel(ITaskManager taskManager, IDialogService dialogService, SettingsService settingsService, IConfiguration config)
         {
             _taskManager = taskManager;
             _settingsService = settingsService;
+            _config = config;
             _dialogService = dialogService;
 
             ApplySettings();
@@ -157,11 +160,11 @@ namespace Tovia.ViewModels
 
         private void ApplySettings()
         {
-            var settings = _settingsService.userSettings;
+            var settings = _config.GetSection("Appearance").Get<AppearanceSettings>();
 
-            InProgressTaskColor = settings.Appearance.InProgressTask;
-            FailedTaskColor = settings.Appearance.FailedTask;
-            CompletedTaskColor = settings.Appearance.CompleteTask;
+            InProgressTaskColor = settings.InProgressTask;
+            FailedTaskColor = settings.FailedTask;
+            CompletedTaskColor = settings.CompleteTask;
         }
         private async Task CreateTask()
         {

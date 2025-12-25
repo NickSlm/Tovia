@@ -28,9 +28,13 @@ public partial class App : Application
         base.OnStartup(e);
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+        var userSettingsPath = Path.Combine(DatabasePath, "userSettings.json");
+
         var configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("Config/appsettings.json")
+            .AddJsonFile("Config/appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("Config/usersettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(userSettingsPath, optional: true, reloadOnChange: true)
             .Build();
 
         var serviceCollection = new ServiceCollection();
