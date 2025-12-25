@@ -1,57 +1,26 @@
-name: .NET
-
-on:
+---
+name: '.NET'
+'on':
   push:
-    branches: [ "main" ]
+    branches:
+      - 'main'
   pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - 'main'
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: 'windows-latest'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: 'Checkout repository'
+        uses: 'actions/checkout@v4'
+      - name: 'Setup .NET'
+        uses: 'actions/setup-dotnet@v4'
         with:
-          dotnet-version: 8.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore Tovia.sln
-
-      - name: Generate appsettings.json from secrets
-        shell: pwsh
-        run: |
-          # Ensure Config folder exists
-          New-Item -ItemType Directory -Force -Path Config
-
-          $json = @"
-{
-  "AzureAd": {
-    "ClientId": "${{ secrets.AZURE_ID }}",
-    "Tenant": "consumer",
-    "Instance": "https://login.microsoftonline.com/",
-    "Scopes": [ "user.read", "Calendars.ReadWrite", "Tasks.ReadWrite" ]
-  },
-  "GoogleAuth": {
-    "ClientId": "${{ secrets.GOOGLE_ID }}",
-    "ClientSecret": "${{ secrets.GOOGLE_SECRET }}",
-    "Scopes": [
-      "https://www.googleapis.com/auth/tasks",
-      "https://www.googleapis.com/auth/tasks.readonly",
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
-  },
-  "Palette": {
-    "Primary": "Blue",
-    "Secondary": "Gray"
-  }
-}
-"@
-          $json | Out-File -Encoding UTF8 Config\appsettings.json
-
-      - name: Build WPF project
-        run: dotnet build src/Tovia/Tovia.csproj --configuration Release
+          dotnet-version: '8.0.x'
+      - name: 'Restore dependencies'
+        run: 'dotnet restore Tovia.sln'
+      - name: 'Create placeholder appsettings.json'
+        shell: 'pwsh'
+        run: "# Ensure Config folder exists\nNew-Item -ItemType Directory -Force -Path Config\n\n# Create an empty JSON file (or minimal placeholder)\n'{}' | Set-Content -Path Config\\appsettings.json -Encoding UTF8\n"
+      - name: 'Build WPF project'
+        run: 'dotnet build src/Tovia/Tovia.csproj --configuration Release'
