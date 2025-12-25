@@ -24,11 +24,9 @@ jobs:
       - name: Generate appsettings.json from secrets
         shell: pwsh
         run: |
-          # Ensure Config folder exists
-          New-Item -ItemType Directory -Force -Path Config
+New-Item -ItemType Directory -Force -Path Config
 
-          # Write appsettings.json
-          @"
+@"
 {
   "AzureAd": {
     "ClientId": "${{ secrets.AZURE_ID }}",
