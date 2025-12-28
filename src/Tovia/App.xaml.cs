@@ -7,6 +7,7 @@ using Tovia.Services;
 using Tovia.States;
 using Tovia.ViewModels;
 using Tovia.interfaces;
+using Tovia.Bootstrap;
 using Tovia.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
@@ -18,32 +19,25 @@ namespace Tovia;
 public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
-    private static readonly string AppFolder = Path.Combine(
-    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-    "Tovia");
-    private static readonly string DatabasePath = Path.Combine(AppFolder, "Tovia.db");
+
 
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-        var userSettingsPath = Path.Combine(DatabasePath, "userSettings.json");
+        AppDataBootstrapper.EnsureAppDataInitialized();
 
         var configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("Config/appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile("Config/usersettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile(userSettingsPath, optional: true, reloadOnChange: true)
+            .AddJsonFile(AppDataBootstrapper.AppUserSettings, optional: false, reloadOnChange: true)
             .Build();
 
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddSingleton<IConfiguration>(configuration);
         ConfigureServices(serviceCollection, configuration);
         Services = serviceCollection.BuildServiceProvider();
-
-        if (!Directory.Exists(AppFolder))
-            Directory.CreateDirectory(AppFolder);
 
         using (var scope = Services.CreateScope())
         {
@@ -98,7 +92,7 @@ public partial class App : Application
     private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContextFactory<LocalDbContext>(options =>
-                     options.UseSqlite($"Data Source={DatabasePath}"));
+                     options.UseSqlite($"Data Source={AppDataBootstrapper.AppDatabase}"));
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<ITaskManager, TaskManager>();

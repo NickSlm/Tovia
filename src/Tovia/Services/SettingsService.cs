@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Windows;
+using Tovia.Bootstrap;
 using Tovia.Models;
 
 namespace Tovia.Services
@@ -16,14 +17,8 @@ namespace Tovia.Services
 
         public SettingsService()
         {
-            var localFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var appFolder = Path.Combine(localFolder, "Tovia");
-            Directory.CreateDirectory(appFolder);
-
-            _userSettingsPath = Path.Combine(appFolder, "userSettings.json");
+            _userSettingsPath = AppDataBootstrapper.AppUserSettings;
         }
-
-        public UserSettings userSettings {get; private set;}
 
         public void Save(UserSettings newUserSettings)
         {
