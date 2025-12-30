@@ -13,7 +13,7 @@ namespace Tovia.Services
 {
     public class MicrosoftGraphService: IMicrosoftGraphService
     {
-        private readonly AuthService _authService;
+        private readonly MicrosoftAuthService _authService;
         private readonly HttpClient _httpClient = new HttpClient()
         {
             BaseAddress = new Uri("https://graph.microsoft.com")
@@ -22,7 +22,7 @@ namespace Tovia.Services
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public MicrosoftGraphService(AuthService authService)
+        public MicrosoftGraphService(MicrosoftAuthService authService)
         {
             _authService = authService;
         }

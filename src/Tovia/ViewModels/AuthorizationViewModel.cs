@@ -11,7 +11,8 @@ namespace Tovia.ViewModels
 {
     public class AuthorizationViewModel : INotifyPropertyChanged
     {
-        private readonly AuthService _authService;
+        private readonly MicrosoftAuthService _microsoftAuth;
+        private readonly GoogleAuthService _googleAuth;
         private readonly IDialogService _dialogService;
         private readonly AppStateService _appStateService;
         private bool _isSyncing;
@@ -20,13 +21,15 @@ namespace Tovia.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public AuthorizationViewModel(AuthService authService, IDialogService dialogService, AppStateService appStateService)
+        public AuthorizationViewModel(MicrosoftAuthService microsoftAuth, GoogleAuthService googleAuth , IDialogService dialogService, AppStateService appStateService)
         {
-            _authService = authService;
+            _microsoftAuth = microsoftAuth;
+            _googleAuth = googleAuth;
             _dialogService = dialogService;
             _appStateService = appStateService;
 
             AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
+            GoogleAuthCommand = new AsyncRelayCommand(GoogleAuthorization);
             SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
             CloseCommand = new RelayCommand(CloseButtonClick);
 
@@ -62,6 +65,7 @@ namespace Tovia.ViewModels
         }
 
         public IAsyncRelayCommand SignOutCommand { get; }
+        public IAsyncRelayCommand GoogleAuthCommand { get; }
         public IAsyncRelayCommand AuthorizationCommand { get; }
         public IRelayCommand CloseCommand { get; }
 
@@ -72,11 +76,15 @@ namespace Tovia.ViewModels
                                  .FirstOrDefault();
             authWindow.DialogResult = false;
         }
+        private async Task GoogleAuthorization()
+        {
+            await _googleAuth.Authorize();
+        }
         private async Task AuthorizationButtonClick()
         {
-            await _authService.Authorize();
-            AccountUsername = _authService.AccountUsername;
-            AccountPhoto = _authService.AccountProfilePic;
+            await _microsoftAuth.Authorize();
+            AccountUsername = _microsoftAuth.AccountUsername;
+            AccountPhoto = _microsoftAuth.AccountProfilePic;
 
             _appStateService.SignIn();
 
@@ -89,7 +97,7 @@ namespace Tovia.ViewModels
         }
         private async Task SignOutButtonClick()
         {
-            await _authService.SignOutAsync();
+            await _microsoftAuth.SignOutAsync();
 
             _appStateService.SignOut();
 

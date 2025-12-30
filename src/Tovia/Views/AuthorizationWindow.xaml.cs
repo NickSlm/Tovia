@@ -13,6 +13,9 @@ namespace Tovia.Views
             DataContext = authorizationVM;
             InitializeComponent();
         }
-
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

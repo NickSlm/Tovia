@@ -15,7 +15,7 @@ using Tovia.Converters;
 
 namespace Tovia.Services
 {
-    public class AuthService
+    public class MicrosoftAuthService
     {
 
         private readonly IConfiguration _config;
@@ -33,7 +33,7 @@ namespace Tovia.Services
             BaseAddress = new Uri("https://graph.microsoft.com")
         };
 
-        public AuthService(IConfiguration config)
+        public MicrosoftAuthService(IConfiguration config)
         {
             _config = config;
 

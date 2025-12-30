@@ -102,7 +102,8 @@ public partial class App : Application
 
         services.AddSingleton<AppStateService>();
         services.AddSingleton<AppCoordinator>();
-        services.AddSingleton<AuthService>();
+        services.AddSingleton<MicrosoftAuthService>();
+        services.AddSingleton<GoogleAuthService>();
         services.AddSingleton<AppTimerService>();
         services.AddSingleton<GlobalHotKeyService>();
         services.AddSingleton<SettingsService>();

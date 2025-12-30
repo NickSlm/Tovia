@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿    using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -15,9 +15,9 @@ namespace Tovia.Services
     public class LocalDBService:ILocalDBService
     {
         private readonly LocalDbContext _dbContext;
-        private readonly AuthService _authService;
+        private readonly MicrosoftAuthService _authService;
 
-        public LocalDBService(LocalDbContext dbContext, AuthService authService)
+        public LocalDBService(LocalDbContext dbContext, MicrosoftAuthService authService)
         {
             _dbContext = dbContext;
             _authService = authService;
