@@ -28,6 +28,7 @@
 		<PackageReference Include="GlobalHotKey" Version="1.1.0" />
 		<PackageReference Include="Google.Apis.Auth" Version="1.73.0" />
 		<PackageReference Include="Google.Apis.Calendar.v3" Version="1.73.0.3993" />
+		<PackageReference Include="Google.Apis.Oauth2.v2" Version="1.68.0.1869" />
 		<PackageReference Include="MaterialDesignColors" Version="5.2.1" />
 		<PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.10" />

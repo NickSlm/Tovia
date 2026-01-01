@@ -13,7 +13,9 @@ namespace Tovia.Services
 {
     public class MicrosoftGraphService: IMicrosoftGraphService
     {
-        private readonly MicrosoftAuthService _authService;
+        private readonly MicrosoftAuthService _microsoftAuth;
+        private readonly string? _accessToken;
+        private readonly string? _taskListId;
         private readonly HttpClient _httpClient = new HttpClient()
         {
             BaseAddress = new Uri("https://graph.microsoft.com")
@@ -22,18 +24,20 @@ namespace Tovia.Services
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public MicrosoftGraphService(MicrosoftAuthService authService)
+        public MicrosoftGraphService(MicrosoftAuthService microsoftAuth)
         {
-            _authService = authService;
+            _microsoftAuth = microsoftAuth;
+            _accessToken = _microsoftAuth.AuthResult.AccessToken;
+            _taskListId = _microsoftAuth.User.TaskListId;
         }
         public ObservableCollection<ToDoItem> ToDoList { get; set; } = new();
 
         public async Task<ToDoItem> CreateTaskAsync(ToDoItem item, bool createEvent)
         {
-            string AccessToken = await _authService.GetAccessToken();
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"/v1.0/me/todo/lists/{_taskListId}/tasks");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var taskData = new
             {
@@ -85,10 +89,9 @@ namespace Tovia.Services
         }
         public async Task CreateLinkedResourcesAsync(string title, string eventId, string taskId, string eventWebLink)
         {
-            var accessToken = await _authService.GetAccessToken();
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"https://graph.microsoft.com/v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}/linkedResources");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var request = new HttpRequestMessage(HttpMethod.Post, $"https://graph.microsoft.com/v1.0/me/todo/lists/{_taskListId}/tasks/{taskId}/linkedResources");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var data = new
             {
@@ -107,10 +110,9 @@ namespace Tovia.Services
         }
         public async Task DeleteTaskAsync(string taskId)
         {
-            string AccessToken = await _authService.GetAccessToken();
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, $"v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"v1.0/me/todo/lists/{_taskListId}/tasks/{taskId}");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var response = await _httpClient.SendAsync(request);
 
@@ -122,11 +124,11 @@ namespace Tovia.Services
         }
         public async Task UpdateTaskAsync(string taskId, bool IsComplete)
         {
-            string AccessToken = await _authService.GetAccessToken();
+            
 
-            var request = new HttpRequestMessage(HttpMethod.Patch, $"v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks/{taskId}");
+            var request = new HttpRequestMessage(HttpMethod.Patch, $"v1.0/me/todo/lists/{_taskListId}/tasks/{taskId}");
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var taskData = new
             {
@@ -143,11 +145,9 @@ namespace Tovia.Services
         {
             var taskList = new List<ToDoItem>();
 
-            string AccessToken = await _authService.GetAccessToken();
+            var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me/todo/lists/{_taskListId}/tasks?$expand=linkedResources");
 
-            var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me/todo/lists/{_authService.AccountTaskListId}/tasks?$expand=linkedResources");
-
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var response = await _httpClient.SendAsync(request);
             var json = await response.Content.ReadAsStringAsync();
@@ -212,11 +212,9 @@ namespace Tovia.Services
         }
         public async Task<string> PostEventAsync(string title, string? description, DateTime? dateTime, string priority)
         {
-            string AccessToken = await _authService.GetAccessToken();
-
             var request = new HttpRequestMessage(HttpMethod.Post, $"v1.0/me/events");
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var eventData = new
             {
@@ -257,11 +255,10 @@ namespace Tovia.Services
         }
         public async Task DeleteEventAsync(string eventId)
         {
-            string AccessToken = await _authService.GetAccessToken();
 
             var request = new HttpRequestMessage(HttpMethod.Delete, $"v1.0/me/events/{eventId}");
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
 
             var response = await _httpClient.SendAsync(request);
 

@@ -28,7 +28,7 @@ namespace Tovia.ViewModels
             _dialogService = dialogService;
             _appStateService = appStateService;
 
-            AuthorizationCommand = new AsyncRelayCommand(AuthorizationButtonClick);
+            AuthorizationCommand = new AsyncRelayCommand(MicrosoftAuthorization);
             GoogleAuthCommand = new AsyncRelayCommand(GoogleAuthorization);
             SignOutCommand = new AsyncRelayCommand(SignOutButtonClick);
             CloseCommand = new RelayCommand(CloseButtonClick);
@@ -78,13 +78,25 @@ namespace Tovia.ViewModels
         }
         private async Task GoogleAuthorization()
         {
-            await _googleAuth.Authorize();
+            await _googleAuth.SignInAsync();
+
+            AccountUsername = _googleAuth.User.FirstName + _googleAuth.User.LastName;
+            AccountPhoto = _googleAuth.User.Pfp;
+
+            var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
+
+            if (authWindow != null)
+            {
+                authWindow.DialogResult = true;
+            }
+
         }
-        private async Task AuthorizationButtonClick()
+        private async Task MicrosoftAuthorization()
         {
-            await _microsoftAuth.Authorize();
-            AccountUsername = _microsoftAuth.AccountUsername;
-            AccountPhoto = _microsoftAuth.AccountProfilePic;
+            await _microsoftAuth.SignInAsync();
+
+            AccountUsername = _microsoftAuth.User.FirstName;
+            AccountPhoto = _microsoftAuth.User.Pfp;
 
             _appStateService.SignIn();
 
@@ -101,7 +113,7 @@ namespace Tovia.ViewModels
 
             _appStateService.SignOut();
 
-            AccountUsername = string.Empty;
+            AccountUsername = null;
             AccountPhoto = null;
 
             var result = _dialogService.ShowLoginDialog();

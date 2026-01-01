@@ -25,35 +25,35 @@ namespace Tovia.Services
 
         public async Task SaveTask(UsersTasks task)
         {
-            var user = await _dbContext.Users.Include(e => e.Tasks)
-                .FirstOrDefaultAsync(u => u.MicrosoftOid == _authService.OID);
+            //var user = await _dbContext.Users.Include(e => e.Tasks)
+            //    .FirstOrDefaultAsync(u => u.MicrosoftOid == _authService.OID);
 
-            if (user == null)
-            {
-                user = new Users()
-                {
-                    AccountName = _authService.AccountUsername,
-                    MicrosoftOid = _authService.OID,
-                    LastLogin = DateTime.Now,
-                };
+            //if (user == null)
+            //{
+            //    user = new Users()
+            //    {
+            //        AccountName = _authService.AccountUsername,
+            //        MicrosoftOid = _authService.OID,
+            //        LastLogin = DateTime.Now,
+            //    };
 
-                _dbContext.Users.Add(user);
-            }
-            user.Tasks.Add(task);
+            //    _dbContext.Users.Add(user);
+            //}
+            //user.Tasks.Add(task);
 
-            await _dbContext.SaveChangesAsync();
+            //await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteTask(ToDoItem item)
         {
-            var user = await _dbContext.Users.Include(e => e.Tasks).
-                FirstOrDefaultAsync(u => u.MicrosoftOid == _authService.OID);
+            //var user = await _dbContext.Users.Include(e => e.Tasks).
+            //    FirstOrDefaultAsync(u => u.MicrosoftOid == _authService.OID);
 
-            var task = user.Tasks.FirstOrDefault(t => t.TaskId == item.TaskId);
+            //var task = user.Tasks.FirstOrDefault(t => t.TaskId == item.TaskId);
 
-            user.Tasks.Remove(task);
+            //user.Tasks.Remove(task);
 
-            await _dbContext.SaveChangesAsync();
+            //await _dbContext.SaveChangesAsync();
         }
     }
 }

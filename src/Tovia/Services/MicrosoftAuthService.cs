@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using Tovia.Models;
 using Tovia.Converters;
+using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
 
 
 namespace Tovia.Services
@@ -23,10 +24,6 @@ namespace Tovia.Services
         private readonly string Tenant;
         private readonly string Instance;
         private readonly string[] Scopes;
-        private string _oId;
-        private string _accountUsername;
-        private string _accountTaskListId;
-        private BitmapImage _accountProfilePic;
         private IPublicClientApplication _clientApp;
         private readonly HttpClient _httpClient = new HttpClient()
         {
@@ -47,22 +44,9 @@ namespace Tovia.Services
             CreateApplication();
         }
 
-        public string AccountUsername
-        {
-            get => _accountUsername; 
-        }
-        public string OID
-        {
-            get => _oId;
-        }
-        public string AccountTaskListId
-        {
-            get => _accountTaskListId;
-        }
-        public BitmapImage AccountProfilePic
-        {
-            get => _accountProfilePic;
-        }
+        public UserProfile? User { get; private set; }
+        public AuthenticationResult? AuthResult { get; private set; }
+
         public IPublicClientApplication ClientApp 
         { 
             get => _clientApp;
@@ -84,9 +68,8 @@ namespace Tovia.Services
             return cacheHelper;
 
         }
-        public async Task Authorize()
+        public async Task SignInAsync()
         {
-            AuthenticationResult? authResult = null;
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
 
             if (firstAccount == null)
@@ -95,14 +78,14 @@ namespace Tovia.Services
             }
             try
             {
-                authResult = await ClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
+                AuthResult = await ClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
             }
             catch (MsalUiRequiredException ex)
             {
                 Debug.WriteLine($"MsalUiRequiredException: {ex.Message}");
                 try
                 {
-                    authResult = await ClientApp.AcquireTokenInteractive(Scopes)
+                    AuthResult = await ClientApp.AcquireTokenInteractive(Scopes)
                         .WithAccount(firstAccount)
                         .WithPrompt(Prompt.SelectAccount)
                         .ExecuteAsync();
@@ -117,19 +100,43 @@ namespace Tovia.Services
             {
                 Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
-            _oId = authResult.Account.HomeAccountId.ObjectId;
-            _accountTaskListId = await GetDefaultTaskListIdAsync(authResult.AccessToken);
-            _accountUsername = await GetProfileDisplayNameAsync(authResult.AccessToken);
-            _accountProfilePic = await GetProfilePictureAsync(authResult.AccessToken);
+
+            await LoadUserAsync();
         }
-        public async Task<string> GetAccessToken()
+        public async Task SignOutAsync()
         {
-            IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
-            var authResult = await ClientApp.AcquireTokenSilent(Scopes, firstAccount).ExecuteAsync();
-            return authResult.AccessToken;
+            try
+            {
+                IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
+                if (firstAccount != null)
+                {
+                    await ClientApp.RemoveAsync(firstAccount);
+                }
+            }
+            catch (MsalException msalex)
+            {
+                Debug.WriteLine($"Error occurred while trying to sign out {msalex}");
+            }
         }
-        public async Task<BitmapImage> GetProfilePictureAsync(string accessToken)
+        private async Task LoadUserAsync()
         {
+
+            var firstName = await GetProfileDisplayNameAsync();
+            var taskListId = await GetDefaultTaskListIdAsync();
+            var pfp = await GetProfilePictureAsync();
+
+            User = new UserProfile
+            {
+                Id = AuthResult.Account.HomeAccountId.ObjectId,
+                FirstName = firstName,
+                Pfp = pfp,
+                TaskListId = taskListId
+            };
+
+        }
+        public async Task<BitmapImage> GetProfilePictureAsync()
+        {
+            var accessToken = AuthResult.AccessToken;
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me/photo/$value");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -147,8 +154,9 @@ namespace Tovia.Services
             BitmapImage profilePic = ConvertBytesToBitmapImage.ConvertToImage(result);
             return profilePic;
         }
-        public async Task<string> GetProfileDisplayNameAsync(string accessToken)
+        public async Task<string> GetProfileDisplayNameAsync()
         {
+            var accessToken = AuthResult.AccessToken;
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
@@ -164,8 +172,10 @@ namespace Tovia.Services
             var result = JsonDocument.Parse(json);
             return result.RootElement.GetProperty("displayName").ToString();
         }
-        public async Task<string> GetDefaultTaskListIdAsync(string accessToken)
+        public async Task<string> GetDefaultTaskListIdAsync()
         {
+            var accessToken = AuthResult.AccessToken;
+
             var request = new HttpRequestMessage(HttpMethod.Get, $"v1.0/me/todo/lists");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -181,21 +191,6 @@ namespace Tovia.Services
             var taskListId = tasksList.GetProperty("id").ToString();
 
             return taskListId;
-        }
-        public async Task SignOutAsync()
-        {
-            try
-            {
-                IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
-                if (firstAccount != null)
-                {
-                    await ClientApp.RemoveAsync(firstAccount);
-                }
-            }
-            catch (MsalException msalex)
-            {
-                Debug.WriteLine($"Error occurred while trying to sign out {msalex}");
-            }
         }
     }
 }
