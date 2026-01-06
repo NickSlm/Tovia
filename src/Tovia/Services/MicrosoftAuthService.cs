@@ -12,13 +12,14 @@ using System.Windows.Media.Imaging;
 using Tovia.Models;
 using Tovia.Converters;
 using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
+using Tovia.interfaces;
 
 
 namespace Tovia.Services
 {
-    public class MicrosoftAuthService
+    public class MicrosoftAuthService: IAuthProvider
     {
-
+        public string? AccessToken { get; set; }
         private readonly IConfiguration _config;
         private readonly string ClientId;
         private readonly string Tenant;
@@ -100,8 +101,8 @@ namespace Tovia.Services
             {
                 Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
-
-            await LoadUserAsync();
+            AccessToken = AuthResult.AccessToken;
+            await LoadProfileAsync();
         }
         public async Task SignOutAsync()
         {
@@ -118,7 +119,7 @@ namespace Tovia.Services
                 Debug.WriteLine($"Error occurred while trying to sign out {msalex}");
             }
         }
-        private async Task LoadUserAsync()
+        private async Task LoadProfileAsync()
         {
 
             var firstName = await GetProfileDisplayNameAsync();
@@ -134,7 +135,7 @@ namespace Tovia.Services
             };
 
         }
-        public async Task<BitmapImage> GetProfilePictureAsync()
+        private async Task<BitmapImage> GetProfilePictureAsync()
         {
             var accessToken = AuthResult.AccessToken;
 
@@ -154,7 +155,7 @@ namespace Tovia.Services
             BitmapImage profilePic = ConvertBytesToBitmapImage.ConvertToImage(result);
             return profilePic;
         }
-        public async Task<string> GetProfileDisplayNameAsync()
+        private async Task<string> GetProfileDisplayNameAsync()
         {
             var accessToken = AuthResult.AccessToken;
 
@@ -172,7 +173,7 @@ namespace Tovia.Services
             var result = JsonDocument.Parse(json);
             return result.RootElement.GetProperty("displayName").ToString();
         }
-        public async Task<string> GetDefaultTaskListIdAsync()
+        private async Task<string> GetDefaultTaskListIdAsync()
         {
             var accessToken = AuthResult.AccessToken;
 

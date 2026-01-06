@@ -5,7 +5,6 @@ namespace Tovia.Services
 {
     public class AppStateService
     {
-
         public event Action? UserLoggedIn;
         public event Action? UserLoggedOut;
 

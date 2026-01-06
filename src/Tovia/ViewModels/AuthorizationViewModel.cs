@@ -83,6 +83,8 @@ namespace Tovia.ViewModels
             AccountUsername = _googleAuth.User.FirstName + _googleAuth.User.LastName;
             AccountPhoto = _googleAuth.User.Pfp;
 
+            _appStateService.SignIn();
+
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
 
             if (authWindow != null)
@@ -110,6 +112,7 @@ namespace Tovia.ViewModels
         private async Task SignOutButtonClick()
         {
             await _microsoftAuth.SignOutAsync();
+            await _googleAuth.SignOutAsync();
 
             _appStateService.SignOut();
 

@@ -14,17 +14,19 @@ using Tovia.Models;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Google.Apis.Util.Store;
 using System.Windows.Media.Imaging;
+using Tovia.interfaces;
+using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
 
 namespace Tovia.Services
 {
-    public class GoogleAuthService
+    public class GoogleAuthService: IAuthProvider
     {
-
+        public string? AccessToken { get; private set; }
         private readonly IConfiguration _config;
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly string[] _scopes;
-        private IDataStore _dataStore;
+        private IDataStore _dataStore = new FileDataStore("GoogleOAuth", true);
         public GoogleAuthService(IConfiguration config)
         {
             _config = config;
@@ -35,13 +37,12 @@ namespace Tovia.Services
         }
 
         public UserProfile? User { get; private set; }
-        public UserCredential? UserCredentials { get; private set; }
+        public UserCredential? AuthResult { get; private set; }
         public async Task SignInAsync()
         {
-
             try
             {
-                UserCredentials = await GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets
+                AuthResult = await GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets
                 {
                     ClientId = _clientId,
                     ClientSecret = _clientSecret
@@ -52,8 +53,9 @@ namespace Tovia.Services
                 dataStore: _dataStore
                 );
 
+                AccessToken = AuthResult.Token.AccessToken;
                 await LoadProfileAsync();
-  
+                
             }
             catch (InvalidJwtException ex)
             {
@@ -68,7 +70,7 @@ namespace Tovia.Services
         public async Task SignOutAsync()
         {
             _dataStore.ClearAsync();
-            UserCredentials = null;
+            AuthResult = null;
             User = null;
 
         }
@@ -77,7 +79,7 @@ namespace Tovia.Services
             var authService = new Oauth2Service(
                 new BaseClientService.Initializer
                 {
-                    HttpClientInitializer = UserCredentials
+                    HttpClientInitializer = AuthResult
                 });
 
             var userInfo = await authService.Userinfo.V2.Me.Get().ExecuteAsync();

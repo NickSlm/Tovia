@@ -27,7 +27,7 @@ namespace Tovia.Services
         public MicrosoftGraphService(MicrosoftAuthService microsoftAuth)
         {
             _microsoftAuth = microsoftAuth;
-            _accessToken = _microsoftAuth.AuthResult.AccessToken;
+            _accessToken = _microsoftAuth.AccessToken;
             _taskListId = _microsoftAuth.User.TaskListId;
         }
         public ObservableCollection<ToDoItem> ToDoList { get; set; } = new();
