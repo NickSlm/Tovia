@@ -1,7 +1,9 @@
-# Tovia – WPF Desktop Task Manager with Microsoft Account Integration
+# Tovia – Desktop Task Manager with Microsoft & Google Integration (WPF)
 
-Manage your tasks and calendar efficiently, directly from your Windows desktop.  
-Tovia keeps your Outlook Tasks in sync and optionally creates calendar events with reminders — all without switching windows.
+Tovia is a Windows desktop task manager designed to unify your daily tasks across platforms.
+It integrates directly with Microsoft Outlook Tasks and is being expanded to support Google Tasks, letting you manage everything from a single, distraction-free WPF app.
+
+Stay focused, keep your tasks visible, and sync seamlessly — without living in a browser.
 
 ---
 ## Screenshots / Demo
@@ -27,6 +29,16 @@ Tovia keeps your Outlook Tasks in sync and optionally creates calendar events wi
     </td>
   </tr>
 </table>
+
+---
+## Current Integrations
+
+| Provider                | Status         |
+| ----------------------- | -------------- |
+| Microsoft Outlook Tasks | ✅ Implemented  |
+| Microsoft Calendar      | ✅ Implemented  |
+| Google Tasks            | 🚧 In progress |
+| Google Calendar         | 🔜 Planned     |
 
 ---
 
