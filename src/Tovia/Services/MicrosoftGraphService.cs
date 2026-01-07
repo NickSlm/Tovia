@@ -13,7 +13,7 @@ namespace Tovia.Services
 {
     public class MicrosoftGraphService: IMicrosoftGraphService
     {
-        private readonly MicrosoftAuthService _microsoftAuth;
+        private readonly AppStateService _appStateService;
         private readonly string? _accessToken;
         private readonly string? _taskListId;
         private readonly HttpClient _httpClient = new HttpClient()
@@ -24,11 +24,11 @@ namespace Tovia.Services
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public MicrosoftGraphService(MicrosoftAuthService microsoftAuth)
+        public MicrosoftGraphService(MicrosoftAuthService microsoftAuth, AppStateService appStateService)
         {
-            _microsoftAuth = microsoftAuth;
-            _accessToken = _microsoftAuth.AccessToken;
-            _taskListId = _microsoftAuth.User.TaskListId;
+            _appStateService = appStateService; 
+            _accessToken = _appStateService.AccessToken;
+            _taskListId = _appStateService.User.TaskListId;
         }
         public ObservableCollection<ToDoItem> ToDoList { get; set; } = new();
 

@@ -19,7 +19,6 @@ namespace Tovia.Services
 {
     public class MicrosoftAuthService: IAuthProvider
     {
-        public string? AccessToken { get; set; }
         private readonly IConfiguration _config;
         private readonly string ClientId;
         private readonly string Tenant;
@@ -44,8 +43,6 @@ namespace Tovia.Services
 
             CreateApplication();
         }
-
-        public UserProfile? User { get; private set; }
         public AuthenticationResult? AuthResult { get; private set; }
 
         public IPublicClientApplication ClientApp 
@@ -69,7 +66,7 @@ namespace Tovia.Services
             return cacheHelper;
 
         }
-        public async Task SignInAsync()
+        public async Task<string> SignInAsync()
         {
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
 
@@ -101,8 +98,7 @@ namespace Tovia.Services
             {
                 Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
-            AccessToken = AuthResult.AccessToken;
-            await LoadProfileAsync();
+            return AuthResult.AccessToken;
         }
         public async Task SignOutAsync()
         {
@@ -119,21 +115,20 @@ namespace Tovia.Services
                 Debug.WriteLine($"Error occurred while trying to sign out {msalex}");
             }
         }
-        private async Task LoadProfileAsync()
+        public async Task<UserProfile> LoadProfileAsync()
         {
-
             var firstName = await GetProfileDisplayNameAsync();
             var taskListId = await GetDefaultTaskListIdAsync();
             var pfp = await GetProfilePictureAsync();
 
-            User = new UserProfile
+            var User = new UserProfile
             {
                 Id = AuthResult.Account.HomeAccountId.ObjectId,
                 FirstName = firstName,
                 Pfp = pfp,
                 TaskListId = taskListId
             };
-
+            return User;
         }
         private async Task<BitmapImage> GetProfilePictureAsync()
         {

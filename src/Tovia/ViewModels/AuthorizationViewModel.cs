@@ -16,8 +16,8 @@ namespace Tovia.ViewModels
         private readonly IDialogService _dialogService;
         private readonly AppStateService _appStateService;
         private bool _isSyncing;
-        private string _accountUsername;
-        private BitmapImage _accountPhoto;
+        private string? _accountUsername;
+        private BitmapImage? _accountPhoto;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -35,7 +35,7 @@ namespace Tovia.ViewModels
 
         }
 
-        public string AccountUsername
+        public string? AccountUsername
         {
             get => _accountUsername;
             set
@@ -44,7 +44,7 @@ namespace Tovia.ViewModels
                 OnPropertyChanged(nameof(AccountUsername));
             }
         }
-        public BitmapImage AccountPhoto
+        public BitmapImage? AccountPhoto
         {
             get => _accountPhoto;
             set
@@ -78,12 +78,10 @@ namespace Tovia.ViewModels
         }
         private async Task GoogleAuthorization()
         {
-            await _googleAuth.SignInAsync();
+            await _appStateService.SignIn(_googleAuth);
 
-            AccountUsername = _googleAuth.User.FirstName + _googleAuth.User.LastName;
-            AccountPhoto = _googleAuth.User.Pfp;
-
-            _appStateService.SignIn();
+            AccountUsername = _appStateService.User.FirstName + _appStateService.User.LastName;
+            AccountPhoto = _appStateService.User.Pfp;
 
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
 
@@ -95,12 +93,11 @@ namespace Tovia.ViewModels
         }
         private async Task MicrosoftAuthorization()
         {
-            await _microsoftAuth.SignInAsync();
+            await _appStateService.SignIn(_microsoftAuth);
 
-            AccountUsername = _microsoftAuth.User.FirstName;
-            AccountPhoto = _microsoftAuth.User.Pfp;
+            AccountUsername = _appStateService.User.FirstName;
+            AccountPhoto = _appStateService.User.Pfp;
 
-            _appStateService.SignIn();
 
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
 

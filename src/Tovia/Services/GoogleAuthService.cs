@@ -21,7 +21,6 @@ namespace Tovia.Services
 {
     public class GoogleAuthService: IAuthProvider
     {
-        public string? AccessToken { get; private set; }
         private readonly IConfiguration _config;
         private readonly string _clientId;
         private readonly string _clientSecret;
@@ -35,10 +34,8 @@ namespace Tovia.Services
             _clientSecret = googleAuth.ClientSecret;
             _scopes = googleAuth.Scopes;
         }
-
-        public UserProfile? User { get; private set; }
         public UserCredential? AuthResult { get; private set; }
-        public async Task SignInAsync()
+        public async Task<string> SignInAsync()
         {
             try
             {
@@ -53,9 +50,6 @@ namespace Tovia.Services
                 dataStore: _dataStore
                 );
 
-                AccessToken = AuthResult.Token.AccessToken;
-                await LoadProfileAsync();
-                
             }
             catch (InvalidJwtException ex)
             {
@@ -65,16 +59,14 @@ namespace Tovia.Services
             {
                 MessageBox.Show("Exception: " + ex.Message);
             }
-
+            return AuthResult.Token.AccessToken;
         }
         public async Task SignOutAsync()
         {
             _dataStore.ClearAsync();
             AuthResult = null;
-            User = null;
-
         }
-        private async Task LoadProfileAsync()
+        public async Task<UserProfile> LoadProfileAsync()
         {
             var authService = new Oauth2Service(
                 new BaseClientService.Initializer
@@ -85,7 +77,7 @@ namespace Tovia.Services
             var userInfo = await authService.Userinfo.V2.Me.Get().ExecuteAsync();
             var pfp = new BitmapImage(new Uri(userInfo.Picture));
 
-            User = new UserProfile
+            var User = new UserProfile
             {
                 Id = userInfo.Id,
                 FirstName = userInfo.GivenName,
@@ -94,6 +86,7 @@ namespace Tovia.Services
                 Pfp = pfp
             };
 
+            return User;
         }
 
     }
