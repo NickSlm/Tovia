@@ -108,10 +108,7 @@ namespace Tovia.ViewModels
         }
         private async Task SignOutButtonClick()
         {
-            await _microsoftAuth.SignOutAsync();
-            await _googleAuth.SignOutAsync();
-
-            _appStateService.SignOut();
+            await _appStateService.SignOut();
 
             AccountUsername = null;
             AccountPhoto = null;

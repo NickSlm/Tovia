@@ -8,12 +8,11 @@ namespace Tovia.Services
     public class AppStateService
     {
 
-        public IAuthProvider? AuthProvider;
         public string? AccessToken;
         public event Action? UserLoggedIn;
         public event Action? UserLoggedOut;
         public UserProfile? User { get; set; }
-
+        public IAuthProvider AuthProvider { get; private set; }
         public async Task SignIn(IAuthProvider authProvider)
         {
             AuthProvider = authProvider;

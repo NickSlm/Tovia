@@ -26,15 +26,18 @@ namespace Tovia.Services
         private readonly string _clientSecret;
         private readonly string[] _scopes;
         private IDataStore _dataStore = new FileDataStore("GoogleOAuth", true);
-        public GoogleAuthService(IConfiguration config)
+        public GoogleAuthService(IConfiguration config, GoogleApiService googleApi)
         {
+            TaskProvider = googleApi;
             _config = config;
+
             var googleAuth = _config.GetRequiredSection("GoogleAuth").Get<GoogleAuth>();
             _clientId = googleAuth.ClientId;
             _clientSecret = googleAuth.ClientSecret;
             _scopes = googleAuth.Scopes;
         }
         public UserCredential? AuthResult { get; private set; }
+        public ITaskProvider TaskProvider { get; private set; }
         public async Task<string> SignInAsync()
         {
             try

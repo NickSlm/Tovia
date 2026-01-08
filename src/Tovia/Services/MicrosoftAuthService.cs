@@ -30,8 +30,10 @@ namespace Tovia.Services
             BaseAddress = new Uri("https://graph.microsoft.com")
         };
 
-        public MicrosoftAuthService(IConfiguration config)
+        public MicrosoftAuthService(IConfiguration config, MicrosoftGraphService microsoftApi)
         {
+            TaskProvider = microsoftApi;
+
             _config = config;
 
             var azureAd = _config.GetSection("AzureAd").Get<AzureAd>();
@@ -44,7 +46,7 @@ namespace Tovia.Services
             CreateApplication();
         }
         public AuthenticationResult? AuthResult { get; private set; }
-
+        public ITaskProvider TaskProvider { get; private set; }
         public IPublicClientApplication ClientApp 
         { 
             get => _clientApp;

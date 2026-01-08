@@ -96,7 +96,8 @@ public partial class App : Application
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<ITaskManager, TaskManager>();
-        services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
+        services.AddSingleton<MicrosoftGraphService>();
+        services.AddSingleton<GoogleApiService>();
         services.AddTransient<ISyncDBService, SyncDBService>();
         services.AddScoped<ILocalDBService, LocalDBService>();
 

@@ -6,21 +6,23 @@ using System.Windows;
 using Tovia.Data;
 using Tovia.interfaces;
 using Tovia.Models;
+using Tovia.Services;
 
 namespace Tovia.States
 {
     public class TaskManager: ITaskManager
     {
         private readonly ILocalDBService _localDBService;
+        private readonly AppStateService _appStateService;
         private readonly ObservableCollection<ToDoItem> _toDoList = new();
         private int _completedTasks;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public TaskManager(ILocalDBService localDBService)
+        public TaskManager(ILocalDBService localDBService, AppStateService appStateService)
         {
-
             _localDBService = localDBService;
+            _appStateService = appStateService;
             ToDoList = new ReadOnlyObservableCollection<ToDoItem>(_toDoList);
 
             _toDoList.CollectionChanged += (s, e) => HandleCollectionChanged(e);
@@ -71,6 +73,39 @@ namespace Tovia.States
             //    _toDoList.Add(task);
             //}
         }
+        public async Task SaveTask(ToDoItem item, bool createEvent)
+        {
+            await _appStateService.AuthProvider.TaskProvider.GetTasksAsync();
+            //ToDoItem newTask = await _taskService.CreateTaskAsync(item, createEvent);
+            
+            //UsersTasks task = new UsersTasks()
+            //{
+            //    Title = newTask.Title,
+            //    Description = newTask.Description,
+            //    DueDate = newTask.DueDate,
+            //    TaskId = newTask.TaskId,
+            //    EventId = newTask.EventId,
+            //    Priority = newTask.Importance,
+            //    Status = newTask.Status,
+            //    SoftDelete = newTask.SoftDelete
+            //};
+
+            //await _localDBService.SaveTask(task);
+
+            //newTask.OnCompletionChanged += async (s, e) =>
+            //{
+            //    var t = (ToDoItem)s;
+            //    try
+            //    {
+            //        await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
+            //    }
+            //};
+            //_toDoList.Add(newTask);
+        }
         public async Task RemoveTask(ToDoItem item)
         {
             //if (!string.IsNullOrEmpty(item.EventId))
@@ -99,38 +134,6 @@ namespace Tovia.States
         public void ClearTasks()
         {
             _toDoList.Clear();
-        }
-        public async Task SaveTask(ToDoItem item, bool createEvent)
-        {
-            //ToDoItem newTask = await _taskService.CreateTaskAsync(item, createEvent);
-
-            //UsersTasks task = new UsersTasks()
-            //{
-            //    Title = newTask.Title,
-            //    Description = newTask.Description,
-            //    DueDate = newTask.DueDate,
-            //    TaskId = newTask.TaskId,
-            //    EventId = newTask.EventId,
-            //    Priority = newTask.Importance,
-            //    Status = newTask.Status,
-            //    SoftDelete = newTask.SoftDelete
-            //};
-
-            //await _localDBService.SaveTask(task);
-
-            //newTask.OnCompletionChanged += async (s, e) =>
-            //{
-            //    var t = (ToDoItem)s;
-            //    try
-            //    {
-            //        await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
-            //    }
-            //};
-            //_toDoList.Add(newTask);
         }
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
