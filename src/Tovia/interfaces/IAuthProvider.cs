@@ -9,9 +9,7 @@ namespace Tovia.interfaces
 {
     public interface IAuthProvider
     {
-        ITaskProvider TaskProvider { get; }
-        Task<string> SignInAsync();
+        Task<AuthSession> SignInAsync();
         Task SignOutAsync();
-        Task<UserProfile> LoadProfileAsync();
     }
 }

@@ -30,9 +30,8 @@ namespace Tovia.Services
             BaseAddress = new Uri("https://graph.microsoft.com")
         };
 
-        public MicrosoftAuthService(IConfiguration config, MicrosoftGraphService microsoftApi)
+        public MicrosoftAuthService(IConfiguration config)
         {
-            TaskProvider = microsoftApi;
 
             _config = config;
 
@@ -46,7 +45,6 @@ namespace Tovia.Services
             CreateApplication();
         }
         public AuthenticationResult? AuthResult { get; private set; }
-        public ITaskProvider TaskProvider { get; private set; }
         public IPublicClientApplication ClientApp 
         { 
             get => _clientApp;
@@ -68,7 +66,7 @@ namespace Tovia.Services
             return cacheHelper;
 
         }
-        public async Task<string> SignInAsync()
+        public async Task<AuthSession> SignInAsync()
         {
             IAccount? firstAccount = (await ClientApp.GetAccountsAsync()).FirstOrDefault();
 
@@ -100,7 +98,18 @@ namespace Tovia.Services
             {
                 Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
-            return AuthResult.AccessToken;
+            var accessToken = AuthResult.AccessToken;
+            var user = await LoadProfileAsync();
+            var taskProvider = new MicrosoftGraphService(accessToken, user);
+
+            var authSession = new AuthSession
+            {
+                AccessToken = accessToken,
+                User = user,
+                TaskProvider = taskProvider
+            };
+
+            return authSession;
         }
         public async Task SignOutAsync()
         {
@@ -117,7 +126,7 @@ namespace Tovia.Services
                 Debug.WriteLine($"Error occurred while trying to sign out {msalex}");
             }
         }
-        public async Task<UserProfile> LoadProfileAsync()
+        private async Task<UserProfile> LoadProfileAsync()
         {
             var firstName = await GetProfileDisplayNameAsync();
             var taskListId = await GetDefaultTaskListIdAsync();
@@ -190,5 +199,6 @@ namespace Tovia.Services
 
             return taskListId;
         }
+        
     }
 }

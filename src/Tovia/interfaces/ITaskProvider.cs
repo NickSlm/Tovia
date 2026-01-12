@@ -9,8 +9,11 @@ namespace Tovia.interfaces
 {
     public interface ITaskProvider: INotifyPropertyChanged
     {
+
+
         Task<List<ToDoItem>> GetTasksAsync();
         Task<ToDoItem> CreateTaskAsync(ToDoItem item, bool createEvent);
+        Task UpdateTaskAsync(string taskId, bool IsComplete);
         Task DeleteTaskAsync(string taskId);
         Task DeleteEventAsync(string eventId);
     }

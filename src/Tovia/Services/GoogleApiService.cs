@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Google.Apis.Services;
+using Google.Apis.Tasks.v1;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -6,20 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Tovia.interfaces;
+using Tovia.Models;
 
 namespace Tovia.Services
 {
     public class GoogleApiService: ITaskProvider
     {
-        public GoogleApiService()
-        {
+        private readonly TasksService _tasksService;
+        private readonly string _accessToken;
+        private readonly UserProfile _userProfile;
 
+        public GoogleApiService(string accessToken, UserProfile user)
+        {
+                _accessToken = accessToken;
+                _userProfile = user;
         }
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public async Task<List<ToDoItem>> GetTasksAsync()
         {
-            MessageBox.Show("Google get");
+
             return new List<ToDoItem>();
         }
 
@@ -27,7 +35,11 @@ namespace Tovia.Services
         {
             return item;
         }
+        public async Task UpdateTaskAsync(string taskId, bool isComplete)
+        {
+            await Task.Delay(1000);
 
+        }
         public async Task DeleteTaskAsync(string taskId)
         {
             await Task.Delay(1000);

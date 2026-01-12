@@ -9,9 +9,9 @@ using Google.Apis.Oauth2.v2;
 using Google.Apis.Services;
 using Google.Apis.Auth;
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Tasks.v1;
 using Microsoft.Extensions.Configuration;
 using Tovia.Models;
-using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Google.Apis.Util.Store;
 using System.Windows.Media.Imaging;
 using Tovia.interfaces;
@@ -23,12 +23,11 @@ namespace Tovia.Services
     {
         private readonly IConfiguration _config;
         private readonly string _clientId;
-        private readonly string _clientSecret;
         private readonly string[] _scopes;
+        private readonly string _clientSecret;
         private IDataStore _dataStore = new FileDataStore("GoogleOAuth", true);
-        public GoogleAuthService(IConfiguration config, GoogleApiService googleApi)
+        public GoogleAuthService(IConfiguration config)
         {
-            TaskProvider = googleApi;
             _config = config;
 
             var googleAuth = _config.GetRequiredSection("GoogleAuth").Get<GoogleAuth>();
@@ -37,8 +36,7 @@ namespace Tovia.Services
             _scopes = googleAuth.Scopes;
         }
         public UserCredential? AuthResult { get; private set; }
-        public ITaskProvider TaskProvider { get; private set; }
-        public async Task<string> SignInAsync()
+        public async Task<AuthSession> SignInAsync()
         {
             try
             {
@@ -48,7 +46,7 @@ namespace Tovia.Services
                     ClientSecret = _clientSecret
                 },
                 _scopes,
-                "user",
+                "Tovia",
                 CancellationToken.None,
                 dataStore: _dataStore
                 );
@@ -62,14 +60,26 @@ namespace Tovia.Services
             {
                 MessageBox.Show("Exception: " + ex.Message);
             }
-            return AuthResult.Token.AccessToken;
+
+            var accessToken = AuthResult.Token.AccessToken;
+            var user = await LoadProfileAsync();
+            var taskProvider = new GoogleApiService(accessToken, user);
+
+            var authSession = new AuthSession
+            {
+                AccessToken = accessToken,
+                User = user,
+                TaskProvider = taskProvider
+            };
+
+            return authSession;
         }
         public async Task SignOutAsync()
         {
             _dataStore.ClearAsync();
             AuthResult = null;
         }
-        public async Task<UserProfile> LoadProfileAsync()
+        private async Task<UserProfile> LoadProfileAsync()
         {
             var authService = new Oauth2Service(
                 new BaseClientService.Initializer
@@ -78,6 +88,7 @@ namespace Tovia.Services
                 });
 
             var userInfo = await authService.Userinfo.V2.Me.Get().ExecuteAsync();
+            var taskListId = await GetTaskListIdAsync();
             var pfp = new BitmapImage(new Uri(userInfo.Picture));
 
             var User = new UserProfile
@@ -86,10 +97,26 @@ namespace Tovia.Services
                 FirstName = userInfo.GivenName,
                 LastName = userInfo.FamilyName,
                 Email = userInfo.Email,
+                TaskListId = taskListId,
                 Pfp = pfp
             };
 
             return User;
+        }
+
+        private async Task<string> GetTaskListIdAsync()
+        {
+            var taskService = new TasksService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = AuthResult,
+                ApplicationName = "Tovia"
+            });
+
+            var taskLists = await taskService.Tasklists.List().ExecuteAsync();
+
+            var defaultList = taskLists.Items.FirstOrDefault();
+
+            return defaultList.Id;
         }
 
     }

@@ -8,23 +8,27 @@ namespace Tovia.Services
     public class AppStateService
     {
 
-        public string? AccessToken;
+
         public event Action? UserLoggedIn;
         public event Action? UserLoggedOut;
-        public UserProfile? User { get; set; }
+
+        public AuthSession AuthSession { get; private set; }
+        public ITaskProvider TaskProvider { get; private set; }
         public IAuthProvider AuthProvider { get; private set; }
+
         public async Task SignIn(IAuthProvider authProvider)
         {
             AuthProvider = authProvider;
-
-            AccessToken = await AuthProvider.SignInAsync();
-            User = await AuthProvider.LoadProfileAsync();
+            AuthSession = await AuthProvider.SignInAsync();
+            TaskProvider = AuthSession.TaskProvider;
             UserLoggedIn?.Invoke();
         }
         public async Task SignOut()
         {
             await AuthProvider.SignOutAsync();
             AuthProvider = null;
+            AuthSession = null;
+            TaskProvider = null;
             UserLoggedOut?.Invoke();
         }
     }

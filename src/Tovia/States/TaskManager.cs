@@ -75,36 +75,35 @@ namespace Tovia.States
         }
         public async Task SaveTask(ToDoItem item, bool createEvent)
         {
-            await _appStateService.AuthProvider.TaskProvider.GetTasksAsync();
-            //ToDoItem newTask = await _taskService.CreateTaskAsync(item, createEvent);
-            
-            //UsersTasks task = new UsersTasks()
-            //{
-            //    Title = newTask.Title,
-            //    Description = newTask.Description,
-            //    DueDate = newTask.DueDate,
-            //    TaskId = newTask.TaskId,
-            //    EventId = newTask.EventId,
-            //    Priority = newTask.Importance,
-            //    Status = newTask.Status,
-            //    SoftDelete = newTask.SoftDelete
-            //};
+            ToDoItem newTask = await _appStateService.TaskProvider.CreateTaskAsync(item, createEvent);
 
-            //await _localDBService.SaveTask(task);
+            UsersTasks task = new UsersTasks()
+            {
+                Title = newTask.Title,
+                Description = newTask.Description,
+                DueDate = newTask.DueDate,
+                TaskId = newTask.TaskId,
+                EventId = newTask.EventId,
+                Priority = newTask.Importance,
+                Status = newTask.Status,
+                SoftDelete = newTask.SoftDelete
+            };
 
-            //newTask.OnCompletionChanged += async (s, e) =>
-            //{
-            //    var t = (ToDoItem)s;
-            //    try
-            //    {
-            //        await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
-            //    }
-            //};
-            //_toDoList.Add(newTask);
+            await _localDBService.SaveTask(task);
+
+            newTask.OnCompletionChanged += async (s, e) =>
+            {
+                var t = (ToDoItem)s;
+                try
+                {
+                    await _appStateService.TaskProvider.UpdateTaskAsync(t.TaskId, t.IsComplete);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
+                }
+            };
+            _toDoList.Add(newTask);
         }
         public async Task RemoveTask(ToDoItem item)
         {

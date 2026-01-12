@@ -80,8 +80,8 @@ namespace Tovia.ViewModels
         {
             await _appStateService.SignIn(_googleAuth);
 
-            AccountUsername = _appStateService.User.FirstName + _appStateService.User.LastName;
-            AccountPhoto = _appStateService.User.Pfp;
+            AccountUsername = _appStateService.AuthSession.User.FirstName + _appStateService.AuthSession.User.LastName;
+            AccountPhoto = _appStateService.AuthSession.User.Pfp;
 
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
 
@@ -95,8 +95,8 @@ namespace Tovia.ViewModels
         {
             await _appStateService.SignIn(_microsoftAuth);
 
-            AccountUsername = _appStateService.User.FirstName;
-            AccountPhoto = _appStateService.User.Pfp;
+            AccountUsername = _appStateService.AuthSession.User.FirstName;
+            AccountPhoto = _appStateService.AuthSession.User.Pfp;
 
 
             var authWindow = Application.Current.Windows.OfType<AuthorizationWindow>().FirstOrDefault();
