@@ -42,6 +42,7 @@ namespace Tovia.ViewModels
             _dialogService = dialogService;
 
             ApplySettings();
+
             _settingsService.SettingsChanged += (s,e) => ApplySettings();
             _taskManager.PropertyChanged += (s, e) =>
             {
@@ -55,6 +56,7 @@ namespace Tovia.ViewModels
                         break;
                 }
             };
+
             CleanUpCommand = new AsyncRelayCommand(CleanCompletedItems);
             RemoveTaskCommand = new AsyncRelayCommand<ToDoItem>(RemoveTask);
             CreateTaskCommand = new AsyncRelayCommand(CreateTask);
@@ -98,7 +100,6 @@ namespace Tovia.ViewModels
                 OnPropertyChanged(nameof(CompletedTaskColor));
             }
         }
-
         public string TaskTitle
         {
             get => _taskTitle;

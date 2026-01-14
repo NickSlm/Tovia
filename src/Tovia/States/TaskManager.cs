@@ -55,26 +55,27 @@ namespace Tovia.States
         public async Task LoadToDoItems()
         {
             _toDoList.Clear();
-            //var tasks = await _taskService.GetTasksAsync();
-            //foreach (var task in tasks)
-            //{
-            //    task.OnCompletionChanged += async (s, e) =>
-            //    {
-            //        var t = task;
-            //        try
-            //        {
-            //            await _taskService.UpdateTaskAsync(t.TaskId, t.IsComplete);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
-            //        }
-            //    };
-            //    _toDoList.Add(task);
-            //}
+            var tasks = await _appStateService.TaskProvider.GetTasksAsync();
+            foreach (var task in tasks)
+            {
+                task.OnCompletionChanged += async (s, e) =>
+                {
+                    var t = task;
+                    try
+                    {
+                        await _appStateService.TaskProvider.UpdateTaskAsync(t.TaskId, t.IsComplete);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error updating Task {t.TaskId}: {ex}");
+                    }
+                };
+                _toDoList.Add(task);
+            }
         }
         public async Task SaveTask(ToDoItem item, bool createEvent)
         {
+
             ToDoItem newTask = await _appStateService.TaskProvider.CreateTaskAsync(item, createEvent);
 
             UsersTasks task = new UsersTasks()
@@ -107,28 +108,28 @@ namespace Tovia.States
         }
         public async Task RemoveTask(ToDoItem item)
         {
-            //if (!string.IsNullOrEmpty(item.EventId))
-            //{
-            //    await _taskService.DeleteEventAsync(item.EventId);
-            //}
-            //await _taskService.DeleteTaskAsync(item.TaskId);
-            //await _localDBService.DeleteTask(item);
+            if (!string.IsNullOrEmpty(item.EventId))
+            {
+                await _appStateService.TaskProvider.DeleteEventAsync(item.EventId);
+            }
+            await _appStateService.TaskProvider.DeleteTaskAsync(item.TaskId);
+            await _localDBService.DeleteTask(item);
             _toDoList.Remove(item);
         }
         public async Task RemoveCompleteTask()
         {
-            //for (int i = ToDoList.Count - 1; i >= 0; i--)
-            //{
-            //    if (ToDoList[i].Status == TaskState.Complete || ToDoList[i].Status == TaskState.Failed)
-            //    {
-            //        if (!string.IsNullOrEmpty(ToDoList[i].EventId))
-            //        {
-            //            await _taskService.DeleteEventAsync(ToDoList[i].EventId);
-            //        }
-            //        await _taskService.DeleteTaskAsync(ToDoList[i].TaskId);
-            //        _toDoList.RemoveAt(i);
-            //    }
-            //}
+            for (int i = ToDoList.Count - 1; i >= 0; i--)
+            {
+                if (ToDoList[i].Status == TaskState.Complete || ToDoList[i].Status == TaskState.Failed)
+                {
+                    if (!string.IsNullOrEmpty(ToDoList[i].EventId))
+                    {
+                        await _appStateService.TaskProvider.DeleteEventAsync(ToDoList[i].EventId);
+                    }
+                    await _appStateService.TaskProvider.DeleteTaskAsync(ToDoList[i].TaskId);
+                    _toDoList.RemoveAt(i);
+                }
+            }
         }
         public void ClearTasks()
         {

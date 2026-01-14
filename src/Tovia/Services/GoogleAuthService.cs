@@ -63,7 +63,7 @@ namespace Tovia.Services
 
             var accessToken = AuthResult.Token.AccessToken;
             var user = await LoadProfileAsync();
-            var taskProvider = new GoogleApiService(accessToken, user);
+            var taskProvider = new GoogleApiService(accessToken, user, AuthResult);
 
             var authSession = new AuthSession
             {
