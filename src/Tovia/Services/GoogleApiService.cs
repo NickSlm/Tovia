@@ -61,8 +61,7 @@ namespace Tovia.Services
             {
                 Title = item.Title,
                 Notes = item.Description,
-                Due = item.DueDate.Value.ToUniversalTime()
-            .ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'"),
+                Due = item.DueDate.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'"),
                 Status = "needsAction",
             };
             var response = await _tasksService.Tasks.Insert(task, _userProfile.TaskListId).ExecuteAsync();

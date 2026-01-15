@@ -31,8 +31,6 @@ namespace Tovia.States
             {
                 OnPropertyChanged(nameof(TotalTasks));
             };
-
-            LoadToDoItems();
         }
 
         internal ObservableCollection<ToDoItem> ToDoListInternal => _toDoList;

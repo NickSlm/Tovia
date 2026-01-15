@@ -46,6 +46,7 @@ public partial class App : Application
             db.Database.Migrate();
         }
 
+        _ = Services.GetRequiredService<AppCoordinator>();
         _ = Services.GetRequiredService<AppThemeService>();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
@@ -58,7 +59,6 @@ public partial class App : Application
             return;
         }
 
-        _ = Services.GetRequiredService<AppCoordinator>();
         _ = Services.GetRequiredService<AppTimerService>();
         var globalHotKeyService = Services.GetRequiredService<GlobalHotKeyService>();
         var overlayWindow = Services.GetRequiredService<OverlayWindow>();
