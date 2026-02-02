@@ -46,8 +46,8 @@ public partial class App : Application
             db.Database.Migrate();
         }
 
-        _ = Services.GetRequiredService<AppCoordinator>();
         _ = Services.GetRequiredService<AppThemeService>();
+        _ = Services.GetRequiredService<AppCoordinator>();
 
         var loginWindow = Services.GetRequiredService<AuthorizationWindow>();
         bool? loginResult = loginWindow.ShowDialog();

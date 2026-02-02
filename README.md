@@ -37,7 +37,7 @@ Stay focused, keep your tasks visible, and sync seamlessly — without living in
 | ----------------------- | -------------- |
 | Microsoft Outlook Tasks | ✅ Implemented  |
 | Microsoft Calendar      | ✅ Implemented  |
-| Google Tasks            | 🚧 In progress |
+| Google Tasks            | ✅ Implemented  |
 | Google Calendar         | 🔜 Planned     |
 
 ---

@@ -63,21 +63,21 @@
                             Click="Minimize_Click"
                             FontFamily="Segoe MDL2 Assets"
                             Content="&#xE921;"
-                            Style="{StaticResource IconButtonStyle}"/>
+                            Style="{StaticResource ToolbarButtonStyle}"/>
 
                     <Button Width="40"
                             Height="32"
                             Click="Maximize_Click"
                             FontFamily="Segoe MDL2 Assets"
                             Content="&#xE922;"
-                            Style="{StaticResource IconButtonStyle}"/>
+                            Style="{StaticResource ToolbarButtonStyle}"/>
 
                     <Button Width="40"
                             Height="32"
                             Click="Close_Click"
                             FontFamily="Segoe MDL2 Assets"
                             Content="&#xE8BB;"
-                            Style="{StaticResource IconButtonStyle}"/>
+                            Style="{StaticResource ToolbarButtonStyle}"/>
 
 
                 </StackPanel>
@@ -106,35 +106,27 @@
 
                     <!--Header Section Login-->
                     <Border Grid.Row="0"
-                            Background="{DynamicResource OutlookHeaderBackgroundBrush}"
                             BorderThickness="0 0 0 1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+
+
+
                             <StackPanel Orientation="Horizontal"
                                         Grid.Column="0"
                                         Margin="8 0 0 0"
                                         VerticalAlignment="Center">
-                                <Image Source="{Binding AuthorizationVM.AccountPhoto}"
-                                       Width="32"
-                                       Height="32"
-                                       Stretch="UniformToFill"
-                                       RenderOptions.BitmapScalingMode="HighQuality"
-                                       Margin="4">
-                                    <Image.Clip>
-                                        <EllipseGeometry Center="16,16"
-                                                         RadiusX="16"
-                                                         RadiusY="16" />
-                                    </Image.Clip>
-                                </Image>
-
-                                <TextBlock Text="{Binding AuthorizationVM.AccountUsername}"
-                                           VerticalAlignment="Center"
-                                           Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
-                                           Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                                <materialDesign:Chip Content="{Binding AuthorizationVM.AccountUsername}">
+                                    <materialDesign:Chip.Icon>
+                                        <Image Source="{Binding AuthorizationVM.AccountPhoto}"
+                                               RenderOptions.BitmapScalingMode="HighQuality" />
+                                    </materialDesign:Chip.Icon>
+                                </materialDesign:Chip>
                             </StackPanel>
+                            
                             <StackPanel Orientation="Horizontal" 
                                         Grid.Column="1" 
                                         VerticalAlignment="Center" 
@@ -150,8 +142,8 @@
                                 </Button>
                                 <Button Style="{DynamicResource IconButtonStyle}"
                                         ToolTip="Change Account"
-                                        Command="{Binding AuthorizationVM.SignOutCommand}"
-                                        >
+                                        Margin="0 0 8 0"
+                                        Command="{Binding AuthorizationVM.SignOutCommand}">
                                     <materialDesign:PackIcon Kind="AccountSwitch"
                                                              Width="24"
                                                              Height="24"
