@@ -304,7 +304,7 @@
                                 </ItemsControl>
                             </ScrollViewer>
                             <!--Show Add Task-->
-                            <Border 
+                            <Border x:Name="tester"
                                     Grid.Row="2"
                                     Background="Transparent"
                                     Margin="8 4 8 4"

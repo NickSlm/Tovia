@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace Tovia.Views
 {
@@ -10,6 +11,14 @@ namespace Tovia.Views
         public OverlayWindow()
         {
             InitializeComponent();
+        }
+
+        public void Window_Drag(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }
