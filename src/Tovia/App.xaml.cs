@@ -13,9 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 namespace Tovia;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
 public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
