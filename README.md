@@ -10,7 +10,7 @@ Stay focused, keep your tasks visible, and sync seamlessly — without living in
 <table>
   <tr>
     <td>
-        <img src="https://github.com/user-attachments/assets/9a642629-d641-4e2c-bc6c-b21b3d42f378" alt="Main Window" width="420"/>
+      <img width="420"  alt="image" src="https://github.com/user-attachments/assets/648c9ac8-3944-43c1-9f65-ec0f8fd46343" />
       <p align="center"><i>Creating a task in Tovia</i></p>
     </td>
     <td valign="top">
