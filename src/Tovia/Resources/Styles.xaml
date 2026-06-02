@@ -2,228 +2,492 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <Style x:Key="OutlookSecondaryButtonStyle"
-           TargetType="Button"
-           BasedOn="{StaticResource MaterialDesignFlatButton}">
-        <Setter Property="Foreground"
-                Value="{DynamicResource OutlookButtonForeground}" />
+    <SolidColorBrush x:Key="AppBackground"
+                     Color="#D7D9B1" />
+    <SolidColorBrush x:Key="SurfaceBrush"
+                     Color="#242120" />
+    <SolidColorBrush x:Key="ChromeBrush"
+                     Color="#D7D9B1" />
+    <SolidColorBrush x:Key="InputBackgroundBrush"
+                     Color="#242120" />
+    <LinearGradientBrush x:Key="ProgressFillBrush"
+                         StartPoint="0,0"
+                         EndPoint="1,0">
+        <GradientStop Color="#3E6B4A"
+                      Offset="0" />
+        <GradientStop Color="#5E9E6E"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="MainBackgroundBrush"
+                         StartPoint="0,0"
+                         EndPoint="0,1">
+        <GradientStop Color="#FFD7D9B1"
+                      Offset="0" />
+        <GradientStop Color="#FF9CA06D"
+                      Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BorderBrush"
+                         StartPoint="0,0"
+                         EndPoint="1,1">
+        <GradientStop Color="#FFE0E0E0"
+                      Offset="0.0" />
+        <GradientStop Color="#FFFFFFFF"
+                      Offset="0.1" />
+        <GradientStop Color="#FFA0A0A0"
+                      Offset="0.3" />
+        <GradientStop Color="#FF505050"
+                      Offset="0.4" />
+        <GradientStop Color="#FF808080"
+                      Offset="0.42" />
+        <GradientStop Color="#FFD0D0D0"
+                      Offset="0.55" />
+        <GradientStop Color="#FFF0F0F0"
+                      Offset="0.7" />
+        <GradientStop Color="#FF606060"
+                      Offset="0.9" />
+        <GradientStop Color="#FF989898"
+                      Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="HeaderTextBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0B132B" Offset="0"/>
+        <GradientStop Color="#1C2541 " Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="BorderBrushSubtle"
+                     Color="#2C2927" />
+    <SolidColorBrush x:Key="AccentBrush"
+                     Color="#F97316" />
+    <SolidColorBrush x:Key="AccentMutedBrush"
+                     Color="#1E1510" />
+    <SolidColorBrush x:Key="TextPrimaryBrush"
+                     Color="#E7E5E4" />
+    <SolidColorBrush x:Key="TextSecondaryBrush"
+                     Color="#D6D3D1" />
+    <SolidColorBrush x:Key="TextMutedBrush"
+                     Color="#78716C" />
+    <SolidColorBrush x:Key="TextDisabledBrush"
+                     Color="#44403C" />
+    <SolidColorBrush x:Key="PriorityHighBg"
+                     Color="#3B0D0D" />
+    <SolidColorBrush x:Key="PriorityHighFg"
+                     Color="#F87171" />
+    <SolidColorBrush x:Key="PriorityNormalBg"
+                     Color="#1E1510" />
+    <SolidColorBrush x:Key="PriorityNormalFg"
+                     Color="#F97316" />
+    <SolidColorBrush x:Key="ProgressTrackBrush"
+                     Color="#292524" />
+    <SolidColorBrush x:Key="MainWindowBorderBrush"
+                     Color="#FFFFFF" />
+    
+    <SolidColorBrush x:Key="OutlookHeaderBackgroundBrush"
+                     Color="#2E3235" />
+    <SolidColorBrush x:Key="OutlookHeaderForegroundBrush"
+                     Color="#E7E5E4" />
+    <SolidColorBrush x:Key="OutlookAccentBrush"
+                     Color="#F97316" />
+    <SolidColorBrush x:Key="OutlookProgressTrackBrush"
+                     Color="#292524" />
+
+
+    <!--General-->
+    <Style x:Key="ToolbarButtonStyle"
+           TargetType="Button">
         <Setter Property="Background"
-                Value="{DynamicResource OutlookButtonBackground}" />
-        <Setter Property="BorderThickness"
-                Value="1" />
+                Value="Transparent" />
+        <Setter Property="Foreground"
+                Value="#57534E" />
         <Setter Property="BorderBrush"
-                Value="{DynamicResource OutlookButtonBorder}" />
-        <Setter Property="Padding"
-                Value="10,5" />
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Cursor"
+                Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            CornerRadius="12"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}">
                         <ContentPresenter HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Margin="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True" />
+                                          VerticalAlignment="Center" />
                     </Border>
-                    <ControlTemplate.Triggers> 
+                    <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver"
                                  Value="True">
-                            <Setter Property="Background"
-                                    Value="{DynamicResource OutlookButtonHover}" />
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#2C2927" />
+                            <Setter Property="Foreground"
+                                    Value="#E7E5E4" />
                         </Trigger>
                         <Trigger Property="IsPressed"
                                  Value="True">
-                            <Setter Property="Background"
-                                    Value="{DynamicResource OutlookButtonEnabled}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled"
-                                 Value="False">
-                            <Setter Property="Background"
-                                    Value="{DynamicResource OutlookButtonBackgroundDisabled}" />
-                            <Setter Property="Foreground"
-                                    Value="{DynamicResource OutlookButtonForegroundDisabled}" />
-                            <Setter Property="BorderBrush"
-                                    Value="{DynamicResource OutlookButtonBorderDisabled}" />
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#3D3836" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="OutlookTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="13"/>
-        
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}"/>
-        <Setter Property="Padding" Value="6,4"/>
+    <Style x:Key="IconButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="BorderBrush"
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Padding"
+                Value="4" />
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#2C2927" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#3D3836" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    <Style x:Key="OutlookComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="4,2"/>
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+    <Style x:Key="OutlookSecondaryButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Foreground"
+                Value="#78716C" />
+        <Setter Property="BorderBrush"
+                Value="#292524" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="Padding"
+                Value="8,3" />
+        <Setter Property="FontSize"
+                Value="11" />
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#2C2927" />
+                            <Setter Property="Foreground"
+                                    Value="#E7E5E4" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#3D3836" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    <Style x:Key="OutlookCheckBoxStyle" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+    <Style x:Key="OutlookAccentButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource OutlookSecondaryButtonStyle}">
+        <Setter Property="Background"
+                Value="#F97316" />
+        <Setter Property="Foreground"
+                Value="#FFFFFF" />
+        <Setter Property="BorderBrush"
+                Value="#F97316" />
+        <Setter Property="Padding"
+                Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0"
+                            CornerRadius="7"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#EA6C10" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="#D4600E" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    <Style x:Key="OutlookDatePickerStyle" TargetType="DatePicker" BasedOn="{StaticResource {x:Type DatePicker}}">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignDivider}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="4"/>
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"/>
+    <Style x:Key="OutlookBorderStyle"
+           TargetType="Border">
+        <Setter Property="Background"
+                Value="#242120" />
+        <Setter Property="BorderBrush"
+                Value="#2C2927" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#2C2927" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
-    <Style x:Key="SettingsHeaderTextBlockStyle" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-        <Setter Property="Margin" Value="0,0,0,8"/>
+    <Style x:Key="OutlookCheckBoxStyle"
+           TargetType="CheckBox">
+        <Setter Property="Foreground"
+                Value="#D6D3D1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="Box"
+                                Grid.Column="0"
+                                Width="16"
+                                Height="16"
+                                CornerRadius="4"
+                                BorderThickness="1.5"
+                                BorderBrush="#3D3836"
+                                Background="Transparent">
+                            <Path x:Name="Check"
+                                  Data="M2,8 L6,12 L14,4"
+                                  Stroke="White"
+                                  StrokeThickness="1.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  Visibility="Collapsed"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        </Border>
+                        <ContentPresenter Grid.Column="1"
+                                          Margin="6,0,0,0"
+                                          VerticalAlignment="Center" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked"
+                                 Value="True">
+                            <Setter TargetName="Box"
+                                    Property="Background"
+                                    Value="#F97316" />
+                            <Setter TargetName="Box"
+                                    Property="BorderBrush"
+                                    Value="#F97316" />
+                            <Setter TargetName="Check"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                 Value="False">
+                            <Setter TargetName="Box"
+                                    Property="Opacity"
+                                    Value="0.35" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="OutlookTextBoxStyle"
+           TargetType="TextBox">
+        <Setter Property="Background"
+                Value="#242120" />
+        <Setter Property="Foreground"
+                Value="#E7E5E4" />
+        <Setter Property="CaretBrush"
+                Value="#F97316" />
+        <Setter Property="BorderBrush"
+                Value="#292524" />
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="Padding"
+                Value="8,6" />
+        <Setter Property="FontSize"
+                Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="BorderBrush"
+                                    Value="#F97316" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="Bd"
+                                    Property="BorderBrush"
+                                    Value="#3D3836" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="PriorityBadgeBaseStyle"
+           TargetType="Border">
+        <Setter Property="CornerRadius"
+                Value="4" />
+        <Setter Property="Padding"
+                Value="6,2" />
+    </Style>
+    <Style x:Key="PriorityBadgeHighStyle"
+           TargetType="Border"
+           BasedOn="{StaticResource PriorityBadgeBaseStyle}">
+        <Setter Property="Background"
+                Value="#3B0D0D" />
+    </Style>
+    <Style x:Key="PriorityBadgeNormalStyle"
+           TargetType="Border"
+           BasedOn="{StaticResource PriorityBadgeBaseStyle}">
+        <Setter Property="Background"
+                Value="#1E1510" />
+    </Style>
+    <Style x:Key="PriorityBadgeLowStyle"
+           TargetType="Border"
+           BasedOn="{StaticResource PriorityBadgeBaseStyle}">
+        <Setter Property="Background"
+                Value="#1A2410" />
+    </Style>
+    <Style x:Key="PriorityTextHighStyle"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#F87171" />
+        <Setter Property="FontSize"
+                Value="10" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
+    </Style>
+    <Style x:Key="PriorityTextNormalStyle"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#F97316" />
+        <Setter Property="FontSize"
+                Value="10" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
+    </Style>
+    <Style x:Key="PriorityTextLowStyle"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#86EFAC" />
+        <Setter Property="FontSize"
+                Value="10" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
     </Style>
     <Style x:Key="TitleTextStyle"
            TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#D6D3D1" />
+        <Setter Property="FontSize"
+                Value="12" />
         <Setter Property="FontWeight"
-                Value="SemiBold" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="Complete">
-                <Setter Property="Foreground"
-                        Value="#201F1E" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="InProgress">
-                <Setter Property="Foreground"
-                        Value="#201F1E" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="Failed">
-                <Setter Property="Foreground"
-                        Value="LightGray" />
-            </DataTrigger>
-        </Style.Triggers>
+                Value="Medium" />
     </Style>
     <Style x:Key="DescriptionTextStyle"
            TargetType="TextBlock">
-
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="Complete">
-                <Setter Property="Foreground"
-                        Value="#605E5C	" />
-                <Setter Property="FontStyle"
-                        Value="Italic" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="InProgress">
-                <Setter Property="Foreground"
-                        Value="#605E5C" />
-                <Setter Property="FontStyle"
-                        Value="Italic" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="Failed">
-                <Setter Property="Foreground"
-                        Value="LightGray" />
-                <Setter Property="FontStyle"
-                        Value="Italic" />
-            </DataTrigger>
-        </Style.Triggers>
-
-
-    </Style>
-    <Style x:Key="TaskPriorityStyle"
-           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#57534E" />
+        <Setter Property="FontSize"
+                Value="11" />
         <Setter Property="FontWeight"
-                Value="SemiBold" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Status}" Value="Failed">
-                <Setter Property="Foreground"
-                        Value="LightGray" />
-
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="InProgress">
-                <Setter Property="Foreground"
-                        Value="Black" />
-
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status}"
-                         Value="Complete">
-                <Setter Property="Foreground"
-                        Value="Black" />
-
-            </DataTrigger>
-        </Style.Triggers>
+                Value="Regular" />
+        <Setter Property="LineHeight"
+                Value="16" />
     </Style>
-    <Style x:Key="TaskBackground"
-           TargetType="DataGridRow">
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource MaterialDesignPaper}" />
-        <Setter Property="BorderThickness"
-                Value="0,0,0,1" />
-        <Setter Property="Background"
-                Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-        <Setter Property="Focusable"
-                Value="False" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="Complete">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="InProgress">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="Failed">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.ToDoListVM.FailedTaskColor, RelativeSource={RelativeSource AncestorType=DataGrid}}" />
-                <Setter Property="Opacity"
-                        Value="0.8" />
-            </DataTrigger>
-        </Style.Triggers>
+    <Style x:Key="TaskTitleCompletedStyle"
+           TargetType="TextBlock"
+           BasedOn="{StaticResource TitleTextStyle}">
+        <Setter Property="TextDecorations"
+                Value="Strikethrough" />
+        <Setter Property="Foreground"
+                Value="#44403C" />
     </Style>
-    <Style x:Key="TaskBackgroundOverlay"
-           TargetType="Border">
+    <Style x:Key="TaskDateStyle"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#57534E" />
+        <Setter Property="FontSize"
+                Value="11" />
+    </Style>
+    <Style x:Key="PriorityTextBaseStyle"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="10" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
+        <Setter Property="Foreground"
+                Value="#F97316" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="Complete">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.CompletedTaskColor, 
-   RelativeSource={RelativeSource AncestorType=Window}}" />
-                <Setter Property="Opacity"
-                        Value="0.9" />
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="High">
+                <Setter Property="Foreground"
+                        Value="#F87171" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="InProgress">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.InProgressTaskColor, 
-   RelativeSource={RelativeSource AncestorType=Window}}" />
-                <Setter Property="Opacity"
-                        Value="0.9" />
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="Normal">
+                <Setter Property="Foreground"
+                        Value="#F97316" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="Failed">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.FailedTaskColor, 
-   RelativeSource={RelativeSource AncestorType=Window}}" />
-                <Setter Property="IsEnabled"
-                        Value="False" />
-                <Setter Property="Opacity"
-                        Value="0.9" />
-
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="Low">
+                <Setter Property="Foreground"
+                        Value="#86EFAC" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -231,147 +495,125 @@
            TargetType="Ellipse">
         <Style.Triggers>
             <DataTrigger Binding="{Binding Importance}"
-                         Value="high">
+                         Value="High">
                 <Setter Property="Fill"
-                        Value="Red" />
+                        Value="#F87171" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Importance}"
-                         Value="normal">
+                         Value="Normal">
                 <Setter Property="Fill"
-                        Value="orange" />
+                        Value="#F97316" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Importance}"
-                         Value="low">
+                         Value="Low">
                 <Setter Property="Fill"
-                        Value="green" />
+                        Value="#86EFAC" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="IconButtonStyle"
-           TargetType="Button"
-           BasedOn="{StaticResource MaterialDesignFlatButton}">
-        <Setter Property="Background"
-                Value="Transparent" />
-
-        <Setter Property="Height"
-                Value="24" />
-        <Setter Property="Width"
-                Value="24" />
-        <Setter Property="Padding"
-                Value="0" />
-        <Setter Property="Margin"
-                Value="0 0 0 0" />
-        <Style.Triggers>
-            <Trigger Property="IsEnabled"
-                     Value="False">
-                <Setter Property="Background"
-                        Value="Transparent" />
-                <Setter Property="Opacity"
-                        Value="0.5" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    <Style x:Key="ToolbarButtonStyle"
-           TargetType="Button"
-           BasedOn="{StaticResource MaterialDesignFlatButton}">
-        <Setter Property="Background"
-                Value="Transparent" />
+    <Style x:Key="TaskPriorityStyle"
+           TargetType="TextBlock">
         <Setter Property="Foreground"
-                Value="WhiteSmoke" />
-        <Setter Property="Height"
-                Value="24" />
-        <Setter Property="Width"
-                Value="24" />
-        <Setter Property="Padding"
-                Value="0" />
-        <Setter Property="Margin"
-                Value="0 0 0 0" />
+                Value="#78716C" />
+        <Setter Property="FontSize"
+                Value="11" />
         <Style.Triggers>
-            <Trigger Property="IsEnabled"
-                     Value="False">
-                <Setter Property="Background"
-                        Value="Transparent" />
-                <Setter Property="Opacity"
-                        Value="0.5" />
-            </Trigger>
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="High">
+                <Setter Property="Foreground"
+                        Value="#F87171" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Importance}"
+                         Value="Normal">
+                <Setter Property="Foreground"
+                        Value="#F97316" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="OutlookBorderStyle"
-           TargetType="Border">
-        <Setter Property="RenderTransformOrigin"
-                Value="0.5,0.5" />
-        <Setter Property="RenderTransform">
+    <Style TargetType="materialDesign:Chip"
+           xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+        <Setter Property="Background"
+                Value="#242120" />
+        <Setter Property="Foreground"
+                Value="#D6D3D1" />
+        <Setter Property="FontSize"
+                Value="12" />
+    </Style>
+    <Style x:Key="ModernIconButton"
+           TargetType="Button">
+        <Setter Property="Width"
+                Value="34" />
+        <Setter Property="Height"
+                Value="34" />
+        <Setter Property="Padding"
+                Value="0" />
+        <Setter Property="Background"
+                Value="#33FFFFFF" />
+        <Setter Property="BorderBrush"
+                Value="#55FFFFFF" />
+        <Setter Property="BorderThickness"
+                Value="0.5" />
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Setter Property="Template">
             <Setter.Value>
-                <ScaleTransform ScaleX="1.0"
-                                ScaleY="1.0" />
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="8"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="Root"
+                                    Property="Background"
+                                    Value="#66FFFFFF" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter TargetName="Root"
+                                    Property="Background"
+                                    Value="#22FFFFFF" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <!--On Enter-->
-            <EventTrigger RoutedEvent="MouseEnter">
-                <BeginStoryboard Name="MouseEnterStoryboard">
-                    <Storyboard>
-                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
-                                         To="1.02"
-                                         Duration="0:0:0.15">
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
-                                         To="1.02"
-                                         Duration="0:0:0.15">
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-
-            <!-- On leave -->
-            <EventTrigger RoutedEvent="MouseLeave">
-                <BeginStoryboard Name="MouseLeaveStoryboard">
-                    <Storyboard>
-                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)"
-                                         To="1.0"
-                                         Duration="0:0:0.15">
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"
-                                         To="1.0"
-                                         Duration="0:0:0.15">
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-
-
-            <!--Task Background Color-->
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="Complete">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.ToDoListVM.CompletedTaskColor, RelativeSource={RelativeSource AncestorType=Border}}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="InProgress">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.ToDoListVM.InProgressTaskColor, RelativeSource={RelativeSource AncestorType=Border}}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Status, Mode=OneWay}"
-                         Value="Failed">
-                <Setter Property="Background"
-                        Value="{Binding DataContext.ToDoListVM.FailedTaskColor, RelativeSource={RelativeSource AncestorType=Border}}" />
-                <Setter Property="Opacity"
-                        Value="0.8" />
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
+    <Style x:Key="ModernProgressBarStyle"
+           TargetType="ProgressBar">
+        <Setter Property="Height"
+                Value="8" />
+        <Setter Property="Background"
+                Value="#33FFFFFF" />
+        <Setter Property="Foreground"
+                Value="#3E6B4A" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Border CornerRadius="6"
+                            Background="{TemplateBinding Background}"
+                            ClipToBounds="True">
+                        <Border x:Name="PART_Track">
+                            <Border x:Name="PART_Indicator"
+                                    Background="{TemplateBinding Foreground}"
+                                    CornerRadius="6"
+                                    HorizontalAlignment="Left" />
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--authorizationView-->
     <Style x:Key="AuthButton"
            TargetType="Button">
         <Setter Property="Background"
@@ -454,5 +696,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

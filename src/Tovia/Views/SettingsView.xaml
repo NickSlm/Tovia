@@ -183,7 +183,7 @@
                                 <ComboBox Grid.Column="1"
                                           ItemsSource="{Binding PositionOptions}"
                                           SelectedItem="{Binding OverlayPos, Mode=TwoWay}"
-                                          Style="{StaticResource OutlookComboBoxStyle}" />
+                                           />
                             </Grid>
                         </StackPanel>
 

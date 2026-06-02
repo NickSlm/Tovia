@@ -17,7 +17,6 @@ public partial class App : Application
 {
     public static IServiceProvider Services { get; private set; }
 
-
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);

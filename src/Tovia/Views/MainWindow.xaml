@@ -17,7 +17,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStyle="None"
         AllowsTransparency="True"
-        Background="Transparent"
+        Background="{DynamicResource MainBackgroundBrush}"
         ResizeMode="CanMinimize"
         Closed="MainWindow_Closed"
         Height="660"
@@ -34,79 +34,66 @@
 
 
     <Border BorderBrush="{StaticResource MainWindowBorderBrush}"
-            BorderThickness="1"
-            CornerRadius="0"
-            Background="{DynamicResource MaterialDesignPaper}">
-        <Border.Effect>
-            <DropShadowEffect Color="Black"
-                              Opacity="0.4"
-                              BlurRadius="25"
-                              ShadowDepth="0" />
-        </Border.Effect>
+            CornerRadius="0 0 12 12">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0"
-                       Background="{DynamicResource OutlookHeaderBackgroundBrush}"
-                       MouseLeftButtonDown="TitleBar_MouseDown">
-                <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo_3.png"
-                       Height="48"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       RenderOptions.BitmapScalingMode="HighQuality" />
-                <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                    <Button Width="40"
-                            Height="32"
-                            Click="Minimize_Click"
-                            FontFamily="Segoe MDL2 Assets"
-                            Content="&#xE921;"
-                            Style="{StaticResource ToolbarButtonStyle}"/>
+            <Border Grid.Row="0"
+                    BorderThickness="0 0 0 1"
+                    Background="Transparent"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    MouseLeftButtonDown="TitleBar_MouseDown">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                        <Button Width="32"
+                                Height="32"
+                                Click="Minimize_Click"
+                                FontFamily="Segoe MDL2 Assets"
+                                Content="&#xE921;"
+                                Style="{StaticResource ToolbarButtonStyle}"/>
 
-                    <Button Width="40"
-                            Height="32"
-                            Click="Maximize_Click"
-                            FontFamily="Segoe MDL2 Assets"
-                            Content="&#xE922;"
-                            Style="{StaticResource ToolbarButtonStyle}"/>
+                        <Button Width="32"
+                                Height="32"
+                                Click="Maximize_Click"
+                                FontFamily="Segoe MDL2 Assets"
+                                Content="&#xE922;"
+                                Style="{StaticResource ToolbarButtonStyle}"/>
 
-                    <Button Width="40"
-                            Height="32"
-                            Click="Close_Click"
-                            FontFamily="Segoe MDL2 Assets"
-                            Content="&#xE8BB;"
-                            Style="{StaticResource ToolbarButtonStyle}"/>
-
-
-                </StackPanel>
-            </DockPanel>
+                        <Button Width="40"
+                                Height="32"
+                                Click="Close_Click"
+                                FontFamily="Segoe MDL2 Assets"
+                                Content="&#xE8BB;"
+                                Style="{StaticResource ToolbarButtonStyle}"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
             <materialDesign:DialogHost 
                 Identifier="RootDialog"
                 DialogContentUniformCornerRadius="0"
                 DialogTheme="Inherit"
                 IsOpen="False"
                 Grid.Row="1">
-                
                 <!--Database Sync Dialoghost-->
                 <materialDesign:DialogHost.DialogContent>
-                    <StackPanel Margin="24">
+                    <StackPanel>
                         <ProgressBar IsIndeterminate="True" />
-                        <TextBlock Text="Syncing data..." />
+                        <TextBlock Text="Syncing data..." Foreground="{StaticResource TextSecondaryBrush}" />
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
-                
-                
-                <Grid>
+                <Grid Margin="12 12 12 12">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <!--Header Section Login-->
                     <Border Grid.Row="0"
-                            BorderThickness="0 0 0 1">
+                            BorderBrush="{StaticResource BorderBrush}"
+                           >
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -117,96 +104,116 @@
 
                             <StackPanel Orientation="Horizontal"
                                         Grid.Column="0"
-                                        Margin="8 0 0 0"
+                                        Margin="12 0 0 0"
                                         VerticalAlignment="Center">
-                                <materialDesign:Chip Content="{Binding AuthorizationVM.AccountUsername}">
-                                    <materialDesign:Chip.Icon>
-                                        <Image Source="{Binding AuthorizationVM.AccountPhoto}"
-                                               RenderOptions.BitmapScalingMode="HighQuality" />
-                                    </materialDesign:Chip.Icon>
-                                </materialDesign:Chip>
+                                <TextBlock FontFamily="Segoe UI"
+                                           FontSize="28">
+                                    <Run Text="Welcome, " Foreground="#1F2937" />
+                                    <Run Text="{Binding AuthorizationVM.AccountUsername}"
+                                         Foreground="{DynamicResource HeaderTextBrush}"
+                                         FontFamily="Segoe UI Black" FontWeight="SemiBold" />
+                                </TextBlock>
                             </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" 
-                                        Grid.Column="1" 
-                                        VerticalAlignment="Center" 
-                                        Margin="0 0 8 0">
-                                <Button Style="{DynamicResource IconButtonStyle}" 
-                                        Margin="0 0 8 0"
+
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Margin="0 0 12 0">
+                                <Button 
                                         ToolTip="Settings"
+                                        Style="{DynamicResource ModernIconButton}"
                                         Command="{Binding OpenSettingsCommand}">
+                                        
                                     <materialDesign:PackIcon Kind="Cog"
-                                                             Width="24"
-                                                             Height="24"
-                                                              />
+                                                             Width="22"
+                                                             Height="22"
+                                                             Foreground="#CC0B132B" />
                                 </Button>
-                                <Button Style="{DynamicResource IconButtonStyle}"
+
+                                <Button 
                                         ToolTip="Change Account"
-                                        Margin="0 0 8 0"
+                                    Margin="8 0 0 0"
+                                        Style="{DynamicResource ModernIconButton}"
                                         Command="{Binding AuthorizationVM.SignOutCommand}">
                                     <materialDesign:PackIcon Kind="AccountSwitch"
-                                                             Width="24"
-                                                             Height="24"
-                                                             />
+                                                             Width="22"
+                                                             Height="22"
+                                                             Foreground="#CC0B132B" />
                                 </Button>
+
                             </StackPanel>
                         </Grid>
                     </Border>
 
                     <!--Main Body Section-->
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1"  Margin="0 12 0 0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <!--Main Body Top Section Show Tasks-->
-                        <Grid Grid.Row="0">
-                            <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <!--Show Tasks Progress Bar-->
-                            <Grid Grid.Row="0" Margin="12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.8*" />
-                                    <ColumnDefinition Width="0.2*" />
-                                </Grid.ColumnDefinitions>
-                                <ProgressBar Grid.Column="0"
-                                             Margin="0 0 4 0"
-                                             Maximum="100"
-                                             Height="32"
-                                             Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}"
-                                             Foreground="{DynamicResource OutlookAccentBrush}"
-                                             Background="{DynamicResource OutlookProgressTrackBrush}"
-                                             BorderBrush="Transparent"
-                                             BorderThickness="0" />
+                        <StackPanel Grid.Row="0" Margin="12 0 12 12">
+                            <!-- Progress Block -->
+                            <Border Background="#33FFFFFF"
+                                    BorderBrush="WhiteSmoke"
+                                    BorderThickness="0.5"
+                                    CornerRadius="12"
+                                    Padding="14 12"
+                                    Margin="0 12 0 0">
+                                <StackPanel>
 
-                                
+                                    <!-- Label row -->
+                                    <Grid Margin="0 0 0 8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Text="Today's progress"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#4A3E2E"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding ToDoListVM.CompletedTasks, StringFormat={}{0:0}%}"
+                                                   FontSize="13"
+                                                   FontWeight="Bold"
+                                                   Foreground="#0B132B"
+                                                   VerticalAlignment="Center" />
+                                        <Button Command="{Binding ToDoListVM.CleanUpCommand}"
+                                                Grid.Column="1"
+                                                Margin="0 0 8 0"
+                                                Style="{DynamicResource ModernIconButton}"
+                                                CommandParameter="{Binding ToDoListVM.ToDoList}"
+                                                ToolTip="Clear all completed/failed tasks"
+                                                >
+                                            <materialDesign:PackIcon Kind="TrashCanOutline"
+                                                                     Width="22"
+                                                                     Height="22"
+                                                                     Foreground="#CC0B132B" />
+                                        </Button>
 
-                                <TextBlock Grid.Column="0"
-                                           Text="{Binding ToDoListVM.CompletedTasks, Mode=OneWay,StringFormat={}{0:0}%}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Foreground="{DynamicResource OutlookHeaderForegroundBrush}"
-                                           FontWeight="SemiBold"
-                                           FontSize="16" />
+                                    </Grid>
 
-                                <Button Command="{Binding ToDoListVM.CleanUpCommand}"
-                                        Grid.Column="1"
-                                        Margin="4 0 0 0"
-                                        CommandParameter="{Binding ToDoListVM.ToDoList}"
-                                        ToolTip="Clear all completed/failed tasks"
-                                        Style="{DynamicResource OutlookSecondaryButtonStyle}"
-                                        Content="Clean Up">
-                                </Button>
-                            </Grid>
+                                    <!-- Progress Bar -->
+                                    <ProgressBar Value="{Binding ToDoListVM.CompletedTasks, Mode=OneWay}"
+                                                 Maximum="100"
+                                                 Height="8"
+                                                 Style="{StaticResource ModernProgressBarStyle}" />
+
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+
+                             
                             <!--Show DataGrid Tasks-->
                             <ScrollViewer Grid.Row="1"
                                           CanContentScroll="True"
                                           VerticalScrollBarVisibility="Hidden"
                                           HorizontalScrollBarVisibility="Disabled"
-                                          MaxHeight="396"
                                           Margin="0">
                                 <ItemsControl ItemsSource="{Binding ToDoListVM.ToDoList}"
                                               VirtualizingPanel.IsVirtualizing="True"
@@ -216,183 +223,473 @@
                                             <VirtualizingStackPanel IsItemsHost="True" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border CornerRadius="8"
-                                                    Padding="12"
-                                                    Margin="12 4 12 4"
-                                                    BorderThickness="0 0 0 0"
-                                                    Style="{DynamicResource OutlookBorderStyle}">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <CheckBox Grid.Column="0"
-                                                              Margin="4"
-                                                              VerticalAlignment="Center"
-                                                              IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                        <CheckBox.Style>
-                                                            <Style TargetType="CheckBox"
-                                                                   BasedOn="{StaticResource OutlookCheckBoxStyle}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="10"
+                                                Margin="12 3"
+                                                Padding="10 10"
+                                                BorderThickness="0.5"
+                                                BorderBrush="white"
+                                                >
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background"
+                                                            Value="#55FFFFFF" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsComplete}"
+                                                                     Value="True">
+                                                            <Setter Property="Opacity"
+                                                                    Value="0.4" />
+                                                        </DataTrigger>
+                                                        <Trigger Property="IsMouseOver"
+                                                                 Value="True">
+                                                            <Setter Property="Background"
+                                                                    Value="#CCFFFFFF" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <CheckBox Grid.Column="0"
+                                                          VerticalAlignment="Center"
+                                                          Margin="0 0 10 0"
+                                                          IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <CheckBox.Style>
+                                                        <Style TargetType="CheckBox">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate TargetType="CheckBox">
+                                                                        <Border x:Name="Box"
+                                                                                Width="20"
+                                                                                Height="20"
+                                                                                CornerRadius="2"
+                                                                                BorderThickness="1.5"
+                                                                                BorderBrush="#663E6B4A"
+                                                                                Background="Transparent">
+                                                                            <Path x:Name="Check"
+                                                                                  Data="M4,10 L8,14 L16,6"
+                                                                                  Stroke="White"
+                                                                                  StrokeThickness="2"
+                                                                                  StrokeLineJoin="Round"
+                                                                                  Visibility="Collapsed" />
+                                                                        </Border>
+                                                                        <ControlTemplate.Triggers>
+                                                                            <Trigger Property="IsChecked"
+                                                                                     Value="True">
+                                                                                <Setter TargetName="Box"
+                                                                                        Property="Background"
+                                                                                        Value="#3E6B4A" />
+                                                                                <Setter TargetName="Box"
+                                                                                        Property="BorderBrush"
+                                                                                        Value="#3E6B4A" />
+                                                                                <Setter TargetName="Check"
+                                                                                        Property="Visibility"
+                                                                                        Value="Visible" />
+                                                                            </Trigger>
+                                                                            <Trigger Property="IsEnabled"
+                                                                                     Value="False">
+                                                                                <Setter TargetName="Box"
+                                                                                        Property="Opacity"
+                                                                                        Value="0.4" />
+                                                                            </Trigger>
+                                                                        </ControlTemplate.Triggers>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Style>
+                                                    </CheckBox.Style>
+                                                </CheckBox>
+                                                <StackPanel Grid.Column="1"
+                                                            VerticalAlignment="Center"
+                                                            Margin="0 0 8 0">
+                                                    <Expander Header="{Binding Title}" Style="{x:Null}" FontSize="13" FontWeight="SemiBold" Foreground="#0B132B">
+                                                        <TextBlock Text="{Binding Description}"
+                                                                   FontSize="12"
+                                                                   Foreground="#7A7E5A"
+                                                                   TextWrapping="Wrap"
+                                                                   Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}" />
+                                                    </Expander>
+
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Margin="0 3 0 0">
+                                                        <materialDesign:PackIcon Kind="CalendarOutline"
+                                                                                 Width="12"
+                                                                                 Height="12"
+                                                                                 Foreground="#7A7E5A"
+                                                                                 VerticalAlignment="Center"
+                                                                                 Margin="0 0 3 0" />
+                                                        <TextBlock Text="{Binding DueDate, StringFormat={}{0:dd-MM-yyyy}}"
+                                                                   FontSize="11"
+                                                                   Foreground="#7A7E5A"
+                                                                   VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="2"
+                                                            Orientation="Horizontal"
+                                                            VerticalAlignment="Center"
+                                                            Margin="0 0 0 0">
+
+                                                    <!-- Priority badge -->
+                                                    <Border CornerRadius="4"
+                                                            Padding="8 3"
+                                                            Margin="0 0 6 0"
+                                                            VerticalAlignment="Center">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Background"
+                                                                        Value="#333E6B4A" />
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Status}"
-                                                                                 Value="Failed">
-                                                                        <Setter Property="IsEnabled"
-                                                                                Value="False" />
+                                                                    <DataTrigger Binding="{Binding Importance}"
+                                                                                 Value="High">
+                                                                        <Setter Property="Background"
+                                                                                Value="#338B2A2A" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Importance}"
+                                                                                 Value="Low">
+                                                                        <Setter Property="Background"
+                                                                                Value="#330B132B" />
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>
-                                                        </CheckBox.Style>
-                                                    </CheckBox>
+                                                        </Border.Style>
+                                                        <TextBlock Text="{Binding Importance}"
+                                                                   FontSize="10"
+                                                                   FontWeight="Bold">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Foreground"
+                                                                            Value="#2A5235" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Importance}"
+                                                                                     Value="High">
+                                                                            <Setter Property="Foreground"
+                                                                                    Value="#6B1A1A" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Importance}"
+                                                                                     Value="Low">
+                                                                            <Setter Property="Foreground"
+                                                                                    Value="#2A3260" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Border>
 
-                                                    <Grid Grid.Column="1"
-                                                          Margin="8 0">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="*" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <materialDesign:PackIcon Kind="CalendarCheck"
-                                                                                 Grid.Column="0"
-                                                                                 Margin="0,2,4,0"
-                                                                                 VerticalAlignment="Top"
-                                                                                 ToolTip="Microsoft Event"
-                                                                                 Visibility="{Binding EventId, Converter={StaticResource StringToVisibilityHiddenConverter}}" />
-                                                        <Expander Grid.Column="1"
-                                                                  Header="{Binding Title}"
-                                                                  FontWeight="SemiBold"
-                                                                  Style="{x:Null}">
-                                                            <TextBlock Text="{Binding Description}"
-                                                                       Style="{StaticResource DescriptionTextStyle}"
-                                                                       TextWrapping="Wrap"
-                                                                       Visibility="{Binding Description, Converter={StaticResource StringToVisibilityCollapsedConverter}}" />
-                                                        </Expander>
-                                                    </Grid>
-                                                    <StackPanel Grid.Column="2"
-                                                                VerticalAlignment="Center"
-                                                                Margin="8 0"
-                                                                Orientation="Horizontal">
-                                                        <Ellipse Width="10"
-                                                                 Height="10"
-                                                                 Margin="0 0 0 0"
-                                                                 Style="{StaticResource TaskPriorityColor}"/>
-                                                        <TextBlock 
-                                                                   Margin="6 0 0 0"
-                                                                   Text="{Binding Importance}"
-                                                                   Style="{StaticResource TaskPriorityStyle}" />
-                                                    </StackPanel>
-                                                    <TextBlock Grid.Column="3"
-                                                               Margin="8 0"
-                                                               Text="{Binding DueDate, StringFormat='{}{0:dd-MM-yyyy}'}"
-                                                               VerticalAlignment="Center"
-                                                               Style="{DynamicResource TitleTextStyle}" />
-                                                    <Button Grid.Column="4"
-                                                            Command="{Binding DataContext.ToDoListVM.RemoveTaskCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                            CommandParameter="{Binding}"
-                                                            Style="{StaticResource IconButtonStyle}">
-                                                        <Image Source="pack://application:,,,/Assets/Icons/RemoveTask.png"
-                                                               Width="24"
-                                                               Height="24" />
+                                                    <!-- Calendar event badge -->
+                                                    <Border CornerRadius="4"
+                                                            Padding="6 3"
+                                                            Margin="0 0 6 0"
+                                                            VerticalAlignment="Center"
+                                                            Background="#221E4096"
+                                                            Visibility="{Binding EventId, Converter={StaticResource StringToVisibilityCollapsedConverter}}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Kind="CalendarCheck"
+                                                                                     Width="11"
+                                                                                     Height="11"
+                                                                                     Foreground="#1A3580"
+                                                                                     VerticalAlignment="Center"
+                                                                                     Margin="0 0 3 0" />
+                                                            <TextBlock Text="Event"
+                                                                       FontSize="10"
+                                                                       FontWeight="Bold"
+                                                                       Foreground="#1A3580" />
+                                                        </StackPanel>
+                                                    </Border>
+
+                                                    <!-- Delete button — override MaterialDesign ripple -->
+                                                    <Button VerticalAlignment="Center"
+                                                            Command="{Binding DataContext.ToDoListVM.RemoveTaskCommand,
+                                      RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                            CommandParameter="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button">
+                                                                <Setter Property="Width"
+                                                                        Value="28" />
+                                                                <Setter Property="Height"
+                                                                        Value="28" />
+                                                                <Setter Property="Padding"
+                                                                        Value="0" />
+                                                                <Setter Property="Background"
+                                                                        Value="Transparent" />
+                                                                <Setter Property="BorderThickness"
+                                                                        Value="0" />
+                                                                <Setter Property="Cursor"
+                                                                        Value="Hand" />
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="Button">
+                                                                            <Border x:Name="Root"
+                                                                                    Background="{TemplateBinding Background}"
+                                                                                    CornerRadius="6"
+                                                                                    Width="28"
+                                                                                    Height="28">
+                                                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                                                  VerticalAlignment="Center" />
+                                                                            </Border>
+                                                                            <ControlTemplate.Triggers>
+                                                                                <Trigger Property="IsMouseOver"
+                                                                                         Value="True">
+                                                                                    <Setter TargetName="Root"
+                                                                                            Property="Background"
+                                                                                            Value="#228B2A2A" />
+                                                                                </Trigger>
+                                                                            </ControlTemplate.Triggers>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Button.Style>
+                                                        <materialDesign:PackIcon Kind="TrashCanOutline"
+                                                                                 Width="16"
+                                                                                 Height="16"
+                                                                                 Foreground="#8A9A7A" />
                                                     </Button>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </ScrollViewer>
                             <!--Show Add Task-->
-                            <Border x:Name="tester"
-                                    Grid.Row="2"
-                                    Background="Transparent"
-                                    Margin="8 4 8 4"
-                                    Padding="6">
-                                <Grid>
-                                        
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <TextBox Background="Transparent"
-                                             Grid.Column="0"
-                                             Grid.Row="0"
-                                             Text="{Binding ToDoListVM.TaskTitle}"
-                                             FontWeight="SemiBold"
-                                             materialDesign:HintAssist.Hint="What needs to be done?"
-                                             VerticalAlignment="Center"
-                                             Style="{StaticResource OutlookTextBoxStyle}" />
-                                    <Button Grid.Column="1"
-                                            Grid.Row="0"
-                                            Margin="4 0 0 0"
-                                            Width="24"
-                                            Height="24"
-                                            Padding="0"
-                                            Command="{Binding ToDoListVM.CreateTaskCommand}"
-                                            Style="{StaticResource OutlookSecondaryButtonStyle}">
-                                        <materialDesign:PackIcon Kind="Plus" />
-                                    </Button>
-                                    <TextBox Grid.Row="1"
-                                             Text="{Binding ToDoListVM.TaskDescription}"
-                                             Margin="0 6 0 0"
-                                             Background="Transparent"
-                                             FontWeight="SemiBold"
-                                             TextWrapping="Wrap"
-                                             MaxHeight="48"
-                                             VerticalScrollBarVisibility="Visible"
-                                             materialDesign:HintAssist.Hint="Description (Optional)"
-                                             VerticalAlignment="Center"
-                                             Style="{StaticResource OutlookTextBoxStyle}" />
+                        <Border Grid.Row="2"
+                                Background="#33FFFFFF"
+                                BorderBrush="#55FFFFFF"
+                                BorderThickness="0.5"
+                                CornerRadius="10"
+                                Margin="12 8 12 4">
 
-                                    <StackPanel Grid.Column="0" 
-                                                Grid.Row="2" 
-                                                Orientation="Horizontal" 
-                                                Margin="0 6 0 0">
-                                        <ComboBox materialDesign:HintAssist.Hint="Priority"
-                                                  ItemsSource="{Binding ToDoListVM.Priorities}"
-                                                  SelectedValue="{Binding ToDoListVM.TaskPriority, Mode=TwoWay}"
-                                                  SelectedValuePath="Name"
-                                                  BorderThickness="0">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Ellipse Width="10"
-                                                                 Height="10"
-                                                                 Fill="{Binding Color}"
-                                                                 Margin="0,0,6,0" />
-                                                        <TextBlock Text="{Binding Name}" />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <DatePicker materialDesign:HintAssist.Hint="Due Date"
-                                                    Margin="12 0 0 0"
-                                                    SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
-                                                    DisplayDateStart="{x:Static sys:DateTime.Today}"
-                                                    BorderThickness="0">
-                                            <DatePicker.CalendarStyle>
-                                                <Style TargetType="Calendar">
-                                                    <Setter Property="Width"
-                                                            Value="180" />
-                                                    <Setter Property="Height"
-                                                            Value="200" />
+                            <StackPanel>
+
+                                <!-- Top: Title + Description -->
+                                <StackPanel Margin="14 12 14 10">
+                                    <TextBox Background="Transparent"
+                                             BorderThickness="0"
+                                             Padding="0"
+                                             FontSize="13"
+                                             FontWeight="SemiBold"
+                                             Foreground="Black"
+                                             CaretBrush="#0B132B"
+                                             Text="{Binding ToDoListVM.TaskTitle, UpdateSourceTrigger=PropertyChanged}"
+                                             materialDesign:HintAssist.Hint="What needs to be done?"
+                                             materialDesign:HintAssist.Foreground="#9A9E7A"
+                                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                             VerticalAlignment="Center" />
+
+                                    <Border Height="0.5"
+                                            Background="#44B4B87A"
+                                            Margin="0 8" />
+
+                                    <TextBox Background="Transparent"
+                                             BorderThickness="0"
+                                             Padding="0"
+                                             FontSize="12"
+                                             Foreground="#4A3E2E"
+                                             CaretBrush="#4A3E2E"
+                                             TextWrapping="Wrap"
+                                             MaxHeight="52"
+                                             AcceptsReturn="True"
+                                             VerticalScrollBarVisibility="Auto"
+                                             Text="{Binding ToDoListVM.TaskDescription, UpdateSourceTrigger=PropertyChanged}"
+                                             materialDesign:HintAssist.Hint="Description (optional)"
+                                             materialDesign:HintAssist.Foreground="#9A9E7A"
+                                             materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                             VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- Bottom: controls bar -->
+                                <Border CornerRadius="0 0 10 10"
+                                        Background="#CCE8EAC8"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="0 0.5 0 0"
+                                        Padding="12 8">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Add button docked right -->
+
+                                        <StackPanel Grid.Column="0"
+                                                    Orientation="Horizontal"
+                                                    VerticalAlignment="Center">
+
+
+                                            <!-- Priority ComboBox -->
+                                            <ComboBox DockPanel.Dock="Left"
+                                                      Width="90"
+                                                      Margin="0 0 8 0"
+                                                      VerticalAlignment="Center"
+                                                      ItemsSource="{Binding ToDoListVM.Priorities}"
+                                                      SelectedValue="{Binding ToDoListVM.TaskPriority, Mode=TwoWay}"
+                                                      SelectedValuePath="Name"
+                                                      materialDesign:HintAssist.Hint="Priority"
+                                                      materialDesign:HintAssist.Foreground="#7A7E5A"
+                                                      Foreground="#3E4A2E"
+                                                      Background="Transparent"
+                                                      BorderThickness="0">
+                                                <ComboBox.Style>
+                                                    <Style TargetType="ComboBox"
+                                                           BasedOn="{StaticResource MaterialDesignComboBox}">
+                                                        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"
+                                                                Value="#663E6B4A" />
+                                                    </Style>
+                                                </ComboBox.Style>
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Ellipse Width="8"
+                                                                     Height="8"
+                                                                     Fill="{Binding Color}"
+                                                                     Margin="0 0 6 0" />
+                                                            <TextBlock Text="{Binding Name}"
+                                                                       FontSize="12"
+                                                                       Foreground="#3E4A2E" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+                                            <!-- DatePicker -->
+                                            <DatePicker DockPanel.Dock="Left"
+                                                        Width="110"
+                                                        Margin="0 0 8 0"
+                                                        VerticalAlignment="Center"
+                                                        SelectedDate="{Binding ToDoListVM.TaskDueDate, Mode=TwoWay}"
+                                                        DisplayDateStart="{x:Static sys:DateTime.Today}"
+                                                        Foreground="#3E4A2E"
+                                                        BorderThickness="0"
+                                                        materialDesign:HintAssist.Hint="Due Date"
+                                                        materialDesign:HintAssist.Foreground="#7A7E5A">
+                                                <DatePicker.Style>
+                                                    <Style TargetType="DatePicker"
+                                                           BasedOn="{StaticResource MaterialDesignDatePicker}">
+                                                        <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"
+                                                                Value="#663E6B4A" />
+                                                    </Style>
+                                                </DatePicker.Style>
+                                            </DatePicker>
+                                            <CheckBox DockPanel.Dock="Left"
+                                                      VerticalAlignment="Center"
+                                                      IsChecked="{Binding ToDoListVM.TaskEvent, Mode=TwoWay}"
+                                                      Foreground="#3E4A2E"
+                                                      Margin="0 0 8 0">
+                                                <CheckBox.Style>
+                                                    <Style TargetType="CheckBox">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="CheckBox">
+                                                                    <Border x:Name="Root"
+                                                                            Background="#55FFFFFF"
+                                                                            BorderBrush="#44B4B87A"
+                                                                            BorderThickness="0.5"
+                                                                            CornerRadius="6"
+                                                                            Padding="8 4">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Border x:Name="Box"
+                                                                                    Width="14"
+                                                                                    Height="14"
+                                                                                    CornerRadius="3"
+                                                                                    BorderThickness="1.5"
+                                                                                    BorderBrush="#663E6B4A"
+                                                                                    Background="Transparent"
+                                                                                    Margin="0 0 5 0">
+                                                                                <Path x:Name="Check"
+                                                                                      Data="M2,7 L6,11 L12,3"
+                                                                                      Stroke="White"
+                                                                                      StrokeThickness="1.8"
+                                                                                      Visibility="Collapsed" />
+                                                                            </Border>
+                                                                            <TextBlock Text="Calendar Event"
+                                                                                       FontSize="11"
+                                                                                       Foreground="#3E4A2E"
+                                                                                       VerticalAlignment="Center" />
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsChecked"
+                                                                                 Value="True">
+                                                                            <Setter TargetName="Box"
+                                                                                    Property="Background"
+                                                                                    Value="#3E6B4A" />
+                                                                            <Setter TargetName="Box"
+                                                                                    Property="BorderBrush"
+                                                                                    Value="#3E6B4A" />
+                                                                            <Setter TargetName="Check"
+                                                                                    Property="Visibility"
+                                                                                    Value="Visible" />
+                                                                            <Setter TargetName="Root"
+                                                                                    Property="Background"
+                                                                                    Value="#223E6B4A" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </CheckBox.Style>
+                                            </CheckBox>
+
+                                        </StackPanel>
+
+                                        <DockPanel Grid.Column="1">
+                                         
+                                        <Button 
+                                                Width="30"
+                                                Height="30"
+                                                Padding="0"
+                                                Grid.Column="1"
+                                                Command="{Binding ToDoListVM.CreateTaskCommand}">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Background"
+                                                            Value="#3E6B4A" />
+                                                    <Setter Property="BorderThickness"
+                                                            Value="0" />
+                                                    <Setter Property="Cursor"
+                                                            Value="Hand" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border x:Name="Root"
+                                                                        Background="{TemplateBinding Background}"
+                                                                        CornerRadius="6">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                                      VerticalAlignment="Center" />
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver"
+                                                                             Value="True">
+                                                                        <Setter TargetName="Root"
+                                                                                Property="Background"
+                                                                                Value="#2E5C38" />
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
                                                 </Style>
-                                            </DatePicker.CalendarStyle>
-                                        </DatePicker>
-                                        <CheckBox Content="Calendar Event (Optional)"
-                                                  IsChecked="{Binding ToDoListVM.TaskEvent, Mode=TwoWay}"
-                                                  Margin="12 0 0 0"
-                                                  Style="{StaticResource MaterialDesignLightCheckBox}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </Grid>
+                                            </Button.Style>
+                                            <materialDesign:PackIcon Kind="Plus"
+                                                                     Width="18"
+                                                                     Height="18"
+                                                                     Foreground="White" />
+                                        </Button>
+                                        </DockPanel>
+
+                                     
+                                    </Grid>
+                                </Border>
+
+                            </StackPanel>
+                        </Border>
                     </Grid>
                 </Grid>
             </materialDesign:DialogHost>
