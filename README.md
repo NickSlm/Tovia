@@ -10,12 +10,10 @@ Stay focused, keep your tasks visible, and sync seamlessly — without living in
 <table>
   <tr>
     <td>
-      <!-- Right column: overlay GIF -->
-      <img src="https://github.com/user-attachments/assets/db261900-f8bd-4418-9c9d-4f6fe45395c4" alt="Main Window" width="420" />
+        <img src="https://github.com/user-attachments/assets/9a642629-d641-4e2c-bc6c-b21b3d42f378" alt="Main Window" width="420"/>
       <p align="center"><i>Creating a task in Tovia</i></p>
     </td>
     <td valign="top">
-      <!-- Left column: stacked GIFs -->
       <img src="https://github.com/user-attachments/assets/ee8c4c0c-65e5-4825-b539-52125e3277a4" alt="Sync Task Creation" width="420" style="display:block; margin-bottom:10px;" />
       <p align="center"><i>Two-way sync: tasks appear instantly in Outlook Tasks.</i></p>
       <img src="https://github.com/user-attachments/assets/c11e4a81-0058-4450-9675-c28061b67860" alt="Sync Event Creation" width="420" style="display:block;" />
