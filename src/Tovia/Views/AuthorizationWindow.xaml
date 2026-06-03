@@ -13,15 +13,7 @@
         WindowStyle="None"
         FontFamily="Segoe UI">
 
-    <Window.Background>
-        <LinearGradientBrush StartPoint="0,0"
-                             EndPoint="1,1">
-            <GradientStop Color="#F3F6FB"
-                          Offset="0" />
-            <GradientStop Color="#E7EDF9"
-                          Offset="1" />
-        </LinearGradientBrush>
-    </Window.Background>
+
 
 
     <materialDesign:DialogHost IsOpen="{Binding IsSyncing}"
@@ -35,75 +27,82 @@
 
     <Border BorderBrush="Black"
             BorderThickness="1"
-            Background="Transparent">
-        <Grid>
+                Background="{DynamicResource MainBackgroundBrush}">
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Grid Background="#0078D4"
-                  Height="60">
-                <TextBlock Text="Authentication"
-                           Foreground="White"
-                           FontSize="18"
-                           FontWeight="SemiBold"
-                           VerticalAlignment="Center"
-                           Margin="15 0 0 0" />
-
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Background="Transparent"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="0 0 0 1"
+                        Cursor="Hand"
+                        MouseLeftButtonDown="TitleBar_MouseDown">
+                    
                     <Button Width="40"
                             Height="32"
                             HorizontalAlignment="Right"
-                            Margin="0 0 15 0"
+                            Margin="0 0 0 0"
                             Click="Close_Click"
                             FontFamily="Segoe MDL2 Assets"
                             Content="&#xE8BB;"
-                            Style="{StaticResource IconButtonStyle}" />
-                </Grid>
+                            Style="{DynamicResource ToolbarButtonStyle}" />
+                    
+                </Border>
 
-            <StackPanel Grid.Row="1"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Margin="20">
-                <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo.png"
-                       Width="200"
-                       Height="126"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                       Margin="0 20 0 20" />
-
-                <TextBlock Text="Welcome! Sign in to continue."
-                           FontSize="14"
-                           Foreground="#555"
-                           TextAlignment="Center"
-                           Margin="0 0 0 20" />
-                
-                <Button Command="{Binding AuthorizationCommand}"
-                            Style="{StaticResource AuthButton}">
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                >
-                        <Image Source="pack://application:,,,/Assets/Icons/microsoftIcon.png"
-                               Width="24"
-                               Height="24"
-                               Margin="10 0 10 0"/>
-                        <TextBlock Text="Sign in with Microsoft"
-                                   VerticalAlignment="Center" />
+                <Border Grid.Row="1" >
+                    <StackPanel Margin="20">
+                        <Image Source="pack://application:,,,/Assets/Icons/Tovia_Logo.png"
+                               Width="200"
+                               Height="126"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                                />
+                    
+                        <TextBlock Text="Welcome! Sign in to continue."
+                                   FontSize="14"
+                                   Foreground="#555"
+                                   TextAlignment="Center"
+                                    />
+                        
                     </StackPanel>
-                </Button>
-                    <Button Command="{Binding GoogleAuthCommand}" Style="{StaticResource AuthButton}">
-                        <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center">
-                            <Image Source="/Assets/Icons/web_light_rd_na@1x.png" 
-                                   Width="24" 
-                                   Height="24" 
-                                   Margin="10 0 10 0"
-                                   />
-                            <TextBlock Text="Sign in with Google"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
+                </Border>
+                <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0 0 0 1" Width="336" />
+                <Border Grid.Row="3" Margin="0 24 0 0">
+                    <StackPanel>
+                        <Button Command="{Binding AuthorizationCommand}"
+                                    Style="{StaticResource AuthButton}">
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        >
+                                <Image Source="pack://application:,,,/Assets/Icons/microsoftIcon.png"
+                                       Width="24"
+                                       Height="24"
+                                       Margin="10 0 10 0"/>
+                                <TextBlock Text="Sign in with Microsoft"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                            <Button Command="{Binding GoogleAuthCommand}" Style="{StaticResource AuthButton}">
+                                <StackPanel Orientation="Horizontal"
+                                            VerticalAlignment="Center">
+                                    <Image Source="/Assets/Icons/web_light_rd_na@1x.png" 
+                                           Width="24" 
+                                           Height="24" 
+                                           Margin="10 0 10 0"
+                                           />
+                                    <TextBlock Text="Sign in with Google"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
 
-                    </Button>
-            </StackPanel>
+                            </Button>
+                        
+                    </StackPanel>
+                    
+                </Border>
+
         </Grid>
     </Border>
     </materialDesign:DialogHost>

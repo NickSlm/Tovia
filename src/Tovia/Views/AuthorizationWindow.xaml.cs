@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using Tovia.ViewModels;
 
 namespace Tovia.Views
@@ -16,6 +17,11 @@ namespace Tovia.Views
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
 }
