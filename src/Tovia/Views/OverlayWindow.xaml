@@ -23,92 +23,172 @@
         Height="416"
         Width="320">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <DockPanel Grid.Row="0" Cursor="Hand" MouseDown="Window_Drag">
-            <materialDesign:PackIcon Kind="DragVariant"
-                                     Foreground="White" />
-        </DockPanel>
+    <Border CornerRadius="12"
+            BorderThickness="1"
+            BorderBrush="white">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,1">
+                <GradientStop Color="#4DFFFFFF"
+                              Offset="0.0" />
+                <GradientStop Color="#1AFFFFFF"
+                              Offset="1.0" />
+            </LinearGradientBrush>
+        </Border.Background>
         
-        <ScrollViewer Padding="8"
-                      Grid.Row="1"
-                  VerticalScrollBarVisibility="Auto">
-        <ItemsControl ItemsSource="{Binding ToDoList}"
-                      VirtualizingPanel.IsVirtualizing="True"
-                      VirtualizingPanel.VirtualizationMode="Recycling">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="2 0 2 2"
-                            Padding="10"
-                            CornerRadius="12"
-                            Style="{DynamicResource TaskBackgroundOverlay}"
-                            >
-                        <StackPanel>
-                            <!-- Task title -->
-                            <Grid Margin="0 1 0 0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Expander Header="{Binding Title}"
-                                          Grid.Column="0"
-                                          Padding="0"
-                                          Margin="0 0 0 0"
-                                          Background="Transparent"
-                                          FontWeight="SemiBold"
-                                          Foreground="Black"
-                                          HorizontalAlignment="Left"
-                                          Style="{x:Null}">
-                                    <TextBlock Text="{Binding Description}"
-                                               x:Name="OverlayTaskDescription"
+ 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Drag handle -->
+            <Border Grid.Row="0"
+                    BorderThickness="0 0 0 0.5"
+                    BorderBrush="#33FFFFFF"
+                    Cursor="SizeAll"
+                    
+                    MouseDown="Window_Drag">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0 2 0 0">
+                    <Ellipse Width="5"
+                             Height="5"
+                             Fill="white"
+                             Margin="2 0" />
+                    <Ellipse Width="5"
+                             Height="5"
+                             Fill="white"
+                             Margin="2 0" />
+                    <Ellipse Width="5"
+                             Height="5"
+                             Fill="white"
+                             Margin="2 0" />
+                    <Ellipse Width="5"
+                             Height="5"
+                             Fill="white"
+                             Margin="2 0" />
+                    <Ellipse Width="5"
+                             Height="5"
+                             Fill="white"
+                             Margin="2 0" />
+                    <Ellipse Width="5"
+                             Height="5"
+                             Fill="white"
+                             Margin="2 0" />
+                </StackPanel>
+            </Border>
+
+            <!-- Task list -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Margin="0 4 0 4">
+                <ItemsControl ItemsSource="{Binding ToDoList}"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              VirtualizingPanel.VirtualizationMode="Recycling">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{DynamicResource OverlayCardStyle}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Title -->
+                                    <TextBlock Grid.Row="0"
+                                               Grid.Column="0"
+                                               Text="{Binding Title}"
                                                FontSize="12"
-                                               Margin="0 2 0 0"
-                                               TextWrapping="Wrap"
-                                               Visibility="Visible"
-                                               Style="{StaticResource DescriptionTextStyle}" />
-                                </Expander>
-                                <CheckBox IsChecked="{Binding IsComplete}"
-                                          Grid.Column="1" />
-                            </Grid>
-                            <!-- Importance and due date -->
-                            <Grid Margin="0 6 0 0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                                               FontWeight="SemiBold"
+                                               Foreground="#0B132B"
+                                               TextTrimming="CharacterEllipsis" />
 
-                                <TextBlock Text="{Binding Importance}"
-                                           Grid.Column="0"
-                                           FontSize="12"
-                                           VerticalAlignment="Center"
-                                           Style="{StaticResource TitleTextStyle}" />
+                                    <!-- Checkbox -->
+                                    <CheckBox Grid.Row="0"
+                                              Grid.Column="1"
+                                              Grid.RowSpan="2"
+                                              IsChecked="{Binding IsComplete}"
+                                              VerticalAlignment="Center"
+                                              Margin="6 0 0 0">
+                                        
+                                    </CheckBox>
 
-                                <TextBlock Text=""
-                                           Grid.Column="1" />
-                                <!-- Spacer -->
-                                <TextBlock Text="{Binding TimeLeft, StringFormat={}{0:%d}d {0:%h}h {0:%m}m}"
-                                           Grid.Column="2"
-                                           Foreground="black"
-                                           FontSize="12"
-                                           VerticalAlignment="Center"
-                                           Style="{StaticResource TitleTextStyle}" />
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
-        
-        
-        
-    </Grid>
-    
+                                    <!-- Importance + time left -->
+                                    <StackPanel Grid.Row="1"
+                                                Grid.Column="0"
+                                                Orientation="Horizontal"
+                                                Margin="0 4 0 0">
+                                        <Border CornerRadius="3"
+                                                Padding="4 1"
+                                                Margin="0 0 5 0">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background"
+                                                            Value="#33FFFFFF" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Importance}"
+                                                                     Value="High">
+                                                            <Setter Property="Background"
+                                                                    Value="#338B2A2A" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Importance}"
+                                                                     Value="Low">
+                                                            <Setter Property="Background"
+                                                                    Value="#330B132B" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding Importance}"
+                                                       FontSize="9"
+                                                       FontWeight="Bold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground"
+                                                                Value="#2A5235" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Importance}"
+                                                                         Value="High">
+                                                                <Setter Property="Foreground"
+                                                                        Value="#6B1A1A" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Importance}"
+                                                                         Value="Low">
+                                                                <Setter Property="Foreground"
+                                                                        Value="#1A2660" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+
+                                        <TextBlock Text="{Binding TimeLeft, StringFormat={}{0:%d}d {0:%h}h {0:%m}m}"
+                                                   FontSize="12"
+                                                   Foreground="black"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+           
+
+        </Grid>
+    </Border>
+
 
 
 </Window>

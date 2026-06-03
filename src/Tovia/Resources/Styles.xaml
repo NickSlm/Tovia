@@ -52,6 +52,7 @@
         <GradientStop Color="#0B132B" Offset="0"/>
         <GradientStop Color="#1C2541 " Offset="1" />
     </LinearGradientBrush>
+
     <SolidColorBrush x:Key="BorderBrushSubtle"
                      Color="#2C2927" />
     <SolidColorBrush x:Key="AccentBrush"
@@ -612,7 +613,121 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="OverlayCardStyle"
+           TargetType="Border">
+        <Setter Property="CornerRadius"
+                Value="8" />
+        <Setter Property="Margin"
+                Value="6 3" />
+        <Setter Property="Padding"
+                Value="8 7" />
+        <Setter Property="BorderThickness"
+                Value="0.5" />
+        <Setter Property="Background"
+                Value="#CCF5F3E8" />
+        <Setter Property="BorderBrush"
+                Value="#EEFFFFFF" />
 
+        <Setter Property="RenderTransformOrigin"
+                Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}"
+                         Value="InProgress">
+                <Setter Property="Background"
+                        Value="GhostWhite" />
+                <Setter Property="Opacity"
+                        Value="0.8" />
+                <Setter Property="BorderBrush"
+                        Value="Black" />
+            </DataTrigger>
+
+            <!-- Complete -->
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Complete">
+                <Setter Property="Background"
+                        Value="LightGreen" />
+                <Setter Property="BorderBrush"
+                        Value="Black" />
+                <Setter Property="Opacity"
+                        Value="0.8" />
+
+            </DataTrigger>
+
+            <!-- Failed -->
+            <DataTrigger Binding="{Binding Status}"
+                         Value="Failed">
+                <Setter Property="IsEnabled"
+                        Value="False" />
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <VisualBrush TileMode="Tile"
+                                     Viewport="0,0,14,14"
+                                     ViewportUnits="Absolute">
+                            <VisualBrush.Visual>
+                                <Grid Width="14"
+                                      Height="14"
+                                      Background="#DDF5EDE0">
+                                    <Line X1="0"
+                                          Y1="14"
+                                          X2="14"
+                                          Y2="0"
+                                          Stroke="#8B2A2A"
+                                          StrokeThickness="3"
+                                          Opacity="0.6" />
+                                </Grid>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush"
+                        Value="#AA8B2A2A" />
+            </DataTrigger>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#55FFFFFF" />
+                <Setter Property="BorderBrush"
+                        Value="#AAFFFFFF" />
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                             To="1.025"
+                                             Duration="0:0:0.18">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                             To="1.025"
+                                             Duration="0:0:0.18">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                             To="1"
+                                             Duration="0:0:0.14" />
+                            <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                             To="1"
+                                             Duration="0:0:0.14" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <!--authorizationView-->
     <Style x:Key="AuthButton"
            TargetType="Button">

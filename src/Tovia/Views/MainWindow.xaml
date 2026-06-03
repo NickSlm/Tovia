@@ -229,22 +229,95 @@
                                                 Margin="12 3"
                                                 Padding="10 10"
                                                 BorderThickness="0.5"
-                                                BorderBrush="white"
-                                                >
+                                                BorderBrush="White"
+                                                RenderTransformOrigin="0.5,0.5">
+
+                                            <Border.RenderTransform>
+                                                <ScaleTransform />
+                                            </Border.RenderTransform>
+
                                             <Border.Style>
                                                 <Style TargetType="Border">
                                                     <Setter Property="Background"
                                                             Value="#55FFFFFF" />
+                                                    <Setter Property="BorderBrush"
+                                                            Value="White" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsComplete}"
-                                                                     Value="True">
-                                                            <Setter Property="Opacity"
-                                                                    Value="0.4" />
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="InProgress">
+                                                            <Setter Property="Background"
+                                                                    Value="#243E6B4A" />
                                                         </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Complete">
+                                                            <Setter Property="Background"
+                                                                    Value="#1F5E9E6E" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Failed">
+                                                            <Setter Property="Background">
+                                                                <Setter.Value>
+                                                                    <VisualBrush TileMode="Tile" Viewport="0 0 14 14" ViewportUnits="Absolute">
+                                                                        <VisualBrush.Visual>
+                                                                            <Grid Width="14"
+                                                                                  Height="14"
+                                                                                  Background="#1A8B2A2A">
+                                                                                <Line X1="0"
+                                                                                      Y1="14"
+                                                                                      X2="14"
+                                                                                      Y2="0"
+                                                                                      Stroke="#8B2A2A"
+                                                                                      StrokeThickness="3"
+                                                                                      Opacity="0.18" />
+                                                                            </Grid>
+                                                                        </VisualBrush.Visual>
+                                                                    </VisualBrush>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="#558B2A2A" />
+                                                            <Setter Property="IsEnabled"
+                                                                    Value="False" />
+                                                        </DataTrigger>
+
                                                         <Trigger Property="IsMouseOver"
                                                                  Value="True">
                                                             <Setter Property="Background"
-                                                                    Value="#CCFFFFFF" />
+                                                                    Value="#88FFFFFF" />
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="#EEFFFFFF" />
+                                                            <Trigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                         To="1.025"
+                                                                                         Duration="0:0:0.18">
+                                                                            <DoubleAnimation.EasingFunction>
+                                                                                <CubicEase EasingMode="EaseOut" />
+                                                                            </DoubleAnimation.EasingFunction>
+                                                                        </DoubleAnimation>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                                         To="1.025"
+                                                                                         Duration="0:0:0.18">
+                                                                            <DoubleAnimation.EasingFunction>
+                                                                                <CubicEase EasingMode="EaseOut" />
+                                                                            </DoubleAnimation.EasingFunction>
+                                                                        </DoubleAnimation>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.EnterActions>
+                                                            <Trigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                                                                                         To="1"
+                                                                                         Duration="0:0:0.14" />
+                                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                                                                                         To="1"
+                                                                                         Duration="0:0:0.14" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.ExitActions>
                                                         </Trigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -260,50 +333,7 @@
                                                           VerticalAlignment="Center"
                                                           Margin="0 0 10 0"
                                                           IsChecked="{Binding IsComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                    <CheckBox.Style>
-                                                        <Style TargetType="CheckBox">
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="CheckBox">
-                                                                        <Border x:Name="Box"
-                                                                                Width="20"
-                                                                                Height="20"
-                                                                                CornerRadius="2"
-                                                                                BorderThickness="1.5"
-                                                                                BorderBrush="#663E6B4A"
-                                                                                Background="Transparent">
-                                                                            <Path x:Name="Check"
-                                                                                  Data="M4,10 L8,14 L16,6"
-                                                                                  Stroke="White"
-                                                                                  StrokeThickness="2"
-                                                                                  StrokeLineJoin="Round"
-                                                                                  Visibility="Collapsed" />
-                                                                        </Border>
-                                                                        <ControlTemplate.Triggers>
-                                                                            <Trigger Property="IsChecked"
-                                                                                     Value="True">
-                                                                                <Setter TargetName="Box"
-                                                                                        Property="Background"
-                                                                                        Value="#3E6B4A" />
-                                                                                <Setter TargetName="Box"
-                                                                                        Property="BorderBrush"
-                                                                                        Value="#3E6B4A" />
-                                                                                <Setter TargetName="Check"
-                                                                                        Property="Visibility"
-                                                                                        Value="Visible" />
-                                                                            </Trigger>
-                                                                            <Trigger Property="IsEnabled"
-                                                                                     Value="False">
-                                                                                <Setter TargetName="Box"
-                                                                                        Property="Opacity"
-                                                                                        Value="0.4" />
-                                                                            </Trigger>
-                                                                        </ControlTemplate.Triggers>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-                                                    </CheckBox.Style>
+                                                  
                                                 </CheckBox>
                                                 <StackPanel Grid.Column="1"
                                                             VerticalAlignment="Center"
