@@ -16,8 +16,6 @@ Stay focused, keep your tasks visible, and sync seamlessly — without living in
     <td valign="top">
       <img width="420" alt="2026-06-0217-35-56-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/0ce7023f-17ec-48f6-bc1e-c52f527071d7" />
       <p align="center"><i>Two-way sync: Update</i></p>
-      <img src="https://github.com/user-attachments/assets/c11e4a81-0058-4450-9675-c28061b67860" alt="Sync Event Creation" width="420" style="display:block;" />
-      <p align="center"><i>Update Outlook Calendar events directly from Tovia tasks.</i></p>
     </td>
   </tr>
   <tr>
