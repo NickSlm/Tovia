@@ -9,23 +9,32 @@ Stay focused, keep your tasks visible, and sync seamlessly — without living in
 ## Screenshots / Demo
 <table>
   <tr>
+   <td>
+      <img width="240" alt="ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/924d7c63-ff0f-45da-bbdc-e10389b41583" />
+         <p align="center"><i>Sign in</i></p>
+   </td>
+   <td>
+     <img width="240" alt="ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/ddb73069-9c27-433b-bad9-f646208f06a8" />
+   </td>
+  </tr>
+  <tr>
     <td>
-    <img width="420" alt="2026-06-0217-35-56-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/cb0fa43d-227d-452f-a239-d5af05385acd" />
-      <p align="center"><i>Update Tasks</i></p>
+      <img width="360" alt="ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/3d38cd0f-df5f-484d-b6c5-e4b0b5df0dbe" />
+      <p align="center"><i>Create Outlook Calendar events directly from Tovia tasks.</i></p>
     </td>
-    <td valign="top">
-      <img width="420" alt="2026-06-0217-35-56-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/0ce7023f-17ec-48f6-bc1e-c52f527071d7" />
-      <p align="center"><i>Two-way sync: Update</i></p>
+    <td>
+    <img width="240"  alt="ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/001d65d6-134f-4368-866c-b7cbadbd007c" />
+      <p align="center"><i>Create new Task</i></p>
     </td>
   </tr>
   <tr>
     <td>
-<img width="420"  alt="ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/001d65d6-134f-4368-866c-b7cbadbd007c" />
-      <p align="center"><i>Create new Task</i></p>
+      <img width="360" alt="2026-06-0217-35-56-ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/0ce7023f-17ec-48f6-bc1e-c52f527071d7" />
+      <p align="center"><i>Two-way sync: Update</i></p>
     </td>
-    <td>
-      <img width="420" alt="ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/3d38cd0f-df5f-484d-b6c5-e4b0b5df0dbe" />
-      <p align="center"><i>Create Outlook Calendar events directly from Tovia tasks.</i></p>
+    <td valign="top">
+    <img width="240" alt="2026-06-0217-35-56-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/cb0fa43d-227d-452f-a239-d5af05385acd" />
+      <p align="center"><i>Update Tasks</i></p>
     </td>
   </tr>
 </table>
